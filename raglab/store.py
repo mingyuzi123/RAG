@@ -13,7 +13,7 @@ import time
 from .corpus import Chunk, chunk_mdx
 
 
-PARSER_VERSION = "mdx-heading-block-v1"
+PARSER_VERSION = "mdx-heading-table-row-v3"
 WORDS = re.compile(r"[A-Za-z0-9_]+")
 
 

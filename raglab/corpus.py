@@ -7,6 +7,7 @@ import re
 
 
 HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
+TABLE_SEPARATOR = re.compile(r"^:?-{3,}:?$")
 
 
 @dataclass(frozen=True)
@@ -73,6 +74,24 @@ def _blocks(section: list[tuple[int, str]]):
         yield block
 
 
+def _table_rows(block: list[tuple[int, str]]) -> list[tuple[int, str]] | None:
+    """Turn a simple Markdown table into self-describing, source-line rows."""
+    lines = [(number, text) for number, text in block if text.strip()]
+    if len(lines) < 3 or not all(text.strip().startswith("|") and text.strip().endswith("|")
+                                     for _, text in lines):
+        return None
+    cells = [re.split(r"(?<!\\)\|", text.strip()[1:-1]) for _, text in lines]
+    cells = [[cell.strip().replace(r"\|", "|") for cell in row] for row in cells]
+    headers = cells[0]
+    if not headers or len(cells[1]) != len(headers) or not all(
+            TABLE_SEPARATOR.fullmatch(cell.replace(" ", "")) for cell in cells[1]):
+        return None
+    if any(len(row) != len(headers) for row in cells[2:]):
+        return None
+    return [(number, "; ".join(f"{header}: {value}" for header, value in zip(headers, row)))
+            for (number, _), row in zip(lines[2:], cells[2:])]
+
+
 def chunk_mdx(
     file: Path,
     source_path: str,
@@ -112,6 +131,20 @@ def chunk_mdx(
             )
 
         for block in _blocks(section):
+            table_rows = _table_rows(block)
+            if table_rows is not None:
+                # A table can be one huge Markdown block. Keep related rows together
+                # while giving each row its column labels and exact source line.
+                table_limit = min(max_chars, 700)
+                for row in table_rows:
+                    new_length = len("\n".join(value for _, value in pending + [row]))
+                    if pending and new_length > table_limit:
+                        flush()
+                        pending = []
+                    pending.append(row)
+                flush()
+                pending = []
+                continue
             new_length = len("\n".join(value for _, value in pending + block))
             if pending and new_length > max_chars:
                 flush()

@@ -1,0 +1,630 @@
+{
+  "scenario": "crewai-docs",
+  "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+  "strategy": "vector",
+  "query_language": "Chinese original",
+  "embedding_model": {
+    "id": "intfloat/multilingual-e5-small",
+    "revision": "f470c6a1a906014160ece1968c484b275f0396de",
+    "protocol": "e5-prefix-heading-v1"
+  },
+  "top_k": 10,
+  "context_k": 3,
+  "answerable_questions": 17,
+  "unanswerable_questions_excluded": 2,
+  "all_anchor_recall_at_k": 0.7647058823529411,
+  "all_anchor_context_hit_at_k": 0.5882352941176471,
+  "mrr_first_anchor_at_k": 0.5427170868347339,
+  "details": [
+    {
+      "id": "C01",
+      "query": "在 CrewAI 中，Crews 和 Flows 分别负责什么？构建需要稳定执行路径的应用时怎样组合？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/introduction.mdx",
+          "heading": "When to Use Crews vs. Flows"
+        }
+      ],
+      "anchor_found_top": [
+        false
+      ],
+      "anchor_found_context": [
+        false
+      ],
+      "all_found_top": false,
+      "all_found_context": false,
+      "first_relevant_rank": null,
+      "top_chunk_ids": [
+        "685748c9e1f3fcab71dc",
+        "9c65db83da0b4de02d17",
+        "a44a11419ee35cfe5868",
+        "0127e25eaf45dd885ef1",
+        "eacd57268a69810ae36c",
+        "96bf9394c9020bf59df1",
+        "1e702075d90463a93df1",
+        "a742aa19583326de3bed",
+        "450a050f0359d461fde8",
+        "3def47459400d281d224"
+      ],
+      "retrieval_ms": 23.84
+    },
+    {
+      "id": "C02",
+      "query": "定义一个 CrewAI Agent 时，role、goal、backstory 各起什么作用？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "heading": "Agent Attributes"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 2,
+      "top_chunk_ids": [
+        "6791d33eea8be346d9a9",
+        "eed82b3c50709989527b",
+        "60d51bfc92d58798f3b7",
+        "324c7d10c4d4261e4582",
+        "9ade4f8b9af8341d05ab",
+        "68fd92f3c0f21a0a603a",
+        "0bcb7ae679f09e8509a5",
+        "3def47459400d281d224",
+        "49f37a8cfb3907d45380",
+        "14574a42af9db4464b5e"
+      ],
+      "retrieval_ms": 17.3
+    },
+    {
+      "id": "C03",
+      "query": "CrewAI Agent 默认允许把任务委派给其他 Agent 吗？由哪个参数控制？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "heading": "Agent Attributes"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        false
+      ],
+      "all_found_top": true,
+      "all_found_context": false,
+      "first_relevant_rank": 7,
+      "top_chunk_ids": [
+        "52d3c366c4fcec8336be",
+        "324c7d10c4d4261e4582",
+        "eb2fb8cd39a9a17163f2",
+        "65a90171bb815f30585c",
+        "0127e25eaf45dd885ef1",
+        "6791d33eea8be346d9a9",
+        "9cbfdae7bdd50c769e82",
+        "96bf9394c9020bf59df1",
+        "4a976dba04610f277d7f",
+        "49f37a8cfb3907d45380"
+      ],
+      "retrieval_ms": 16.53
+    },
+    {
+      "id": "C04",
+      "query": "给 Agent 配置 tools 与给单个 Task 配置 tools，有什么范围上的区别？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "heading": "Agent Attributes"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "Task Attributes"
+        }
+      ],
+      "anchor_found_top": [
+        false,
+        true
+      ],
+      "anchor_found_context": [
+        false,
+        false
+      ],
+      "all_found_top": false,
+      "all_found_context": false,
+      "first_relevant_rank": 4,
+      "top_chunk_ids": [
+        "0bcb7ae679f09e8509a5",
+        "8a40f5f008d3b0cf347c",
+        "5bb15f14e843157115c0",
+        "046b01923a8f1bbcac46",
+        "8d9e007d5678d80e57a7",
+        "e7b763e3559b0fe9e1b3",
+        "921411e536d528786081",
+        "3abbb405bd3744682e26",
+        "6791d33eea8be346d9a9",
+        "68fd92f3c0f21a0a603a"
+      ],
+      "retrieval_ms": 15.9
+    },
+    {
+      "id": "C05",
+      "query": "Task 的 expected_output 用来描述什么？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "Task Attributes"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        false
+      ],
+      "all_found_top": true,
+      "all_found_context": false,
+      "first_relevant_rank": 4,
+      "top_chunk_ids": [
+        "1a1206713d36750a251b",
+        "b22629c3473ebd922a06",
+        "ce38a389211678e0b450",
+        "2b8ded64535faab990d1",
+        "5e189b059c7c13aabd92",
+        "1d90b1918acdb0600475",
+        "de2ec3bba527461171a1",
+        "671ccc75e296483592d3",
+        "928e7792d38ef2f01701",
+        "1e496907d51b7c649bf9"
+      ],
+      "retrieval_ms": 16.23
+    },
+    {
+      "id": "C06",
+      "query": "一个写报告的 Task 只需要研究 Task 的输出，应该如何显式指定这个依赖？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "Task Dependencies and Context"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        false
+      ],
+      "all_found_top": true,
+      "all_found_context": false,
+      "first_relevant_rank": 4,
+      "top_chunk_ids": [
+        "f7e4b142b101d0e384ab",
+        "2b8ded64535faab990d1",
+        "68fd92f3c0f21a0a603a",
+        "e43b849cf87ac38f52f3",
+        "d32625fc0d241989bb27",
+        "3244541c5e23093000c7",
+        "2da096cf9fb7ae429f4c",
+        "3d048441c9b73f28e036",
+        "f1ec1d897b5928134afa",
+        "d9ae5c65fbc322cd7812"
+      ],
+      "retrieval_ms": 16.95
+    },
+    {
+      "id": "C07",
+      "query": "把 Crew 的 process 设为 hierarchical 后还需要配置什么管理者信息？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "heading": "Process Implementations"
+        }
+      ],
+      "anchor_found_top": [
+        false
+      ],
+      "anchor_found_context": [
+        false
+      ],
+      "all_found_top": false,
+      "all_found_context": false,
+      "first_relevant_rank": null,
+      "top_chunk_ids": [
+        "432e32acff6831b49ecf",
+        "1b3d53966673ef901538",
+        "47a63690adf52fdb7f79",
+        "9ade4f8b9af8341d05ab",
+        "6791d33eea8be346d9a9",
+        "1e702075d90463a93df1",
+        "e2b15e9679182c31525c",
+        "8d9e007d5678d80e57a7",
+        "023ad1d2d387d451c1b8",
+        "14574a42af9db4464b5e"
+      ],
+      "retrieval_ms": 16.41
+    },
+    {
+      "id": "C08",
+      "query": "顺序执行的 Process 如何确定 Task 的执行顺序，前一个 Task 的结果会怎样使用？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "heading": "Sequential Process"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "7315be284d185529d6ca",
+        "13d5d599c0325a20116b",
+        "db74706948a269622396",
+        "0bcb7ae679f09e8509a5",
+        "86fd986bef1cc138c2f2",
+        "1b3d53966673ef901538",
+        "bdbd9c0cc3a11bf200f1",
+        "a902090425bc2b981650",
+        "dbd0df114524bc0cb409",
+        "928e7792d38ef2f01701"
+      ],
+      "retrieval_ms": 16.1
+    },
+    {
+      "id": "C09",
+      "query": "创建 Crew 时不指定 process，默认采用什么执行方式？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/crews.mdx",
+          "heading": "Crew Attributes"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 2,
+      "top_chunk_ids": [
+        "432e32acff6831b49ecf",
+        "1b3d53966673ef901538",
+        "3d46b49cf32333675be2",
+        "0a5c0eae675379d75c9c",
+        "dbd0df114524bc0cb409",
+        "c97ee7f4421067a7ce91",
+        "4683f6fcdbc4c37409ff",
+        "65a90171bb815f30585c",
+        "52d3c366c4fcec8336be",
+        "ae1bc68dbc19ffe31747"
+      ],
+      "retrieval_ms": 15.67
+    },
+    {
+      "id": "C10",
+      "query": "Flow 中 @start() 与 @listen() 的触发时机有何区别？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "@start()"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "@listen()"
+        }
+      ],
+      "anchor_found_top": [
+        true,
+        true
+      ],
+      "anchor_found_context": [
+        true,
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "ebed510b76cf04016cae",
+        "ca1397466a3129eb91c5",
+        "2e4719341591b38cc175",
+        "ad0b93ae299b14f00404",
+        "3d048441c9b73f28e036",
+        "82a2a5748b1c9d4ca0f7",
+        "2741ebc270907b2829dd",
+        "709e63ae2a161f3e13d7",
+        "a742aa19583326de3bed",
+        "eacd57268a69810ae36c"
+      ],
+      "retrieval_ms": 16.19
+    },
+    {
+      "id": "C11",
+      "query": "Flow 的 or_ 与 and_ 在等待多个方法的输出时有什么区别？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Conditional Logic: `or`"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Conditional Logic: `and`"
+        }
+      ],
+      "anchor_found_top": [
+        true,
+        true
+      ],
+      "anchor_found_context": [
+        true,
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "2e4719341591b38cc175",
+        "ad0b93ae299b14f00404",
+        "86fd986bef1cc138c2f2",
+        "864bcde172547a90a54d",
+        "58a420ef931e9a345fab",
+        "eacd57268a69810ae36c",
+        "82a2a5748b1c9d4ca0f7",
+        "3d048441c9b73f28e036",
+        "2741ebc270907b2829dd",
+        "5ae92cbbb86dde22c55f"
+      ],
+      "retrieval_ms": 16.64
+    },
+    {
+      "id": "C12",
+      "query": "Flow 要根据上一步的输出走不同路径，应使用哪个机制？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Router"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 2,
+      "top_chunk_ids": [
+        "d3e3a5e67c8ff1559add",
+        "82a2a5748b1c9d4ca0f7",
+        "2741ebc270907b2829dd",
+        "ca1397466a3129eb91c5",
+        "709e63ae2a161f3e13d7",
+        "2e4719341591b38cc175",
+        "ad0b93ae299b14f00404",
+        "eacd57268a69810ae36c",
+        "1e702075d90463a93df1",
+        "a742aa19583326de3bed"
+      ],
+      "retrieval_ms": 16.33
+    },
+    {
+      "id": "C13",
+      "query": "什么时候更适合使用 Flow 的结构化状态，而不是非结构化状态？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Choosing Between Unstructured and Structured State Management"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "76a506fa0bfffd2af9e4",
+        "c90be39df11adf51802b",
+        "2741ebc270907b2829dd",
+        "bbba05a35740940bbb04",
+        "c5045ca11917bd776847",
+        "58a420ef931e9a345fab",
+        "eacd57268a69810ae36c",
+        "b9494a9207a7fd6f5727",
+        "28604ed8bbbc9ec0526d",
+        "86fd986bef1cc138c2f2"
+      ],
+      "retrieval_ms": 16.15
+    },
+    {
+      "id": "C14",
+      "query": "Flow 的 @persist 放在类上和放在方法上，持久化范围有什么区别？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Class-Level Persistence"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Method-Level Persistence"
+        }
+      ],
+      "anchor_found_top": [
+        true,
+        true
+      ],
+      "anchor_found_context": [
+        true,
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "caad82e9e0735389a3ab",
+        "58a420ef931e9a345fab",
+        "864bcde172547a90a54d",
+        "04fed04c4a741c3a024d",
+        "d070d0cca410f099e54a",
+        "c5045ca11917bd776847",
+        "eacd57268a69810ae36c",
+        "b9494a9207a7fd6f5727",
+        "ad0b93ae299b14f00404",
+        "6883e42eda9ef884c1f5"
+      ],
+      "retrieval_ms": 15.51
+    },
+    {
+      "id": "C15",
+      "query": "如果需要在 Flow 的某一步使用多 Agent 协作，官方文档建议怎样组织 Flow 与 Crew？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Adding Crews to Flows"
+        },
+        {
+          "path": "docs/v1.15.28/en/introduction.mdx",
+          "heading": "When to Use Crews vs. Flows"
+        }
+      ],
+      "anchor_found_top": [
+        true,
+        false
+      ],
+      "anchor_found_context": [
+        true,
+        false
+      ],
+      "all_found_top": false,
+      "all_found_context": false,
+      "first_relevant_rank": 3,
+      "top_chunk_ids": [
+        "eacd57268a69810ae36c",
+        "1e702075d90463a93df1",
+        "9c65db83da0b4de02d17",
+        "e2b15e9679182c31525c",
+        "0127e25eaf45dd885ef1",
+        "96bf9394c9020bf59df1",
+        "450a050f0359d461fde8",
+        "6791d33eea8be346d9a9",
+        "4093058178e5d6a67348",
+        "a742aa19583326de3bed"
+      ],
+      "retrieval_ms": 16.27
+    },
+    {
+      "id": "C16",
+      "query": "用普通 Python 函数创建 CrewAI 自定义工具，应该使用什么装饰器？函数文档字符串为什么重要？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/tools.mdx",
+          "heading": "Utilizing the `tool` Decorator"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 2,
+      "top_chunk_ids": [
+        "744826816e5e0a3f1db8",
+        "28ac83e5e2fe543c6b3f",
+        "14574a42af9db4464b5e",
+        "a742aa19583326de3bed",
+        "52d3c366c4fcec8336be",
+        "023ad1d2d387d451c1b8",
+        "668b8472a79355df1336",
+        "e2b15e9679182c31525c",
+        "9c65db83da0b4de02d17",
+        "c97ee7f4421067a7ce91"
+      ],
+      "retrieval_ms": 17.91
+    },
+    {
+      "id": "C17",
+      "query": "一个工具调用失败时，tool、task、agent、crew 都设置了不同的 tool_failure_policy，哪个设置优先？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/tools.mdx",
+          "heading": "Choosing a Failure Policy"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "0bcb7ae679f09e8509a5",
+        "29595bdaf271211594e0",
+        "73cc533f786b67c39058",
+        "3abbb405bd3744682e26",
+        "5bb15f14e843157115c0",
+        "1b3d53966673ef901538",
+        "d9f9f28438830348758b",
+        "046b01923a8f1bbcac46",
+        "e7b763e3559b0fe9e1b3",
+        "2a63ee47d20ed57cca91"
+      ],
+      "retrieval_ms": 20.42
+    },
+    {
+      "id": "C18",
+      "answerability": "unanswerable",
+      "query": "CrewAI 默认会把每次 Crew 运行日志上传到哪个 S3 bucket？",
+      "top_chunk_ids": [
+        "3059906a0a42c0e7fb95",
+        "1e702075d90463a93df1",
+        "a742aa19583326de3bed",
+        "96bf9394c9020bf59df1",
+        "6791d33eea8be346d9a9",
+        "9c65db83da0b4de02d17",
+        "8d9e007d5678d80e57a7",
+        "e2b15e9679182c31525c",
+        "0127e25eaf45dd885ef1",
+        "65a90171bb815f30585c"
+      ],
+      "retrieval_ms": 16.73
+    },
+    {
+      "id": "C19",
+      "answerability": "unanswerable",
+      "query": "CrewAI v1.15.28 的正式发布日期是哪一天？",
+      "top_chunk_ids": [
+        "96bf9394c9020bf59df1",
+        "3059906a0a42c0e7fb95",
+        "c630643904dcf45f342b",
+        "a742aa19583326de3bed",
+        "11884fc0c47fbc78c8f8",
+        "744826816e5e0a3f1db8",
+        "6791d33eea8be346d9a9",
+        "668b8472a79355df1336",
+        "14574a42af9db4464b5e",
+        "1e702075d90463a93df1"
+      ],
+      "retrieval_ms": 15.71
+    }
+  ]
+}

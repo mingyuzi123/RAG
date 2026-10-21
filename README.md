@@ -4,7 +4,7 @@
 
 ## 当前进度
 
-**策略与界面阶段。**已提供固定文档的 MDX 切块、SQLite FTS5/BM25、跨语言 E5 向量检索、混合检索、按证据章节计算的检索评测、本地可视化界面，以及 DeepSeek 带出处问答命令。混合检索仍需手工提供英文关键词；答案质量评测尚未接入。架构与范围见 [DESIGN.md](DESIGN.md)，项目和学习状态见 [PROGRESS.md](PROGRESS.md)。
+**策略与界面阶段。**已提供固定文档的 MDX 切块（包括表格按行分组）、SQLite FTS5/BM25、跨语言 E5 向量检索、混合检索、按证据章节计算的检索评测、本地可视化界面，以及 DeepSeek 带出处问答命令。混合检索仍需手工提供英文关键词；答案质量评测尚未接入。架构与范围见 [DESIGN.md](DESIGN.md)，项目和学习状态见 [PROGRESS.md](PROGRESS.md)。
 
 首个场景包计划使用固定版本的 CrewAI 官方技术文档，覆盖 Agents、Tasks、Tools、Crews 和 Flows。
 

@@ -1,0 +1,630 @@
+{
+  "scenario": "crewai-docs",
+  "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+  "strategy": "vector",
+  "query_language": "English manual translation",
+  "embedding_model": {
+    "id": "intfloat/multilingual-e5-small",
+    "revision": "f470c6a1a906014160ece1968c484b275f0396de",
+    "protocol": "e5-prefix-heading-v1"
+  },
+  "top_k": 10,
+  "context_k": 3,
+  "answerable_questions": 17,
+  "unanswerable_questions_excluded": 2,
+  "all_anchor_recall_at_k": 0.8823529411764706,
+  "all_anchor_context_hit_at_k": 0.7058823529411765,
+  "mrr_first_anchor_at_k": 0.7352941176470589,
+  "details": [
+    {
+      "id": "C01",
+      "query": "What are Crews and Flows responsible for and how to combine them for predictable execution?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/introduction.mdx",
+          "heading": "When to Use Crews vs. Flows"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        false
+      ],
+      "all_found_top": true,
+      "all_found_context": false,
+      "first_relevant_rank": 10,
+      "top_chunk_ids": [
+        "73bc193a8bc5de22bff3",
+        "3def47459400d281d224",
+        "685748c9e1f3fcab71dc",
+        "11884fc0c47fbc78c8f8",
+        "0a5c0eae675379d75c9c",
+        "a44a11419ee35cfe5868",
+        "13d5d599c0325a20116b",
+        "eacd57268a69810ae36c",
+        "450a050f0359d461fde8",
+        "28604ed8bbbc9ec0526d"
+      ],
+      "retrieval_ms": 21.63
+    },
+    {
+      "id": "C02",
+      "query": "What do role goal and backstory mean in an Agent?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "heading": "Agent Attributes"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "eed82b3c50709989527b",
+        "60d51bfc92d58798f3b7",
+        "c4cca05b6ec69f25c036",
+        "9cbfdae7bdd50c769e82",
+        "0fbd5d131b9fa61877a0",
+        "4db63d10469b3c4d6678",
+        "6ac374f1b2da1741ac32",
+        "1866b083ad0974e14285",
+        "6791d33eea8be346d9a9",
+        "8f4f0301eaeccbaf0f37"
+      ],
+      "retrieval_ms": 17.06
+    },
+    {
+      "id": "C03",
+      "query": "Does an Agent delegate tasks by default and which parameter controls delegation?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "heading": "Agent Attributes"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "9cbfdae7bdd50c769e82",
+        "046b01923a8f1bbcac46",
+        "75ca983a21b88265e7d4",
+        "1866b083ad0974e14285",
+        "8c40f9c3bd762ecad3bf",
+        "36c8d12710cf93d8546c",
+        "4a976dba04610f277d7f",
+        "671ccc75e296483592d3",
+        "0bcb7ae679f09e8509a5",
+        "0ad890984fbb5e169c0a"
+      ],
+      "retrieval_ms": 15.89
+    },
+    {
+      "id": "C04",
+      "query": "What is the scope difference between tools assigned to an Agent and tools assigned to a Task?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "heading": "Agent Attributes"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "Task Attributes"
+        }
+      ],
+      "anchor_found_top": [
+        false,
+        true
+      ],
+      "anchor_found_context": [
+        false,
+        false
+      ],
+      "all_found_top": false,
+      "all_found_context": false,
+      "first_relevant_rank": 5,
+      "top_chunk_ids": [
+        "0bcb7ae679f09e8509a5",
+        "e7b763e3559b0fe9e1b3",
+        "a59f6b9dd1ef8a1d52d4",
+        "8a40f5f008d3b0cf347c",
+        "046b01923a8f1bbcac46",
+        "921411e536d528786081",
+        "37c9b467542164ea8601",
+        "13d5d599c0325a20116b",
+        "49f37a8cfb3907d45380",
+        "2bd84a6e1c8228e11336"
+      ],
+      "retrieval_ms": 18.19
+    },
+    {
+      "id": "C05",
+      "query": "What does Task expected_output describe?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "Task Attributes"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 2,
+      "top_chunk_ids": [
+        "1a1206713d36750a251b",
+        "2b8ded64535faab990d1",
+        "b22629c3473ebd922a06",
+        "ce38a389211678e0b450",
+        "5e189b059c7c13aabd92",
+        "de2ec3bba527461171a1",
+        "1d90b1918acdb0600475",
+        "671ccc75e296483592d3",
+        "1e496907d51b7c649bf9",
+        "928e7792d38ef2f01701"
+      ],
+      "retrieval_ms": 14.95
+    },
+    {
+      "id": "C06",
+      "query": "How to specify that a report writing Task depends on the research Task output?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "Task Dependencies and Context"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "e43b849cf87ac38f52f3",
+        "db74706948a269622396",
+        "f7e4b142b101d0e384ab",
+        "ce38a389211678e0b450",
+        "1c829fad01b174d29733",
+        "68fd92f3c0f21a0a603a",
+        "8d9e007d5678d80e57a7",
+        "1a1206713d36750a251b",
+        "671ccc75e296483592d3",
+        "2b8ded64535faab990d1"
+      ],
+      "retrieval_ms": 16.52
+    },
+    {
+      "id": "C07",
+      "query": "What manager information is required for a hierarchical Crew process?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "heading": "Process Implementations"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        false
+      ],
+      "all_found_top": true,
+      "all_found_context": false,
+      "first_relevant_rank": 5,
+      "top_chunk_ids": [
+        "47a63690adf52fdb7f79",
+        "432e32acff6831b49ecf",
+        "0a5c0eae675379d75c9c",
+        "1b3d53966673ef901538",
+        "050f3b61023948af2f63",
+        "9ade4f8b9af8341d05ab",
+        "3def47459400d281d224",
+        "c630643904dcf45f342b",
+        "a59f6b9dd1ef8a1d52d4",
+        "49f37a8cfb3907d45380"
+      ],
+      "retrieval_ms": 16.05
+    },
+    {
+      "id": "C08",
+      "query": "How does a sequential process order Tasks and use the previous Task output?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "heading": "Sequential Process"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "7315be284d185529d6ca",
+        "050f3b61023948af2f63",
+        "13d5d599c0325a20116b",
+        "1a1206713d36750a251b",
+        "fb25c690f54b0f934156",
+        "de2ec3bba527461171a1",
+        "db74706948a269622396",
+        "928e7792d38ef2f01701",
+        "046b01923a8f1bbcac46",
+        "2b8ded64535faab990d1"
+      ],
+      "retrieval_ms": 16.01
+    },
+    {
+      "id": "C09",
+      "query": "What process does a Crew use by default if process is unspecified?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/crews.mdx",
+          "heading": "Crew Attributes"
+        }
+      ],
+      "anchor_found_top": [
+        false
+      ],
+      "anchor_found_context": [
+        false
+      ],
+      "all_found_top": false,
+      "all_found_context": false,
+      "first_relevant_rank": null,
+      "top_chunk_ids": [
+        "0a5c0eae675379d75c9c",
+        "432e32acff6831b49ecf",
+        "91ae601ccffc7ddd02fc",
+        "7cee171f982a6bf571fa",
+        "c630643904dcf45f342b",
+        "11884fc0c47fbc78c8f8",
+        "8a3394068144239faca9",
+        "ae1bc68dbc19ffe31747",
+        "3d46b49cf32333675be2",
+        "09cb0fbb1569d6288185"
+      ],
+      "retrieval_ms": 15.52
+    },
+    {
+      "id": "C10",
+      "query": "When are Flow start and listen methods triggered?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "@start()"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "@listen()"
+        }
+      ],
+      "anchor_found_top": [
+        true,
+        true
+      ],
+      "anchor_found_context": [
+        false,
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": false,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "ebed510b76cf04016cae",
+        "2e4719341591b38cc175",
+        "ad0b93ae299b14f00404",
+        "ca1397466a3129eb91c5",
+        "82a2a5748b1c9d4ca0f7",
+        "00ee7cd554b82049888c",
+        "3d048441c9b73f28e036",
+        "709e63ae2a161f3e13d7",
+        "c53a4017094da8a6da9c",
+        "5ae92cbbb86dde22c55f"
+      ],
+      "retrieval_ms": 15.67
+    },
+    {
+      "id": "C11",
+      "query": "What is the difference between Flow or_ and and_ when waiting for multiple methods?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Conditional Logic: `or`"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Conditional Logic: `and`"
+        }
+      ],
+      "anchor_found_top": [
+        true,
+        true
+      ],
+      "anchor_found_context": [
+        true,
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "2e4719341591b38cc175",
+        "ad0b93ae299b14f00404",
+        "86fd986bef1cc138c2f2",
+        "eacd57268a69810ae36c",
+        "5ae92cbbb86dde22c55f",
+        "00ee7cd554b82049888c",
+        "ca1397466a3129eb91c5",
+        "73bc193a8bc5de22bff3",
+        "ebed510b76cf04016cae",
+        "82a2a5748b1c9d4ca0f7"
+      ],
+      "retrieval_ms": 17.3
+    },
+    {
+      "id": "C12",
+      "query": "How does a Flow route to different paths based on the previous output?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Router"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "709e63ae2a161f3e13d7",
+        "82a2a5748b1c9d4ca0f7",
+        "4093058178e5d6a67348",
+        "eacd57268a69810ae36c",
+        "00ee7cd554b82049888c",
+        "9d7cc2aa27c04d623c91",
+        "ca1397466a3129eb91c5",
+        "5ae92cbbb86dde22c55f",
+        "f74f48fd678a6766c366",
+        "86fd986bef1cc138c2f2"
+      ],
+      "retrieval_ms": 16.34
+    },
+    {
+      "id": "C13",
+      "query": "When should a Flow use structured state instead of unstructured state?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Choosing Between Unstructured and Structured State Management"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "76a506fa0bfffd2af9e4",
+        "c90be39df11adf51802b",
+        "c5045ca11917bd776847",
+        "bbba05a35740940bbb04",
+        "0231bf1280a2d0ed9171",
+        "00ee7cd554b82049888c",
+        "b5cf5f8d937db2cf1972",
+        "5ae92cbbb86dde22c55f",
+        "28604ed8bbbc9ec0526d",
+        "d070d0cca410f099e54a"
+      ],
+      "retrieval_ms": 15.46
+    },
+    {
+      "id": "C14",
+      "query": "What is the persistence scope of persist on a Flow class versus a method?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Class-Level Persistence"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Method-Level Persistence"
+        }
+      ],
+      "anchor_found_top": [
+        true,
+        true
+      ],
+      "anchor_found_context": [
+        true,
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "864bcde172547a90a54d",
+        "caad82e9e0735389a3ab",
+        "04fed04c4a741c3a024d",
+        "58a420ef931e9a345fab",
+        "d070d0cca410f099e54a",
+        "c5045ca11917bd776847",
+        "b9494a9207a7fd6f5727",
+        "eacd57268a69810ae36c",
+        "5ae92cbbb86dde22c55f",
+        "c53a4017094da8a6da9c"
+      ],
+      "retrieval_ms": 17.41
+    },
+    {
+      "id": "C15",
+      "query": "How should a Crew be used within a Flow step for multi agent collaboration?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Adding Crews to Flows"
+        },
+        {
+          "path": "docs/v1.15.28/en/introduction.mdx",
+          "heading": "When to Use Crews vs. Flows"
+        }
+      ],
+      "anchor_found_top": [
+        true,
+        true
+      ],
+      "anchor_found_context": [
+        true,
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 2,
+      "top_chunk_ids": [
+        "73bc193a8bc5de22bff3",
+        "28604ed8bbbc9ec0526d",
+        "450a050f0359d461fde8",
+        "3def47459400d281d224",
+        "4093058178e5d6a67348",
+        "eacd57268a69810ae36c",
+        "0127e25eaf45dd885ef1",
+        "11884fc0c47fbc78c8f8",
+        "9c65db83da0b4de02d17",
+        "bd7c37fd2aba11a9c1de"
+      ],
+      "retrieval_ms": 15.42
+    },
+    {
+      "id": "C16",
+      "query": "Which decorator creates a custom tool from a Python function and why is its docstring important?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/tools.mdx",
+          "heading": "Utilizing the `tool` Decorator"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "28ac83e5e2fe543c6b3f",
+        "7d0b33a4676937b20280",
+        "e0b652ee6ffaa18216ad",
+        "0cd1475e47686ad9b866",
+        "ebed510b76cf04016cae",
+        "744826816e5e0a3f1db8",
+        "52d3c366c4fcec8336be",
+        "ea5cc74399c9061db430",
+        "1c0da8ff8c85f336adc3",
+        "2e1c0293f28d94b97af4"
+      ],
+      "retrieval_ms": 17.51
+    },
+    {
+      "id": "C17",
+      "query": "Which tool_failure_policy takes priority among tool Task Agent and Crew?",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/tools.mdx",
+          "heading": "Choosing a Failure Policy"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "0bcb7ae679f09e8509a5",
+        "a59f6b9dd1ef8a1d52d4",
+        "e7b763e3559b0fe9e1b3",
+        "d9f9f28438830348758b",
+        "37c9b467542164ea8601",
+        "ee2b3a7054f45444bf27",
+        "e1be466eea5639f33d68",
+        "73cc533f786b67c39058",
+        "49f37a8cfb3907d45380",
+        "8a40f5f008d3b0cf347c"
+      ],
+      "retrieval_ms": 16.9
+    },
+    {
+      "id": "C18",
+      "answerability": "unanswerable",
+      "query": "Which S3 bucket receives Crew run logs by default?",
+      "top_chunk_ids": [
+        "fe6f59ce906356efcea4",
+        "1a7e10b684e430ee25e0",
+        "09cb0fbb1569d6288185",
+        "1b3d53966673ef901538",
+        "8778949a0ed3b26cdec6",
+        "6791d33eea8be346d9a9",
+        "7cee171f982a6bf571fa",
+        "daceedfdf475d89b7946",
+        "9ade4f8b9af8341d05ab",
+        "3059906a0a42c0e7fb95"
+      ],
+      "retrieval_ms": 16.35
+    },
+    {
+      "id": "C19",
+      "answerability": "unanswerable",
+      "query": "What is the official release date of CrewAI version 1.15.28?",
+      "top_chunk_ids": [
+        "11884fc0c47fbc78c8f8",
+        "c630643904dcf45f342b",
+        "d9f9f28438830348758b",
+        "37c9b467542164ea8601",
+        "96bf9394c9020bf59df1",
+        "a59f6b9dd1ef8a1d52d4",
+        "744826816e5e0a3f1db8",
+        "49f37a8cfb3907d45380",
+        "668b8472a79355df1336",
+        "3059906a0a42c0e7fb95"
+      ],
+      "retrieval_ms": 15.08
+    }
+  ]
+}

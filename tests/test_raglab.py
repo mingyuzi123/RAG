@@ -46,6 +46,21 @@ class CorpusTests(TestCase):
             file.write_text(file.read_text(encoding="utf-8").replace("Before.", "After."), encoding="utf-8")
             self.assertNotEqual(chunk_mdx(*args)[0].id, first_id)
 
+    def test_long_table_keeps_column_meaning_and_source_lines(self):
+        with TemporaryDirectory(dir=Path(__file__).resolve().parents[1]) as folder:
+            file = Path(folder) / "table.mdx"
+            rows = [f"| Field {n} | `field_{n}` | Explanation for field {n}. |" for n in range(20)]
+            file.write_text("## Agent Attributes\n\n| Attribute | Parameter | Description |\n"
+                            "| --- | --- | --- |\n" + "\n".join(rows) + "\n", encoding="utf-8")
+            chunks = chunk_mdx(file, "table.mdx", "abc123", "https://example.test/{commit}/{path}", 500)
+            self.assertGreater(len(chunks), 1)
+            self.assertTrue(all(len(chunk.text) <= 500 for chunk in chunks))
+            self.assertTrue(all(chunk.heading_path[-1] == "Agent Attributes" for chunk in chunks))
+            self.assertIn("Attribute: Field 0; Parameter: `field_0`; Description: Explanation for field 0.",
+                          chunks[0].text)
+            self.assertEqual(chunks[0].start_line, 1)
+            self.assertEqual(chunks[-1].end_line, 24)
+
 
 class GenerationTests(TestCase):
     def test_prompt_and_citation_validation(self):
