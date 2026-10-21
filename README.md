@@ -8,6 +8,17 @@
 
 首个场景包计划使用固定版本的 CrewAI 官方技术文档，覆盖 Agents、Tasks、Tools、Crews 和 Flows。
 
+## CrewAI 场景资料与评测集
+
+[场景清单](scenarios/crewai/manifest.json)固定了 CrewAI 官方仓库的提交和文档版本；[19 道评测题](scenarios/crewai/eval/questions.jsonl)标注了预期证据章节，包含事实、比较、操作、排错和无答案问题。原始文档下载到被 Git 忽略的 `data/`，不会复制到本仓库。
+
+```powershell
+python scripts/fetch_crewai_docs.py
+python scripts/validate_crewai_eval.py
+```
+
+验证脚本检查上游提交号、问题结构和证据章节是否真实存在。目前这些题用于建立评测基线，尚未产生 RAG 分数。
+
 ## 阶段交付
 
 1. 设计与评测集。

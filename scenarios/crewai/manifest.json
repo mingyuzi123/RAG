@@ -1,0 +1,20 @@
+{
+  "id": "crewai-docs",
+  "name": "CrewAI 技术文档",
+  "language": "en",
+  "upstream_repo": "https://github.com/crewAIInc/crewAI.git",
+  "upstream_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+  "docs_version": "v1.15.28",
+  "source_url_template": "https://github.com/crewAIInc/crewAI/blob/{commit}/{path}",
+  "files": [
+    "docs/v1.15.28/en/introduction.mdx",
+    "docs/v1.15.28/en/quickstart.mdx",
+    "docs/v1.15.28/en/concepts/agents.mdx",
+    "docs/v1.15.28/en/concepts/tasks.mdx",
+    "docs/v1.15.28/en/concepts/tools.mdx",
+    "docs/v1.15.28/en/concepts/crews.mdx",
+    "docs/v1.15.28/en/concepts/flows.mdx",
+    "docs/v1.15.28/en/concepts/processes.mdx"
+  ],
+  "local_checkout": "data/upstream/crewai"
+}
