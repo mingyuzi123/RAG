@@ -4,7 +4,7 @@
 
 ## 当前进度
 
-**设计阶段。**目前只有项目蓝图，尚未提供可运行的问答服务或实测指标。架构、范围、评测和阶段交付见 [DESIGN.md](DESIGN.md)。
+**第二阶段开发中。**已提供固定文档的 MDX 切块、可追溯的 SQLite FTS5/BM25 检索基线和 DeepSeek 问答命令。中文问题目前需手工提供英文检索词；跨语言向量检索、自动评测及 Web 页面尚未接入。架构、范围和阶段交付见 [DESIGN.md](DESIGN.md)。
 
 首个场景包计划使用固定版本的 CrewAI 官方技术文档，覆盖 Agents、Tasks、Tools、Crews 和 Flows。
 
@@ -18,6 +18,32 @@ python scripts/validate_crewai_eval.py
 ```
 
 验证脚本检查上游提交号、问题结构和证据章节是否真实存在。目前这些题用于建立评测基线，尚未产生 RAG 分数。
+
+## 运行最小问答链路
+
+使用 Python 3.11 或更新版本。运行上面的资料下载命令后，在仓库根目录执行：
+
+```powershell
+python -m raglab index
+python -m raglab search "hierarchical process manager agent" --top-k 3
+```
+
+索引存于 `indexes/`，按场景、文档提交、文件清单和切块参数区分版本；检索结果显示块 ID、标题路径、原文行号和出处。当前英文 FTS5 基线不能可靠处理中文问题，因此问答时明确提供英文检索词：
+
+```powershell
+$env:DEEPSEEK_API_KEY = "在本机设置你的密钥"
+python -m raglab ask "CrewAI 层级流程需要什么配置？" --search-query "hierarchical process manager_llm manager_agent" --top-k 5 --context-k 3
+```
+
+密钥只从环境变量读取，不要填写在仓库文件或聊天中。可选环境变量 `DEEPSEEK_MODEL` 默认是 `deepseek-flash`。每次问答的候选块、实际送入模型的块、回答、引用编号、耗时与 token 用量保存在被 Git 忽略的 `logs/requests.jsonl`。`citation_numbers_valid` 仅检查引用编号是否指向提供过的块，**不能证明回答真的得到证据支持**。
+
+本机未配置密钥时，可执行不收费的解析、检索和模拟 API 单元测试：
+
+```powershell
+python -m unittest discover -s tests -v
+```
+
+切块以标题和段落为界，目标大小为 1800 字符。为保留完整代码块，少数块会超过目标大小；后续会在评测中检验这一取舍对上下文预算和召回的影响。
 
 设计阶段讨论过的关键问题与面试表达整理在 [RAG 设计与评测问答](docs/RAG_面试问答.md)。
 
