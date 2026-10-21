@@ -11,6 +11,7 @@ import os
 from raglab.corpus import chunk_mdx
 from raglab.generation import build_messages, generate_answer
 from raglab.hybrid import reciprocal_rank_fusion
+from raglab.service import answer
 
 
 class CorpusTests(TestCase):
@@ -59,3 +60,37 @@ class HybridTests(TestCase):
         self.assertEqual([item["id"] for item in results], ["shared", "keyword"])
         self.assertEqual(results[0]["retriever_ranks"], {"bm25": 2, "vector": 1})
         self.assertEqual(results[0]["retrieval_ms"], 3.0)
+
+
+class WorkflowTests(TestCase):
+    def test_answer_trace_keeps_all_candidates_and_selected_context(self):
+        candidate = lambda name: {"id": name, "source_url": f"https://example.test/{name}",
+                                  "heading_path": [name], "rank": 1, "text": name}
+        with TemporaryDirectory(dir=Path(__file__).resolve().parents[1]) as folder:
+            root = Path(folder)
+            db_path = root / "indexes" / "test.db"
+            with patch("raglab.service.retrieve", return_value=[candidate("first"), candidate("second")]):
+                with patch("raglab.service.generate_answer", return_value={
+                    "answer": "supported [1]", "usage": {"total_tokens": 3},
+                    "citation_numbers_valid": True}):
+                    trace = answer(root, {"id": "test", "upstream_commit": "abc"}, db_path,
+                                   "question", top_k=2, context_k=1)
+            self.assertEqual([item["id"] for item in trace["candidates"]], ["first", "second"])
+            self.assertEqual(trace["selected_chunk_ids"], ["first"])
+            self.assertEqual(trace["result"]["sources"][0]["chunk_id"], "first")
+            saved = json.loads((root / "logs" / "requests.jsonl").read_text(encoding="utf-8"))
+            self.assertEqual(saved["request_id"], trace["request_id"])
+
+    def test_generation_failure_still_records_retrieved_evidence(self):
+        item = {"id": "evidence", "source_url": "https://example.test/evidence",
+                "heading_path": ["Demo"], "rank": 1, "text": "evidence"}
+        with TemporaryDirectory(dir=Path(__file__).resolve().parents[1]) as folder:
+            root = Path(folder)
+            with patch("raglab.service.retrieve", return_value=[item]):
+                with patch("raglab.service.generate_answer", side_effect=RuntimeError("API unavailable")):
+                    with self.assertRaisesRegex(RuntimeError, "API unavailable"):
+                        answer(root, {"id": "test", "upstream_commit": "abc"},
+                               root / "index.db", "question")
+            saved = json.loads((root / "logs" / "requests.jsonl").read_text(encoding="utf-8"))
+            self.assertEqual(saved["status"], "failed")
+            self.assertEqual(saved["selected_chunk_ids"], ["evidence"])

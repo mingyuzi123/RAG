@@ -1,16 +1,12 @@
 """Small CLI for building, inspecting and querying a scenario index."""
 
 from argparse import ArgumentParser
-from datetime import datetime, timezone
 from pathlib import Path
-from uuid import uuid4
 import json
-import time
 
-from .generation import generate_answer
-from .hybrid import search_hybrid
-from .store import build_index, index_path, load_manifest, search
-from .vector import build_vectors, search_vectors
+from .service import answer, retrieve
+from .store import build_index, index_path, load_manifest
+from .vector import build_vectors
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -41,10 +37,6 @@ def main() -> None:
     args = parser().parse_args()
     if args.max_chars < 200:
         raise SystemExit("--max-chars must be at least 200")
-    if args.command in ("search", "ask") and args.top_k < 1:
-        raise SystemExit("--top-k must be positive")
-    if args.command == "ask" and not 1 <= args.context_k <= args.top_k:
-        raise SystemExit("--context-k must be between 1 and --top-k")
     manifest = load_manifest(args.scenario)
     db_path = index_path(ROOT, manifest, args.max_chars)
     if args.command == "index":
@@ -59,45 +51,24 @@ def main() -> None:
         print(json.dumps({"index": str(path), "scenario": manifest["id"],
                           "chunks": count}, ensure_ascii=False, indent=2))
         return
-    query = args.search_query or args.question
-    if args.strategy == "hybrid" and not args.search_query:
-        raise SystemExit("Hybrid retrieval requires --search-query with an English keyword query")
-    try:
-        if args.strategy == "bm25":
-            candidates = search(db_path, query, args.top_k)
-        elif args.strategy == "vector":
-            candidates = search_vectors(db_path, args.question, args.top_k)
-        else:
-            candidates = search_hybrid(db_path, args.question, query, args.top_k)
-    except ValueError as exc:
-        raise SystemExit(str(exc)) from exc
     if args.command == "search":
-        print(json.dumps({"query": args.question, "search_query": query if args.strategy != "vector" else args.question,
+        try:
+            candidates = retrieve(db_path, args.question, args.strategy, args.search_query, args.top_k)
+        except (ValueError, FileNotFoundError) as exc:
+            raise SystemExit(str(exc)) from exc
+        print(json.dumps({"query": args.question, "search_query": (args.search_query or args.question) if args.strategy != "vector" else args.question,
                           "strategy": args.strategy,
                           "candidates": [{**item, "text": item["text"][:350]} for item in candidates]},
                          ensure_ascii=False, indent=2))
         return
 
-    selected = candidates[:args.context_k]
-    started = time.perf_counter()
-    result = generate_answer(args.question, selected, args.model)
-    result["sources"] = [
-        {"number": number, "url": item["source_url"], "heading_path": item["heading_path"]}
-        for number, item in enumerate(selected, 1)
-    ]
-    trace = {
-        "request_id": str(uuid4()), "timestamp": datetime.now(timezone.utc).isoformat(),
-        "scenario": manifest["id"], "source_commit": manifest["upstream_commit"],
-        "index": str(db_path.relative_to(ROOT)), "strategy": args.strategy,
-        "question": args.question, "search_query": query if args.strategy != "vector" else args.question,
-        "candidates": candidates, "selected_chunk_ids": [item["id"] for item in selected],
-        "result": result, "generation_ms": round((time.perf_counter() - started) * 1000, 2),
-    }
-    log_path = ROOT / "logs" / "requests.jsonl"
-    log_path.parent.mkdir(exist_ok=True)
-    with log_path.open("a", encoding="utf-8") as log:
-        log.write(json.dumps(trace, ensure_ascii=False) + "\n")
-    print(json.dumps({"request_id": trace["request_id"], **result}, ensure_ascii=False, indent=2))
+    try:
+        trace = answer(ROOT, manifest, db_path, args.question, args.strategy,
+                       args.search_query, args.top_k, args.context_k, generation_model=args.model)
+    except (ValueError, FileNotFoundError) as exc:
+        raise SystemExit(str(exc)) from exc
+    print(json.dumps({"request_id": trace["request_id"], **trace["result"]},
+                     ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

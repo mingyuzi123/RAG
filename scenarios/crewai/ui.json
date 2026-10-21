@@ -1,0 +1,13 @@
+{
+  "title": "CrewAI 文档实验室",
+  "subtitle": "看清每一步证据如何进入回答",
+  "badge": "CREWAI · 文档场景",
+  "accent": "#635bff",
+  "metric": {
+    "label": "本轮实验 · 17 道题",
+    "value": "16/17",
+    "caption": "混合检索 Top 10 全证据覆盖",
+    "percent": 94,
+    "note": "前 3 上下文仅覆盖 11/17。候选增加，不代表模型能看见证据。"
+  }
+}

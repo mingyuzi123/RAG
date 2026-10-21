@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fc">
+  <title>RAG Lab · 检索实验室</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="RAG Lab 首页"><span class="brand-mark">R<span>·</span></span><span>RAG <strong>Lab</strong><small>LEARNING WORKSPACE</small></span></a>
+      <div class="side-rule"></div>
+      <p class="side-label">当前场景</p>
+      <div class="scenario-card"><span class="scenario-icon" id="scenario-icon">R</span><div><strong id="scenario-name">正在读取场景</strong><small id="scenario-version">读取中…</small></div></div>
+      <nav class="side-nav" aria-label="主导航">
+        <button class="nav-item active" data-tab="explore"><span class="nav-symbol">◇</span> 检索实验 <span class="nav-arrow">↗</span></button>
+        <button class="nav-item" data-tab="answer"><span class="nav-symbol">✦</span> 带出处问答</button>
+        <button class="nav-item" data-tab="traces"><span class="nav-symbol">▤</span> 请求记录</button>
+      </nav>
+      <div class="side-rule"></div>
+      <p class="side-label">项目进度</p>
+      <ol class="milestones">
+        <li class="done"><span>✓</span><div>设计与资料固定<small>场景、版本、评测题</small></div></li>
+        <li class="done"><span>✓</span><div>最小问答链路<small>切块、检索、引用记录</small></div></li>
+        <li class="active"><span>3</span><div>策略实验与界面<small>BM25 · E5 · 融合</small></div></li>
+        <li><span>4</span><div>复用验证<small>第二场景与答案评测</small></div></li>
+      </ol>
+      <div class="sidebar-bottom"><span class="status-dot" id="status-dot"></span><span id="status-line">正在检查本地索引</span></div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar"><span id="scenario-badge">CREWAI · 文档场景</span><div class="topbar-right"><span class="topbar-label">LOCAL WORKSPACE</span><span class="live-dot"></span></div></header>
+      <section class="hero">
+        <div><p class="eyebrow"><span class="eyebrow-line"></span> RAG LEARNING STUDIO / STAGE 03</p><h1>看见答案背后的<span>检索路径。</span></h1><p class="hero-desc" id="scenario-subtitle">从问题到证据，逐步检查每个知识块为什么被选中。</p></div>
+        <div class="hero-stat"><span>当前实验</span><strong>03<span class="stat-slash">/</span>04</strong><small>检索策略与可视化</small></div>
+      </section>
+
+      <section class="workspace-grid">
+        <div class="primary-column">
+          <div class="panel query-panel">
+            <div class="panel-head"><div><p class="panel-kicker">01 / INPUT</p><h2>提出一个问题</h2></div><span class="panel-tag">基于固定版本文档</span></div>
+            <label for="sample-select" class="field-label">从评测集中选择 <span>或自行输入</span></label>
+            <select id="sample-select"><option value="">自定义问题</option></select>
+            <label for="question" class="field-label">中文问题</label>
+            <textarea id="question" rows="3" placeholder="例如：CrewAI 的层级流程需要什么管理者配置？"></textarea>
+            <div class="field-row"><div class="field-grow"><label for="english-query" class="field-label">英文关键词查询 <span>BM25 和融合需要</span></label><input id="english-query" type="text" placeholder="hierarchical process manager configuration"></div></div>
+            <div class="control-row"><label>候选 Top K <input id="top-k" type="number" min="1" max="30" value="10"></label><label>回答上下文 K <input id="context-k" type="number" min="1" max="10" value="3"></label><label>单路策略 <select id="strategy"><option value="vector">E5 向量</option><option value="bm25">BM25 关键词</option><option value="hybrid">混合 RRF</option></select></label></div>
+            <div class="action-row"><button class="button primary" id="compare-btn">对比三路检索 <span>↗</span></button><button class="button secondary" id="search-btn">运行单路检索</button></div>
+            <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+          </div>
+
+          <section id="explore-tab" class="tab-section active">
+            <div class="section-heading"><div><p class="panel-kicker">02 / RETRIEVAL</p><h2>证据如何排序</h2></div><span class="section-note" id="result-note">选择问题后开始实验</span></div>
+            <div id="comparison-summary" class="comparison-summary empty"><span class="empty-icon">⌁</span><p>运行一次检索，查看每路候选和最终上下文。</p></div>
+            <div id="result-columns" class="result-columns"></div>
+          </section>
+
+          <section id="answer-tab" class="tab-section">
+            <div class="section-heading"><div><p class="panel-kicker">03 / GENERATION</p><h2>让证据进入回答</h2></div></div>
+            <div class="panel answer-panel"><p class="muted">系统会按上方所选策略检索，把前 K 个知识块交给 DeepSeek，并记录回答、引用和完整候选。</p><button class="button primary" id="ask-btn">生成带出处回答 <span>↗</span></button><p id="key-hint" class="key-hint"></p><div id="answer-output" class="answer-output"></div></div>
+          </section>
+
+          <section id="traces-tab" class="tab-section">
+            <div class="section-heading"><div><p class="panel-kicker">04 / TRACE</p><h2>回看请求记录</h2></div><button class="text-button" id="refresh-traces">刷新 ↻</button></div>
+            <div id="trace-list" class="trace-list panel"><p class="muted">尚未加载请求记录。</p></div>
+          </section>
+        </div>
+
+        <aside class="insight-column">
+          <div class="insight-card concept-card"><div class="insight-top"><span class="mini-icon">◎</span><span>CONCEPT NOTE</span></div><h3>三种检索信号</h3><div class="concept-row"><span class="concept-num">01</span><div><strong>BM25</strong><p>看词语是否匹配，适合精确参数名。</p></div></div><div class="concept-row"><span class="concept-num">02</span><div><strong>E5 向量</strong><p>看语义是否接近，可用中文查英文。</p></div></div><div class="concept-row"><span class="concept-num">03</span><div><strong>RRF 融合</strong><p>按两路排名加分，仍需检查干扰项。</p></div></div></div>
+          <div class="insight-card learning-card"><div class="insight-top"><span class="mini-icon">↗</span><span>LEARNING PROGRESS</span></div><h3>我们学到了哪里</h3><ul><li><span class="check">✓</span>沿解析→召回→排序→生成定位错误</li><li><span class="check">✓</span>解释 Recall@10 与 Context Hit@3</li><li><span class="current">→</span>逐题分析融合得失和证据质量</li><li><span class="later">○</span>验证回答是否真的受引用支持</li></ul><p>“已讨论”表示能够开始分析，仍要靠实际案例反复练习。</p></div>
+          <div class="insight-card metric-card"><span class="metric-label" id="metric-label">检索实验</span><div class="metric-line"><strong id="metric-value">—</strong><span id="metric-caption">读取报告中</span></div><div class="metric-bar"><span id="metric-fill"></span></div><p id="metric-note">指标来自固定问题集。</p></div>
+        </aside>
+      </section>
+      <footer>RAG Lab · 本地学习界面 <span>资料与密钥留在你的电脑上</span></footer>
+    </main>
+  </div>
+</body>
+</html>
