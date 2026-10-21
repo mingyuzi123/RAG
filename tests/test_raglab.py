@@ -12,6 +12,22 @@ from raglab.corpus import chunk_mdx
 from raglab.generation import build_messages, generate_answer
 from raglab.hybrid import reciprocal_rank_fusion
 from raglab.service import answer
+from scripts.run_with_deepseek import load_local_env, require_key
+
+
+class LocalKeyTests(TestCase):
+    def test_private_env_loads_without_overriding_existing_key(self):
+        with TemporaryDirectory(dir=Path(__file__).resolve().parents[1]) as folder:
+            env_file = Path(folder) / ".env"
+            env_file.write_text("DEEPSEEK_API_KEY='private-test-key'\nDEEPSEEK_MODEL=deepseek-flash\n",
+                                encoding="utf-8")
+            with patch.dict(os.environ, {}, clear=True):
+                load_local_env(env_file)
+                require_key()
+                self.assertEqual(os.environ["DEEPSEEK_API_KEY"], "private-test-key")
+                os.environ["DEEPSEEK_API_KEY"] = "environment-key"
+                load_local_env(env_file)
+                self.assertEqual(os.environ["DEEPSEEK_API_KEY"], "environment-key")
 
 
 class CorpusTests(TestCase):

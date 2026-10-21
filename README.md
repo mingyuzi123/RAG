@@ -35,7 +35,18 @@ $env:DEEPSEEK_API_KEY = "在本机设置你的密钥"
 python -m raglab ask "CrewAI 层级流程需要什么配置？" --search-query "hierarchical process manager_llm manager_agent" --top-k 5 --context-k 3
 ```
 
-密钥只从环境变量读取，不要填写在仓库文件或聊天中。可选环境变量 `DEEPSEEK_MODEL` 默认是 `deepseek-flash`。每次问答的候选块、实际送入模型的块、回答、引用编号、耗时与 token 用量保存在被 Git 忽略的 `logs/requests.jsonl`。`citation_numbers_valid` 仅检查引用编号是否指向提供过的块，**不能证明回答真的得到证据支持**。
+密钥只从环境变量读取。可选环境变量 `DEEPSEEK_MODEL` 默认是 `deepseek-flash`。每次问答的候选块、实际送入模型的块、回答、引用编号、耗时与 token 用量保存在被 Git 忽略的 `logs/requests.jsonl`。`citation_numbers_valid` 仅检查引用编号是否指向提供过的块，**不能证明回答真的得到证据支持**。
+
+### 用本地 `.env` 调用 DeepSeek
+
+在仓库根目录的 `.env` 文件中，只填写 `DEEPSEEK_API_KEY=` 后面的密钥；此文件已被 Git 忽略，不要把密钥发到聊天中。然后运行：
+
+```powershell
+.\.venv\Scripts\python.exe scripts/run_with_deepseek.py --check
+.\.venv\Scripts\python.exe scripts/run_with_deepseek.py
+```
+
+`--check` 会用一条测试证据发起一次真实 API 请求，显示回答和 token 用量，因此会消耗少量额度。第二条命令启动本地页面，在页面上即可测试真实的检索与生成。已有 `DEEPSEEK_API_KEY` 环境变量时，它优先于 `.env` 中的值。首次从头运行项目，还需按上文下载文档并建立索引。
 
 本机未配置密钥时，可执行不收费的解析、检索和模拟 API 单元测试：
 
@@ -77,7 +88,7 @@ python -m raglab.web
 
 浏览器打开 `http://127.0.0.1:8765/`。页面可选 19 道评测题，查看 BM25、E5、RRF 的排名和得分、标注证据、进入回答上下文的知识块、原文链接，以及最近的问答请求记录。可修改问题、英文检索词、候选 Top K 和上下文 K，直接观察结果变化。界面只监听本机 `127.0.0.1`；更换场景时传入 `--scenario` 路径，场景标题和展示信息来自同目录的 `ui.json`。
 
-没有 `DEEPSEEK_API_KEY` 时，检索实验仍能运行，问答按钮会禁用。要测试真实回答，在**启动页面前**于同一个 PowerShell 窗口设置环境变量，再重新启动服务器；不要把密钥填写到页面或仓库文件中。页面与命令行共用同一检索和请求追踪逻辑。
+没有 `DEEPSEEK_API_KEY` 时，检索实验仍能运行，问答按钮会禁用。要测试真实回答，可在**启动页面前**于同一个 PowerShell 窗口设置环境变量，或按上文使用 `scripts/run_with_deepseek.py` 从本地 `.env` 读取；不要把密钥填写到页面或聊天中。页面与命令行共用同一检索和请求追踪逻辑。
 
 设计阶段讨论过的关键问题与面试表达整理在 [RAG 设计与评测问答](docs/RAG_面试问答.md)。
 
