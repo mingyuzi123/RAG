@@ -1,0 +1,21 @@
+{
+  "C01": "What are Crews and Flows responsible for and how to combine them for predictable execution?",
+  "C02": "What do role goal and backstory mean in an Agent?",
+  "C03": "Does an Agent delegate tasks by default and which parameter controls delegation?",
+  "C04": "What is the scope difference between tools assigned to an Agent and tools assigned to a Task?",
+  "C05": "What does Task expected_output describe?",
+  "C06": "How to specify that a report writing Task depends on the research Task output?",
+  "C07": "What manager information is required for a hierarchical Crew process?",
+  "C08": "How does a sequential process order Tasks and use the previous Task output?",
+  "C09": "What process does a Crew use by default if process is unspecified?",
+  "C10": "When are Flow start and listen methods triggered?",
+  "C11": "What is the difference between Flow or_ and and_ when waiting for multiple methods?",
+  "C12": "How does a Flow route to different paths based on the previous output?",
+  "C13": "When should a Flow use structured state instead of unstructured state?",
+  "C14": "What is the persistence scope of persist on a Flow class versus a method?",
+  "C15": "How should a Crew be used within a Flow step for multi agent collaboration?",
+  "C16": "Which decorator creates a custom tool from a Python function and why is its docstring important?",
+  "C17": "Which tool_failure_policy takes priority among tool Task Agent and Crew?",
+  "C18": "Which S3 bucket receives Crew run logs by default?",
+  "C19": "What is the official release date of CrewAI version 1.15.28?"
+}

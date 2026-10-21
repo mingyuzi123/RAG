@@ -4,7 +4,7 @@
 
 ## 当前进度
 
-**第二阶段开发中。**已提供固定文档的 MDX 切块、可追溯的 SQLite FTS5/BM25 检索基线和 DeepSeek 问答命令。中文问题目前需手工提供英文检索词；跨语言向量检索、自动评测及 Web 页面尚未接入。架构、范围和阶段交付见 [DESIGN.md](DESIGN.md)。
+**策略对比阶段。**已提供固定文档的 MDX 切块、SQLite FTS5/BM25、跨语言 E5 向量检索、混合检索、按证据章节计算的检索评测，以及 DeepSeek 带出处问答命令。混合检索仍需手工提供英文关键词；答案质量评测和 Web 页面尚未接入。架构、范围和阶段交付见 [DESIGN.md](DESIGN.md)。
 
 首个场景包计划使用固定版本的 CrewAI 官方技术文档，覆盖 Agents、Tasks、Tools、Crews 和 Flows。
 
@@ -44,6 +44,28 @@ python -m unittest discover -s tests -v
 ```
 
 切块以标题和段落为界，目标大小为 1800 字符。为保留完整代码块，少数块会超过目标大小；后续会在评测中检验这一取舍对上下文预算和召回的影响。
+
+## 跨语言向量与混合检索
+
+向量检索在本机运行固定版本的 `multilingual-e5-small`，首次运行会下载模型；模型本身和向量索引不提交到 Git。Windows PowerShell 复现命令：
+
+```powershell
+python -m pip install -r requirements-vector.txt
+python -m raglab vector-index
+python -m raglab search "层级流程需要什么管理者配置？" --strategy vector --top-k 3
+python -m raglab search "层级流程需要什么管理者配置？" --strategy hybrid --search-query "hierarchical process manager configuration" --top-k 3
+```
+
+[E5 模型卡](https://huggingface.co/intfloat/multilingual-e5-small)说明对问题加 `query:` 前缀、对文档加 `passage:` 前缀；本项目将向量归一化后按点积排序。混合检索对 BM25 与向量各取前 20，再用倒数排名融合（RRF）排序；其英文检索词目前由人填写，避免把查询翻译质量混进检索策略实验。
+
+```powershell
+python scripts/evaluate_retrieval.py --strategy bm25 --output reports/crewai-bm25.json
+python scripts/evaluate_retrieval.py --strategy vector --query-language zh --output reports/crewai-vector-zh.json
+python scripts/evaluate_retrieval.py --strategy vector --query-language en --output reports/crewai-vector-en.json
+python scripts/evaluate_retrieval.py --strategy hybrid --query-language zh --output reports/crewai-hybrid-zh.json
+```
+
+[实测结果与局限](reports/README.md)记录了 17 道可回答题的逐题证据命中。评测只检查标注章节是否出现在候选与最终上下文中，不代表生成答案正确。
 
 设计阶段讨论过的关键问题与面试表达整理在 [RAG 设计与评测问答](docs/RAG_面试问答.md)。
 

@@ -8,7 +8,9 @@ import json
 import time
 
 from .generation import generate_answer
+from .hybrid import search_hybrid
 from .store import build_index, index_path, load_manifest, search
+from .vector import build_vectors, search_vectors
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,10 +24,12 @@ def parser() -> ArgumentParser:
                      help="Maximum target characters per chunk; a single code block may exceed it")
     commands = cli.add_subparsers(dest="command", required=True)
     commands.add_parser("index", help="Build a versioned keyword index")
+    commands.add_parser("vector-index", help="Build optional multilingual E5 embeddings")
     for name in ("search", "ask"):
         sub = commands.add_parser(name)
         sub.add_argument("question")
         sub.add_argument("--search-query", help="Explicit English query for the keyword baseline")
+        sub.add_argument("--strategy", choices=("bm25", "vector", "hybrid"), default="bm25")
         sub.add_argument("--top-k", type=int, default=5)
         if name == "ask":
             sub.add_argument("--context-k", type=int, default=3)
@@ -50,13 +54,26 @@ def main() -> None:
         return
     if not db_path.is_file():
         raise SystemExit("Index missing. First run: python -m raglab index")
+    if args.command == "vector-index":
+        path, count = build_vectors(db_path)
+        print(json.dumps({"index": str(path), "scenario": manifest["id"],
+                          "chunks": count}, ensure_ascii=False, indent=2))
+        return
     query = args.search_query or args.question
+    if args.strategy == "hybrid" and not args.search_query:
+        raise SystemExit("Hybrid retrieval requires --search-query with an English keyword query")
     try:
-        candidates = search(db_path, query, args.top_k)
+        if args.strategy == "bm25":
+            candidates = search(db_path, query, args.top_k)
+        elif args.strategy == "vector":
+            candidates = search_vectors(db_path, args.question, args.top_k)
+        else:
+            candidates = search_hybrid(db_path, args.question, query, args.top_k)
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
     if args.command == "search":
-        print(json.dumps({"query": args.question, "search_query": query,
+        print(json.dumps({"query": args.question, "search_query": query if args.strategy != "vector" else args.question,
+                          "strategy": args.strategy,
                           "candidates": [{**item, "text": item["text"][:350]} for item in candidates]},
                          ensure_ascii=False, indent=2))
         return
@@ -71,8 +88,8 @@ def main() -> None:
     trace = {
         "request_id": str(uuid4()), "timestamp": datetime.now(timezone.utc).isoformat(),
         "scenario": manifest["id"], "source_commit": manifest["upstream_commit"],
-        "index": str(db_path.relative_to(ROOT)), "strategy": "fts5-bm25",
-        "question": args.question, "search_query": query,
+        "index": str(db_path.relative_to(ROOT)), "strategy": args.strategy,
+        "question": args.question, "search_query": query if args.strategy != "vector" else args.question,
         "candidates": candidates, "selected_chunk_ids": [item["id"] for item in selected],
         "result": result, "generation_ms": round((time.perf_counter() - started) * 1000, 2),
     }

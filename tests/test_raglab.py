@@ -10,6 +10,7 @@ import os
 
 from raglab.corpus import chunk_mdx
 from raglab.generation import build_messages, generate_answer
+from raglab.hybrid import reciprocal_rank_fusion
 
 
 class CorpusTests(TestCase):
@@ -46,3 +47,15 @@ class GenerationTests(TestCase):
         self.assertEqual(result["cited_numbers"], [1])
         self.assertEqual(result["usage"]["total_tokens"], 42)
         self.assertEqual(mocked.call_args.args[0].full_url, "https://api.deepseek.com/chat/completions")
+
+
+class HybridTests(TestCase):
+    def test_duplicate_candidate_gets_two_rank_signals(self):
+        keyword = [{"id": "shared", "rank": 2, "retrieval_ms": 1.0},
+                   {"id": "keyword", "rank": 1, "retrieval_ms": 1.0}]
+        vector = [{"id": "shared", "rank": 1, "retrieval_ms": 2.0},
+                  {"id": "vector", "rank": 2, "retrieval_ms": 2.0}]
+        results = reciprocal_rank_fusion(keyword, vector, 2)
+        self.assertEqual([item["id"] for item in results], ["shared", "keyword"])
+        self.assertEqual(results[0]["retriever_ranks"], {"bm25": 2, "vector": 1})
+        self.assertEqual(results[0]["retrieval_ms"], 3.0)

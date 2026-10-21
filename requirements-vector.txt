@@ -1,0 +1,2 @@
+# Optional local multilingual retrieval. The model revision is pinned in raglab/vector.py.
+sentence-transformers==5.7.0
