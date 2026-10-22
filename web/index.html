@@ -47,7 +47,7 @@
             <label for="question" class="field-label">中文问题</label>
             <textarea id="question" rows="3" placeholder="例如：CrewAI 的层级流程需要什么管理者配置？"></textarea>
             <div class="field-row"><div class="field-grow"><label for="english-query" class="field-label">英文关键词查询 <span>BM25 和融合需要</span></label><input id="english-query" type="text" placeholder="hierarchical process manager configuration"></div></div>
-            <div id="subquery-field" hidden><label for="subqueries" class="field-label">检索子问题 <span>每行一个，2–4 行；先找齐各方面证据</span></label><textarea id="subqueries" rows="2" placeholder="Agent 的 tools 参数定义了哪些可用工具？&#10;Task 的 tools 参数如何限制该任务可用的工具？"></textarea></div>
+            <div id="subquery-field" hidden><label for="subqueries" class="field-label">检索子问题 <span>每行一个，2–4 行；先找齐各方面证据</span></label><textarea id="subqueries" rows="2" placeholder="Agent 的 tools 参数定义了哪些可用工具？&#10;Task 的 tools 参数如何限制该任务可用的工具？"></textarea><button class="button secondary" id="decompose-btn" type="button">DeepSeek 自动拆题（消耗 API 额度）</button></div>
             <div class="control-row"><label>候选 Top K <input id="top-k" type="number" min="1" max="30" value="10"></label><label>回答上下文 K <input id="context-k" type="number" min="1" max="10" value="3"></label><label>单路策略 <select id="strategy"><option value="vector">E5 向量</option><option value="bm25">BM25 关键词</option><option value="hybrid">混合 RRF</option><option value="decomposed">多查询覆盖</option></select></label></div>
             <div class="action-row"><button class="button primary" id="compare-btn">对比三路检索 <span>↗</span></button><button class="button secondary" id="search-btn">运行单路检索</button></div>
             <p id="form-message" class="form-message" role="status" aria-live="polite"></p>

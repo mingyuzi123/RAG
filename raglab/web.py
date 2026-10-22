@@ -7,6 +7,7 @@ from urllib.parse import urlparse
 import json
 import traceback
 
+from .decomposition import decompose_question
 from .service import answer, compare, recent_traces, retrieve, status
 from .store import index_path, load_manifest
 from .vector import load_model
@@ -86,7 +87,7 @@ def create_handler(root: Path, manifest_path: Path):
                 self._json(403, {"error": "Local access only"})
                 return
             path = urlparse(self.path).path
-            if path not in ("/api/search", "/api/compare", "/api/ask"):
+            if path not in ("/api/search", "/api/compare", "/api/ask", "/api/decompose"):
                 self._json(404, {"error": "Not found"})
                 return
             if not self.headers.get("Content-Type", "").startswith("application/json"):
@@ -100,6 +101,11 @@ def create_handler(root: Path, manifest_path: Path):
                 if not isinstance(data, dict):
                     raise ValueError("Expected a JSON object")
                 question = str(data.get("question", "")).strip()
+                if path == "/api/decompose":
+                    if not status(root, manifest)["deepseek_key_set"]:
+                        raise RuntimeError("Set DEEPSEEK_API_KEY before starting the web server")
+                    self._json(200, decompose_question(question))
+                    return
                 english_query = str(data.get("english_query", "")).strip() or None
                 top_k = int(data.get("top_k", 10))
                 strategy = str(data.get("strategy", "vector"))

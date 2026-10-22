@@ -67,6 +67,7 @@ h1 span{color:var(--accent)}
 .query-panel input,.query-panel select{height:40px;padding:0 12px;font-size:12px}
 .query-panel select{appearance:auto}
 .query-panel #sample-select{height:40px}
+#subquery-field .button{margin-top:10px}
 .field-row{display:flex}
 .field-grow{flex:1}
 .control-row{display:grid;grid-template-columns:115px 130px minmax(140px,1fr);gap:12px;margin:18px 0 22px}

@@ -16,6 +16,7 @@ function message(text, isError = false) {
 
 function setBusy(busy, label = '') {
   for (const id of ['compare-btn', 'search-btn']) $(`#${id}`).disabled = busy;
+  $('#decompose-btn').disabled = busy || !state.keyAvailable;
   $('#ask-btn').disabled = busy || !state.keyAvailable;
   if (busy) message(label || '正在检索，请稍候…');
 }
@@ -136,6 +137,20 @@ async function search() {
   finally { setBusy(false); }
 }
 
+async function decompose() {
+  try {
+    const question = $('#question').value.trim();
+    if (!question) throw new Error('请先输入要拆分的问题。');
+    setBusy(true, '正在请求 DeepSeek 拆题…');
+    const result = await api('/api/decompose', { question });
+    $('#strategy').value = 'decomposed';
+    $('#strategy').dispatchEvent(new Event('change'));
+    $('#subqueries').value = result.subqueries.join('\n');
+    message(`已生成两条子问题，本次用量 ${result.usage?.total_tokens ?? '未知'} tokens。请检查并修改后再检索。`);
+  } catch (error) { message(error.message, true); }
+  finally { setBusy(false); }
+}
+
 async function ask() {
   try {
     const payload = input();
@@ -182,6 +197,7 @@ async function initialize() {
   for (const button of document.querySelectorAll('.nav-item')) button.addEventListener('click', () => showTab(button.dataset.tab));
   $('#compare-btn').addEventListener('click', compare);
   $('#search-btn').addEventListener('click', search);
+  $('#decompose-btn').addEventListener('click', decompose);
   $('#ask-btn').addEventListener('click', ask);
   $('#refresh-traces').addEventListener('click', loadTraces);
   $('#strategy').addEventListener('change', () => { $('#subquery-field').hidden = $('#strategy').value !== 'decomposed'; });
@@ -222,6 +238,7 @@ async function initialize() {
     $('#status-line').textContent = ready ? 'BM25 与 E5 索引已就绪' : '索引未齐，请先运行建库命令';
     $('#key-hint').textContent = config.status.deepseek_key_set ? 'DeepSeek 密钥已从本地环境变量读取。' : '未检测到 DeepSeek 密钥；检索实验仍可使用。';
     $('#ask-btn').disabled = !state.keyAvailable;
+    $('#decompose-btn').disabled = !state.keyAvailable;
     if (config.examples.length) {
       const preferred = config.examples.find(item => item.id === 'C07') || config.examples[0];
       $('#sample-select').value = preferred.id;

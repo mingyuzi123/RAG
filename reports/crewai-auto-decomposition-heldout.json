@@ -1,0 +1,899 @@
+{
+  "scenario": "crewai-docs",
+  "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+  "dataset_sha256": "08728e273df3653e160388620860b22e702db74c26544529dab2c21d5e6979e2",
+  "prompt_version": "compare-two-intents-v1",
+  "prompt_sha256": "d9989e6dd4297f7acf33c56b3141cd481a26910af35e6673774cfc0695420de2",
+  "index": "indexes\\crewai-docs\\bm25-4a4a6438b43a.db",
+  "embedding_model": "intfloat/multilingual-e5-small@f470c6a1a906014160ece1968c484b275f0396de",
+  "questions": 6,
+  "top_k": 10,
+  "context_k": 3,
+  "total_decomposition_tokens": 1841,
+  "summary": {
+    "vector": {
+      "all_anchor_recall_at_10": 5,
+      "all_anchor_context_hit_at_3": 2
+    },
+    "hybrid": {
+      "all_anchor_recall_at_10": 6,
+      "all_anchor_context_hit_at_3": 3
+    },
+    "decomposed": {
+      "all_anchor_recall_at_10": 4,
+      "all_anchor_context_hit_at_3": 1
+    }
+  },
+  "details": [
+    {
+      "id": "H01",
+      "question": "CrewAI 的 Sequential Process 与 Hierarchical Process 在任务执行顺序和分配方式上有什么区别？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "heading": "Sequential Process"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "heading": "Hierarchical Process"
+        }
+      ],
+      "auto_subqueries": [
+        "CrewAI 的 Sequential Process 在任务执行顺序和分配方式上有什么特点？",
+        "CrewAI 的 Hierarchical Process 在任务执行顺序和分配方式上有什么特点？"
+      ],
+      "decomposition_model": "deepseek-flash",
+      "decomposition_usage": {
+        "prompt_tokens": 130,
+        "completion_tokens": 149,
+        "total_tokens": 279,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 100
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 130
+      },
+      "variants": {
+        "vector": {
+          "all_found_top": true,
+          "all_found_context": false,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            false,
+            true
+          ],
+          "top_chunk_ids": [
+            "47a63690adf52fdb7f79",
+            "0a5c0eae675379d75c9c",
+            "050f3b61023948af2f63",
+            "432e32acff6831b49ecf",
+            "13d5d599c0325a20116b",
+            "1b3d53966673ef901538",
+            "9ade4f8b9af8341d05ab",
+            "fb25c690f54b0f934156",
+            "3cf214fdcbed66eceb9c",
+            "7315be284d185529d6ca"
+          ],
+          "top_headings": [
+            "Hierarchical Process",
+            "Crew Execution Process",
+            "Process Implementations",
+            "Assigning Processes to a Crew",
+            "Task Execution Flow",
+            "Crew Attributes",
+            "Example `crew.jsonc`",
+            "Synchronous Methods",
+            "Asynchronous Methods",
+            "Sequential Process"
+          ],
+          "retrieval_ms": 26.97
+        },
+        "hybrid": {
+          "all_found_top": true,
+          "all_found_context": false,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            false,
+            true
+          ],
+          "top_chunk_ids": [
+            "47a63690adf52fdb7f79",
+            "13d5d599c0325a20116b",
+            "432e32acff6831b49ecf",
+            "050f3b61023948af2f63",
+            "0a5c0eae675379d75c9c",
+            "9ade4f8b9af8341d05ab",
+            "1b3d53966673ef901538",
+            "7315be284d185529d6ca",
+            "fb25c690f54b0f934156",
+            "68fd92f3c0f21a0a603a"
+          ],
+          "top_headings": [
+            "Hierarchical Process",
+            "Task Execution Flow",
+            "Assigning Processes to a Crew",
+            "Process Implementations",
+            "Crew Execution Process",
+            "Example `crew.jsonc`",
+            "Crew Attributes",
+            "Sequential Process",
+            "Synchronous Methods",
+            "Direct Code Definition (Alternative)"
+          ],
+          "retrieval_ms": 20.89
+        },
+        "decomposed": {
+          "all_found_top": false,
+          "all_found_context": false,
+          "anchor_found_top": [
+            false,
+            true
+          ],
+          "anchor_found_context": [
+            false,
+            true
+          ],
+          "top_chunk_ids": [
+            "0a5c0eae675379d75c9c",
+            "47a63690adf52fdb7f79",
+            "9ade4f8b9af8341d05ab",
+            "432e32acff6831b49ecf",
+            "3cf214fdcbed66eceb9c",
+            "1b3d53966673ef901538",
+            "050f3b61023948af2f63",
+            "fb25c690f54b0f934156",
+            "68fd92f3c0f21a0a603a",
+            "65a90171bb815f30585c"
+          ],
+          "top_headings": [
+            "Crew Execution Process",
+            "Hierarchical Process",
+            "Example `crew.jsonc`",
+            "Assigning Processes to a Crew",
+            "Asynchronous Methods",
+            "Crew Attributes",
+            "Process Implementations",
+            "Synchronous Methods",
+            "Direct Code Definition (Alternative)",
+            "Full Control with `CheckpointConfig`"
+          ],
+          "retrieval_ms": 35.34
+        }
+      }
+    },
+    {
+      "id": "H02",
+      "question": "Task 的函数式 guardrail 与 LLM 式 guardrail 分别适合什么验证需求？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "Function-Based Guardrails"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "LLM-Based Guardrails (String Descriptions)"
+        }
+      ],
+      "auto_subqueries": [
+        "Task 的函数式 guardrail 适合什么验证需求？",
+        "LLM 式 guardrail 适合什么验证需求？"
+      ],
+      "decomposition_model": "deepseek-flash",
+      "decomposition_usage": {
+        "prompt_tokens": 128,
+        "completion_tokens": 112,
+        "total_tokens": 240,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 78
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 128
+      },
+      "variants": {
+        "vector": {
+          "all_found_top": true,
+          "all_found_context": false,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            false,
+            true
+          ],
+          "top_chunk_ids": [
+            "f1ec1d897b5928134afa",
+            "ee2b3a7054f45444bf27",
+            "3244541c5e23093000c7",
+            "d32625fc0d241989bb27",
+            "aae09cb0b2273452e20b",
+            "f7e4b142b101d0e384ab",
+            "2da096cf9fb7ae429f4c",
+            "d9ae5c65fbc322cd7812",
+            "928e7792d38ef2f01701",
+            "7607548c31ab07178680"
+          ],
+          "top_headings": [
+            "Multiple Guardrails",
+            "Task Guardrails",
+            "LLM-Based Guardrails (String Descriptions)",
+            "Function-Based Guardrails",
+            "Guardrail Function Requirements",
+            "LLM-Based Guardrails (String Descriptions)",
+            "Task Attributes",
+            "Multiple Guardrails",
+            "Error Handling Best Practices",
+            "Handling Guardrail Results"
+          ],
+          "retrieval_ms": 18.89
+        },
+        "hybrid": {
+          "all_found_top": true,
+          "all_found_context": false,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            false,
+            true
+          ],
+          "top_chunk_ids": [
+            "ee2b3a7054f45444bf27",
+            "f1ec1d897b5928134afa",
+            "3244541c5e23093000c7",
+            "d32625fc0d241989bb27",
+            "2da096cf9fb7ae429f4c",
+            "f7e4b142b101d0e384ab",
+            "aae09cb0b2273452e20b",
+            "b0d672b1c75341bf52c5",
+            "d9ae5c65fbc322cd7812",
+            "7607548c31ab07178680"
+          ],
+          "top_headings": [
+            "Task Guardrails",
+            "Multiple Guardrails",
+            "LLM-Based Guardrails (String Descriptions)",
+            "Function-Based Guardrails",
+            "Task Attributes",
+            "LLM-Based Guardrails (String Descriptions)",
+            "Guardrail Function Requirements",
+            "Multiple Guardrails",
+            "Multiple Guardrails",
+            "Handling Guardrail Results"
+          ],
+          "retrieval_ms": 19.7
+        },
+        "decomposed": {
+          "all_found_top": true,
+          "all_found_context": false,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            false,
+            true
+          ],
+          "top_chunk_ids": [
+            "ee2b3a7054f45444bf27",
+            "3244541c5e23093000c7",
+            "aae09cb0b2273452e20b",
+            "f1ec1d897b5928134afa",
+            "d32625fc0d241989bb27",
+            "f7e4b142b101d0e384ab",
+            "2da096cf9fb7ae429f4c",
+            "d9ae5c65fbc322cd7812",
+            "7607548c31ab07178680",
+            "928e7792d38ef2f01701"
+          ],
+          "top_headings": [
+            "Task Guardrails",
+            "LLM-Based Guardrails (String Descriptions)",
+            "Guardrail Function Requirements",
+            "Multiple Guardrails",
+            "Function-Based Guardrails",
+            "LLM-Based Guardrails (String Descriptions)",
+            "Task Attributes",
+            "Multiple Guardrails",
+            "Handling Guardrail Results",
+            "Error Handling Best Practices"
+          ],
+          "retrieval_ms": 36.74
+        }
+      }
+    },
+    {
+      "id": "H03",
+      "question": "Task 的 output_pydantic 与 output_json 对输出结构的要求有什么区别？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "Using `output_pydantic`"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "Using `output_json`"
+        }
+      ],
+      "auto_subqueries": [
+        "Task 的 output_pydantic 对输出结构有什么要求？",
+        "Task 的 output_json 对输出结构有什么要求？"
+      ],
+      "decomposition_model": "deepseek-flash",
+      "decomposition_usage": {
+        "prompt_tokens": 125,
+        "completion_tokens": 230,
+        "total_tokens": 355,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 194
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 125
+      },
+      "variants": {
+        "vector": {
+          "all_found_top": true,
+          "all_found_context": false,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            false,
+            true
+          ],
+          "top_chunk_ids": [
+            "68af1dd714f48e60a0ea",
+            "1a1206713d36750a251b",
+            "2b8ded64535faab990d1",
+            "bd4cce88165be5eb3699",
+            "5e189b059c7c13aabd92",
+            "bdbd9c0cc3a11bf200f1",
+            "b22629c3473ebd922a06",
+            "20aec7c2dfe0ce107c0e",
+            "d883996fa7f7ed20c089",
+            "1a7e10b684e430ee25e0"
+          ],
+          "top_headings": [
+            "Using `output_json`",
+            "Task Output",
+            "Task Attributes",
+            "Using `output_pydantic`",
+            "Example",
+            "Task Methods and Properties",
+            "Task Output Attributes",
+            "Using `output_json`",
+            "Using `output_pydantic`",
+            "Crew Output Attributes"
+          ],
+          "retrieval_ms": 19.31
+        },
+        "hybrid": {
+          "all_found_top": true,
+          "all_found_context": false,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            false,
+            true
+          ],
+          "top_chunk_ids": [
+            "2b8ded64535faab990d1",
+            "1a1206713d36750a251b",
+            "68af1dd714f48e60a0ea",
+            "5e189b059c7c13aabd92",
+            "bd4cce88165be5eb3699",
+            "20aec7c2dfe0ce107c0e",
+            "7b5acb451b01a10a7d5e",
+            "d883996fa7f7ed20c089",
+            "bdbd9c0cc3a11bf200f1",
+            "f1dddb026a75aed5b3ad"
+          ],
+          "top_headings": [
+            "Task Attributes",
+            "Task Output",
+            "Using `output_json`",
+            "Example",
+            "Using `output_pydantic`",
+            "Using `output_json`",
+            "Example",
+            "Using `output_pydantic`",
+            "Task Methods and Properties",
+            "JSONC Configuration (Recommended)"
+          ],
+          "retrieval_ms": 19.13
+        },
+        "decomposed": {
+          "all_found_top": true,
+          "all_found_context": false,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            true,
+            false
+          ],
+          "top_chunk_ids": [
+            "bd4cce88165be5eb3699",
+            "2b8ded64535faab990d1",
+            "b22629c3473ebd922a06",
+            "1a1206713d36750a251b",
+            "68af1dd714f48e60a0ea",
+            "d883996fa7f7ed20c089",
+            "8d9e007d5678d80e57a7",
+            "ce38a389211678e0b450",
+            "20aec7c2dfe0ce107c0e",
+            "372a5de4fbd0eeaf9a50"
+          ],
+          "top_headings": [
+            "Using `output_pydantic`",
+            "Task Attributes",
+            "Task Output Attributes",
+            "Task Output",
+            "Using `output_json`",
+            "Using `output_pydantic`",
+            "JSONC Configuration (Recommended)",
+            "Task Output Attributes",
+            "Using `output_json`",
+            "Using `output_pydantic`"
+          ],
+          "retrieval_ms": 34.78
+        }
+      }
+    },
+    {
+      "id": "H04",
+      "question": "Crew 的 kickoff_for_each() 和 akickoff_for_each() 在同步与异步执行方式上有什么区别？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/crews.mdx",
+          "heading": "Synchronous Methods"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/crews.mdx",
+          "heading": "Asynchronous Methods"
+        }
+      ],
+      "auto_subqueries": [
+        "Crew 的 kickoff_for_each() 的同步执行方式是什么？",
+        "Crew 的 akickoff_for_each() 的异步执行方式是什么？"
+      ],
+      "decomposition_model": "deepseek-flash",
+      "decomposition_usage": {
+        "prompt_tokens": 136,
+        "completion_tokens": 187,
+        "total_tokens": 323,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 142
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 136
+      },
+      "variants": {
+        "vector": {
+          "all_found_top": true,
+          "all_found_context": true,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            true,
+            true
+          ],
+          "top_chunk_ids": [
+            "3cf214fdcbed66eceb9c",
+            "fb25c690f54b0f934156",
+            "e0fb55ce037c9a2ba9d6",
+            "86fd986bef1cc138c2f2",
+            "58a420ef931e9a345fab",
+            "eacd57268a69810ae36c",
+            "d7e1af19901dc407aa91",
+            "96c79c7f52ec69e02b7b",
+            "7b5acb451b01a10a7d5e",
+            "a742aa19583326de3bed"
+          ],
+          "top_headings": [
+            "Asynchronous Methods",
+            "Synchronous Methods",
+            "Asynchronous Methods",
+            "UsageMetrics field semantics",
+            "Forking Persisted State",
+            "How this run fits together",
+            "Async Support",
+            "Using Async Tools",
+            "Example",
+            "Build your first Flow"
+          ],
+          "retrieval_ms": 19.42
+        },
+        "hybrid": {
+          "all_found_top": true,
+          "all_found_context": true,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            true,
+            true
+          ],
+          "top_chunk_ids": [
+            "3cf214fdcbed66eceb9c",
+            "e0fb55ce037c9a2ba9d6",
+            "fb25c690f54b0f934156",
+            "96c79c7f52ec69e02b7b",
+            "86fd986bef1cc138c2f2",
+            "d7e1af19901dc407aa91",
+            "58a420ef931e9a345fab",
+            "9c65db83da0b4de02d17",
+            "e2b15e9679182c31525c",
+            "9ade4f8b9af8341d05ab"
+          ],
+          "top_headings": [
+            "Asynchronous Methods",
+            "Asynchronous Methods",
+            "Synchronous Methods",
+            "Using Async Tools",
+            "UsageMetrics field semantics",
+            "Async Support",
+            "Forking Persisted State",
+            "Building Your Crews",
+            "Build your first Flow",
+            "Example `crew.jsonc`"
+          ],
+          "retrieval_ms": 21.0
+        },
+        "decomposed": {
+          "all_found_top": true,
+          "all_found_context": true,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            true,
+            true
+          ],
+          "top_chunk_ids": [
+            "fb25c690f54b0f934156",
+            "3cf214fdcbed66eceb9c",
+            "e0fb55ce037c9a2ba9d6",
+            "86fd986bef1cc138c2f2",
+            "65a90171bb815f30585c",
+            "4683f6fcdbc4c37409ff",
+            "58a420ef931e9a345fab",
+            "7b5acb451b01a10a7d5e",
+            "e2b15e9679182c31525c",
+            "9c65db83da0b4de02d17"
+          ],
+          "top_headings": [
+            "Synchronous Methods",
+            "Asynchronous Methods",
+            "Asynchronous Methods",
+            "UsageMetrics field semantics",
+            "Full Control with `CheckpointConfig`",
+            "Kicking Off a Crew",
+            "Forking Persisted State",
+            "Example",
+            "Build your first Flow",
+            "Building Your Crews"
+          ],
+          "retrieval_ms": 36.97
+        }
+      }
+    },
+    {
+      "id": "H05",
+      "question": "直接调用 Flow API 的 kickoff() 与启用流式执行，在获取运行结果时有什么不同？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Using the Flow API"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Streaming Flow Execution"
+        }
+      ],
+      "auto_subqueries": [
+        "直接调用 Flow API 的 kickoff() 时，如何获取运行结果？",
+        "Flow API 启用流式执行时，如何获取运行结果？"
+      ],
+      "decomposition_model": "deepseek-flash",
+      "decomposition_usage": {
+        "prompt_tokens": 131,
+        "completion_tokens": 198,
+        "total_tokens": 329,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 157
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 131
+      },
+      "variants": {
+        "vector": {
+          "all_found_top": false,
+          "all_found_context": false,
+          "anchor_found_top": [
+            true,
+            false
+          ],
+          "anchor_found_context": [
+            true,
+            false
+          ],
+          "top_chunk_ids": [
+            "86fd986bef1cc138c2f2",
+            "5b03bd9779c20bbd0878",
+            "58a420ef931e9a345fab",
+            "a742aa19583326de3bed",
+            "ad0b93ae299b14f00404",
+            "eacd57268a69810ae36c",
+            "3d048441c9b73f28e036",
+            "c53a4017094da8a6da9c",
+            "fb25c690f54b0f934156",
+            "2e4719341591b38cc175"
+          ],
+          "top_headings": [
+            "UsageMetrics field semantics",
+            "Using the Flow API",
+            "Forking Persisted State",
+            "Build your first Flow",
+            "Conditional Logic: `and`",
+            "How this run fits together",
+            "Getting Started",
+            "Flow Usage Metrics",
+            "Synchronous Methods",
+            "Conditional Logic: `or`"
+          ],
+          "retrieval_ms": 19.83
+        },
+        "hybrid": {
+          "all_found_top": true,
+          "all_found_context": true,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            true,
+            true
+          ],
+          "top_chunk_ids": [
+            "5b03bd9779c20bbd0878",
+            "a742aa19583326de3bed",
+            "68bff7c4ef3ea346fde0",
+            "c53a4017094da8a6da9c",
+            "9d7cc2aa27c04d623c91",
+            "5ae92cbbb86dde22c55f",
+            "00ee7cd554b82049888c",
+            "86fd986bef1cc138c2f2",
+            "d5eeb58c770ff57c193a",
+            "58a420ef931e9a345fab"
+          ],
+          "top_headings": [
+            "Using the Flow API",
+            "Build your first Flow",
+            "Streaming Flow Execution",
+            "Flow Usage Metrics",
+            "Retrieving the Final Output",
+            "Accessing and Updating State",
+            "Getting Started",
+            "UsageMetrics field semantics",
+            "Streaming Crew Execution",
+            "Forking Persisted State"
+          ],
+          "retrieval_ms": 20.07
+        },
+        "decomposed": {
+          "all_found_top": false,
+          "all_found_context": false,
+          "anchor_found_top": [
+            true,
+            false
+          ],
+          "anchor_found_context": [
+            true,
+            false
+          ],
+          "top_chunk_ids": [
+            "5b03bd9779c20bbd0878",
+            "00ee7cd554b82049888c",
+            "a742aa19583326de3bed",
+            "3d048441c9b73f28e036",
+            "ad0b93ae299b14f00404",
+            "f74f48fd678a6766c366",
+            "9d7cc2aa27c04d623c91",
+            "2741ebc270907b2829dd",
+            "e2b15e9679182c31525c",
+            "c53a4017094da8a6da9c"
+          ],
+          "top_headings": [
+            "Using the Flow API",
+            "Getting Started",
+            "Build your first Flow",
+            "Getting Started",
+            "Conditional Logic: `and`",
+            "Build your first Flow",
+            "Retrieving the Final Output",
+            "Flow Control",
+            "Build your first Flow",
+            "Flow Usage Metrics"
+          ],
+          "retrieval_ms": 35.0
+        }
+      }
+    },
+    {
+      "id": "H06",
+      "question": "生成 Flow 可视化图时，调用 plot() 方法与使用命令行各适合什么情况？",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Option 1: Using the `plot()` Method"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Option 2: Using the Command Line"
+        }
+      ],
+      "auto_subqueries": [
+        "生成 Flow 可视化图时，调用 plot() 方法适合什么情况？",
+        "生成 Flow 可视化图时，使用命令行适合什么情况？"
+      ],
+      "decomposition_model": "deepseek-flash",
+      "decomposition_usage": {
+        "prompt_tokens": 126,
+        "completion_tokens": 189,
+        "total_tokens": 315,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 150
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 126
+      },
+      "variants": {
+        "vector": {
+          "all_found_top": true,
+          "all_found_context": true,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            true,
+            true
+          ],
+          "top_chunk_ids": [
+            "59206d7b37872f06fc50",
+            "8c4b165e66e17a6158ab",
+            "3d048441c9b73f28e036",
+            "ce1a76cc31cecdd4bbe6",
+            "2e4719341591b38cc175",
+            "82a2a5748b1c9d4ca0f7",
+            "ad0b93ae299b14f00404",
+            "9286b19a5ff381f3eb67",
+            "709e63ae2a161f3e13d7",
+            "0812c326516b2d21a9d7"
+          ],
+          "top_headings": [
+            "Option 1: Using the `plot()` Method",
+            "Option 2: Using the Command Line",
+            "Getting Started",
+            "Understanding the Plot",
+            "Conditional Logic: `or`",
+            "Router",
+            "Conditional Logic: `and`",
+            "How to Generate a Plot",
+            "Router",
+            "Conclusion"
+          ],
+          "retrieval_ms": 19.27
+        },
+        "hybrid": {
+          "all_found_top": true,
+          "all_found_context": true,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            true,
+            true
+          ],
+          "top_chunk_ids": [
+            "8c4b165e66e17a6158ab",
+            "59206d7b37872f06fc50",
+            "0812c326516b2d21a9d7",
+            "ce1a76cc31cecdd4bbe6",
+            "2e4719341591b38cc175",
+            "82a2a5748b1c9d4ca0f7",
+            "9d7cc2aa27c04d623c91",
+            "9286b19a5ff381f3eb67",
+            "ad0b93ae299b14f00404",
+            "2dc0772098276d50c247"
+          ],
+          "top_headings": [
+            "Option 2: Using the Command Line",
+            "Option 1: Using the `plot()` Method",
+            "Conclusion",
+            "Understanding the Plot",
+            "Conditional Logic: `or`",
+            "Router",
+            "Retrieving the Final Output",
+            "How to Generate a Plot",
+            "Conditional Logic: `and`",
+            "Plot Flows"
+          ],
+          "retrieval_ms": 20.89
+        },
+        "decomposed": {
+          "all_found_top": true,
+          "all_found_context": false,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            true,
+            false
+          ],
+          "top_chunk_ids": [
+            "59206d7b37872f06fc50",
+            "3d048441c9b73f28e036",
+            "e2b15e9679182c31525c",
+            "9286b19a5ff381f3eb67",
+            "8c4b165e66e17a6158ab",
+            "ce1a76cc31cecdd4bbe6",
+            "1e702075d90463a93df1",
+            "82a2a5748b1c9d4ca0f7",
+            "1b3d53966673ef901538",
+            "bbba05a35740940bbb04"
+          ],
+          "top_headings": [
+            "Option 1: Using the `plot()` Method",
+            "Getting Started",
+            "Build your first Flow",
+            "How to Generate a Plot",
+            "Option 2: Using the Command Line",
+            "Understanding the Plot",
+            "Build your first Flow",
+            "Router",
+            "Crew Attributes",
+            "Structured State Management"
+          ],
+          "retrieval_ms": 33.91
+        }
+      }
+    }
+  ]
+}
