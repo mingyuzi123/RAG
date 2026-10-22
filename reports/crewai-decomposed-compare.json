@@ -1,0 +1,570 @@
+{
+  "scenario": "crewai-docs",
+  "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+  "index": "indexes\\crewai-docs\\bm25-4a4a6438b43a.db",
+  "embedding_model": "intfloat/multilingual-e5-small@f470c6a1a906014160ece1968c484b275f0396de",
+  "query_source": "six manually written comparison subquery pairs",
+  "evaluated_questions": 6,
+  "top_k": 10,
+  "context_k": 3,
+  "summary": {
+    "hybrid": {
+      "all_anchor_recall_at_k": 0.6666666666666666,
+      "all_anchor_context_hit_at_k": 0.5
+    },
+    "decomposed": {
+      "all_anchor_recall_at_k": 0.8333333333333334,
+      "all_anchor_context_hit_at_k": 0.6666666666666666
+    }
+  },
+  "details": [
+    {
+      "id": "C01",
+      "question": "在 CrewAI 中，Crews 和 Flows 分别负责什么？构建需要稳定执行路径的应用时怎样组合？",
+      "subqueries": [
+        "CrewAI 的 Crew 负责哪些需要自主协作的复杂任务？",
+        "CrewAI 的 Flow 如何管理状态和可预测的执行路径？"
+      ],
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/introduction.mdx",
+          "heading": "When to Use Crews vs. Flows"
+        }
+      ],
+      "variants": {
+        "hybrid": {
+          "all_found_top": false,
+          "all_found_context": false,
+          "anchor_found_top": [
+            false
+          ],
+          "anchor_found_context": [
+            false
+          ],
+          "top_chunk_ids": [
+            "685748c9e1f3fcab71dc",
+            "a44a11419ee35cfe5868",
+            "11884fc0c47fbc78c8f8",
+            "96bf9394c9020bf59df1",
+            "3def47459400d281d224",
+            "81117f2be105918727a2",
+            "9c65db83da0b4de02d17",
+            "682d25ec4e70fe061b23",
+            "0127e25eaf45dd885ef1",
+            "08106520ed970e00ca9c"
+          ],
+          "top_headings": [
+            "Overview",
+            "1. Flows: The Backbone",
+            "What is CrewAI?",
+            "Ready to Start Building?",
+            "2. Crews: The Intelligence",
+            "Structured Output",
+            "Building Your Crews",
+            "What are Plots?",
+            "Watch: Building CrewAI Agents & Flows with Coding Agent Skills",
+            "How `kickoff()` Works"
+          ],
+          "retrieval_ms": 24.35
+        },
+        "decomposed": {
+          "all_found_top": false,
+          "all_found_context": false,
+          "anchor_found_top": [
+            false
+          ],
+          "anchor_found_context": [
+            false
+          ],
+          "top_chunk_ids": [
+            "11884fc0c47fbc78c8f8",
+            "685748c9e1f3fcab71dc",
+            "3def47459400d281d224",
+            "bbba05a35740940bbb04",
+            "f712223b029fd737d8b4",
+            "65a90171bb815f30585c",
+            "a59f6b9dd1ef8a1d52d4",
+            "a742aa19583326de3bed",
+            "c630643904dcf45f342b",
+            "0231bf1280a2d0ed9171"
+          ],
+          "top_headings": [
+            "What is CrewAI?",
+            "Overview",
+            "2. Crews: The Intelligence",
+            "Structured State Management",
+            "Overview",
+            "Full Control with `CheckpointConfig`",
+            "Overview",
+            "Build your first Flow",
+            "Key Features",
+            "Flow State Management"
+          ],
+          "retrieval_ms": 34.1
+        }
+      }
+    },
+    {
+      "id": "C04",
+      "question": "给 Agent 配置 tools 与给单个 Task 配置 tools，有什么范围上的区别？",
+      "subqueries": [
+        "Agent 的 tools 参数定义了哪些可用工具？",
+        "Task 的 tools 参数如何限制该任务可用的工具？"
+      ],
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "heading": "Agent Attributes"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "Task Attributes"
+        }
+      ],
+      "variants": {
+        "hybrid": {
+          "all_found_top": false,
+          "all_found_context": false,
+          "anchor_found_top": [
+            false,
+            true
+          ],
+          "anchor_found_context": [
+            false,
+            false
+          ],
+          "top_chunk_ids": [
+            "3abbb405bd3744682e26",
+            "29595bdaf271211594e0",
+            "a59f6b9dd1ef8a1d52d4",
+            "68fd92f3c0f21a0a603a",
+            "0bcb7ae679f09e8509a5",
+            "3def47459400d281d224",
+            "8a40f5f008d3b0cf347c",
+            "432e32acff6831b49ecf",
+            "5bb15f14e843157115c0",
+            "046b01923a8f1bbcac46"
+          ],
+          "top_headings": [
+            "Naming consistency",
+            "Reporting Tool Failures",
+            "Overview",
+            "Direct Code Definition (Alternative)",
+            "Choosing a Failure Policy",
+            "2. Crews: The Intelligence",
+            "Creating a Task with Tools",
+            "Assigning Processes to a Crew",
+            "Integrating Tools with Tasks",
+            "Task Attributes"
+          ],
+          "retrieval_ms": 19.07
+        },
+        "decomposed": {
+          "all_found_top": true,
+          "all_found_context": true,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            true,
+            true
+          ],
+          "top_chunk_ids": [
+            "921411e536d528786081",
+            "046b01923a8f1bbcac46",
+            "36c8d12710cf93d8546c",
+            "0bcb7ae679f09e8509a5",
+            "49f37a8cfb3907d45380",
+            "e7b763e3559b0fe9e1b3",
+            "0ad890984fbb5e169c0a",
+            "2da096cf9fb7ae429f4c",
+            "9cbfdae7bdd50c769e82",
+            "9be8dc130994a7d319a9"
+          ],
+          "top_headings": [
+            "Agent Tools",
+            "Task Attributes",
+            "Agent Attributes",
+            "Choosing a Failure Policy",
+            "Overview",
+            "Tool Override Mechanism",
+            "Parameter Details",
+            "Task Attributes",
+            "Agent Attributes",
+            "Task Attributes"
+          ],
+          "retrieval_ms": 31.29
+        }
+      }
+    },
+    {
+      "id": "C10",
+      "question": "Flow 中 @start() 与 @listen() 的触发时机有何区别？",
+      "subqueries": [
+        "Flow 的 @start() 方法在什么时候触发？",
+        "Flow 的 @listen() 方法在什么时候触发？"
+      ],
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "@start()"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "@listen()"
+        }
+      ],
+      "variants": {
+        "hybrid": {
+          "all_found_top": true,
+          "all_found_context": false,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            false,
+            true
+          ],
+          "top_chunk_ids": [
+            "ad0b93ae299b14f00404",
+            "ebed510b76cf04016cae",
+            "2e4719341591b38cc175",
+            "ca1397466a3129eb91c5",
+            "82a2a5748b1c9d4ca0f7",
+            "e0b652ee6ffaa18216ad",
+            "a742aa19583326de3bed",
+            "3d048441c9b73f28e036",
+            "d6ca7a7d2a763c2ed6a3",
+            "709e63ae2a161f3e13d7"
+          ],
+          "top_headings": [
+            "Conditional Logic: `and`",
+            "@listen()",
+            "Conditional Logic: `or`",
+            "@start()",
+            "Router",
+            "Usage",
+            "Build your first Flow",
+            "Getting Started",
+            "Human in the Loop (human feedback)",
+            "Router"
+          ],
+          "retrieval_ms": 18.61
+        },
+        "decomposed": {
+          "all_found_top": true,
+          "all_found_context": true,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            true,
+            true
+          ],
+          "top_chunk_ids": [
+            "ca1397466a3129eb91c5",
+            "ebed510b76cf04016cae",
+            "ad0b93ae299b14f00404",
+            "2e4719341591b38cc175",
+            "864bcde172547a90a54d",
+            "3d048441c9b73f28e036",
+            "82a2a5748b1c9d4ca0f7",
+            "2741ebc270907b2829dd",
+            "e0b652ee6ffaa18216ad",
+            "709e63ae2a161f3e13d7"
+          ],
+          "top_headings": [
+            "@start()",
+            "@listen()",
+            "Conditional Logic: `and`",
+            "Conditional Logic: `or`",
+            "Method-Level Persistence",
+            "Getting Started",
+            "Router",
+            "Flow Control",
+            "Usage",
+            "Router"
+          ],
+          "retrieval_ms": 30.88
+        }
+      }
+    },
+    {
+      "id": "C11",
+      "question": "Flow 的 or_ 与 and_ 在等待多个方法的输出时有什么区别？",
+      "subqueries": [
+        "Flow 的 or_ 等待多个方法时什么时候触发？",
+        "Flow 的 and_ 等待多个方法时什么时候触发？"
+      ],
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Conditional Logic: `or`"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Conditional Logic: `and`"
+        }
+      ],
+      "variants": {
+        "hybrid": {
+          "all_found_top": true,
+          "all_found_context": true,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            true,
+            true
+          ],
+          "top_chunk_ids": [
+            "2e4719341591b38cc175",
+            "ad0b93ae299b14f00404",
+            "ca1397466a3129eb91c5",
+            "5ae92cbbb86dde22c55f",
+            "82a2a5748b1c9d4ca0f7",
+            "c90be39df11adf51802b",
+            "709e63ae2a161f3e13d7",
+            "86fd986bef1cc138c2f2",
+            "685748c9e1f3fcab71dc",
+            "864bcde172547a90a54d"
+          ],
+          "top_headings": [
+            "Conditional Logic: `or`",
+            "Conditional Logic: `and`",
+            "@start()",
+            "Accessing and Updating State",
+            "Router",
+            "Unstructured State Management",
+            "Router",
+            "UsageMetrics field semantics",
+            "Overview",
+            "Method-Level Persistence"
+          ],
+          "retrieval_ms": 18.58
+        },
+        "decomposed": {
+          "all_found_top": true,
+          "all_found_context": true,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            true,
+            true
+          ],
+          "top_chunk_ids": [
+            "2e4719341591b38cc175",
+            "ad0b93ae299b14f00404",
+            "2741ebc270907b2829dd",
+            "86fd986bef1cc138c2f2",
+            "864bcde172547a90a54d",
+            "eacd57268a69810ae36c",
+            "bd7c37fd2aba11a9c1de",
+            "58a420ef931e9a345fab",
+            "c53a4017094da8a6da9c",
+            "3d048441c9b73f28e036"
+          ],
+          "top_headings": [
+            "Conditional Logic: `or`",
+            "Conditional Logic: `and`",
+            "Flow Control",
+            "UsageMetrics field semantics",
+            "Method-Level Persistence",
+            "How this run fits together",
+            "Next Steps",
+            "Forking Persisted State",
+            "Flow Usage Metrics",
+            "Getting Started"
+          ],
+          "retrieval_ms": 30.07
+        }
+      }
+    },
+    {
+      "id": "C13",
+      "question": "什么时候更适合使用 Flow 的结构化状态，而不是非结构化状态？",
+      "subqueries": [
+        "Flow 的非结构化状态适用于什么情况？",
+        "Flow 的结构化状态适用于什么情况？"
+      ],
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Choosing Between Unstructured and Structured State Management"
+        }
+      ],
+      "variants": {
+        "hybrid": {
+          "all_found_top": true,
+          "all_found_context": true,
+          "anchor_found_top": [
+            true
+          ],
+          "anchor_found_context": [
+            true
+          ],
+          "top_chunk_ids": [
+            "76a506fa0bfffd2af9e4",
+            "c90be39df11adf51802b",
+            "c5045ca11917bd776847",
+            "bbba05a35740940bbb04",
+            "0231bf1280a2d0ed9171",
+            "b9494a9207a7fd6f5727",
+            "d070d0cca410f099e54a",
+            "28604ed8bbbc9ec0526d",
+            "58a420ef931e9a345fab",
+            "caad82e9e0735389a3ab"
+          ],
+          "top_headings": [
+            "Choosing Between Unstructured and Structured State Management",
+            "Unstructured State Management",
+            "Important Considerations",
+            "Structured State Management",
+            "Flow State Management",
+            "Technical Advantages",
+            "How It Works",
+            "When to Use Crews vs. Flows",
+            "Forking Persisted State",
+            "Class-Level Persistence"
+          ],
+          "retrieval_ms": 18.23
+        },
+        "decomposed": {
+          "all_found_top": true,
+          "all_found_context": true,
+          "anchor_found_top": [
+            true
+          ],
+          "anchor_found_context": [
+            true
+          ],
+          "top_chunk_ids": [
+            "c90be39df11adf51802b",
+            "76a506fa0bfffd2af9e4",
+            "2741ebc270907b2829dd",
+            "bbba05a35740940bbb04",
+            "c5045ca11917bd776847",
+            "0231bf1280a2d0ed9171",
+            "58a420ef931e9a345fab",
+            "82a2a5748b1c9d4ca0f7",
+            "caad82e9e0735389a3ab",
+            "ad0b93ae299b14f00404"
+          ],
+          "top_headings": [
+            "Unstructured State Management",
+            "Choosing Between Unstructured and Structured State Management",
+            "Flow Control",
+            "Structured State Management",
+            "Important Considerations",
+            "Flow State Management",
+            "Forking Persisted State",
+            "Router",
+            "Class-Level Persistence",
+            "Conditional Logic: `and`"
+          ],
+          "retrieval_ms": 28.59
+        }
+      }
+    },
+    {
+      "id": "C14",
+      "question": "Flow 的 @persist 放在类上和放在方法上，持久化范围有什么区别？",
+      "subqueries": [
+        "Flow 类上的 @persist 会持久化哪些状态？",
+        "Flow 单个方法上的 @persist 会持久化哪些状态？"
+      ],
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Class-Level Persistence"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Method-Level Persistence"
+        }
+      ],
+      "variants": {
+        "hybrid": {
+          "all_found_top": true,
+          "all_found_context": true,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            true,
+            true
+          ],
+          "top_chunk_ids": [
+            "caad82e9e0735389a3ab",
+            "864bcde172547a90a54d",
+            "58a420ef931e9a345fab",
+            "04fed04c4a741c3a024d",
+            "d070d0cca410f099e54a",
+            "b9494a9207a7fd6f5727",
+            "6883e42eda9ef884c1f5",
+            "c5045ca11917bd776847",
+            "eacd57268a69810ae36c",
+            "ad0b93ae299b14f00404"
+          ],
+          "top_headings": [
+            "Class-Level Persistence",
+            "Method-Level Persistence",
+            "Forking Persisted State",
+            "Flow Persistence",
+            "How It Works",
+            "Technical Advantages",
+            "Example: Research and Analyze Flow",
+            "Important Considerations",
+            "How this run fits together",
+            "Conditional Logic: `and`"
+          ],
+          "retrieval_ms": 17.39
+        },
+        "decomposed": {
+          "all_found_top": true,
+          "all_found_context": false,
+          "anchor_found_top": [
+            true,
+            true
+          ],
+          "anchor_found_context": [
+            true,
+            false
+          ],
+          "top_chunk_ids": [
+            "caad82e9e0735389a3ab",
+            "58a420ef931e9a345fab",
+            "04fed04c4a741c3a024d",
+            "864bcde172547a90a54d",
+            "d070d0cca410f099e54a",
+            "c5045ca11917bd776847",
+            "b9494a9207a7fd6f5727",
+            "eacd57268a69810ae36c",
+            "c90be39df11adf51802b",
+            "2741ebc270907b2829dd"
+          ],
+          "top_headings": [
+            "Class-Level Persistence",
+            "Forking Persisted State",
+            "Flow Persistence",
+            "Method-Level Persistence",
+            "How It Works",
+            "Important Considerations",
+            "Technical Advantages",
+            "How this run fits together",
+            "Unstructured State Management",
+            "Flow Control"
+          ],
+          "retrieval_ms": 31.8
+        }
+      }
+    }
+  ]
+}

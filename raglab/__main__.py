@@ -25,7 +25,8 @@ def parser() -> ArgumentParser:
         sub = commands.add_parser(name)
         sub.add_argument("question")
         sub.add_argument("--search-query", help="Explicit English query for the keyword baseline")
-        sub.add_argument("--strategy", choices=("bm25", "vector", "hybrid"), default="bm25")
+        sub.add_argument("--strategy", choices=("bm25", "vector", "hybrid", "decomposed"), default="bm25")
+        sub.add_argument("--subquery", action="append", help="Repeat 2-4 times for decomposed retrieval")
         sub.add_argument("--top-k", type=int, default=5)
         if name == "ask":
             sub.add_argument("--context-k", type=int, default=3)
@@ -53,7 +54,8 @@ def main() -> None:
         return
     if args.command == "search":
         try:
-            candidates = retrieve(db_path, args.question, args.strategy, args.search_query, args.top_k)
+            candidates = retrieve(db_path, args.question, args.strategy, args.search_query,
+                                  args.top_k, subqueries=args.subquery)
         except (ValueError, FileNotFoundError) as exc:
             raise SystemExit(str(exc)) from exc
         print(json.dumps({"query": args.question, "search_query": (args.search_query or args.question) if args.strategy != "vector" else args.question,
@@ -64,7 +66,8 @@ def main() -> None:
 
     try:
         trace = answer(ROOT, manifest, db_path, args.question, args.strategy,
-                       args.search_query, args.top_k, args.context_k, generation_model=args.model)
+                       args.search_query, args.top_k, args.context_k, generation_model=args.model,
+                       subqueries=args.subquery)
     except (ValueError, FileNotFoundError) as exc:
         raise SystemExit(str(exc)) from exc
     print(json.dumps({"request_id": trace["request_id"], **trace["result"]},

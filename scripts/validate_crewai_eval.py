@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCENARIO = ROOT / "scenarios" / "crewai"
 MANIFEST = SCENARIO / "manifest.json"
 QUESTIONS = SCENARIO / "eval" / "questions.jsonl"
+SUBQUERIES = SCENARIO / "eval" / "subqueries_zh.json"
 HEADING = re.compile(r"^#{1,6}\s+(.+?)\s*$")
 
 
@@ -56,6 +57,15 @@ def main() -> int:
     ids = [question["id"] for question in questions]
     if len(ids) != len(set(ids)):
         errors.append("question IDs are not unique")
+    if SUBQUERIES.is_file():
+        pairs = json.loads(SUBQUERIES.read_text(encoding="utf-8"))
+        compare_ids = {question["id"] for question in questions if question["type"] == "compare"}
+        if set(pairs) != compare_ids:
+            errors.append("subquery IDs must match all comparison questions")
+        for qid, values in pairs.items():
+            if not isinstance(values, list) or not 2 <= len(values) <= 4 or any(
+                    not isinstance(value, str) or not value.strip() for value in values):
+                errors.append(f"{qid}: requires 2-4 nonempty subqueries")
 
     heading_cache: dict[str, set[str]] = {}
     for question in questions:

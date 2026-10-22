@@ -46,7 +46,10 @@ function input() {
   const context_k = Number($('#context-k').value);
   if (!Number.isInteger(top_k) || top_k < 1 || top_k > 30) throw new Error('候选 Top K 需要在 1 到 30 之间。');
   if (!Number.isInteger(context_k) || context_k < 1 || context_k > top_k) throw new Error('上下文 K 需要在 1 到候选 Top K 之间。');
-  return { question, english_query: $('#english-query').value.trim(), strategy: $('#strategy').value, top_k, context_k };
+  const strategy = $('#strategy').value;
+  const subqueries = strategy === 'decomposed' ? $('#subqueries').value.split(/\r?\n/).map(line => line.trim()).filter(Boolean) : [];
+  if (strategy === 'decomposed' && (subqueries.length < 2 || subqueries.length > 4)) throw new Error('多查询覆盖需要填写 2–4 行子问题。');
+  return { question, english_query: $('#english-query').value.trim(), strategy, subqueries, top_k, context_k };
 }
 
 function isGold(item) {
@@ -65,6 +68,10 @@ function candidateCard(item, contextK) {
     const ranks = Object.entries(item.retriever_ranks).map(([name, rank]) => `${name} #${rank}`).join(' · ');
     top.append(el('span', 'chip muted', ranks));
   }
+  if (item.subquery_ranks) {
+    const ranks = Object.entries(item.subquery_ranks).map(([name, rank]) => `${name.replace('query_', '子问题')} #${rank}`).join(' · ');
+    top.append(el('span', 'chip muted', ranks));
+  }
   const link = el('a', '', item.heading_path.join(' › '));
   link.href = item.source_url;
   link.target = '_blank';
@@ -76,7 +83,7 @@ function candidateCard(item, contextK) {
 }
 
 function renderColumn(method, candidates, contextK) {
-  const labels = { bm25: 'BM25 · 词语匹配', vector: 'E5 · 语义向量', hybrid: 'RRF · 排名融合' };
+  const labels = { bm25: 'BM25 · 词语匹配', vector: 'E5 · 语义向量', hybrid: 'RRF · 排名融合', decomposed: '多查询 · 覆盖排序' };
   const column = el('div', 'result-col');
   column.dataset.method = method;
   const head = el('div', 'result-col-head');
@@ -177,13 +184,16 @@ async function initialize() {
   $('#search-btn').addEventListener('click', search);
   $('#ask-btn').addEventListener('click', ask);
   $('#refresh-traces').addEventListener('click', loadTraces);
+  $('#strategy').addEventListener('change', () => { $('#subquery-field').hidden = $('#strategy').value !== 'decomposed'; });
+  $('#strategy').dispatchEvent(new Event('change'));
   $('#sample-select').addEventListener('change', event => {
     const item = state.examples.find(example => example.id === event.target.value);
     state.activeExample = item || null;
-    if (item) { $('#question').value = item.question; $('#english-query').value = item.english_query; }
+    if (item) { $('#question').value = item.question; $('#english-query').value = item.english_query; $('#subqueries').value = (item.subqueries || []).join('\n'); }
   });
   $('#question').addEventListener('input', () => { state.activeExample = null; $('#sample-select').value = ''; });
   $('#english-query').addEventListener('input', () => { state.activeExample = null; $('#sample-select').value = ''; });
+  $('#subqueries').addEventListener('input', () => { state.activeExample = null; $('#sample-select').value = ''; });
   try {
     const config = await api('/api/config');
     state.config = config;

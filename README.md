@@ -4,7 +4,7 @@
 
 ## 当前进度
 
-**策略与界面阶段。**已提供固定文档的 MDX 切块（包括表格按行分组）、SQLite FTS5/BM25、跨语言 E5 向量检索、混合检索、按证据章节计算的检索评测、本地可视化界面，以及 DeepSeek 带出处问答命令。混合检索仍需手工提供英文关键词；答案质量评测尚未接入。架构与范围见 [DESIGN.md](DESIGN.md)，项目和学习状态见 [PROGRESS.md](PROGRESS.md)。
+**策略与界面阶段。**已提供固定文档的 MDX 切块（包括表格按行分组）、SQLite FTS5/BM25、跨语言 E5 向量检索、混合检索、比较题多查询覆盖、按证据章节计算的检索评测、本地可视化界面，以及 DeepSeek 带出处问答命令。混合检索仍需手工提供英文关键词；多查询策略目前需人工提供子问题；答案质量评测尚未接入。架构与范围见 [DESIGN.md](DESIGN.md)，项目和学习状态见 [PROGRESS.md](PROGRESS.md)。
 
 首个场景包计划使用固定版本的 CrewAI 官方技术文档，覆盖 Agents、Tasks、Tools、Crews 和 Flows。
 
@@ -77,6 +77,15 @@ python scripts/evaluate_retrieval.py --strategy hybrid --query-language zh --out
 ```
 
 [实测结果与局限](reports/README.md)记录了 17 道可回答题的逐题证据命中。评测只检查标注章节是否出现在候选与最终上下文中，不代表生成答案正确。
+
+比较题还可以显式拆成 2–4 个检索子问题，让 E5 分别检索，再轮流选取各路候选并去重。例如 C04：
+
+```powershell
+python -m raglab search "Agent 和 Task 的 tools 范围有什么区别？" --strategy decomposed --subquery "Agent 的 tools 参数定义了哪些可用工具？" --subquery "Task 的 tools 参数如何限制该任务可用的工具？" --top-k 10
+python scripts/evaluate_decomposed.py
+```
+
+这是一种**人工拆分的可选策略**，便于先验证多意图检索是否有用；不能把人工子问题的成绩当作自动查询改写的成绩。页面中选择“多查询覆盖”即可编辑子问题和查看每块来自哪一路。6 道比较题的同题对照见[实验报告](reports/README.md)。
 
 ## 本地可视化界面
 

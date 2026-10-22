@@ -11,7 +11,8 @@ import os
 from raglab.corpus import chunk_mdx
 from raglab.generation import build_messages, generate_answer
 from raglab.hybrid import reciprocal_rank_fusion
-from raglab.service import answer
+from raglab.multiquery import interleave_results
+from raglab.service import answer, validate_request
 from scripts.run_with_deepseek import load_local_env, require_key
 
 
@@ -91,6 +92,24 @@ class HybridTests(TestCase):
         self.assertEqual([item["id"] for item in results], ["shared", "keyword"])
         self.assertEqual(results[0]["retriever_ranks"], {"bm25": 2, "vector": 1})
         self.assertEqual(results[0]["retrieval_ms"], 3.0)
+
+
+class MultiQueryTests(TestCase):
+    def test_interleaving_covers_both_intents_and_deduplicates(self):
+        first = [{"id": "agent-overview", "rank": 1, "score": .9, "retrieval_ms": 2.0},
+                 {"id": "agent-attributes", "rank": 2, "score": .8, "retrieval_ms": 2.0}]
+        second = [{"id": "task-attributes", "rank": 1, "score": .85, "retrieval_ms": 3.0},
+                  {"id": "agent-overview", "rank": 2, "score": .7, "retrieval_ms": 3.0}]
+        result = interleave_results([first, second], 3)
+        self.assertEqual([item["id"] for item in result],
+                         ["agent-overview", "task-attributes", "agent-attributes"])
+        self.assertEqual(result[0]["subquery_ranks"], {"query_1": 1, "query_2": 2})
+        self.assertEqual(result[0]["retrieval_ms"], 5.0)
+
+    def test_decomposed_requires_two_subquestions(self):
+        with self.assertRaises(ValueError):
+            validate_request("比较 Agent 和 Task 工具", "decomposed", None, 10,
+                             subqueries=["Agent tools"])
 
 
 class WorkflowTests(TestCase):

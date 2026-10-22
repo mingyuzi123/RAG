@@ -26,11 +26,14 @@ def create_handler(root: Path, manifest_path: Path):
     eval_dir = manifest_path.parent / "eval"
     questions_path = eval_dir / "questions.jsonl"
     query_path = eval_dir / "queries_en.json"
+    subquery_path = eval_dir / "subqueries_zh.json"
     questions = ([json.loads(line) for line in questions_path.read_text(encoding="utf-8").splitlines()]
                  if questions_path.is_file() else [])
     english = json.loads(query_path.read_text(encoding="utf-8")) if query_path.is_file() else {}
+    subquery_examples = json.loads(subquery_path.read_text(encoding="utf-8")) if subquery_path.is_file() else {}
     examples = [{"id": item["id"], "question": item["question"],
                  "english_query": english.get(item["id"], ""),
+                 "subqueries": subquery_examples.get(item["id"], []),
                  "answerability": item.get("answerability"), "evidence": item.get("evidence", [])}
                 for item in questions]
     model_cache = {"model": None}
@@ -100,18 +103,21 @@ def create_handler(root: Path, manifest_path: Path):
                 english_query = str(data.get("english_query", "")).strip() or None
                 top_k = int(data.get("top_k", 10))
                 strategy = str(data.get("strategy", "vector"))
+                subqueries = data.get("subqueries")
+                if subqueries is not None and not isinstance(subqueries, list):
+                    raise ValueError("subqueries must be a list")
                 if path == "/api/ask" and not status(root, manifest)["deepseek_key_set"]:
                     raise RuntimeError("Set DEEPSEEK_API_KEY before starting the web server")
-                model = self._model() if strategy in ("vector", "hybrid") or path == "/api/compare" else None
+                model = self._model() if strategy in ("vector", "hybrid", "decomposed") or path == "/api/compare" else None
                 if path == "/api/search":
                     result = {"strategy": strategy, "candidates": retrieve(
-                        db_path, question, strategy, english_query, top_k, model)}
+                        db_path, question, strategy, english_query, top_k, model, subqueries)}
                 elif path == "/api/compare":
                     result = {"strategies": compare(db_path, question, english_query or "", top_k, model)}
                 else:
                     context_k = int(data.get("context_k", 3))
                     trace = answer(root, manifest, db_path, question, strategy, english_query,
-                                   top_k, context_k, model)
+                                   top_k, context_k, model, subqueries=subqueries)
                     result = {"trace": trace}
                 self._json(200, result)
             except (ValueError, FileNotFoundError, RuntimeError, json.JSONDecodeError) as exc:

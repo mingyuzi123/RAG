@@ -9,15 +9,17 @@ import time
 
 from .generation import generate_answer
 from .hybrid import reciprocal_rank_fusion
+from .multiquery import search_subqueries
 from .store import index_path, search
 from .vector import search_vectors, vector_path
 
 
-STRATEGIES = ("bm25", "vector", "hybrid")
+STRATEGIES = ("bm25", "vector", "hybrid", "decomposed")
 
 
 def validate_request(question: str, strategy: str, english_query: str | None,
-                     top_k: int, context_k: int | None = None) -> None:
+                     top_k: int, context_k: int | None = None,
+                     subqueries: list[str] | None = None) -> None:
     if not question.strip():
         raise ValueError("Question cannot be empty")
     if strategy not in STRATEGIES:
@@ -28,11 +30,16 @@ def validate_request(question: str, strategy: str, english_query: str | None,
         raise ValueError("context_k must be between 1 and top_k")
     if strategy == "hybrid" and not (english_query or "").strip():
         raise ValueError("Hybrid retrieval needs an English keyword query")
+    if strategy == "decomposed" and (not isinstance(subqueries, list) or
+            not 2 <= len(subqueries) <= 4 or
+            any(not isinstance(item, str) or not item.strip() for item in subqueries)):
+        raise ValueError("Decomposed retrieval needs 2 to 4 nonempty subquestions")
 
 
 def retrieve(db_path: Path, question: str, strategy: str = "bm25",
-             english_query: str | None = None, top_k: int = 5, model=None) -> list[dict]:
-    validate_request(question, strategy, english_query, top_k)
+             english_query: str | None = None, top_k: int = 5, model=None,
+             subqueries: list[str] | None = None) -> list[dict]:
+    validate_request(question, strategy, english_query, top_k, subqueries=subqueries)
     if not db_path.is_file():
         raise FileNotFoundError("Keyword index missing. Run python -m raglab index")
     if strategy == "bm25":
@@ -41,6 +48,8 @@ def retrieve(db_path: Path, question: str, strategy: str = "bm25",
         raise FileNotFoundError("Vector index missing. Run python -m raglab vector-index")
     if strategy == "vector":
         return search_vectors(db_path, question, top_k, model)
+    if strategy == "decomposed":
+        return search_subqueries(db_path, subqueries, top_k, model)
     pool = max(top_k, 20)
     keyword = search(db_path, english_query, pool)
     vector = search_vectors(db_path, question, pool, model)
@@ -62,9 +71,10 @@ def compare(db_path: Path, question: str, english_query: str, top_k: int = 10,
 def answer(root: Path, manifest: dict, db_path: Path, question: str,
            strategy: str = "bm25", english_query: str | None = None,
            top_k: int = 5, context_k: int = 3, model=None,
-           generation_model: str | None = None) -> dict:
-    validate_request(question, strategy, english_query, top_k, context_k)
-    candidates = retrieve(db_path, question, strategy, english_query, top_k, model)
+           generation_model: str | None = None,
+           subqueries: list[str] | None = None) -> dict:
+    validate_request(question, strategy, english_query, top_k, context_k, subqueries)
+    candidates = retrieve(db_path, question, strategy, english_query, top_k, model, subqueries)
     selected = candidates[:context_k]
     started = time.perf_counter()
     failure = None
@@ -84,6 +94,7 @@ def answer(root: Path, manifest: dict, db_path: Path, question: str,
         "scenario": manifest["id"], "source_commit": manifest["upstream_commit"],
         "index": str(db_path.relative_to(root)), "strategy": strategy,
         "question": question, "search_query": question if strategy == "vector" else (english_query or question),
+        "subqueries": subqueries or [],
         "candidates": candidates, "selected_chunk_ids": [item["id"] for item in selected],
         "result": result, "generation_ms": round((time.perf_counter() - started) * 1000, 2),
         "status": "failed" if failure else "completed",
