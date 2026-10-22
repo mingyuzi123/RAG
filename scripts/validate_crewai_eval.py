@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCENARIO = ROOT / "scenarios" / "crewai"
 MANIFEST = SCENARIO / "manifest.json"
 QUESTIONS = SCENARIO / "eval" / "questions.jsonl"
+HELDOUT = SCENARIO / "eval" / "heldout_compare.jsonl"
 SUBQUERIES = SCENARIO / "eval" / "subqueries_zh.json"
 HEADING = re.compile(r"^#{1,6}\s+(.+?)\s*$")
 
@@ -54,9 +55,13 @@ def main() -> int:
             errors.append("cannot read source checkout commit")
 
     questions = [json.loads(line) for line in QUESTIONS.read_text(encoding="utf-8").splitlines() if line.strip()]
-    ids = [question["id"] for question in questions]
+    heldout = ([json.loads(line) for line in HELDOUT.read_text(encoding="utf-8").splitlines() if line.strip()]
+               if HELDOUT.is_file() else [])
+    ids = [question["id"] for question in questions + heldout]
     if len(ids) != len(set(ids)):
         errors.append("question IDs are not unique")
+    if heldout and (len(heldout) != 6 or any(item.get("type") != "compare" for item in heldout)):
+        errors.append("heldout set must contain six comparison questions")
     if SUBQUERIES.is_file():
         pairs = json.loads(SUBQUERIES.read_text(encoding="utf-8"))
         compare_ids = {question["id"] for question in questions if question["type"] == "compare"}
@@ -68,7 +73,7 @@ def main() -> int:
                 errors.append(f"{qid}: requires 2-4 nonempty subqueries")
 
     heading_cache: dict[str, set[str]] = {}
-    for question in questions:
+    for question in questions + heldout:
         qid = question["id"]
         answerability = question.get("answerability")
         evidence = question.get("evidence", [])
@@ -97,6 +102,7 @@ def main() -> int:
 
     counts = Counter(q["type"] for q in questions)
     print(f"CrewAI eval: {len(questions)} questions; types={dict(sorted(counts.items()))}")
+    print(f"Held-out compare: {len(heldout)} questions")
     print(f"Pinned source: {commit}; files={len(allowed_files)}")
     if errors:
         for error in errors:

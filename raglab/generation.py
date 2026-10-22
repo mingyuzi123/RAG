@@ -32,11 +32,25 @@ def generate_answer(question: str, evidence: list[dict], model: str | None = Non
     if not evidence:
         return {"answer": "未检索到可用证据，暂时无法依据资料回答。", "model": None,
                 "usage": {}, "cited_numbers": [], "citation_numbers_valid": True}
+    result, model = call_chat(build_messages(question, evidence), model)
+    answer = result["choices"][0]["message"].get("content") or ""
+    cited = sorted({int(number) for number in re.findall(r"\[(\d+)\]", answer)})
+    return {
+        "answer": answer,
+        "model": result.get("model", model),
+        "usage": result.get("usage", {}),
+        "cited_numbers": cited,
+        "citation_numbers_valid": bool(cited) and all(1 <= number <= len(evidence) for number in cited),
+    }
+
+
+def call_chat(messages: list[dict[str, str]], model: str | None = None) -> tuple[dict, str]:
+    """Make one DeepSeek chat request without exposing the key in errors or logs."""
     api_key = os.environ.get("DEEPSEEK_API_KEY")
     if not api_key:
         raise RuntimeError("Set DEEPSEEK_API_KEY in your local environment before using the ask command")
     model = model or os.environ.get("DEEPSEEK_MODEL", "deepseek-flash")
-    payload = json.dumps({"model": model, "messages": build_messages(question, evidence), "stream": False}).encode()
+    payload = json.dumps({"model": model, "messages": messages, "stream": False}).encode()
     request = Request(
         DEEPSEEK_URL,
         data=payload,
@@ -50,12 +64,4 @@ def generate_answer(question: str, evidence: list[dict], model: str | None = Non
         raise RuntimeError(f"DeepSeek API returned HTTP {exc.code}; check key, model and account status") from exc
     except URLError as exc:
         raise RuntimeError(f"Could not reach DeepSeek API: {exc.reason}") from exc
-    answer = result["choices"][0]["message"].get("content") or ""
-    cited = sorted({int(number) for number in re.findall(r"\[(\d+)\]", answer)})
-    return {
-        "answer": answer,
-        "model": result.get("model", model),
-        "usage": result.get("usage", {}),
-        "cited_numbers": cited,
-        "citation_numbers_valid": bool(cited) and all(1 <= number <= len(evidence) for number in cited),
-    }
+    return result, model

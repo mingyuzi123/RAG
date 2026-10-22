@@ -9,6 +9,7 @@ import json
 import os
 
 from raglab.corpus import chunk_mdx
+from raglab.decomposition import decompose_question
 from raglab.generation import build_messages, generate_answer
 from raglab.hybrid import reciprocal_rank_fusion
 from raglab.multiquery import interleave_results
@@ -80,6 +81,19 @@ class GenerationTests(TestCase):
         self.assertEqual(result["cited_numbers"], [1])
         self.assertEqual(result["usage"]["total_tokens"], 42)
         self.assertEqual(mocked.call_args.args[0].full_url, "https://api.deepseek.com/chat/completions")
+
+    def test_decomposition_returns_two_questions_without_answering(self):
+        response = io.BytesIO(json.dumps({"model": "deepseek-flash", "choices": [
+            {"message": {"content": json.dumps({"subqueries": ["Agent 的 tools 有什么作用？",
+                                                        "Task 的 tools 有什么作用？"]}, ensure_ascii=False)}}],
+            "usage": {"total_tokens": 71}}).encode())
+        with patch.dict(os.environ, {"DEEPSEEK_API_KEY": "test-only"}):
+            with patch("raglab.generation.urlopen", return_value=response) as mocked:
+                result = decompose_question("Agent 和 Task 的 tools 有什么区别？")
+        self.assertEqual(len(result["subqueries"]), 2)
+        self.assertEqual(result["usage"]["total_tokens"], 71)
+        payload = json.loads(mocked.call_args.args[0].data)
+        self.assertEqual(payload["messages"][1]["content"], "Agent 和 Task 的 tools 有什么区别？")
 
 
 class HybridTests(TestCase):
