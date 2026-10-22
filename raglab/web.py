@@ -8,6 +8,7 @@ import json
 import traceback
 
 from .decomposition import decompose_question
+from .review import latest_reviews, save_review
 from .service import answer, compare, recent_traces, retrieve, status
 from .store import index_path, load_manifest
 from .vector import load_model
@@ -35,7 +36,9 @@ def create_handler(root: Path, manifest_path: Path):
     examples = [{"id": item["id"], "question": item["question"],
                  "english_query": english.get(item["id"], ""),
                  "subqueries": subquery_examples.get(item["id"], []),
-                 "answerability": item.get("answerability"), "evidence": item.get("evidence", [])}
+                 "answerability": item.get("answerability"),
+                 "expected_points": item.get("expected_points", []),
+                 "evidence": item.get("evidence", [])}
                 for item in questions]
     model_cache = {"model": None}
 
@@ -78,7 +81,7 @@ def create_handler(root: Path, manifest_path: Path):
             elif path == "/api/config":
                 self._json(200, {"ui": ui, "examples": examples, "status": status(root, manifest)})
             elif path == "/api/traces":
-                self._json(200, {"traces": recent_traces(root)})
+                self._json(200, {"traces": recent_traces(root), "reviews": latest_reviews(root)})
             else:
                 self._json(404, {"error": "Not found"})
 
@@ -87,7 +90,7 @@ def create_handler(root: Path, manifest_path: Path):
                 self._json(403, {"error": "Local access only"})
                 return
             path = urlparse(self.path).path
-            if path not in ("/api/search", "/api/compare", "/api/ask", "/api/decompose"):
+            if path not in ("/api/search", "/api/compare", "/api/ask", "/api/decompose", "/api/review"):
                 self._json(404, {"error": "Not found"})
                 return
             if not self.headers.get("Content-Type", "").startswith("application/json"):
@@ -100,6 +103,14 @@ def create_handler(root: Path, manifest_path: Path):
                 data = json.loads(self.rfile.read(size))
                 if not isinstance(data, dict):
                     raise ValueError("Expected a JSON object")
+                if path == "/api/review":
+                    review = save_review(root, manifest["id"], data.get("request_id"),
+                                         recent_traces(root, 1000),
+                                         examples, data.get("point_verdicts"),
+                                         data.get("citation_verdict"), data.get("refusal_verdict"),
+                                         data.get("note", ""))
+                    self._json(200, {"review": review})
+                    return
                 question = str(data.get("question", "")).strip()
                 if path == "/api/decompose":
                     if not status(root, manifest)["deepseek_key_set"]:

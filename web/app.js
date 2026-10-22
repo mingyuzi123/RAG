@@ -161,7 +161,7 @@ async function ask() {
     const output = $('#answer-output');
     output.replaceChildren();
     output.append(el('div', 'answer-box', trace.result.answer));
-    if (!trace.result.citation_numbers_valid) output.append(el('div', 'answer-warning', '引用编号缺失或超出范围；请人工检查答案与证据。'));
+    if (!trace.result.citation_numbers_valid) output.append(el('div', 'answer-warning', '未引用证据或引用编号超出范围。若回答明确拒答，未引用可能合理；请到请求记录中人工核验。'));
     const sources = el('div', 'source-list');
     for (const source of trace.result.sources) {
       const link = el('a', '', `[${source.number}] ${source.heading_path.join(' › ')}`);
@@ -169,16 +169,97 @@ async function ask() {
       sources.append(link);
     }
     output.append(sources, el('p', 'key-hint', `请求 ID：${trace.request_id} · 用量：${trace.result.usage?.total_tokens ?? '未知'} tokens`));
+    const reviewButton = el('button', 'button secondary', '核对回答与引用');
+    reviewButton.type = 'button';
+    reviewButton.addEventListener('click', () => showTab('traces'));
+    output.append(reviewButton);
     showTab('answer');
     message('回答已保存到本地请求记录。引用编号有效不等于证据真正支持结论。');
   } catch (error) { message(error.message, true); }
   finally { setBusy(false); }
 }
 
+function reviewSelect(options, selected = '') {
+  const select = el('select', 'review-select');
+  for (const [value, label] of options) {
+    const option = el('option', '', label);
+    option.value = value;
+    select.append(option);
+  }
+  select.value = selected;
+  return select;
+}
+
+function verdictLabel(verdict) {
+  return { pass: '通过', fail: '未通过', uncertain: '待确认' }[verdict] || verdict;
+}
+
+function reviewPanel(trace, example, previous) {
+  const panel = el('div', 'review-panel');
+  panel.append(el('h4', '', `人工核验 · ${example.id}`),
+               el('p', 'muted', '先对照下方实际送入模型的证据，再判断答案要点与引用。编号有效只是格式检查。'));
+  panel.append(el('div', 'review-answer', trace.result.answer || '（回答为空）'));
+  const selected = new Set(trace.selected_chunk_ids);
+  for (const item of trace.candidates.filter(candidate => selected.has(candidate.id))) {
+    const detail = el('details', 'review-evidence');
+    detail.append(el('summary', '', `[${trace.result.sources.find(source => source.chunk_id === item.id)?.number ?? '?'}] ${item.heading_path.join(' › ')} · ${item.source_path} L${item.start_line}–${item.end_line}`),
+                  el('pre', '', item.text));
+    panel.append(detail);
+  }
+  const pointInputs = [];
+  for (const [index, point] of (example.expected_points || []).entries()) {
+    const label = el('label', 'review-field', `要点 ${index + 1}：${point}`);
+    const select = reviewSelect([
+      ['', '请选择判断'], ['supported', '回答包含且证据支持'],
+      ['unsupported', '回答包含但证据不支持'], ['missing', '回答缺失该要点']
+    ], previous?.point_reviews?.[index]?.verdict);
+    label.append(select); panel.append(label); pointInputs.push(select);
+  }
+  if (example.answerability === 'unanswerable') {
+    panel.append(el('p', 'review-prompt', '这题在固定文档中没有标注答案。请检查模型是否明确表示资料不足，是否编造了具体事实。'));
+  }
+  const citationLabel = el('label', 'review-field', '主要断言的引用是否真的提供支持？');
+  const citation = reviewSelect([
+    ['', '请选择判断'], ['supported', '支持'], ['unsupported', '不支持或误引'],
+    ['unclear', '无法判断'], ['not_applicable', '没有需要核验的断言']
+  ], previous?.citation_verdict);
+  citationLabel.append(citation);
+  const refusalLabel = el('label', 'review-field', '模型是否拒答？');
+  const refusal = reviewSelect([
+    ['', '请选择判断'], ['not_applicable', '没有拒答'],
+    ['appropriate', '已拒答且合理'], ['inappropriate', '拒答不合理或应拒却编造']
+  ], previous?.refusal_verdict);
+  refusalLabel.append(refusal);
+  const noteLabel = el('label', 'review-field', '判断依据 / 需复查的断言');
+  const note = el('textarea', 'review-note');
+  note.rows = 3; note.maxLength = 2000; note.value = previous?.note || '';
+  noteLabel.append(note);
+  const save = el('button', 'button primary', '保存人工核验');
+  save.type = 'button';
+  const status = el('p', 'review-status', previous ? `上次结果：${verdictLabel(previous.verdict)}` : '尚未核验');
+  save.addEventListener('click', async () => {
+    if (pointInputs.some(select => !select.value) || !citation.value || !refusal.value) {
+      status.textContent = '请完成每项判断后保存。'; return;
+    }
+    save.disabled = true;
+    try {
+      const { review } = await api('/api/review', {
+        request_id: trace.request_id,
+        point_verdicts: pointInputs.map(select => select.value),
+        citation_verdict: citation.value, refusal_verdict: refusal.value, note: note.value
+      });
+      status.textContent = `已保存 · ${verdictLabel(review.verdict)} · ${new Date(review.timestamp).toLocaleString('zh-CN')}`;
+    } catch (error) { status.textContent = `保存失败：${error.message}`; }
+    finally { save.disabled = false; }
+  });
+  panel.append(citationLabel, refusalLabel, noteLabel, save, status);
+  return panel;
+}
+
 async function loadTraces() {
   const box = $('#trace-list');
   try {
-    const { traces } = await api('/api/traces');
+    const { traces, reviews } = await api('/api/traces');
     box.replaceChildren();
     if (!traces.length) { box.append(el('p', 'muted', '还没有问答记录。检索实验可先在上方运行；配置 DeepSeek 密钥后再生成回答。')); return; }
     for (const trace of traces) {
@@ -188,7 +269,16 @@ async function loadTraces() {
       card.append(head, el('p', '', trace.question), el('small', '', `状态 ${trace.status || 'completed'} · 候选 ${trace.candidates.length} · 上下文 ${trace.selected_chunk_ids.length} · 引用编号 ${trace.result.citation_numbers_valid ? '有效' : '待检查'}`));
       const detail = el('details');
       detail.append(el('summary', '', '查看完整请求'), el('pre', '', JSON.stringify(trace, null, 2)));
-      card.append(detail); box.append(card);
+      card.append(detail);
+      const example = state.examples.find(item => item.question === trace.question);
+      if (example && trace.status === 'completed') {
+        const reviewDetail = el('details', 'review-detail');
+        const previous = reviews?.[trace.request_id];
+        reviewDetail.append(el('summary', '', previous ? `人工核验：${verdictLabel(previous.verdict)}` : '人工核验本次回答'),
+                            reviewPanel(trace, example, previous));
+        card.append(reviewDetail);
+      }
+      box.append(card);
     }
   } catch (error) { box.replaceChildren(el('p', 'muted', error.message)); }
 }

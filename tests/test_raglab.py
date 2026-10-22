@@ -13,6 +13,7 @@ from raglab.decomposition import decompose_question
 from raglab.generation import build_messages, generate_answer
 from raglab.hybrid import reciprocal_rank_fusion
 from raglab.multiquery import interleave_results
+from raglab.review import latest_reviews, save_review, score_review
 from raglab.service import answer, validate_request
 from scripts.run_with_deepseek import load_local_env, require_key
 
@@ -71,6 +72,7 @@ class GenerationTests(TestCase):
         prompt = build_messages("谁分配任务？", evidence)
         self.assertIn("The manager delegates tasks.", prompt[1]["content"])
         self.assertIn("same language", prompt[0]["content"])
+        self.assertIn("cannot prove absence", prompt[0]["content"])
 
         response = io.BytesIO(json.dumps({"model": "deepseek-flash", "choices": [
             {"message": {"content": "Manager 分配任务。[1]"}}], "usage": {"total_tokens": 42}}).encode())
@@ -158,3 +160,39 @@ class WorkflowTests(TestCase):
             saved = json.loads((root / "logs" / "requests.jsonl").read_text(encoding="utf-8"))
             self.assertEqual(saved["status"], "failed")
             self.assertEqual(saved["selected_chunk_ids"], ["evidence"])
+
+
+class AnswerReviewTests(TestCase):
+    def test_human_rubric_separates_answerable_and_unanswerable(self):
+        self.assertEqual(score_review("answerable", ["supported", "supported"],
+                                      "supported", "not_applicable"), "pass")
+        self.assertEqual(score_review("answerable", ["supported", "missing"],
+                                      "supported", "not_applicable"), "fail")
+        self.assertEqual(score_review("answerable", ["supported"],
+                                      "unsupported", "not_applicable"), "fail")
+        self.assertEqual(score_review("unanswerable", [],
+                                      "not_applicable", "appropriate"), "pass")
+        self.assertEqual(score_review("unanswerable", [],
+                                      "unsupported", "inappropriate"), "fail")
+        self.assertEqual(score_review("unanswerable", [],
+                                      "unsupported", "appropriate"), "fail")
+
+    def test_review_is_tied_to_saved_request_and_latest_revision_wins(self):
+        trace = {"request_id": "request-1", "status": "completed", "scenario": "demo",
+                 "source_commit": "abc", "index": "indexes/demo.db", "question": "问题"}
+        example = {"id": "Q1", "question": "问题", "answerability": "answerable",
+                   "expected_points": ["事实 A"]}
+        with TemporaryDirectory(dir=Path(__file__).resolve().parents[1]) as folder:
+            root = Path(folder)
+            with self.assertRaisesRegex(ValueError, "其他场景"):
+                save_review(root, "other", "request-1", [trace], [example],
+                            ["supported"], "supported", "not_applicable")
+            with self.assertRaisesRegex(ValueError, "逐条判断"):
+                save_review(root, "demo", "request-1", [trace], [example],
+                            [], "supported", "not_applicable")
+            first = save_review(root, "demo", "request-1", [trace], [example],
+                                ["missing"], "supported", "not_applicable")
+            self.assertEqual(first["verdict"], "fail")
+            second = save_review(root, "demo", "request-1", [trace], [example],
+                                 ["supported"], "supported", "not_applicable", "原文已复核")
+            self.assertEqual(latest_reviews(root)["request-1"], second)
