@@ -1,5 +1,5 @@
 const $ = (selector) => document.querySelector(selector);
-const state = { examples: [], activeExample: null, config: null, keyAvailable: false };
+const state = { examples: [], activeExample: null, config: null, keyAvailable: false, evaluationLoaded: false };
 
 function el(tag, className, content) {
   const node = document.createElement(tag);
@@ -29,6 +29,7 @@ function showTab(name) {
     section.classList.toggle('active', section.id === `${name}-tab`);
   }
   if (name === 'traces') loadTraces();
+  if (name === 'evaluation' && !state.evaluationLoaded) loadEvaluations();
 }
 
 async function api(path, body) {
@@ -110,6 +111,71 @@ function renderResults(groups, contextK) {
   const goldContext = keys.map(key => `${key.toUpperCase()}：${groups[key].slice(0, contextK).filter(isGold).length} 个标注块进入前 ${contextK}`);
   summary.append(el('span', 'empty-icon', '⌁'), el('p', '', state.activeExample?.evidence?.length ? goldContext.join(' · ') : `共查看 ${seen.size} 个不同知识块；浅紫色表示进入前 ${contextK} 上下文。`));
   $('#result-note').textContent = state.activeExample?.id ? `${state.activeExample.id} · 点击标题可查看原文` : '点击标题可查看原文';
+}
+
+function evaluationState(result) {
+  return {
+    context: ['前 3 齐', '标注证据均进入回答上下文'],
+    candidate: ['只进前 10', `候选已集齐；前 3 仍缺 ${result.missing_context.join('、')}`],
+    missing: ['候选未齐', `前 10 缺 ${result.missing_top.join('、')}`]
+  }[result.state];
+}
+
+async function loadEvaluations() {
+  const target = $('#evaluation-content');
+  try {
+    const dashboard = await api('/api/evaluations');
+    target.replaceChildren();
+    if (!dashboard.strategies.length) {
+      target.append(el('p', 'muted', '这个场景还没有固定评测报告。'));
+      state.evaluationLoaded = true;
+      return;
+    }
+    const summary = el('div', 'evaluation-summary');
+    for (const method of dashboard.strategies) {
+      const card = el('div', 'evaluation-method');
+      card.append(el('strong', '', method.label),
+                  el('span', '', `候选前 ${method.top_k}：${method.candidate_hits}/${method.question_count}`),
+                  el('span', '', `上下文前 ${method.context_k}：${method.context_hits}/${method.question_count}`));
+      summary.append(card);
+    }
+    const legend = el('p', 'evaluation-legend', '红：候选前 10 没集齐证据，先查召回。黄：候选齐了但前 3 没齐，查排序或选块。绿：前 3 已齐，继续核验回答与引用。');
+    const scroll = el('div', 'evaluation-table-wrap');
+    const table = el('table', 'evaluation-table');
+    const thead = el('thead');
+    const heading = el('tr');
+    heading.append(el('th', '', '评测题'));
+    for (const method of dashboard.strategies) heading.append(el('th', '', method.label));
+    thead.append(heading); table.append(thead);
+    const tbody = el('tbody');
+    for (const question of dashboard.questions) {
+      const row = el('tr');
+      const first = el('td');
+      const open = el('button', 'evaluation-question', question.id);
+      open.type = 'button';
+      const example = state.examples.find(item => item.id === question.id);
+      open.addEventListener('click', () => {
+        $('#sample-select').value = question.id;
+        $('#sample-select').dispatchEvent(new Event('change'));
+        showTab('explore');
+        message(`已载入 ${question.id}。运行三路对比，查看各块为何进入或错过上下文。`);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      first.append(open, el('small', '', example?.question || ''));
+      row.append(first);
+      for (const method of dashboard.strategies) {
+        const result = question.results[method.id];
+        const [label, detail] = evaluationState(result);
+        const cell = el('td', `evaluation-state ${result.state}`);
+        cell.append(el('strong', '', label), el('small', '', detail));
+        row.append(cell);
+      }
+      tbody.append(row);
+    }
+    table.append(tbody); scroll.append(table);
+    target.append(summary, legend, scroll);
+    state.evaluationLoaded = true;
+  } catch (error) { target.replaceChildren(el('p', 'answer-warning', `读取评测报告失败：${error.message}`)); }
 }
 
 async function compare() {

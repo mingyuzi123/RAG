@@ -94,6 +94,25 @@ h1 span{color:var(--accent)}
 .summary-pill{border-radius:7px;background:#fff;padding:5px 8px;font-size:10px;margin-left:auto;white-space:nowrap}
 .result-columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
 .result-columns.single{grid-template-columns:minmax(0,1fr)}
+.evaluation-panel{padding:22px}
+.evaluation-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.evaluation-method{border:1px solid var(--line);border-radius:10px;padding:13px;background:#fbfbff;display:grid;gap:7px}
+.evaluation-method strong{font-size:12px}
+.evaluation-method span{font-size:11px;color:#747b91}
+.evaluation-legend{font-size:11px;line-height:1.7;color:#687087;margin:18px 0}
+.evaluation-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px}
+.evaluation-table{width:100%;border-collapse:collapse;min-width:620px;text-align:left}
+.evaluation-table th,.evaluation-table td{border-bottom:1px solid var(--line);padding:11px;vertical-align:top}
+.evaluation-table tr:last-child td{border-bottom:0}
+.evaluation-table th{background:#f7f8fc;color:#697187;font-size:10px}
+.evaluation-table td{font-size:11px}
+.evaluation-table td:first-child{min-width:210px}
+.evaluation-table small{display:block;font-size:10px;line-height:1.45;color:#8790a4;margin-top:5px}
+.evaluation-question{border:0;background:none;color:var(--accent);font-size:12px;font-weight:800;padding:0;text-decoration:underline}
+.evaluation-state strong{font-size:10px}
+.evaluation-state.context strong{color:#12845d}
+.evaluation-state.candidate strong{color:#a46b19}
+.evaluation-state.missing strong{color:#bc4e58}
 .result-col{background:#fff;border:1px solid var(--line);border-radius:13px;overflow:hidden;min-width:0}
 .result-col-head{padding:15px 15px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
 .result-col-head h3{margin:0;font-size:13px}
@@ -176,6 +195,7 @@ footer span{color:#b1b5c4}
 @media(max-width:1200px){.main-content{padding:0 24px}
 .workspace-grid{grid-template-columns:minmax(0,1fr) 230px}
 .result-columns{grid-template-columns:1fr}
+.evaluation-summary{grid-template-columns:1fr}
 .result-col{max-height:430px;overflow:auto}
 }
 

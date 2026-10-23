@@ -11,6 +11,7 @@ import os
 from raglab.corpus import chunk_mdx
 from raglab.decomposition import decompose_question
 from raglab.diversity import select_diverse
+from raglab.evaluation_view import load_dashboard
 from raglab.generation import build_messages, generate_answer
 from raglab.hybrid import reciprocal_rank_fusion
 from raglab.multiquery import interleave_results
@@ -214,3 +215,20 @@ class AnswerReviewTests(TestCase):
             second = save_review(root, "demo", "request-1", [trace], [example],
                                  ["supported"], "supported", "not_applicable", "原文已复核")
             self.assertEqual(latest_reviews(root)["request-1"], second)
+
+
+class EvaluationDashboardTests(TestCase):
+    def test_fixed_reports_show_candidate_vs_context_failures(self):
+        root = Path(__file__).resolve().parents[1]
+        manifest = json.loads((root / "scenarios" / "crewai" / "manifest.json").read_text(encoding="utf-8"))
+        ui = json.loads((root / "scenarios" / "crewai" / "ui.json").read_text(encoding="utf-8"))
+        dashboard = load_dashboard(root, manifest, ui)
+        methods = {item["id"]: item for item in dashboard["strategies"]}
+        self.assertEqual((methods["bm25"]["candidate_hits"], methods["bm25"]["context_hits"]), (14, 11))
+        self.assertEqual((methods["vector"]["candidate_hits"], methods["vector"]["context_hits"]), (13, 10))
+        self.assertEqual((methods["hybrid"]["candidate_hits"], methods["hybrid"]["context_hits"]), (15, 12))
+        questions = {item["id"]: item for item in dashboard["questions"]}
+        self.assertEqual(questions["C01"]["results"]["hybrid"]["state"], "missing")
+        self.assertEqual(questions["C10"]["results"]["hybrid"]["state"], "candidate")
+        self.assertEqual(questions["C02"]["results"]["hybrid"]["state"], "context")
+        self.assertNotIn("C18", questions)

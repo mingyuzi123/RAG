@@ -17,6 +17,7 @@
       <div class="scenario-card"><span class="scenario-icon" id="scenario-icon">R</span><div><strong id="scenario-name">正在读取场景</strong><small id="scenario-version">读取中…</small></div></div>
       <nav class="side-nav" aria-label="主导航">
         <button class="nav-item active" data-tab="explore"><span class="nav-symbol">◇</span> 检索实验 <span class="nav-arrow">↗</span></button>
+        <button class="nav-item" data-tab="evaluation"><span class="nav-symbol">▦</span> 阶段评测</button>
         <button class="nav-item" data-tab="answer"><span class="nav-symbol">✦</span> 带出处问答</button>
         <button class="nav-item" data-tab="traces"><span class="nav-symbol">▤</span> 请求记录</button>
       </nav>
@@ -59,13 +60,18 @@
             <div id="result-columns" class="result-columns"></div>
           </section>
 
+          <section id="evaluation-tab" class="tab-section">
+            <div class="section-heading"><div><p class="panel-kicker">03 / EVALUATION</p><h2>同题比较，定位失败环节</h2></div></div>
+            <div class="panel evaluation-panel"><p class="muted">同一批可回答题、同一文档版本、候选 Top 10、上下文前 3。命中仅表示标注章节出现，不代表答案正确。</p><div id="evaluation-content"><p class="muted">正在读取固定实验报告…</p></div></div>
+          </section>
+
           <section id="answer-tab" class="tab-section">
-            <div class="section-heading"><div><p class="panel-kicker">03 / GENERATION</p><h2>让证据进入回答</h2></div></div>
+            <div class="section-heading"><div><p class="panel-kicker">04 / GENERATION</p><h2>让证据进入回答</h2></div></div>
             <div class="panel answer-panel"><p class="muted">系统会按上方所选策略检索，把前 K 个知识块交给 DeepSeek，并记录回答、引用和完整候选。</p><button class="button primary" id="ask-btn">生成带出处回答 <span>↗</span></button><p id="key-hint" class="key-hint"></p><div id="answer-output" class="answer-output"></div></div>
           </section>
 
           <section id="traces-tab" class="tab-section">
-            <div class="section-heading"><div><p class="panel-kicker">04 / TRACE</p><h2>回看请求记录</h2></div><button class="text-button" id="refresh-traces">刷新 ↻</button></div>
+            <div class="section-heading"><div><p class="panel-kicker">05 / TRACE</p><h2>回看请求记录</h2></div><button class="text-button" id="refresh-traces">刷新 ↻</button></div>
             <div id="trace-list" class="trace-list panel"><p class="muted">尚未加载请求记录。评测题的问答可在这里逐条核验答案与引用。</p></div>
           </section>
         </div>

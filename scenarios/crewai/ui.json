@@ -3,6 +3,11 @@
   "subtitle": "看清每一步证据如何进入回答",
   "badge": "CREWAI · 文档场景",
   "accent": "#635bff",
+  "evaluation_reports": [
+    {"id": "bm25", "label": "BM25 英文关键词", "path": "reports/crewai-table-v3-bm25.json"},
+    {"id": "vector", "label": "E5 中文问题", "path": "reports/crewai-table-v3-vector-zh.json"},
+    {"id": "hybrid", "label": "混合 RRF", "path": "reports/crewai-table-v3-hybrid-zh.json"}
+  ],
   "metric": {
     "label": "表格切块后 · 17 道题",
     "value": "15/17",

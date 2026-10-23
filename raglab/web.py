@@ -8,6 +8,7 @@ import json
 import traceback
 
 from .decomposition import decompose_question
+from .evaluation_view import load_dashboard
 from .review import latest_reviews, save_review
 from .service import answer, compare, recent_traces, retrieve, status
 from .store import index_path, load_manifest
@@ -82,6 +83,8 @@ def create_handler(root: Path, manifest_path: Path):
                 self._json(200, {"ui": ui, "examples": examples, "status": status(root, manifest)})
             elif path == "/api/traces":
                 self._json(200, {"traces": recent_traces(root), "reviews": latest_reviews(root)})
+            elif path == "/api/evaluations":
+                self._json(200, load_dashboard(root, manifest, ui))
             else:
                 self._json(404, {"error": "Not found"})
 
