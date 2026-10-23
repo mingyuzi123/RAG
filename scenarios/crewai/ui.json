@@ -3,6 +3,18 @@
   "subtitle": "看清每一步证据如何进入回答",
   "badge": "CREWAI · 文档场景",
   "accent": "#635bff",
+  "default_example": "C07",
+  "question_placeholder": "例如：CrewAI 的层级流程需要什么管理者配置？",
+  "english_placeholder": "hierarchical process manager configuration",
+  "learning_points": [
+    "沿解析→召回→排序→生成定位错误",
+    "解释 Recall@10 与 Context Hit@3",
+    "复核 C18 拒答的引用边界",
+    "识别 C07 的标注假阴性与答案支持"
+  ],
+  "evaluation_caveats": {
+    "C07": "标注只列出 Process Implementations；实际前两块已明确给出 manager_llm 或 manager_agent。该题的黄色状态不能解释为缺少可回答证据。"
+  },
   "evaluation_reports": [
     {"id": "bm25", "label": "BM25 英文关键词", "path": "reports/crewai-table-v3-bm25.json"},
     {"id": "vector", "label": "E5 中文问题", "path": "reports/crewai-table-v3-vector-zh.json"},

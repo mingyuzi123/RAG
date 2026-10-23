@@ -51,6 +51,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="用本地 .env 调用 DeepSeek 或启动 RAG 页面")
     parser.add_argument("--check", action="store_true", help="发起一次小额 API 调用，验证密钥")
     parser.add_argument("--port", type=int, default=8765, help="页面端口，默认 8765")
+    parser.add_argument("--scenario", type=Path,
+                        default=ROOT / "scenarios" / "crewai" / "manifest.json",
+                        help="场景 manifest.json；默认 CrewAI")
     args = parser.parse_args()
     if not 1024 <= args.port <= 65535:
         parser.error("端口必须在 1024 到 65535 之间")
@@ -64,7 +67,8 @@ def main() -> int:
             if local_model_cache.is_dir() and not os.environ.get("HF_HOME"):
                 os.environ["HF_HOME"] = str(local_model_cache.parent)
             print(f"启动页面：http://127.0.0.1:{args.port}/", flush=True)
-            return subprocess.call([sys.executable, "-m", "raglab.web", "--port", str(args.port)],
+            return subprocess.call([sys.executable, "-m", "raglab.web", "--port", str(args.port),
+                                    "--scenario", str(args.scenario)],
                                    cwd=ROOT)
     except RuntimeError as exc:
         print(f"错误：{exc}", file=sys.stderr)

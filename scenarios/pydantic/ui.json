@@ -1,0 +1,30 @@
+{
+  "title": "Pydantic 文档实验室",
+  "subtitle": "用同一套骨架检查结构化数据、校验与序列化问题",
+  "badge": "PYDANTIC · 第二场景",
+  "accent": "#b94a62",
+  "default_example": "P01",
+  "question_placeholder": "例如：Pydantic 的默认值会自动校验吗？",
+  "english_placeholder": "validate default values Pydantic",
+  "learning_points": [
+    "同一索引代码处理第二套官方文档",
+    "比较中文检索与英文关键词基线",
+    "核对 P01、P06 的答案要点缺失",
+    "识别 P07 的章节标注假阴性"
+  ],
+  "evaluation_caveats": {
+    "P07": "前 3 的 Basic model usage 已明确说明两个方法的返回类型；标注的 Python mode 未进入前 3，因此章节指标低估了本题可回答性。"
+  },
+  "evaluation_reports": [
+    {"id": "bm25", "label": "BM25 英文关键词", "path": "reports/pydantic-bm25.json"},
+    {"id": "vector", "label": "E5 中文问题", "path": "reports/pydantic-vector-zh.json"},
+    {"id": "hybrid", "label": "混合 RRF", "path": "reports/pydantic-hybrid-zh.json"}
+  ],
+  "metric": {
+    "label": "第二场景 · 8 道可回答题",
+    "value": "8/8",
+    "caption": "混合检索 Top 10 全证据覆盖",
+    "percent": 100,
+    "note": "前 3 上下文覆盖 7/8；另有 2 道无答案题用于拒答核验。"
+  }
+}

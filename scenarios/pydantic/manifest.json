@@ -1,0 +1,17 @@
+{
+  "id": "pydantic-docs",
+  "name": "Pydantic 数据模型文档",
+  "language": "en",
+  "upstream_repo": "https://github.com/pydantic/pydantic.git",
+  "upstream_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+  "docs_version": "v2.13.2",
+  "source_url_template": "https://github.com/pydantic/pydantic/blob/{commit}/{path}",
+  "files": [
+    "docs/concepts/models.md",
+    "docs/concepts/fields.md",
+    "docs/concepts/validators.md",
+    "docs/concepts/serialization.md",
+    "docs/concepts/json_schema.md"
+  ],
+  "local_checkout": "data/upstream/pydantic"
+}

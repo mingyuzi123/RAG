@@ -57,7 +57,9 @@ def load_dashboard(root: Path, manifest: dict, ui: dict) -> dict:
             missing_top = [anchor["heading"] for anchor, found in zip(anchors, top_flags) if not found]
             missing_context = [anchor["heading"] for anchor, found in zip(anchors, context_flags) if not found]
             entry = questions.setdefault(detail["id"], {"id": detail["id"],
-                                                           "evidence": anchors, "results": {}})
+                                                           "evidence": anchors,
+                                                           "caveat": ui.get("evaluation_caveats", {}).get(detail["id"], ""),
+                                                           "results": {}})
             if entry["evidence"] != anchors:
                 raise ValueError("evaluation reports use different evidence annotations")
             entry["results"][item["id"]] = {

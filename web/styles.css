@@ -108,6 +108,7 @@ h1 span{color:var(--accent)}
 .evaluation-table td{font-size:11px}
 .evaluation-table td:first-child{min-width:210px}
 .evaluation-table small{display:block;font-size:10px;line-height:1.45;color:#8790a4;margin-top:5px}
+.evaluation-table .evaluation-caveat{color:#a46b19;background:#fff8eb;border-radius:5px;padding:5px 7px;margin-top:9px}
 .evaluation-question{border:0;background:none;color:var(--accent);font-size:12px;font-weight:800;padding:0;text-decoration:underline}
 .evaluation-state strong{font-size:10px}
 .evaluation-state.context strong{color:#12845d}

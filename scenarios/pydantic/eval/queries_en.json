@@ -1,0 +1,12 @@
+{
+  "P01": "BaseModel required field default int string conversion",
+  "P02": "model_validate model_validate_json dictionary JSON string bytes",
+  "P03": "extra ignore forbid allow extra data",
+  "P04": "validate default values validate_default True",
+  "P05": "validation_alias serialization_alias field aliases",
+  "P06": "field validators before after internal validation",
+  "P07": "model_dump model_dump_json Python mode JSON mode",
+  "P08": "model_json_schema default validation mode",
+  "P09": "official production logging S3 bucket",
+  "P10": "v2.13.2 release date time timezone"
+}

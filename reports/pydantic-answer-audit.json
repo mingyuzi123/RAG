@@ -1,0 +1,20 @@
+{
+  "scenario": "pydantic-docs",
+  "source_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+  "strategy": "hybrid",
+  "top_k": 10,
+  "context_k": 3,
+  "review_method": "manual comparison of each expected point, generated answer, selected excerpts and cited claims",
+  "reviews": [
+    {"id":"P01","request_id":"45ce39ee-06f7-4e99-819e-4f11d961894f","point_verdicts":["missing","supported","supported"],"citation_verdict":"supported","refusal_verdict":"not_applicable","note":"回答明确表示摘录不足以断言无默认值字段必填；另外两个要点有引用支持。章节命中仍未保证完整回答。"},
+    {"id":"P02","request_id":"3047c27f-1604-4b27-9fe4-92c59196bac7","point_verdicts":["supported","supported"],"citation_verdict":"supported","refusal_verdict":"not_applicable","note":"两个 API 的输入类型均可在 Validating data 摘录核对。"},
+    {"id":"P03","request_id":"9d484c5d-a151-49d8-a5e3-40f3b6685c31","point_verdicts":["supported","supported","supported"],"citation_verdict":"supported","refusal_verdict":"not_applicable","note":"ignore、forbid、allow 的处理与 Extra data 摘录一致。"},
+    {"id":"P04","request_id":"545e3510-eb25-46bf-8112-7c888ccafe80","point_verdicts":["supported","supported"],"citation_verdict":"supported","refusal_verdict":"not_applicable","note":"默认不校验及 validate_default=True 均见字段文档摘录。"},
+    {"id":"P05","request_id":"a2fe203c-4ff8-4a10-87fa-081c065efa77","point_verdicts":["supported","supported"],"citation_verdict":"supported","refusal_verdict":"not_applicable","note":"validation_alias 与 serialization_alias 的阶段和示例均来自 Field aliases。"},
+    {"id":"P06","request_id":"515b1267-044e-4bd3-87d2-b00bc3366dd7","point_verdicts":["supported","missing"],"citation_verdict":"supported","refusal_verdict":"not_applicable","note":"模型解释了 before，但送入的 3 块没有 after 的运行时机；模型选择保留不确定性，完整答案缺一半。"},
+    {"id":"P07","request_id":"8bad9775-dea8-439e-843c-1b03f4c663ec","point_verdicts":["supported","supported"],"citation_verdict":"supported","refusal_verdict":"not_applicable","note":"两种返回类型均由 models 的 Basic model usage 摘录支持；标注的 Python mode 未进入前 3，但答案仍完整，说明章节指标存在假阴性。"},
+    {"id":"P08","request_id":"247c7523-2cc1-4883-8548-684453fad9e6","point_verdicts":["supported","supported"],"citation_verdict":"supported","refusal_verdict":"not_applicable","note":"model_json_schema 和默认 validation 模式均有文档依据。"},
+    {"id":"P09","request_id":"147539b6-e683-4f77-b349-4f7fbe2a9706","point_verdicts":[],"citation_verdict":"not_applicable","refusal_verdict":"appropriate","note":"仅称所给摘录不足，没有编造 S3 bucket，也没有用局部摘录证明整套资料全局不存在。"},
+    {"id":"P10","request_id":"cfbb7c6f-f04a-4650-a3d6-095cbcb60e38","point_verdicts":[],"citation_verdict":"supported","refusal_verdict":"appropriate","note":"拒绝推算精确北京时间；引用仅描述所给摘录的主题，结论限定于这些摘录。引用较冗余，应在后续复核。"}
+  ]
+}

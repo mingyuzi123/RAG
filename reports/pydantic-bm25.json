@@ -1,0 +1,307 @@
+{
+  "scenario": "pydantic-docs",
+  "source_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+  "strategy": "bm25",
+  "query_language": "English manual translation",
+  "embedding_model": null,
+  "top_k": 10,
+  "context_k": 3,
+  "answerable_questions": 8,
+  "unanswerable_questions_excluded": 2,
+  "all_anchor_recall_at_k": 1.0,
+  "all_anchor_context_hit_at_k": 0.875,
+  "mrr_first_anchor_at_k": 0.9375,
+  "details": [
+    {
+      "id": "P01",
+      "query": "BaseModel required field default int string conversion",
+      "anchors": [
+        {
+          "path": "docs/concepts/models.md",
+          "heading": "Basic model usage"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "32747e5744bab8071dd4",
+        "d0e4db2a3364534f78d0",
+        "cd29ea83633590cea888",
+        "90db105b14af7fad4706",
+        "255b9630952be4438096",
+        "809038b2dd3240c75e43",
+        "2a3d29f9304bcb9351bd",
+        "ad2e5ccadbd27247aa60",
+        "776c6e1ae9c46713e33a",
+        "58bfc66d61a115935069"
+      ],
+      "retrieval_ms": 1.77
+    },
+    {
+      "id": "P02",
+      "query": "model_validate model_validate_json dictionary JSON string bytes",
+      "anchors": [
+        {
+          "path": "docs/concepts/models.md",
+          "heading": "Validating data"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "cd723ebf50eb23be8fe9",
+        "3dbf5e3c4de5c2cbffe4",
+        "255b9630952be4438096",
+        "9c68a049061ddff542ae",
+        "ce5584510115d28fd071",
+        "8acca46a5922c6bc9ba3",
+        "e3f7a2c884061343fe8c",
+        "128492301b91d89d270b",
+        "03b042f23212e8a2f7e0",
+        "2ac1fd70e8f1066803b0"
+      ],
+      "retrieval_ms": 1.58
+    },
+    {
+      "id": "P03",
+      "query": "extra ignore forbid allow extra data",
+      "anchors": [
+        {
+          "path": "docs/concepts/models.md",
+          "heading": "Extra data"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "ac0557be315d9ea74d1e",
+        "e3f7a2c884061343fe8c",
+        "2ac1fd70e8f1066803b0",
+        "6a379b4d71685272730b",
+        "1936fe50baa533e361cc",
+        "3090e8ac00f85fbf6592",
+        "d39495c4f112e4bdddf2",
+        "8ab9f72fed7b7315445a",
+        "7477e92e2482263f4744",
+        "846fc0e38c5bc981c64b"
+      ],
+      "retrieval_ms": 1.23
+    },
+    {
+      "id": "P04",
+      "query": "validate default values validate_default True",
+      "anchors": [
+        {
+          "path": "docs/concepts/fields.md",
+          "heading": "Validate default values"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "8cd2e0f6fc0e798b3c9c",
+        "aa4ff098bdc30f1be4f2",
+        "58bfc66d61a115935069",
+        "ad91e9ba54ccd5314e45",
+        "789118ae7c32efc0e39f",
+        "9cb7628942e9394c3a2f",
+        "8ecd1aa2c96ce52d4df6",
+        "5f53665c27e450df4cbe",
+        "dab0cf522be92b75b3ea",
+        "c44df79c40710383a752"
+      ],
+      "retrieval_ms": 1.15
+    },
+    {
+      "id": "P05",
+      "query": "validation_alias serialization_alias field aliases",
+      "anchors": [
+        {
+          "path": "docs/concepts/fields.md",
+          "heading": "Field aliases"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "8462e3ae6b1c0f2137b8",
+        "c44df79c40710383a752",
+        "c3e088451f25272c8f28",
+        "bf39f6ef344d31390820",
+        "45b364913cf3ee1e5a42",
+        "f43ab3ce4bd19965e697",
+        "8946493db4cd4fdacaeb",
+        "846fc0e38c5bc981c64b",
+        "3f16365e39f669b52e48",
+        "2db836f32370e448d0ff"
+      ],
+      "retrieval_ms": 1.37
+    },
+    {
+      "id": "P06",
+      "query": "field validators before after internal validation",
+      "anchors": [
+        {
+          "path": "docs/concepts/validators.md",
+          "heading": "Field validators"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 2,
+      "top_chunk_ids": [
+        "2e6a30fe30aa3053aa4f",
+        "eb456a4ba27c59bf2702",
+        "20d922feb80972260977",
+        "f80f415ad6b79242dcfe",
+        "d376d7155ce51034d2f1",
+        "7ec2b13b4e8ec531abcf",
+        "128492301b91d89d270b",
+        "75430b3a0c5c08bf74eb",
+        "6417d37511282d674c06",
+        "ad11bbf071b6a0f85af2"
+      ],
+      "retrieval_ms": 1.38
+    },
+    {
+      "id": "P07",
+      "query": "model_dump model_dump_json Python mode JSON mode",
+      "anchors": [
+        {
+          "path": "docs/concepts/serialization.md",
+          "heading": "Python mode"
+        },
+        {
+          "path": "docs/concepts/serialization.md",
+          "heading": "JSON mode"
+        }
+      ],
+      "anchor_found_top": [
+        true,
+        true
+      ],
+      "anchor_found_context": [
+        false,
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": false,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "e2055c89d8a240fd4bf2",
+        "3dbf5e3c4de5c2cbffe4",
+        "c62321d8a6b3c338e7d8",
+        "45b364913cf3ee1e5a42",
+        "f43ab3ce4bd19965e697",
+        "f4aad1195506ee752dad",
+        "5f53665c27e450df4cbe",
+        "32499777ca1a9ce948ec",
+        "03b042f23212e8a2f7e0",
+        "0af9a91d7a53db5cf990"
+      ],
+      "retrieval_ms": 1.24
+    },
+    {
+      "id": "P08",
+      "query": "model_json_schema default validation mode",
+      "anchors": [
+        {
+          "path": "docs/concepts/json_schema.md",
+          "heading": "Generating JSON Schema"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "0af9a91d7a53db5cf990",
+        "9939f6d2cd41b4b06500",
+        "3dbf5e3c4de5c2cbffe4",
+        "3090e8ac00f85fbf6592",
+        "45b364913cf3ee1e5a42",
+        "23910dadf365419c4930",
+        "90db105b14af7fad4706",
+        "c62321d8a6b3c338e7d8",
+        "8edc41da45cfbb0db382",
+        "cd29ea83633590cea888"
+      ],
+      "retrieval_ms": 1.17
+    },
+    {
+      "id": "P09",
+      "answerability": "unanswerable",
+      "query": "official production logging S3 bucket",
+      "top_chunk_ids": [
+        "22375cae9ceb14cd8d91",
+        "abd614fa36d84158e37c",
+        "5c6d8631c8bd0b250016"
+      ],
+      "retrieval_ms": 0.88
+    },
+    {
+      "id": "P10",
+      "answerability": "unanswerable",
+      "query": "v2.13.2 release date time timezone",
+      "top_chunk_ids": [
+        "e2055c89d8a240fd4bf2",
+        "e64370efb69a3531a23b",
+        "32499777ca1a9ce948ec",
+        "0725ab599e40e5ab6077",
+        "6c6790cc2606d388c1a0",
+        "6e16eb54d6a220c5e3cd",
+        "e3e317b69e89d8eb17e8",
+        "128492301b91d89d270b",
+        "bde7539b194dab14a1a5",
+        "48966bcf3c11a4776547"
+      ],
+      "retrieval_ms": 1.29
+    }
+  ]
+}

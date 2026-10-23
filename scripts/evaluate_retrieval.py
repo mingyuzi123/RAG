@@ -20,15 +20,16 @@ def anchors_found(question: dict, candidates: list[dict]) -> list[bool]:
             for anchor in question["evidence"]]
 
 
-def evaluate(strategy: str, top_k: int, context_k: int, query_language: str) -> dict:
-    manifest = load_manifest(ROOT / "scenarios" / "crewai" / "manifest.json")
+def evaluate(strategy: str, top_k: int, context_k: int, query_language: str,
+             scenario: Path | None = None) -> dict:
+    manifest_path = scenario or ROOT / "scenarios" / "crewai" / "manifest.json"
+    manifest = load_manifest(manifest_path)
     db_path = index_path(ROOT, manifest, 1800)
     if not db_path.exists():
         raise FileNotFoundError("Run python -m raglab index first")
-    questions = [json.loads(line) for line in (ROOT / "scenarios" / "crewai" / "eval" /
-                                                "questions.jsonl").read_text(encoding="utf-8").splitlines()]
-    english = json.loads((ROOT / "scenarios" / "crewai" / "eval" /
-                          "queries_en.json").read_text(encoding="utf-8"))
+    eval_dir = manifest_path.parent / "eval"
+    questions = [json.loads(line) for line in (eval_dir / "questions.jsonl").read_text(encoding="utf-8").splitlines()]
+    english = json.loads((eval_dir / "queries_en.json").read_text(encoding="utf-8"))
     if set(english) != {question["id"] for question in questions}:
         raise ValueError("English query IDs do not match the evaluation set")
     model = load_model() if strategy in ("vector", "hybrid") else None
@@ -79,6 +80,7 @@ def main() -> None:
     cli.add_argument("--context-k", type=int, default=3)
     cli.add_argument("--query-language", choices=("en", "zh"),
                      help="Defaults to en for BM25 and zh for vector")
+    cli.add_argument("--scenario", type=Path, default=ROOT / "scenarios" / "crewai" / "manifest.json")
     cli.add_argument("--output", type=Path)
     args = cli.parse_args()
     if not 1 <= args.context_k <= args.top_k:
@@ -86,7 +88,7 @@ def main() -> None:
     language = args.query_language or ("en" if args.strategy == "bm25" else "zh")
     if args.strategy == "bm25" and language == "zh":
         cli.error("BM25 baseline requires the manually translated English queries")
-    report = evaluate(args.strategy, args.top_k, args.context_k, language)
+    report = evaluate(args.strategy, args.top_k, args.context_k, language, args.scenario)
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

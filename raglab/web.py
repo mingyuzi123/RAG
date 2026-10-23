@@ -21,6 +21,15 @@ ASSETS = {"/": ("index.html", "text/html; charset=utf-8"),
           "/styles.css": ("styles.css", "text/css; charset=utf-8")}
 
 
+def scenario_history(root: Path, scenario_id: str) -> dict:
+    traces = [trace for trace in recent_traces(root, 1000)
+              if trace.get("scenario") == scenario_id][:20]
+    request_ids = {trace["request_id"] for trace in traces}
+    reviews = {request_id: review for request_id, review in latest_reviews(root).items()
+               if request_id in request_ids}
+    return {"traces": traces, "reviews": reviews}
+
+
 def create_handler(root: Path, manifest_path: Path):
     manifest = load_manifest(manifest_path)
     db_path = index_path(root, manifest, 1800)
@@ -82,7 +91,7 @@ def create_handler(root: Path, manifest_path: Path):
             elif path == "/api/config":
                 self._json(200, {"ui": ui, "examples": examples, "status": status(root, manifest)})
             elif path == "/api/traces":
-                self._json(200, {"traces": recent_traces(root), "reviews": latest_reviews(root)})
+                self._json(200, scenario_history(root, manifest["id"]))
             elif path == "/api/evaluations":
                 self._json(200, load_dashboard(root, manifest, ui))
             else:

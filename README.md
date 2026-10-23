@@ -4,9 +4,9 @@
 
 ## 当前进度
 
-**第 3 阶段基础验收完成，准备回顾学习。**已提供固定文档的 MDX 切块（包括表格按行分组）、SQLite FTS5/BM25、跨语言 E5 向量检索、混合检索、比较题多查询覆盖、按证据章节计算的检索评测、本地可视化界面，以及 DeepSeek 带出处问答命令。页面的“阶段评测”把三路策略的候选前 10 与上下文前 3 并排展示，逐题指出证据是缺在召回还是最终上下文。混合检索仍需手工提供英文关键词；多查询策略目前需人工提供子问题。答案与引用的人工核验入口已接入请求记录，当前只有少量真实抽样，尚无完整答案质量分数。多样性选块完成离线实验，跨组未见收益，未设为默认策略。架构与范围见 [DESIGN.md](DESIGN.md)，项目和学习状态见 [PROGRESS.md](PROGRESS.md)，验收与回顾顺序见 [第 3 阶段验收](docs/STAGE3_阶段验收与学习路线.md)。
+**四个阶段的基础版已搭好，接下来集中回顾学习。**骨架提供固定版本资料获取与切块、SQLite FTS5/BM25、跨语言 E5、RRF 混合检索、带出处 DeepSeek 问答、请求追踪、逐题检索评测和人工答案核验。CrewAI 与 Pydantic 两套官方技术文档通过独立场景包运行；页面显示各自题集、评测和请求记录。混合检索仍需手工提供英文关键词；自动拆题和多样性选块只保留为实验入口或离线对照。架构见 [DESIGN.md](DESIGN.md)，项目及学习状态见 [PROGRESS.md](PROGRESS.md)，验收见[第 3 阶段](docs/STAGE3_阶段验收与学习路线.md)和[第 4 阶段报告](reports/STAGE4_第二场景与答案质量.md)，之后按[回顾路线](docs/PROJECT_回顾路线.md)学习。
 
-首个场景包计划使用固定版本的 CrewAI 官方技术文档，覆盖 Agents、Tasks、Tools、Crews 和 Flows。
+首个场景包使用固定版本的 CrewAI 官方技术文档，覆盖 Agents、Tasks、Tools、Crews 和 Flows。
 
 ## CrewAI 场景资料与评测集
 
@@ -104,6 +104,20 @@ python -m raglab.web
 没有 `DEEPSEEK_API_KEY` 时，检索实验仍能运行，问答按钮会禁用。要测试真实回答，可在**启动页面前**于同一个 PowerShell 窗口设置环境变量，或按上文使用 `scripts/run_with_deepseek.py` 从本地 `.env` 读取；不要把密钥填写到页面或聊天中。页面与命令行共用同一检索和请求追踪逻辑。
 
 设计阶段讨论过的关键问题与面试表达整理在 [RAG 设计与评测问答](docs/RAG_面试问答.md)。
+
+## 第二场景：Pydantic 文档
+
+第二场景固定 [Pydantic 官方仓库 v2.13.2](https://github.com/pydantic/pydantic/tree/v2.13.2/docs/concepts)的 5 篇概念文档和完整 Git 提交，提供 10 道题及独立页面配置。原文与模型/索引仍留在本地被忽略的目录。首次运行：
+
+```powershell
+.\.venv\Scripts\python.exe scripts/fetch_scenario_docs.py --scenario scenarios/pydantic/manifest.json
+.\.venv\Scripts\python.exe scripts/validate_scenario.py --scenario scenarios/pydantic/manifest.json
+.\.venv\Scripts\python.exe -m raglab --scenario scenarios/pydantic/manifest.json index
+.\.venv\Scripts\python.exe -m raglab --scenario scenarios/pydantic/manifest.json vector-index
+.\.venv\Scripts\python.exe scripts/run_with_deepseek.py --scenario scenarios/pydantic/manifest.json --port 8768
+```
+
+页面打开 `http://127.0.0.1:8768/`。如需重算三路检索报告，使用 `scripts/evaluate_retrieval.py --scenario scenarios/pydantic/manifest.json --strategy bm25|vector|hybrid`，BM25 用英文查询，向量与混合用中文原题。固定题集的检索结果、10 次真实回答的人工核验和局限见[第 4 阶段报告](reports/STAGE4_第二场景与答案质量.md)。已复核一个关键反例：CrewAI C07 的前 3 块实际上有正确答案 `manager_llm` 或 `manager_agent`，旧章节标注没有收录这些替代证据；页面现显示标注复核提示，历史实验分数保持不变。
 
 ## 阶段交付
 

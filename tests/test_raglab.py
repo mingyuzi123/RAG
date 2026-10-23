@@ -17,7 +17,9 @@ from raglab.hybrid import reciprocal_rank_fusion
 from raglab.multiquery import interleave_results
 from raglab.review import latest_reviews, save_review, score_review
 from raglab.service import answer, validate_request
+from raglab.web import scenario_history
 from scripts.run_with_deepseek import load_local_env, require_key
+from scripts.summarize_answer_audit import summarize
 
 
 class LocalKeyTests(TestCase):
@@ -230,5 +232,37 @@ class EvaluationDashboardTests(TestCase):
         questions = {item["id"]: item for item in dashboard["questions"]}
         self.assertEqual(questions["C01"]["results"]["hybrid"]["state"], "missing")
         self.assertEqual(questions["C10"]["results"]["hybrid"]["state"], "candidate")
+        self.assertIn("manager_llm", questions["C07"]["caveat"])
         self.assertEqual(questions["C02"]["results"]["hybrid"]["state"], "context")
         self.assertNotIn("C18", questions)
+
+    def test_second_scenario_report_and_manual_answer_audit(self):
+        root = Path(__file__).resolve().parents[1]
+        scenario = root / "scenarios" / "pydantic" / "manifest.json"
+        manifest = json.loads(scenario.read_text(encoding="utf-8"))
+        ui = json.loads((scenario.parent / "ui.json").read_text(encoding="utf-8"))
+        dashboard = load_dashboard(root, manifest, ui)
+        methods = {item["id"]: item for item in dashboard["strategies"]}
+        self.assertEqual((methods["hybrid"]["candidate_hits"], methods["hybrid"]["context_hits"]), (8, 7))
+        self.assertIn("Basic model usage", next(item for item in dashboard["questions"] if item["id"] == "P07")["caveat"])
+        audit = summarize(scenario, root / "reports" / "pydantic-answer-audit.json")
+        self.assertEqual(audit["answerable"], {"pass": 6, "fail": 2, "uncertain": 0})
+        self.assertEqual(audit["unanswerable"], {"pass": 2, "fail": 0, "uncertain": 0})
+
+
+class ScenarioIsolationTests(TestCase):
+    def test_web_history_only_returns_current_scenario_and_reviews(self):
+        with TemporaryDirectory(dir=Path(__file__).resolve().parents[1]) as folder:
+            root = Path(folder)
+            (root / "logs").mkdir()
+            traces = [{"request_id": "crew", "scenario": "crewai-docs"},
+                      {"request_id": "pydantic", "scenario": "pydantic-docs"}]
+            (root / "logs" / "requests.jsonl").write_text(
+                "".join(json.dumps(item) + "\n" for item in traces), encoding="utf-8")
+            reviews = [{"request_id": "crew", "verdict": "pass"},
+                       {"request_id": "pydantic", "verdict": "fail"}]
+            (root / "logs" / "answer_reviews.jsonl").write_text(
+                "".join(json.dumps(item) + "\n" for item in reviews), encoding="utf-8")
+            history = scenario_history(root, "pydantic-docs")
+            self.assertEqual([item["request_id"] for item in history["traces"]], ["pydantic"])
+            self.assertEqual(list(history["reviews"]), ["pydantic"])

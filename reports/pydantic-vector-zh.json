@@ -1,0 +1,318 @@
+{
+  "scenario": "pydantic-docs",
+  "source_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+  "strategy": "vector",
+  "query_language": "Chinese original",
+  "embedding_model": {
+    "id": "intfloat/multilingual-e5-small",
+    "revision": "f470c6a1a906014160ece1968c484b275f0396de",
+    "protocol": "e5-prefix-heading-v1"
+  },
+  "top_k": 10,
+  "context_k": 3,
+  "answerable_questions": 8,
+  "unanswerable_questions_excluded": 2,
+  "all_anchor_recall_at_k": 1.0,
+  "all_anchor_context_hit_at_k": 0.75,
+  "mrr_first_anchor_at_k": 0.825,
+  "details": [
+    {
+      "id": "P01",
+      "query": "在 Pydantic 的 BaseModel 中，有默认值的字段和没有默认值的字段，哪个是必填？传入字符串 '123' 给 int 字段会怎样？",
+      "anchors": [
+        {
+          "path": "docs/concepts/models.md",
+          "heading": "Basic model usage"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        false
+      ],
+      "all_found_top": true,
+      "all_found_context": false,
+      "first_relevant_rank": 10,
+      "top_chunk_ids": [
+        "c3e088451f25272c8f28",
+        "8cd2e0f6fc0e798b3c9c",
+        "aa4ff098bdc30f1be4f2",
+        "48966bcf3c11a4776547",
+        "074afc7a75911045979f",
+        "a9fac5da942833beb7ca",
+        "8ecd1aa2c96ce52d4df6",
+        "ad91e9ba54ccd5314e45",
+        "b733fc3ec9f4cacca70f",
+        "32747e5744bab8071dd4"
+      ],
+      "retrieval_ms": 32.78
+    },
+    {
+      "id": "P02",
+      "query": "Pydantic 的 model_validate() 与 model_validate_json() 分别接收什么输入？",
+      "anchors": [
+        {
+          "path": "docs/concepts/models.md",
+          "heading": "Validating data"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "cd723ebf50eb23be8fe9",
+        "e2055c89d8a240fd4bf2",
+        "3dbf5e3c4de5c2cbffe4",
+        "07d9d28b526f0bdc3c24",
+        "a9fac5da942833beb7ca",
+        "ce5584510115d28fd071",
+        "b8c9ad3b63e2c58714ab",
+        "94469d7fdb0be5882680",
+        "128492301b91d89d270b",
+        "809038b2dd3240c75e43"
+      ],
+      "retrieval_ms": 17.36
+    },
+    {
+      "id": "P03",
+      "query": "Pydantic 模型收到未声明的额外字段时，extra='ignore'、'forbid' 和 'allow' 分别怎么处理？",
+      "anchors": [
+        {
+          "path": "docs/concepts/models.md",
+          "heading": "Extra data"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "ac0557be315d9ea74d1e",
+        "d39495c4f112e4bdddf2",
+        "e3f7a2c884061343fe8c",
+        "ba426d6626f0e3afadf6",
+        "074afc7a75911045979f",
+        "48966bcf3c11a4776547",
+        "07d9d28b526f0bdc3c24",
+        "1936fe50baa533e361cc",
+        "c3e088451f25272c8f28",
+        "943b6ba3ee9d377c3f18"
+      ],
+      "retrieval_ms": 16.24
+    },
+    {
+      "id": "P04",
+      "query": "Pydantic 默认会校验字段的默认值吗？需要校验时如何设置？",
+      "anchors": [
+        {
+          "path": "docs/concepts/fields.md",
+          "heading": "Validate default values"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "8cd2e0f6fc0e798b3c9c",
+        "e2055c89d8a240fd4bf2",
+        "20d922feb80972260977",
+        "aa4ff098bdc30f1be4f2",
+        "0af5754b483a0720cfd1",
+        "33dfb2fa5d36f408c686",
+        "8ecd1aa2c96ce52d4df6",
+        "d376d7155ce51034d2f1",
+        "943b6ba3ee9d377c3f18",
+        "c3e088451f25272c8f28"
+      ],
+      "retrieval_ms": 15.58
+    },
+    {
+      "id": "P05",
+      "query": "Pydantic 的 validation_alias 与 serialization_alias 分别作用于哪个阶段？",
+      "anchors": [
+        {
+          "path": "docs/concepts/fields.md",
+          "heading": "Field aliases"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "c3e088451f25272c8f28",
+        "bf39f6ef344d31390820",
+        "8462e3ae6b1c0f2137b8",
+        "35e537bee06e9f596369",
+        "c44df79c40710383a752",
+        "6af7035e19c66cf625c6",
+        "e2055c89d8a240fd4bf2",
+        "7987a54fa88311d3f0ce",
+        "94469d7fdb0be5882680",
+        "504bef150e5a80f11290"
+      ],
+      "retrieval_ms": 15.03
+    },
+    {
+      "id": "P06",
+      "query": "Pydantic 字段校验器的 before 与 after 模式在类型解析的哪个阶段运行？",
+      "anchors": [
+        {
+          "path": "docs/concepts/validators.md",
+          "heading": "Field validators"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "eb456a4ba27c59bf2702",
+        "e2055c89d8a240fd4bf2",
+        "7ec2b13b4e8ec531abcf",
+        "d376d7155ce51034d2f1",
+        "20d922feb80972260977",
+        "b8c9ad3b63e2c58714ab",
+        "a9fac5da942833beb7ca",
+        "8edc41da45cfbb0db382",
+        "0af5754b483a0720cfd1",
+        "35e537bee06e9f596369"
+      ],
+      "retrieval_ms": 46.53
+    },
+    {
+      "id": "P07",
+      "query": "Pydantic 的 model_dump() 和 model_dump_json() 的结果类型与用途有什么区别？",
+      "anchors": [
+        {
+          "path": "docs/concepts/serialization.md",
+          "heading": "Python mode"
+        },
+        {
+          "path": "docs/concepts/serialization.md",
+          "heading": "JSON mode"
+        }
+      ],
+      "anchor_found_top": [
+        true,
+        true
+      ],
+      "anchor_found_context": [
+        false,
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": false,
+      "first_relevant_rank": 1,
+      "top_chunk_ids": [
+        "e2055c89d8a240fd4bf2",
+        "3dbf5e3c4de5c2cbffe4",
+        "45b364913cf3ee1e5a42",
+        "f43ab3ce4bd19965e697",
+        "f4aad1195506ee752dad",
+        "ce5584510115d28fd071",
+        "5f53665c27e450df4cbe",
+        "cd723ebf50eb23be8fe9",
+        "255b9630952be4438096",
+        "3090e8ac00f85fbf6592"
+      ],
+      "retrieval_ms": 23.75
+    },
+    {
+      "id": "P08",
+      "query": "Pydantic 怎样从模型生成 JSON Schema？默认生成的是 validation 还是 serialization 模式？",
+      "anchors": [
+        {
+          "path": "docs/concepts/json_schema.md",
+          "heading": "Generating JSON Schema"
+        }
+      ],
+      "anchor_found_top": [
+        true
+      ],
+      "anchor_found_context": [
+        true
+      ],
+      "all_found_top": true,
+      "all_found_context": true,
+      "first_relevant_rank": 2,
+      "top_chunk_ids": [
+        "9939f6d2cd41b4b06500",
+        "0af9a91d7a53db5cf990",
+        "8acca46a5922c6bc9ba3",
+        "943b6ba3ee9d377c3f18",
+        "07d9d28b526f0bdc3c24",
+        "3dbf5e3c4de5c2cbffe4",
+        "33dfb2fa5d36f408c686",
+        "e2055c89d8a240fd4bf2",
+        "e61e7c9911fb3dd3f391",
+        "b40280cd831044a36ff9"
+      ],
+      "retrieval_ms": 20.52
+    },
+    {
+      "id": "P09",
+      "answerability": "unanswerable",
+      "query": "这五篇 Pydantic 概念文档是否指定了官方生产环境日志要上传到哪个 S3 bucket？",
+      "top_chunk_ids": [
+        "33dfb2fa5d36f408c686",
+        "e2055c89d8a240fd4bf2",
+        "ba426d6626f0e3afadf6",
+        "074afc7a75911045979f",
+        "2a3d29f9304bcb9351bd",
+        "07d9d28b526f0bdc3c24",
+        "cd29ea83633590cea888",
+        "ac1844713891a3379275",
+        "48966bcf3c11a4776547",
+        "943b6ba3ee9d377c3f18"
+      ],
+      "retrieval_ms": 17.17
+    },
+    {
+      "id": "P10",
+      "answerability": "unanswerable",
+      "query": "仅凭这五篇 Pydantic 概念文档，能确定 v2.13.2 发布当天的精确北京时间吗？",
+      "top_chunk_ids": [
+        "e2055c89d8a240fd4bf2",
+        "074afc7a75911045979f",
+        "6e16eb54d6a220c5e3cd",
+        "33dfb2fa5d36f408c686",
+        "48966bcf3c11a4776547",
+        "6c6790cc2606d388c1a0",
+        "b8c9ad3b63e2c58714ab",
+        "94469d7fdb0be5882680",
+        "20d922feb80972260977",
+        "cd723ebf50eb23be8fe9"
+      ],
+      "retrieval_ms": 14.78
+    }
+  ]
+}

@@ -162,6 +162,7 @@ async function loadEvaluations() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
       first.append(open, el('small', '', example?.question || ''));
+      if (question.caveat) first.append(el('small', 'evaluation-caveat', `标注复核：${question.caveat}`));
       row.append(first);
       for (const method of dashboard.strategies) {
         const result = question.results[method.id];
@@ -375,6 +376,15 @@ async function initialize() {
     $('#scenario-icon').textContent = (config.ui.title || 'R').slice(0, 1).toUpperCase();
     $('#scenario-badge').textContent = config.ui.badge || config.ui.title;
     $('#scenario-subtitle').textContent = config.ui.subtitle || '从问题到证据，逐步检查每个知识块为什么被选中。';
+    $('#question').placeholder = config.ui.question_placeholder || '请输入文档相关问题';
+    $('#english-query').placeholder = config.ui.english_placeholder || 'English keywords for BM25';
+    const learning = $('#learning-points');
+    learning.replaceChildren();
+    for (const point of (config.ui.learning_points || [])) {
+      const row = el('li');
+      row.append(el('span', 'check', '✓'), document.createTextNode(point));
+      learning.append(row);
+    }
     $('#scenario-version').textContent = config.status.source_commit.slice(0, 8) + ' · 固定资料';
     document.documentElement.style.setProperty('--accent', config.ui.accent || '#635bff');
     document.title = `RAG Lab · ${config.ui.title}`;
@@ -396,7 +406,7 @@ async function initialize() {
     $('#ask-btn').disabled = !state.keyAvailable;
     $('#decompose-btn').disabled = !state.keyAvailable;
     if (config.examples.length) {
-      const preferred = config.examples.find(item => item.id === 'C07') || config.examples[0];
+      const preferred = config.examples.find(item => item.id === config.ui.default_example) || config.examples[0];
       $('#sample-select').value = preferred.id;
       $('#sample-select').dispatchEvent(new Event('change'));
     }
