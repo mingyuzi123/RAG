@@ -1,0 +1,918 @@
+{
+  "scenario": "crewai-docs",
+  "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+  "index": "indexes/crewai-docs/bm25-4a4a6438b43a.db",
+  "source_report": "reports/crewai-table-v3-hybrid-zh.json",
+  "source_report_sha256": "947a94f677791f769ad4f6202a022bc32fe4870dc1688df285d1fc3465b210e2",
+  "vector_model": "intfloat/multilingual-e5-small@f470c6a1a906014160ece1968c484b275f0396de",
+  "vector_protocol": "e5-prefix-heading-v1",
+  "method": "greedy-rank-cosine-diversity-v1",
+  "relevance_weight": 0.4,
+  "candidate_top_k": 10,
+  "context_k": 3,
+  "budget": "same character count as the original top-k context, per question",
+  "questions": 17,
+  "baseline_all_found": 12,
+  "diverse_all_found": 12,
+  "gained": [],
+  "lost": [],
+  "details": [
+    {
+      "id": "C01",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/introduction.mdx",
+          "heading": "When to Use Crews vs. Flows"
+        }
+      ],
+      "baseline_all_found": false,
+      "diverse_all_found": false,
+      "baseline_anchor_found": [
+        false
+      ],
+      "diverse_anchor_found": [
+        false
+      ],
+      "candidate_ids": [
+        "685748c9e1f3fcab71dc",
+        "a44a11419ee35cfe5868",
+        "11884fc0c47fbc78c8f8",
+        "96bf9394c9020bf59df1",
+        "3def47459400d281d224",
+        "81117f2be105918727a2",
+        "9c65db83da0b4de02d17",
+        "682d25ec4e70fe061b23",
+        "0127e25eaf45dd885ef1",
+        "08106520ed970e00ca9c"
+      ],
+      "baseline_context_ids": [
+        "685748c9e1f3fcab71dc",
+        "a44a11419ee35cfe5868",
+        "11884fc0c47fbc78c8f8"
+      ],
+      "diverse_context_ids": [
+        "685748c9e1f3fcab71dc",
+        "a44a11419ee35cfe5868",
+        "11884fc0c47fbc78c8f8"
+      ],
+      "baseline_headings": [
+        "Overview",
+        "1. Flows: The Backbone",
+        "What is CrewAI?"
+      ],
+      "diverse_headings": [
+        "Overview",
+        "1. Flows: The Backbone",
+        "What is CrewAI?"
+      ],
+      "char_budget": 2477,
+      "diverse_chars": 2477
+    },
+    {
+      "id": "C02",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "heading": "Agent Attributes"
+        }
+      ],
+      "baseline_all_found": true,
+      "diverse_all_found": true,
+      "baseline_anchor_found": [
+        true
+      ],
+      "diverse_anchor_found": [
+        true
+      ],
+      "candidate_ids": [
+        "6791d33eea8be346d9a9",
+        "3def47459400d281d224",
+        "eed82b3c50709989527b",
+        "0bcb7ae679f09e8509a5",
+        "60d51bfc92d58798f3b7",
+        "324c7d10c4d4261e4582",
+        "14574a42af9db4464b5e",
+        "8411f9a2dcedc2b9c9d9",
+        "d7e1af19901dc407aa91",
+        "6ac374f1b2da1741ac32"
+      ],
+      "baseline_context_ids": [
+        "6791d33eea8be346d9a9",
+        "3def47459400d281d224",
+        "eed82b3c50709989527b"
+      ],
+      "diverse_context_ids": [
+        "6791d33eea8be346d9a9",
+        "3def47459400d281d224",
+        "eed82b3c50709989527b"
+      ],
+      "baseline_headings": [
+        "JSONC Configuration (Recommended)",
+        "2. Crews: The Intelligence",
+        "Agent Attributes"
+      ],
+      "diverse_headings": [
+        "JSONC Configuration (Recommended)",
+        "2. Crews: The Intelligence",
+        "Agent Attributes"
+      ],
+      "char_budget": 2931,
+      "diverse_chars": 2931
+    },
+    {
+      "id": "C03",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "heading": "Agent Attributes"
+        }
+      ],
+      "baseline_all_found": true,
+      "diverse_all_found": true,
+      "baseline_anchor_found": [
+        true
+      ],
+      "diverse_anchor_found": [
+        true
+      ],
+      "candidate_ids": [
+        "52d3c366c4fcec8336be",
+        "9cbfdae7bdd50c769e82",
+        "6791d33eea8be346d9a9",
+        "0fbd5d131b9fa61877a0",
+        "050f3b61023948af2f63",
+        "324c7d10c4d4261e4582",
+        "eb2fb8cd39a9a17163f2",
+        "65a90171bb815f30585c",
+        "75ca983a21b88265e7d4",
+        "0127e25eaf45dd885ef1"
+      ],
+      "baseline_context_ids": [
+        "52d3c366c4fcec8336be",
+        "9cbfdae7bdd50c769e82",
+        "6791d33eea8be346d9a9"
+      ],
+      "diverse_context_ids": [
+        "52d3c366c4fcec8336be",
+        "9cbfdae7bdd50c769e82",
+        "6791d33eea8be346d9a9"
+      ],
+      "baseline_headings": [
+        "Direct Code Definition",
+        "Agent Attributes",
+        "JSONC Configuration (Recommended)"
+      ],
+      "diverse_headings": [
+        "Direct Code Definition",
+        "Agent Attributes",
+        "JSONC Configuration (Recommended)"
+      ],
+      "char_budget": 4155,
+      "diverse_chars": 4155
+    },
+    {
+      "id": "C04",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "heading": "Agent Attributes"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "Task Attributes"
+        }
+      ],
+      "baseline_all_found": false,
+      "diverse_all_found": false,
+      "baseline_anchor_found": [
+        false,
+        false
+      ],
+      "diverse_anchor_found": [
+        false,
+        false
+      ],
+      "candidate_ids": [
+        "3abbb405bd3744682e26",
+        "29595bdaf271211594e0",
+        "a59f6b9dd1ef8a1d52d4",
+        "68fd92f3c0f21a0a603a",
+        "0bcb7ae679f09e8509a5",
+        "3def47459400d281d224",
+        "8a40f5f008d3b0cf347c",
+        "432e32acff6831b49ecf",
+        "5bb15f14e843157115c0",
+        "046b01923a8f1bbcac46"
+      ],
+      "baseline_context_ids": [
+        "3abbb405bd3744682e26",
+        "29595bdaf271211594e0",
+        "a59f6b9dd1ef8a1d52d4"
+      ],
+      "diverse_context_ids": [
+        "3abbb405bd3744682e26",
+        "29595bdaf271211594e0",
+        "a59f6b9dd1ef8a1d52d4"
+      ],
+      "baseline_headings": [
+        "Naming consistency",
+        "Reporting Tool Failures",
+        "Overview"
+      ],
+      "diverse_headings": [
+        "Naming consistency",
+        "Reporting Tool Failures",
+        "Overview"
+      ],
+      "char_budget": 2970,
+      "diverse_chars": 2970
+    },
+    {
+      "id": "C05",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "Task Attributes"
+        }
+      ],
+      "baseline_all_found": true,
+      "diverse_all_found": true,
+      "baseline_anchor_found": [
+        true
+      ],
+      "diverse_anchor_found": [
+        true
+      ],
+      "candidate_ids": [
+        "1d90b1918acdb0600475",
+        "8d9e007d5678d80e57a7",
+        "e43b849cf87ac38f52f3",
+        "1a1206713d36750a251b",
+        "7d0b33a4676937b20280",
+        "b22629c3473ebd922a06",
+        "ce38a389211678e0b450",
+        "db74706948a269622396",
+        "2b8ded64535faab990d1",
+        "3244541c5e23093000c7"
+      ],
+      "baseline_context_ids": [
+        "1d90b1918acdb0600475",
+        "8d9e007d5678d80e57a7",
+        "e43b849cf87ac38f52f3"
+      ],
+      "diverse_context_ids": [
+        "1d90b1918acdb0600475",
+        "8d9e007d5678d80e57a7",
+        "e43b849cf87ac38f52f3"
+      ],
+      "baseline_headings": [
+        "Task Attributes",
+        "JSONC Configuration (Recommended)",
+        "Task Dependencies and Context"
+      ],
+      "diverse_headings": [
+        "Task Attributes",
+        "JSONC Configuration (Recommended)",
+        "Task Dependencies and Context"
+      ],
+      "char_budget": 2751,
+      "diverse_chars": 2751
+    },
+    {
+      "id": "C06",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "Task Dependencies and Context"
+        }
+      ],
+      "baseline_all_found": true,
+      "diverse_all_found": true,
+      "baseline_anchor_found": [
+        true
+      ],
+      "diverse_anchor_found": [
+        true
+      ],
+      "candidate_ids": [
+        "e43b849cf87ac38f52f3",
+        "68fd92f3c0f21a0a603a",
+        "f7e4b142b101d0e384ab",
+        "8d9e007d5678d80e57a7",
+        "3abbb405bd3744682e26",
+        "2b8ded64535faab990d1",
+        "eacd57268a69810ae36c",
+        "db74706948a269622396",
+        "9ade4f8b9af8341d05ab",
+        "d32625fc0d241989bb27"
+      ],
+      "baseline_context_ids": [
+        "e43b849cf87ac38f52f3",
+        "68fd92f3c0f21a0a603a",
+        "f7e4b142b101d0e384ab"
+      ],
+      "diverse_context_ids": [
+        "e43b849cf87ac38f52f3",
+        "68fd92f3c0f21a0a603a",
+        "f7e4b142b101d0e384ab"
+      ],
+      "baseline_headings": [
+        "Task Dependencies and Context",
+        "Direct Code Definition (Alternative)",
+        "LLM-Based Guardrails (String Descriptions)"
+      ],
+      "diverse_headings": [
+        "Task Dependencies and Context",
+        "Direct Code Definition (Alternative)",
+        "LLM-Based Guardrails (String Descriptions)"
+      ],
+      "char_budget": 2201,
+      "diverse_chars": 2201
+    },
+    {
+      "id": "C07",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "heading": "Process Implementations"
+        }
+      ],
+      "baseline_all_found": false,
+      "diverse_all_found": false,
+      "baseline_anchor_found": [
+        false
+      ],
+      "diverse_anchor_found": [
+        false
+      ],
+      "candidate_ids": [
+        "432e32acff6831b49ecf",
+        "47a63690adf52fdb7f79",
+        "9ade4f8b9af8341d05ab",
+        "1b3d53966673ef901538",
+        "0a5c0eae675379d75c9c",
+        "050f3b61023948af2f63",
+        "6791d33eea8be346d9a9",
+        "1e702075d90463a93df1",
+        "467b00235d75a69bdc42",
+        "324c7d10c4d4261e4582"
+      ],
+      "baseline_context_ids": [
+        "432e32acff6831b49ecf",
+        "47a63690adf52fdb7f79",
+        "9ade4f8b9af8341d05ab"
+      ],
+      "diverse_context_ids": [
+        "432e32acff6831b49ecf",
+        "47a63690adf52fdb7f79",
+        "9ade4f8b9af8341d05ab"
+      ],
+      "baseline_headings": [
+        "Assigning Processes to a Crew",
+        "Hierarchical Process",
+        "Example `crew.jsonc`"
+      ],
+      "diverse_headings": [
+        "Assigning Processes to a Crew",
+        "Hierarchical Process",
+        "Example `crew.jsonc`"
+      ],
+      "char_budget": 3050,
+      "diverse_chars": 3050
+    },
+    {
+      "id": "C08",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "heading": "Sequential Process"
+        }
+      ],
+      "baseline_all_found": true,
+      "diverse_all_found": true,
+      "baseline_anchor_found": [
+        true
+      ],
+      "diverse_anchor_found": [
+        true
+      ],
+      "candidate_ids": [
+        "7315be284d185529d6ca",
+        "13d5d599c0325a20116b",
+        "8d9e007d5678d80e57a7",
+        "9ade4f8b9af8341d05ab",
+        "db74706948a269622396",
+        "0bcb7ae679f09e8509a5",
+        "b0d672b1c75341bf52c5",
+        "20aec7c2dfe0ce107c0e",
+        "86fd986bef1cc138c2f2",
+        "1b3d53966673ef901538"
+      ],
+      "baseline_context_ids": [
+        "7315be284d185529d6ca",
+        "13d5d599c0325a20116b",
+        "8d9e007d5678d80e57a7"
+      ],
+      "diverse_context_ids": [
+        "7315be284d185529d6ca",
+        "8d9e007d5678d80e57a7",
+        "13d5d599c0325a20116b"
+      ],
+      "baseline_headings": [
+        "Sequential Process",
+        "Task Execution Flow",
+        "JSONC Configuration (Recommended)"
+      ],
+      "diverse_headings": [
+        "Sequential Process",
+        "JSONC Configuration (Recommended)",
+        "Task Execution Flow"
+      ],
+      "char_budget": 2446,
+      "diverse_chars": 2446
+    },
+    {
+      "id": "C09",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/crews.mdx",
+          "heading": "Crew Attributes"
+        }
+      ],
+      "baseline_all_found": true,
+      "diverse_all_found": true,
+      "baseline_anchor_found": [
+        true
+      ],
+      "diverse_anchor_found": [
+        true
+      ],
+      "candidate_ids": [
+        "1b3d53966673ef901538",
+        "3d46b49cf32333675be2",
+        "432e32acff6831b49ecf",
+        "65a90171bb815f30585c",
+        "0a5c0eae675379d75c9c",
+        "4683f6fcdbc4c37409ff",
+        "ae1bc68dbc19ffe31747",
+        "fb25c690f54b0f934156",
+        "73bc193a8bc5de22bff3",
+        "324c7d10c4d4261e4582"
+      ],
+      "baseline_context_ids": [
+        "1b3d53966673ef901538",
+        "3d46b49cf32333675be2",
+        "432e32acff6831b49ecf"
+      ],
+      "diverse_context_ids": [
+        "1b3d53966673ef901538",
+        "3d46b49cf32333675be2",
+        "432e32acff6831b49ecf"
+      ],
+      "baseline_headings": [
+        "Crew Attributes",
+        "Quick Start",
+        "Assigning Processes to a Crew"
+      ],
+      "diverse_headings": [
+        "Crew Attributes",
+        "Quick Start",
+        "Assigning Processes to a Crew"
+      ],
+      "char_budget": 11182,
+      "diverse_chars": 11182
+    },
+    {
+      "id": "C10",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "@start()"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "@listen()"
+        }
+      ],
+      "baseline_all_found": false,
+      "diverse_all_found": false,
+      "baseline_anchor_found": [
+        false,
+        true
+      ],
+      "diverse_anchor_found": [
+        false,
+        true
+      ],
+      "candidate_ids": [
+        "ad0b93ae299b14f00404",
+        "ebed510b76cf04016cae",
+        "2e4719341591b38cc175",
+        "ca1397466a3129eb91c5",
+        "82a2a5748b1c9d4ca0f7",
+        "e0b652ee6ffaa18216ad",
+        "a742aa19583326de3bed",
+        "3d048441c9b73f28e036",
+        "d6ca7a7d2a763c2ed6a3",
+        "709e63ae2a161f3e13d7"
+      ],
+      "baseline_context_ids": [
+        "ad0b93ae299b14f00404",
+        "ebed510b76cf04016cae",
+        "2e4719341591b38cc175"
+      ],
+      "diverse_context_ids": [
+        "ad0b93ae299b14f00404",
+        "ebed510b76cf04016cae",
+        "2e4719341591b38cc175"
+      ],
+      "baseline_headings": [
+        "Conditional Logic: `and`",
+        "@listen()",
+        "Conditional Logic: `or`"
+      ],
+      "diverse_headings": [
+        "Conditional Logic: `and`",
+        "@listen()",
+        "Conditional Logic: `or`"
+      ],
+      "char_budget": 2564,
+      "diverse_chars": 2564
+    },
+    {
+      "id": "C11",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Conditional Logic: `or`"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Conditional Logic: `and`"
+        }
+      ],
+      "baseline_all_found": true,
+      "diverse_all_found": true,
+      "baseline_anchor_found": [
+        true,
+        true
+      ],
+      "diverse_anchor_found": [
+        true,
+        true
+      ],
+      "candidate_ids": [
+        "2e4719341591b38cc175",
+        "ad0b93ae299b14f00404",
+        "ca1397466a3129eb91c5",
+        "5ae92cbbb86dde22c55f",
+        "82a2a5748b1c9d4ca0f7",
+        "c90be39df11adf51802b",
+        "709e63ae2a161f3e13d7",
+        "86fd986bef1cc138c2f2",
+        "685748c9e1f3fcab71dc",
+        "864bcde172547a90a54d"
+      ],
+      "baseline_context_ids": [
+        "2e4719341591b38cc175",
+        "ad0b93ae299b14f00404",
+        "ca1397466a3129eb91c5"
+      ],
+      "diverse_context_ids": [
+        "2e4719341591b38cc175",
+        "ca1397466a3129eb91c5",
+        "ad0b93ae299b14f00404"
+      ],
+      "baseline_headings": [
+        "Conditional Logic: `or`",
+        "Conditional Logic: `and`",
+        "@start()"
+      ],
+      "diverse_headings": [
+        "Conditional Logic: `or`",
+        "@start()",
+        "Conditional Logic: `and`"
+      ],
+      "char_budget": 2641,
+      "diverse_chars": 2641
+    },
+    {
+      "id": "C12",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Router"
+        }
+      ],
+      "baseline_all_found": true,
+      "diverse_all_found": true,
+      "baseline_anchor_found": [
+        true
+      ],
+      "diverse_anchor_found": [
+        true
+      ],
+      "candidate_ids": [
+        "82a2a5748b1c9d4ca0f7",
+        "709e63ae2a161f3e13d7",
+        "eacd57268a69810ae36c",
+        "a742aa19583326de3bed",
+        "4093058178e5d6a67348",
+        "6883e42eda9ef884c1f5",
+        "d6ca7a7d2a763c2ed6a3",
+        "e2b15e9679182c31525c",
+        "d3e3a5e67c8ff1559add",
+        "2741ebc270907b2829dd"
+      ],
+      "baseline_context_ids": [
+        "82a2a5748b1c9d4ca0f7",
+        "709e63ae2a161f3e13d7",
+        "eacd57268a69810ae36c"
+      ],
+      "diverse_context_ids": [
+        "82a2a5748b1c9d4ca0f7",
+        "709e63ae2a161f3e13d7",
+        "eacd57268a69810ae36c"
+      ],
+      "baseline_headings": [
+        "Router",
+        "Router",
+        "How this run fits together"
+      ],
+      "diverse_headings": [
+        "Router",
+        "Router",
+        "How this run fits together"
+      ],
+      "char_budget": 3127,
+      "diverse_chars": 3127
+    },
+    {
+      "id": "C13",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Choosing Between Unstructured and Structured State Management"
+        }
+      ],
+      "baseline_all_found": true,
+      "diverse_all_found": true,
+      "baseline_anchor_found": [
+        true
+      ],
+      "diverse_anchor_found": [
+        true
+      ],
+      "candidate_ids": [
+        "76a506fa0bfffd2af9e4",
+        "c90be39df11adf51802b",
+        "c5045ca11917bd776847",
+        "bbba05a35740940bbb04",
+        "0231bf1280a2d0ed9171",
+        "b9494a9207a7fd6f5727",
+        "d070d0cca410f099e54a",
+        "28604ed8bbbc9ec0526d",
+        "58a420ef931e9a345fab",
+        "caad82e9e0735389a3ab"
+      ],
+      "baseline_context_ids": [
+        "76a506fa0bfffd2af9e4",
+        "c90be39df11adf51802b",
+        "c5045ca11917bd776847"
+      ],
+      "diverse_context_ids": [
+        "76a506fa0bfffd2af9e4",
+        "c90be39df11adf51802b",
+        "c5045ca11917bd776847"
+      ],
+      "baseline_headings": [
+        "Choosing Between Unstructured and Structured State Management",
+        "Unstructured State Management",
+        "Important Considerations"
+      ],
+      "diverse_headings": [
+        "Choosing Between Unstructured and Structured State Management",
+        "Unstructured State Management",
+        "Important Considerations"
+      ],
+      "char_budget": 2908,
+      "diverse_chars": 2908
+    },
+    {
+      "id": "C14",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Class-Level Persistence"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Method-Level Persistence"
+        }
+      ],
+      "baseline_all_found": true,
+      "diverse_all_found": true,
+      "baseline_anchor_found": [
+        true,
+        true
+      ],
+      "diverse_anchor_found": [
+        true,
+        true
+      ],
+      "candidate_ids": [
+        "caad82e9e0735389a3ab",
+        "864bcde172547a90a54d",
+        "58a420ef931e9a345fab",
+        "04fed04c4a741c3a024d",
+        "d070d0cca410f099e54a",
+        "b9494a9207a7fd6f5727",
+        "6883e42eda9ef884c1f5",
+        "c5045ca11917bd776847",
+        "eacd57268a69810ae36c",
+        "ad0b93ae299b14f00404"
+      ],
+      "baseline_context_ids": [
+        "caad82e9e0735389a3ab",
+        "864bcde172547a90a54d",
+        "58a420ef931e9a345fab"
+      ],
+      "diverse_context_ids": [
+        "caad82e9e0735389a3ab",
+        "864bcde172547a90a54d",
+        "58a420ef931e9a345fab"
+      ],
+      "baseline_headings": [
+        "Class-Level Persistence",
+        "Method-Level Persistence",
+        "Forking Persisted State"
+      ],
+      "diverse_headings": [
+        "Class-Level Persistence",
+        "Method-Level Persistence",
+        "Forking Persisted State"
+      ],
+      "char_budget": 2847,
+      "diverse_chars": 2847
+    },
+    {
+      "id": "C15",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Adding Crews to Flows"
+        },
+        {
+          "path": "docs/v1.15.28/en/introduction.mdx",
+          "heading": "When to Use Crews vs. Flows"
+        }
+      ],
+      "baseline_all_found": false,
+      "diverse_all_found": false,
+      "baseline_anchor_found": [
+        false,
+        false
+      ],
+      "diverse_anchor_found": [
+        false,
+        false
+      ],
+      "candidate_ids": [
+        "4093058178e5d6a67348",
+        "96bf9394c9020bf59df1",
+        "f74f48fd678a6766c366",
+        "eacd57268a69810ae36c",
+        "b33d5675e97fab64da1c",
+        "1e702075d90463a93df1",
+        "73bc193a8bc5de22bff3",
+        "28604ed8bbbc9ec0526d",
+        "11884fc0c47fbc78c8f8",
+        "9c65db83da0b4de02d17"
+      ],
+      "baseline_context_ids": [
+        "4093058178e5d6a67348",
+        "96bf9394c9020bf59df1",
+        "f74f48fd678a6766c366"
+      ],
+      "diverse_context_ids": [
+        "4093058178e5d6a67348",
+        "96bf9394c9020bf59df1",
+        "f74f48fd678a6766c366"
+      ],
+      "baseline_headings": [
+        "Next Steps",
+        "Ready to Start Building?",
+        "Build your first Flow"
+      ],
+      "diverse_headings": [
+        "Next Steps",
+        "Ready to Start Building?",
+        "Build your first Flow"
+      ],
+      "char_budget": 3180,
+      "diverse_chars": 3180
+    },
+    {
+      "id": "C16",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/tools.mdx",
+          "heading": "Utilizing the `tool` Decorator"
+        }
+      ],
+      "baseline_all_found": true,
+      "diverse_all_found": true,
+      "baseline_anchor_found": [
+        true
+      ],
+      "diverse_anchor_found": [
+        true
+      ],
+      "candidate_ids": [
+        "28ac83e5e2fe543c6b3f",
+        "52d3c366c4fcec8336be",
+        "744826816e5e0a3f1db8",
+        "0cd1475e47686ad9b866",
+        "14574a42af9db4464b5e",
+        "a902090425bc2b981650",
+        "a742aa19583326de3bed",
+        "fbe18cbccbaaebde1453",
+        "ea5cc74399c9061db430",
+        "023ad1d2d387d451c1b8"
+      ],
+      "baseline_context_ids": [
+        "28ac83e5e2fe543c6b3f",
+        "52d3c366c4fcec8336be",
+        "744826816e5e0a3f1db8"
+      ],
+      "diverse_context_ids": [
+        "28ac83e5e2fe543c6b3f",
+        "52d3c366c4fcec8336be",
+        "744826816e5e0a3f1db8"
+      ],
+      "baseline_headings": [
+        "Utilizing the `tool` Decorator",
+        "Direct Code Definition",
+        "Available CrewAI Tools"
+      ],
+      "diverse_headings": [
+        "Utilizing the `tool` Decorator",
+        "Direct Code Definition",
+        "Available CrewAI Tools"
+      ],
+      "char_budget": 2694,
+      "diverse_chars": 2694
+    },
+    {
+      "id": "C17",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/tools.mdx",
+          "heading": "Choosing a Failure Policy"
+        }
+      ],
+      "baseline_all_found": true,
+      "diverse_all_found": true,
+      "baseline_anchor_found": [
+        true
+      ],
+      "diverse_anchor_found": [
+        true
+      ],
+      "candidate_ids": [
+        "0bcb7ae679f09e8509a5",
+        "6791d33eea8be346d9a9",
+        "2a63ee47d20ed57cca91",
+        "ae1bc68dbc19ffe31747",
+        "14574a42af9db4464b5e",
+        "8a40f5f008d3b0cf347c",
+        "29595bdaf271211594e0",
+        "49f37a8cfb3907d45380",
+        "73cc533f786b67c39058",
+        "37c9b467542164ea8601"
+      ],
+      "baseline_context_ids": [
+        "0bcb7ae679f09e8509a5",
+        "6791d33eea8be346d9a9",
+        "2a63ee47d20ed57cca91"
+      ],
+      "diverse_context_ids": [
+        "0bcb7ae679f09e8509a5",
+        "6791d33eea8be346d9a9",
+        "2a63ee47d20ed57cca91"
+      ],
+      "baseline_headings": [
+        "Choosing a Failure Policy",
+        "JSONC Configuration (Recommended)",
+        "Folder Structure"
+      ],
+      "diverse_headings": [
+        "Choosing a Failure Policy",
+        "JSONC Configuration (Recommended)",
+        "Folder Structure"
+      ],
+      "char_budget": 3646,
+      "diverse_chars": 3646
+    }
+  ]
+}

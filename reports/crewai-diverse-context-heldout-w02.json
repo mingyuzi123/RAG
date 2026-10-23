@@ -1,0 +1,363 @@
+{
+  "scenario": "crewai-docs",
+  "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+  "index": "indexes/crewai-docs/bm25-4a4a6438b43a.db",
+  "source_report": "reports/crewai-auto-decomposition-heldout.json",
+  "source_report_sha256": "c75a42d52a2223b6fbf4609f41cd3f8389f563e7efc17c8b957a779d6a807b59",
+  "vector_model": "intfloat/multilingual-e5-small@f470c6a1a906014160ece1968c484b275f0396de",
+  "vector_protocol": "e5-prefix-heading-v1",
+  "method": "greedy-rank-cosine-diversity-v1",
+  "relevance_weight": 0.2,
+  "candidate_top_k": 10,
+  "context_k": 3,
+  "budget": "same character count as the original top-k context, per question",
+  "questions": 6,
+  "baseline_all_found": 3,
+  "diverse_all_found": 3,
+  "gained": [],
+  "lost": [],
+  "details": [
+    {
+      "id": "H01",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "heading": "Sequential Process"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "heading": "Hierarchical Process"
+        }
+      ],
+      "baseline_all_found": false,
+      "diverse_all_found": false,
+      "baseline_anchor_found": [
+        false,
+        true
+      ],
+      "diverse_anchor_found": [
+        false,
+        true
+      ],
+      "candidate_ids": [
+        "47a63690adf52fdb7f79",
+        "13d5d599c0325a20116b",
+        "432e32acff6831b49ecf",
+        "050f3b61023948af2f63",
+        "0a5c0eae675379d75c9c",
+        "9ade4f8b9af8341d05ab",
+        "1b3d53966673ef901538",
+        "7315be284d185529d6ca",
+        "fb25c690f54b0f934156",
+        "68fd92f3c0f21a0a603a"
+      ],
+      "baseline_context_ids": [
+        "47a63690adf52fdb7f79",
+        "13d5d599c0325a20116b",
+        "432e32acff6831b49ecf"
+      ],
+      "diverse_context_ids": [
+        "47a63690adf52fdb7f79",
+        "13d5d599c0325a20116b",
+        "432e32acff6831b49ecf"
+      ],
+      "baseline_headings": [
+        "Hierarchical Process",
+        "Task Execution Flow",
+        "Assigning Processes to a Crew"
+      ],
+      "diverse_headings": [
+        "Hierarchical Process",
+        "Task Execution Flow",
+        "Assigning Processes to a Crew"
+      ],
+      "char_budget": 1728,
+      "diverse_chars": 1728
+    },
+    {
+      "id": "H02",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "Function-Based Guardrails"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "LLM-Based Guardrails (String Descriptions)"
+        }
+      ],
+      "baseline_all_found": false,
+      "diverse_all_found": false,
+      "baseline_anchor_found": [
+        false,
+        true
+      ],
+      "diverse_anchor_found": [
+        false,
+        true
+      ],
+      "candidate_ids": [
+        "ee2b3a7054f45444bf27",
+        "f1ec1d897b5928134afa",
+        "3244541c5e23093000c7",
+        "d32625fc0d241989bb27",
+        "2da096cf9fb7ae429f4c",
+        "f7e4b142b101d0e384ab",
+        "aae09cb0b2273452e20b",
+        "b0d672b1c75341bf52c5",
+        "d9ae5c65fbc322cd7812",
+        "7607548c31ab07178680"
+      ],
+      "baseline_context_ids": [
+        "ee2b3a7054f45444bf27",
+        "f1ec1d897b5928134afa",
+        "3244541c5e23093000c7"
+      ],
+      "diverse_context_ids": [
+        "ee2b3a7054f45444bf27",
+        "f1ec1d897b5928134afa",
+        "3244541c5e23093000c7"
+      ],
+      "baseline_headings": [
+        "Task Guardrails",
+        "Multiple Guardrails",
+        "LLM-Based Guardrails (String Descriptions)"
+      ],
+      "diverse_headings": [
+        "Task Guardrails",
+        "Multiple Guardrails",
+        "LLM-Based Guardrails (String Descriptions)"
+      ],
+      "char_budget": 3705,
+      "diverse_chars": 3705
+    },
+    {
+      "id": "H03",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "Using `output_pydantic`"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "heading": "Using `output_json`"
+        }
+      ],
+      "baseline_all_found": false,
+      "diverse_all_found": false,
+      "baseline_anchor_found": [
+        false,
+        true
+      ],
+      "diverse_anchor_found": [
+        false,
+        true
+      ],
+      "candidate_ids": [
+        "2b8ded64535faab990d1",
+        "1a1206713d36750a251b",
+        "68af1dd714f48e60a0ea",
+        "5e189b059c7c13aabd92",
+        "bd4cce88165be5eb3699",
+        "20aec7c2dfe0ce107c0e",
+        "7b5acb451b01a10a7d5e",
+        "d883996fa7f7ed20c089",
+        "bdbd9c0cc3a11bf200f1",
+        "f1dddb026a75aed5b3ad"
+      ],
+      "baseline_context_ids": [
+        "2b8ded64535faab990d1",
+        "1a1206713d36750a251b",
+        "68af1dd714f48e60a0ea"
+      ],
+      "diverse_context_ids": [
+        "2b8ded64535faab990d1",
+        "1a1206713d36750a251b",
+        "68af1dd714f48e60a0ea"
+      ],
+      "baseline_headings": [
+        "Task Attributes",
+        "Task Output",
+        "Using `output_json`"
+      ],
+      "diverse_headings": [
+        "Task Attributes",
+        "Task Output",
+        "Using `output_json`"
+      ],
+      "char_budget": 1730,
+      "diverse_chars": 1730
+    },
+    {
+      "id": "H04",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/crews.mdx",
+          "heading": "Synchronous Methods"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/crews.mdx",
+          "heading": "Asynchronous Methods"
+        }
+      ],
+      "baseline_all_found": true,
+      "diverse_all_found": true,
+      "baseline_anchor_found": [
+        true,
+        true
+      ],
+      "diverse_anchor_found": [
+        true,
+        true
+      ],
+      "candidate_ids": [
+        "3cf214fdcbed66eceb9c",
+        "e0fb55ce037c9a2ba9d6",
+        "fb25c690f54b0f934156",
+        "96c79c7f52ec69e02b7b",
+        "86fd986bef1cc138c2f2",
+        "d7e1af19901dc407aa91",
+        "58a420ef931e9a345fab",
+        "9c65db83da0b4de02d17",
+        "e2b15e9679182c31525c",
+        "9ade4f8b9af8341d05ab"
+      ],
+      "baseline_context_ids": [
+        "3cf214fdcbed66eceb9c",
+        "e0fb55ce037c9a2ba9d6",
+        "fb25c690f54b0f934156"
+      ],
+      "diverse_context_ids": [
+        "3cf214fdcbed66eceb9c",
+        "e0fb55ce037c9a2ba9d6",
+        "fb25c690f54b0f934156"
+      ],
+      "baseline_headings": [
+        "Asynchronous Methods",
+        "Asynchronous Methods",
+        "Synchronous Methods"
+      ],
+      "diverse_headings": [
+        "Asynchronous Methods",
+        "Asynchronous Methods",
+        "Synchronous Methods"
+      ],
+      "char_budget": 2349,
+      "diverse_chars": 2349
+    },
+    {
+      "id": "H05",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Using the Flow API"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Streaming Flow Execution"
+        }
+      ],
+      "baseline_all_found": true,
+      "diverse_all_found": true,
+      "baseline_anchor_found": [
+        true,
+        true
+      ],
+      "diverse_anchor_found": [
+        true,
+        true
+      ],
+      "candidate_ids": [
+        "5b03bd9779c20bbd0878",
+        "a742aa19583326de3bed",
+        "68bff7c4ef3ea346fde0",
+        "c53a4017094da8a6da9c",
+        "9d7cc2aa27c04d623c91",
+        "5ae92cbbb86dde22c55f",
+        "00ee7cd554b82049888c",
+        "86fd986bef1cc138c2f2",
+        "d5eeb58c770ff57c193a",
+        "58a420ef931e9a345fab"
+      ],
+      "baseline_context_ids": [
+        "5b03bd9779c20bbd0878",
+        "a742aa19583326de3bed",
+        "68bff7c4ef3ea346fde0"
+      ],
+      "diverse_context_ids": [
+        "5b03bd9779c20bbd0878",
+        "a742aa19583326de3bed",
+        "68bff7c4ef3ea346fde0"
+      ],
+      "baseline_headings": [
+        "Using the Flow API",
+        "Build your first Flow",
+        "Streaming Flow Execution"
+      ],
+      "diverse_headings": [
+        "Using the Flow API",
+        "Build your first Flow",
+        "Streaming Flow Execution"
+      ],
+      "char_budget": 2494,
+      "diverse_chars": 2494
+    },
+    {
+      "id": "H06",
+      "anchors": [
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Option 1: Using the `plot()` Method"
+        },
+        {
+          "path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "heading": "Option 2: Using the Command Line"
+        }
+      ],
+      "baseline_all_found": true,
+      "diverse_all_found": true,
+      "baseline_anchor_found": [
+        true,
+        true
+      ],
+      "diverse_anchor_found": [
+        true,
+        true
+      ],
+      "candidate_ids": [
+        "8c4b165e66e17a6158ab",
+        "59206d7b37872f06fc50",
+        "0812c326516b2d21a9d7",
+        "ce1a76cc31cecdd4bbe6",
+        "2e4719341591b38cc175",
+        "82a2a5748b1c9d4ca0f7",
+        "9d7cc2aa27c04d623c91",
+        "9286b19a5ff381f3eb67",
+        "ad0b93ae299b14f00404",
+        "2dc0772098276d50c247"
+      ],
+      "baseline_context_ids": [
+        "8c4b165e66e17a6158ab",
+        "59206d7b37872f06fc50",
+        "0812c326516b2d21a9d7"
+      ],
+      "diverse_context_ids": [
+        "8c4b165e66e17a6158ab",
+        "59206d7b37872f06fc50",
+        "0812c326516b2d21a9d7"
+      ],
+      "baseline_headings": [
+        "Option 2: Using the Command Line",
+        "Option 1: Using the `plot()` Method",
+        "Conclusion"
+      ],
+      "diverse_headings": [
+        "Option 2: Using the Command Line",
+        "Option 1: Using the `plot()` Method",
+        "Conclusion"
+      ],
+      "char_budget": 1292,
+      "diverse_chars": 1292
+    }
+  ]
+}

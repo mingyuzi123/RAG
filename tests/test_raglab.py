@@ -10,6 +10,7 @@ import os
 
 from raglab.corpus import chunk_mdx
 from raglab.decomposition import decompose_question
+from raglab.diversity import select_diverse
 from raglab.generation import build_messages, generate_answer
 from raglab.hybrid import reciprocal_rank_fusion
 from raglab.multiquery import interleave_results
@@ -108,6 +109,23 @@ class HybridTests(TestCase):
         self.assertEqual([item["id"] for item in results], ["shared", "keyword"])
         self.assertEqual(results[0]["retriever_ranks"], {"bm25": 2, "vector": 1})
         self.assertEqual(results[0]["retrieval_ms"], 3.0)
+
+
+class DiversityTests(TestCase):
+    def test_diversity_can_replace_a_redundant_high_ranked_passage(self):
+        class Vector(list):
+            def __matmul__(self, other):
+                return sum(left * right for left, right in zip(self, other))
+
+        candidates = [{"id": "first", "text": "one"},
+                      {"id": "duplicate", "text": "two"},
+                      {"id": "other", "text": "three"}]
+        vectors = {"first": Vector([1.0, 0.0]), "duplicate": Vector([1.0, 0.0]),
+                   "other": Vector([0.0, 1.0])}
+        result = select_diverse(candidates, vectors, 2, relevance_weight=0.2, max_chars=8)
+        self.assertEqual([item["id"] for item in result], ["first", "other"])
+        self.assertEqual([item["id"] for item in select_diverse(
+            candidates, vectors, 2, relevance_weight=1.0)], ["first", "duplicate"])
 
 
 class MultiQueryTests(TestCase):
