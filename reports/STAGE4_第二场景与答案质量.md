@@ -29,7 +29,7 @@
 | 8 道可回答题 | 6 | 2 | P01、P06 缺少一个预期要点，模型没有补造 |
 | 2 道无答案题 | 2 | 0 | 均没有编造具体 S3 bucket 或发布时间 |
 
-P01、P06 的标注章节都进入了前 3，但具体块没有涵盖问题要求的全部事实。**章节命中可以高估可回答性。**P07 的前 3 没集齐标注的两个章节，却从另一个进入上下文的 `Basic model usage` 块答全且有依据。**章节命中也会低估可回答性。**这两个方向都要求回到原文句子和实际答案核验，不能只看 7/8。
+P01、P06 的标注章节都进入了前 3，但具体块没有涵盖问题要求的全部事实。**章节命中可以高估可回答性。**P07 的前 3 没集齐标注的两个章节，却从另一个进入上下文的 `Model methods and properties` 块答全且有依据。**章节命中也会低估可回答性。**这两个方向都要求回到原文句子和实际答案核验，不能只看 7/8。
 
 上表是一次调用、单人复核的小样本，不是稳定正确率。P10 虽合理拒答，但附了描述所给摘录主题的引用，略显冗余，值得第二人复核。合理拒答没有引用时，`citation_numbers_valid` 会是 false；它只检验编号格式，不能代替人工判断。用 `scripts/summarize_answer_audit.py --scenario scenarios/pydantic/manifest.json --audit reports/pydantic-answer-audit.json --verify-local` 可复核人工标签与本机请求的一致性。其他机器没有这些日志时，去掉 `--verify-local` 仍可重算标签汇总，但不能独立核验原始回答。重跑问答可使用 `scripts/run_answer_sample.py --scenario scenarios/pydantic/manifest.json`；模型输出和请求 ID 可能变化，需要重新评审。
 
