@@ -66,6 +66,7 @@ def main() -> int:
             local_model_cache = ROOT / ".venv" / "hf" / "hub"
             if local_model_cache.is_dir() and not os.environ.get("HF_HOME"):
                 os.environ["HF_HOME"] = str(local_model_cache.parent)
+                os.environ.setdefault("HF_HUB_OFFLINE", "1")
             print(f"启动页面：http://127.0.0.1:{args.port}/", flush=True)
             return subprocess.call([sys.executable, "-m", "raglab.web", "--port", str(args.port),
                                     "--scenario", str(args.scenario)],

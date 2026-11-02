@@ -37,6 +37,8 @@ def _check_source(root: Path, manifest: dict) -> Path:
     source_root = (root / manifest["local_checkout"]).resolve()
     if not source_root.is_dir():
         raise FileNotFoundError(f"source checkout missing; run python scripts/fetch_scenario_docs.py --scenario <manifest.json>: {source_root}")
+    if manifest.get("source_type") == "local":
+        return source_root
     actual = subprocess.check_output(
         ["git", "-c", f"safe.directory={source_root.as_posix()}", "-C", str(source_root), "rev-parse", "HEAD"],
         text=True,

@@ -15,11 +15,14 @@
       <div class="side-rule"></div>
       <p class="side-label">当前场景</p>
       <div class="scenario-card"><span class="scenario-icon" id="scenario-icon">R</span><div><strong id="scenario-name">正在读取场景</strong><small id="scenario-version">读取中…</small></div></div>
+      <label class="scenario-switch-label" for="scenario-select">切换知识库</label>
+      <select id="scenario-select" aria-label="切换知识库"></select>
       <nav class="side-nav" aria-label="主导航">
         <button class="nav-item active" data-tab="explore"><span class="nav-symbol">◇</span> 检索实验 <span class="nav-arrow">↗</span></button>
         <button class="nav-item" data-tab="evaluation"><span class="nav-symbol">▦</span> 阶段评测</button>
         <button class="nav-item" data-tab="answer"><span class="nav-symbol">✦</span> 带出处问答</button>
         <button class="nav-item" data-tab="traces"><span class="nav-symbol">▤</span> 请求记录</button>
+        <button class="nav-item" data-tab="sources"><span class="nav-symbol">▣</span> 资料管理</button>
       </nav>
       <div class="side-rule"></div>
       <p class="side-label">项目进度</p>
@@ -42,7 +45,7 @@
       <section class="workspace-grid">
         <div class="primary-column">
           <div class="panel query-panel">
-            <div class="panel-head"><div><p class="panel-kicker">01 / INPUT</p><h2>提出一个问题</h2></div><span class="panel-tag">基于固定版本文档</span></div>
+            <div class="panel-head"><div><p class="panel-kicker">01 / INPUT</p><h2>提出一个问题</h2></div><span class="panel-tag" id="query-source-tag">基于固定版本文档</span></div>
             <label for="sample-select" class="field-label">从评测集中选择 <span>或自行输入</span></label>
             <select id="sample-select"><option value="">自定义问题</option></select>
             <label for="question" class="field-label">中文问题</label>
@@ -73,6 +76,24 @@
           <section id="traces-tab" class="tab-section">
             <div class="section-heading"><div><p class="panel-kicker">05 / TRACE</p><h2>回看请求记录</h2></div><button class="text-button" id="refresh-traces">刷新 ↻</button></div>
             <div id="trace-list" class="trace-list panel"><p class="muted">尚未加载请求记录。评测题的问答可在这里逐条核验答案与引用。</p></div>
+          </section>
+
+          <section id="sources-tab" class="tab-section">
+            <div class="section-heading"><div><p class="panel-kicker">06 / SOURCES</p><h2>当前知识库的资料</h2></div><span class="section-note" id="source-count"></span></div>
+            <div class="panel sources-panel">
+              <p class="muted" id="source-intro">切换知识库会同时切换资料、索引、题集与请求记录。</p>
+              <div id="source-list" class="source-doc-list"></div>
+              <div class="source-manage"><h3>添加或替换资料</h3><p id="source-guide" class="source-guide"></p>
+                <button class="button secondary" id="open-local-btn" type="button">切换到我的本地文档</button>
+                <div id="import-panel" hidden>
+                  <label class="field-label" for="import-file">选择 Markdown / MDX 文件 <span>仅保存到本机，单篇不超过 1 MB</span></label>
+                  <input id="import-file" type="file" accept=".md,.mdx">
+                  <label class="replace-option"><input id="replace-file" type="checkbox"> 替换同名文档（旧版本仍保留在本机）</label>
+                  <button class="button primary" id="import-btn" type="button">导入并重建索引</button>
+                  <p id="import-message" class="form-message" role="status" aria-live="polite"></p>
+                </div>
+              </div>
+            </div>
           </section>
         </div>
 

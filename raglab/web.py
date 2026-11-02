@@ -3,16 +3,17 @@
 from argparse import ArgumentParser
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 import json
 import traceback
 
 from .decomposition import decompose_question
 from .evaluation_view import load_dashboard
+from .local_sources import SCENARIO_ID, ensure_local_scenario, import_document, local_manifest_path, local_source_file
 from .review import latest_reviews, save_review
 from .service import answer, compare, recent_traces, retrieve, status
-from .store import index_path, load_manifest
-from .vector import load_model
+from .store import build_index, index_path, load_manifest
+from .vector import build_vectors, load_model
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,7 +31,7 @@ def scenario_history(root: Path, scenario_id: str) -> dict:
     return {"traces": traces, "reviews": reviews}
 
 
-def create_handler(root: Path, manifest_path: Path):
+def scenario_context(root: Path, manifest_path: Path) -> dict:
     manifest = load_manifest(manifest_path)
     db_path = index_path(root, manifest, 1800)
     ui_path = manifest_path.parent / "ui.json"
@@ -50,6 +51,23 @@ def create_handler(root: Path, manifest_path: Path):
                  "expected_points": item.get("expected_points", []),
                  "evidence": item.get("evidence", [])}
                 for item in questions]
+    source_root = root / manifest["local_checkout"]
+    documents = [{"path": path, "name": manifest.get("display_names", {}).get(path, Path(path).name),
+        "url": manifest["source_url_template"].format(
+        commit=manifest["upstream_commit"], path=path),
+        "available": (source_root / path).is_file()} for path in manifest["files"]]
+    return {"manifest": manifest, "db_path": db_path, "ui": ui,
+            "examples": examples, "documents": documents}
+
+
+def create_handler(root: Path, manifest_path: Path):
+    paths = [manifest_path, *(root / "scenarios").glob("*/manifest.json"),
+             ensure_local_scenario(root)]
+    contexts = {}
+    for path in paths:
+        context = scenario_context(root, path)
+        contexts[context["manifest"]["id"]] = context
+    default_id = load_manifest(manifest_path)["id"]
     model_cache = {"model": None}
 
     class Handler(BaseHTTPRequestHandler):
@@ -78,6 +96,13 @@ def create_handler(root: Path, manifest_path: Path):
                 model_cache["model"] = load_model()
             return model_cache["model"]
 
+        def _context(self):
+            query = parse_qs(urlparse(self.path).query)
+            scenario_id = query.get("scenario", [default_id])[0]
+            if scenario_id not in contexts:
+                raise ValueError("Unknown scenario")
+            return contexts[scenario_id]
+
         def do_GET(self):
             if not self._allowed_host():
                 self._json(403, {"error": "Local access only"})
@@ -88,12 +113,40 @@ def create_handler(root: Path, manifest_path: Path):
                 body = (root / "web" / name).read_bytes()
                 self._headers(200, mime, len(body))
                 self.wfile.write(body)
+            elif path == "/api/source":
+                try:
+                    if self._context()["manifest"]["id"] != SCENARIO_ID:
+                        raise ValueError("Source is not a local scenario")
+                    relative = parse_qs(urlparse(self.path).query).get("path", [""])[0]
+                    body = local_source_file(root, relative).read_bytes()
+                    self._headers(200, "text/plain; charset=utf-8", len(body))
+                    self.wfile.write(body)
+                except (ValueError, FileNotFoundError) as exc:
+                    self._json(404, {"error": str(exc)})
             elif path == "/api/config":
-                self._json(200, {"ui": ui, "examples": examples, "status": status(root, manifest)})
+                try:
+                    context = self._context()
+                except ValueError as exc:
+                    self._json(400, {"error": str(exc)})
+                    return
+                manifest = context["manifest"]
+                scenarios = [{"id": item["manifest"]["id"], "name": item["manifest"]["name"],
+                              "version": item["manifest"].get("docs_version", "")}
+                             for item in contexts.values()]
+                self._json(200, {"scenario_id": manifest["id"], "scenarios": scenarios,
+                                 "documents": context["documents"], "ui": context["ui"],
+                                 "examples": context["examples"], "status": status(root, manifest)})
             elif path == "/api/traces":
-                self._json(200, scenario_history(root, manifest["id"]))
+                try:
+                    self._json(200, scenario_history(root, self._context()["manifest"]["id"]))
+                except ValueError as exc:
+                    self._json(400, {"error": str(exc)})
             elif path == "/api/evaluations":
-                self._json(200, load_dashboard(root, manifest, ui))
+                try:
+                    context = self._context()
+                    self._json(200, load_dashboard(root, context["manifest"], context["ui"]))
+                except ValueError as exc:
+                    self._json(400, {"error": str(exc)})
             else:
                 self._json(404, {"error": "Not found"})
 
@@ -102,19 +155,37 @@ def create_handler(root: Path, manifest_path: Path):
                 self._json(403, {"error": "Local access only"})
                 return
             path = urlparse(self.path).path
-            if path not in ("/api/search", "/api/compare", "/api/ask", "/api/decompose", "/api/review"):
+            if path not in ("/api/search", "/api/compare", "/api/ask", "/api/decompose", "/api/review", "/api/import"):
                 self._json(404, {"error": "Not found"})
                 return
             if not self.headers.get("Content-Type", "").startswith("application/json"):
                 self._json(415, {"error": "Expected application/json"})
                 return
             try:
+                context = self._context()
+                manifest, db_path, examples = (context[key] for key in ("manifest", "db_path", "examples"))
                 size = int(self.headers.get("Content-Length", "0"))
-                if not 0 < size <= 32768:
-                    raise ValueError("Request body must be between 1 and 32768 bytes")
+                limit = 1400000 if path == "/api/import" else 32768
+                if not 0 < size <= limit:
+                    raise ValueError("Request body exceeds allowed size")
                 data = json.loads(self.rfile.read(size))
                 if not isinstance(data, dict):
                     raise ValueError("Expected a JSON object")
+                if path == "/api/import":
+                    if manifest["id"] != SCENARIO_ID:
+                        raise ValueError("请先切换到『我的本地文档』场景")
+                    updated = import_document(root, data.get("filename"), data.get("content"),
+                                              data.get("replace") is True)
+                    contexts[SCENARIO_ID] = scenario_context(root, local_manifest_path(root))
+                    new_db, chunk_count = build_index(root, updated)
+                    vector_error = None
+                    try:
+                        build_vectors(new_db, self._model())
+                    except (RuntimeError, OSError, ValueError) as exc:
+                        vector_error = str(exc)
+                    self._json(200, {"scenario_id": SCENARIO_ID, "chunks": chunk_count,
+                                     "status": status(root, updated), "vector_error": vector_error})
+                    return
                 if path == "/api/review":
                     review = save_review(root, manifest["id"], data.get("request_id"),
                                          recent_traces(root, 1000),

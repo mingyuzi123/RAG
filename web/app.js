@@ -33,7 +33,10 @@ function showTab(name) {
 }
 
 async function api(path, body) {
-  const response = await fetch(path, body ? {
+  const scenario = new URLSearchParams(window.location.search).get('scenario');
+  const url = new URL(path, window.location.origin);
+  if (scenario) url.searchParams.set('scenario', scenario);
+  const response = await fetch(url, body ? {
     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
   } : undefined);
   const data = await response.json();
@@ -357,6 +360,37 @@ async function initialize() {
   $('#decompose-btn').addEventListener('click', decompose);
   $('#ask-btn').addEventListener('click', ask);
   $('#refresh-traces').addEventListener('click', loadTraces);
+  $('#scenario-select').addEventListener('change', event => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('scenario', event.target.value);
+    window.location.assign(url);
+  });
+  $('#open-local-btn').addEventListener('click', () => {
+    $('#scenario-select').value = 'local-docs';
+    $('#scenario-select').dispatchEvent(new Event('change'));
+  });
+  $('#import-btn').addEventListener('click', async () => {
+    const file = $('#import-file').files?.[0];
+    const target = $('#import-message');
+    if (!file) { target.textContent = '请先选择 .md 或 .mdx 文件。'; return; }
+    if (!/\.mdx?$/i.test(file.name) || file.size > 1024 * 1024) {
+      target.textContent = '仅支持不超过 1 MB 的 .md 或 .mdx 文件。'; return;
+    }
+    const button = $('#import-btn');
+    button.disabled = true;
+    target.textContent = '正在导入、切块并建立索引…';
+    try {
+      const result = await api('/api/import', {
+        filename: file.name, content: await file.text(), replace: $('#replace-file').checked
+      });
+      sessionStorage.setItem('raglab-import-result', result.vector_error
+        ? `已导入 ${file.name}，BM25 索引就绪；E5 建库失败：${result.vector_error}`
+        : `已导入 ${file.name}，共 ${result.chunks} 个知识块，BM25 与 E5 索引已更新。`);
+      window.location.hash = 'sources';
+      window.location.reload();
+    } catch (error) { target.textContent = `导入失败：${error.message}`; }
+    finally { button.disabled = false; }
+  });
   $('#strategy').addEventListener('change', () => { $('#subquery-field').hidden = $('#strategy').value !== 'decomposed'; });
   $('#strategy').dispatchEvent(new Event('change'));
   $('#sample-select').addEventListener('change', event => {
@@ -372,6 +406,38 @@ async function initialize() {
     state.config = config;
     state.keyAvailable = config.status.deepseek_key_set;
     state.examples = config.examples;
+    const scenarioSelect = $('#scenario-select');
+    scenarioSelect.replaceChildren();
+    for (const scenario of config.scenarios) {
+      const option = el('option', '', `${scenario.name} · ${scenario.version}`);
+      option.value = scenario.id;
+      scenarioSelect.append(option);
+    }
+    scenarioSelect.value = config.scenario_id;
+    const sourceList = $('#source-list');
+    sourceList.replaceChildren();
+    for (const document of config.documents) {
+      const row = el('div', 'source-doc');
+      const label = el('a', '', document.name);
+      label.href = document.url;
+      label.target = '_blank';
+      label.rel = 'noopener noreferrer';
+      row.append(label, el('small', '', document.path),
+                 el('span', document.available ? 'source-ready' : 'source-missing',
+                    document.available ? '本地资料已就绪' : '本地资料缺失'));
+      sourceList.append(row);
+    }
+    $('#source-count').textContent = `${config.documents.length} 篇 · ${config.status.source_commit.slice(0, 8)}`;
+    const local = config.scenario_id === 'local-docs';
+    $('#source-intro').textContent = local
+      ? '下列文档只保存在本机。每次添加或替换都会生成新的资料版本和独立索引。'
+      : '下列文档来自固定版本的官方仓库。切换知识库会同时切换资料、索引、题集与请求记录。';
+    $('#query-source-tag').textContent = local ? '基于本地文档' : '基于固定版本文档';
+    $('#open-local-btn').hidden = local;
+    $('#import-panel').hidden = !local;
+    $('#source-guide').textContent = local
+      ? '选择本机 Markdown/MDX 文档导入。相同文件名可勾选替换；旧文件和旧索引版本仍保留，以便追溯历史回答。'
+      : '这套官方资料固定在一个 Git 提交上。请切换到“我的本地文档”导入自己的 Markdown/MDX，避免改动当前实验基线。';
     $('#scenario-name').textContent = config.ui.title;
     $('#scenario-icon').textContent = (config.ui.title || 'R').slice(0, 1).toUpperCase();
     $('#scenario-badge').textContent = config.ui.badge || config.ui.title;
@@ -385,7 +451,7 @@ async function initialize() {
       row.append(el('span', 'check', '✓'), document.createTextNode(point));
       learning.append(row);
     }
-    $('#scenario-version').textContent = config.status.source_commit.slice(0, 8) + ' · 固定资料';
+    $('#scenario-version').textContent = config.status.source_commit.slice(0, 8) + (local ? ' · 本地资料' : ' · 固定资料');
     document.documentElement.style.setProperty('--accent', config.ui.accent || '#635bff');
     document.title = `RAG Lab · ${config.ui.title}`;
     if (config.ui.metric) {
@@ -394,6 +460,12 @@ async function initialize() {
       $('#metric-caption').textContent = config.ui.metric.caption;
       $('#metric-note').textContent = config.ui.metric.note;
       $('#metric-fill').style.width = `${Math.max(0, Math.min(100, config.ui.metric.percent))}%`;
+    } else if (local) {
+      $('#metric-label').textContent = '我的文档';
+      $('#metric-value').textContent = String(config.documents.length);
+      $('#metric-caption').textContent = '篇已导入';
+      $('#metric-note').textContent = '自定义场景尚无固定评测集；请先导入资料，再逐题检查检索和引用。';
+      $('#metric-fill').style.width = config.documents.length ? '100%' : '0%';
     }
     for (const item of config.examples) {
       const option = el('option', '', `${item.id} · ${item.question}`);
@@ -401,7 +473,8 @@ async function initialize() {
     }
     const ready = config.status.keyword_ready && config.status.vector_ready;
     $('#status-dot').classList.toggle('ready', ready);
-    $('#status-line').textContent = ready ? 'BM25 与 E5 索引已就绪' : '索引未齐，请先运行建库命令';
+    $('#status-line').textContent = ready ? 'BM25 与 E5 索引已就绪'
+      : (local && !config.documents.length ? '尚未导入本地文档' : '索引未齐，请先运行建库命令');
     $('#key-hint').textContent = config.status.deepseek_key_set ? 'DeepSeek 密钥已从本地环境变量读取。' : '未检测到 DeepSeek 密钥；检索实验仍可使用。';
     $('#ask-btn').disabled = !state.keyAvailable;
     $('#decompose-btn').disabled = !state.keyAvailable;
@@ -410,6 +483,9 @@ async function initialize() {
       $('#sample-select').value = preferred.id;
       $('#sample-select').dispatchEvent(new Event('change'));
     }
+    if (window.location.hash === '#sources') showTab('sources');
+    const importResult = sessionStorage.getItem('raglab-import-result');
+    if (importResult) { $('#import-message').textContent = importResult; sessionStorage.removeItem('raglab-import-result'); }
   } catch (error) { message(`初始化失败：${error.message}`, true); }
 }
 
