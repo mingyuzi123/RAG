@@ -1,0 +1,584 @@
+{
+  "method": "manual expected-point completeness with citation-number check",
+  "limitation": "Single answer per unique prompt; citation numbers checked mechanically, semantic support manually reviewed on changed cases.",
+  "summary": {
+    "baseline": {
+      "all": 29,
+      "all_total": 35,
+      "answerable": 25,
+      "answerable_total": 31,
+      "unanswerable": 4,
+      "no_valid_citation_number": 0
+    },
+    "parent": {
+      "all": 30,
+      "all_total": 35,
+      "answerable": 26,
+      "answerable_total": 31,
+      "unanswerable": 4,
+      "no_valid_citation_number": 1
+    }
+  },
+  "reviews": [
+    {
+      "id": "C01",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C01",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C02",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C02",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C03",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C03",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C04",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": false,
+      "reason_if_incomplete": "未说明 Agent/Task tools 两侧的完整作用范围",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C04",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": false,
+      "reason_if_incomplete": "仍缺 Agent/Task tools 两侧的完整作用范围",
+      "citation_numbers_valid": false
+    },
+    {
+      "id": "C05",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C05",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C06",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C06",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C07",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C07",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C08",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C08",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C09",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C09",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C10",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": false,
+      "reason_if_incomplete": "未明确回答 @start 是 Flow 入口",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C10",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": false,
+      "reason_if_incomplete": "与基线相同：未明确回答 @start 是 Flow 入口",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C11",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C11",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C12",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C12",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C13",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C13",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C14",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C14",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C15",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C15",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C16",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C16",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C17",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C17",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C18",
+      "variant": "baseline",
+      "answerability": "unanswerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C18",
+      "variant": "parent",
+      "answerability": "unanswerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C19",
+      "variant": "baseline",
+      "answerability": "unanswerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C19",
+      "variant": "parent",
+      "answerability": "unanswerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H01",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": false,
+      "reason_if_incomplete": "Sequential 只回答顺序，未回答前一个任务输出作为后续上下文",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H01",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": false,
+      "reason_if_incomplete": "Sequential 只回答顺序，未回答前一个任务输出作为后续上下文",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H02",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H02",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H03",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": false,
+      "reason_if_incomplete": "未明确回答 output_pydantic 通过指定模型验证",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H03",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": false,
+      "reason_if_incomplete": "与基线相同：未明确回答 output_pydantic 通过指定模型验证",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H04",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H04",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H05",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H05",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H06",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H06",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P01",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": false,
+      "reason_if_incomplete": "无默认值字段必填仅作为推断，缺少摘录直接支持",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P01",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": false,
+      "reason_if_incomplete": "与基线相同：无默认值字段必填缺少摘录直接支持",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P02",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P02",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P03",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P03",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P04",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P04",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P05",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P05",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P06",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": false,
+      "reason_if_incomplete": "未回答 after 在内部校验之后运行",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P06",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P07",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P07",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P08",
+      "variant": "baseline",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P08",
+      "variant": "parent",
+      "answerability": "answerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P09",
+      "variant": "baseline",
+      "answerability": "unanswerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P09",
+      "variant": "parent",
+      "answerability": "unanswerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P10",
+      "variant": "baseline",
+      "answerability": "unanswerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P10",
+      "variant": "parent",
+      "answerability": "unanswerable",
+      "complete": true,
+      "reason_if_incomplete": null,
+      "citation_numbers_valid": true
+    }
+  ]
+}

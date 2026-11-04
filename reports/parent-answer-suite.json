@@ -1,0 +1,817 @@
+[
+  {
+    "scenario": "pydantic",
+    "id": "P06",
+    "variant": "baseline",
+    "expected_points": [
+      "before 在内部类型校验和解析之前运行",
+      "after 在内部类型校验和解析之后运行"
+    ],
+    "context": [
+      {
+        "path": "docs/concepts/validators.md",
+        "lines": [
+          160,
+          203
+        ]
+      },
+      {
+        "path": "docs/concepts/validators.md",
+        "lines": [
+          1,
+          28
+        ]
+      },
+      {
+        "path": "docs/concepts/validators.md",
+        "lines": [
+          251,
+          312
+        ]
+      }
+    ],
+    "answer": "- **before 模式**：在 Pydantic 的内部解析和校验**之前**运行，例如在将 `str` 强制转换为 `int` 之前；它接收原始输入，返回值随后再由 Pydantic 按类型注解进行校验。[1]\n- **after 模式**：提供的摘录没有说明它在类型解析/内部校验中的具体运行阶段，因此仅凭这些来源无法确定。[2] 只列出了字段 after 验证器的入口，未描述其执行时机。",
+    "cited_numbers": [
+      1,
+      2
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1200,
+      "completion_tokens": 885,
+      "total_tokens": 2085,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 779
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1200
+    }
+  },
+  {
+    "scenario": "pydantic",
+    "id": "P06",
+    "variant": "parent",
+    "expected_points": [
+      "before 在内部类型校验和解析之前运行",
+      "after 在内部类型校验和解析之后运行"
+    ],
+    "context": [
+      {
+        "path": "docs/concepts/validators.md",
+        "lines": [
+          29,
+          52
+        ]
+      },
+      {
+        "path": "docs/concepts/validators.md",
+        "lines": [
+          160,
+          203
+        ]
+      },
+      {
+        "path": "docs/concepts/validators.md",
+        "lines": [
+          1,
+          28
+        ]
+      }
+    ],
+    "answer": "- **before 模式**：在 Pydantic 内部解析和校验**之前**运行，例如在将 `str` 强制转换为 `int` 之前；它接收原始输入，其返回值随后会再按类型注解由 Pydantic 校验。[2]\n- **after 模式**：在 Pydantic 内部校验**之后**运行，通常更类型安全、也更易实现。[1]",
+    "cited_numbers": [
+      1,
+      2
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1145,
+      "completion_tokens": 201,
+      "total_tokens": 1346,
+      "prompt_tokens_details": {
+        "cached_tokens": 896
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 112
+      },
+      "prompt_cache_hit_tokens": 896,
+      "prompt_cache_miss_tokens": 249
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C01",
+    "variant": "baseline",
+    "expected_points": [
+      "Flow 管理整体结构、状态和执行逻辑",
+      "Crew 在 Flow 的步骤中承担需要自主协作的复杂任务"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          8,
+          21
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          31,
+          45
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          8,
+          18
+        ]
+      }
+    ],
+    "answer": "在 CrewAI 中，两者分工如下：\n\n- **Flows 负责“流程骨架”与控制**：它是应用的“管理者”或“流程定义”，定义步骤、逻辑以及数据如何在系统中流动；提供状态管理、事件驱动执行，以及条件分支、循环等控制流能力。[2] Flows 也用于把多个 Crews 和任务串联起来，管理任务间状态并控制执行流程。[1]\n- **Crews 负责“具体工作单元”**：Crews 是 Flow 中的工作单元，是由自主智能体组成的团队，协作完成 Flow 委派给它们的具体任务。[3]\n\n构建需要稳定执行路径的应用时，可以这样组合：**用 Flow 作为外层流程定义和编排层，明确步骤、状态传递、事件触发与条件/循环/分支；再把具体任务委派给 Crews 执行**。也就是说，Flow 提供结构化、可控的执行骨架，并把多个 Crews 和任务连接起来；Crews 则作为其中的任务执行单元完成特定目标。[3][1][2] 这种组合体现了 Crews 的协作智能与 Flows 的精确控制相结合。[3]",
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 768,
+      "completion_tokens": 466,
+      "total_tokens": 1234,
+      "prompt_tokens_details": {
+        "cached_tokens": 512
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 218
+      },
+      "prompt_cache_hit_tokens": 512,
+      "prompt_cache_miss_tokens": 256
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C01",
+    "variant": "parent",
+    "expected_points": [
+      "Flow 管理整体结构、状态和执行逻辑",
+      "Crew 在 Flow 的步骤中承担需要自主协作的复杂任务"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          8,
+          18
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          8,
+          21
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          31,
+          45
+        ]
+      }
+    ],
+    "answer": "在 CrewAI 中，**Flows 负责应用的整体流程与执行控制，Crews 负责执行 Flow 委派的具体任务**。\n\n- **Flows** 是 AI 应用的“骨干”或“流程定义/管理者”：它定义步骤、逻辑以及数据如何在系统中流动，负责状态管理、事件驱动执行，以及条件逻辑、循环和分支等控制流 [1][3]。Flows 还能把多个 Crews 和任务串联起来，协调编码任务与 Crews，并管理状态、控制执行流程 [2]。\n- **Crews** 是 Flow 中的“工作单元”：它们是由自主代理组成的团队，协作解决 Flow 委派给它们的具体任务 [1]。\n\n构建需要**稳定执行路径**的应用时，可以这样组合：**以 Flow 作为外层骨架和流程控制器**，用它定义固定步骤、状态传递和控制逻辑（条件、循环、分支、事件触发）[2][3]；然后在 Flow 的相应步骤中**调用 Crews 作为具体任务的执行单元**，让 Crews 完成被委派的特定任务，并由 Flow 负责串联和协调多个 Crews/任务 [1][2]。简言之：**Flow 管流程与控制，Crews 管具体任务执行**。",
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 768,
+      "completion_tokens": 575,
+      "total_tokens": 1343,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 303
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 768
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C02",
+    "variant": "baseline",
+    "expected_points": [
+      "role 定义职能和专长",
+      "goal 定义个体目标",
+      "backstory 提供背景与角色设定"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/agents.mdx",
+        "lines": [
+          76,
+          124
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          46,
+          60
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/agents.mdx",
+        "lines": [
+          39,
+          46
+        ]
+      }
+    ],
+    "answer": "在 CrewAI 中定义 Agent 时，这三个属性的作用如下：\n\n- **role（角色）**：定义该 agent 在 crew（团队）中的职能与专业领域 [3]。\n- **goal（目标）**：指导该 agent 决策的个体目标 [3]。\n- **backstory（背景故事）**：为 agent 提供上下文与个性，从而丰富交互 [3]。\n\n此外，在 JSONC 配置方式中，`role`、`goal` 和 `backstory` 都支持 `{placeholder}` 占位符；默认值可放在 `crew.jsonc` 的 `inputs` 下，运行 `crewai run` 时会提示补全缺失的值。例如 `\"role\": \"{topic} Senior Data Researcher\"`、`\"goal\": \"Uncover cutting-edge developments in {topic}\"` [1]。",
+    "cited_numbers": [
+      1,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1012,
+      "completion_tokens": 235,
+      "total_tokens": 1247,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 51
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1012
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C02",
+    "variant": "parent",
+    "expected_points": [
+      "role 定义职能和专长",
+      "goal 定义个体目标",
+      "backstory 提供背景与角色设定"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/agents.mdx",
+        "lines": [
+          39,
+          46
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/agents.mdx",
+        "lines": [
+          76,
+          124
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          46,
+          60
+        ]
+      }
+    ],
+    "answer": "在 CrewAI 中，这三个字段共同塑造一个 Agent 的“角色设定”，具体作用如下：\n\n- **role（角色）**：定义该 Agent 在 crew 中的**职能与专业领域**，即它“是谁、擅长什么”。例如示例中写为 `\"{topic} Senior Data Researcher\"` [1][2]。\n- **goal（目标）**：设定引导该 Agent **决策过程的个人目标**，即它要达成什么结果。例如 `\"Uncover cutting-edge developments in {topic}\"` [1][2]。\n- **backstory（背景故事）**：为 Agent 提供**上下文与人格设定**，从而丰富其交互表现，让它以更符合角色的方式行事。例如 `\"You find the most relevant information and present it clearly.\"` [1][2]。\n\n补充：在 JSONC 配置中，`role`、`goal`、`backstory` 都可以使用 `{placeholder}` 占位符，默认值放在 `crew.jsonc` 的 `inputs` 下，运行时会提示补全缺失值 [2]。从整体架构看，Crews 正是由“具有特定目标和工具的、进行角色扮演的专用 Agent”组成的 [3]。",
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1012,
+      "completion_tokens": 456,
+      "total_tokens": 1468,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 195
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1012
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C04",
+    "variant": "baseline",
+    "expected_points": [
+      "Agent 的 tools 是该 Agent 可用的能力",
+      "Task 的 tools 限制或指定该任务可用的工具"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/quickstart.mdx",
+        "lines": [
+          210,
+          216
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/tools.mdx",
+        "lines": [
+          338,
+          380
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          8,
+          28
+        ]
+      }
+    ],
+    "answer": "提供的来源只能部分回答这个问题，无法完整说明两者的范围差异。\n\n- 来源表明，`Task` 是“由 `Agent` 完成的具体任务”，其定义中会包含执行所需的详细信息，包括负责的 agent、**required tools** 等 [3]。因此，Task 级 tools 可以理解为针对某个具体任务配置的工具。\n- 但来源没有说明 Agent 级 tools 的配置范围，也没有说明当 Agent 与 Task 同时配置 tools 时，这些配置是合并、覆盖还是继承，以及各自作用于哪些任务。\n\n因此，根据现有来源可以确认，Task 可以携带自己的 required tools [3]；但无法据此判断 Agent 级 tools 与 Task 级 tools 在作用范围上的具体区别。",
+    "cited_numbers": [
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 910,
+      "completion_tokens": 397,
+      "total_tokens": 1307,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 238
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 910
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C04",
+    "variant": "parent",
+    "expected_points": [
+      "Agent 的 tools 是该 Agent 可用的能力",
+      "Task 的 tools 限制或指定该任务可用的工具"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          29,
+          45
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/quickstart.mdx",
+        "lines": [
+          210,
+          216
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/tools.mdx",
+        "lines": [
+          338,
+          380
+        ]
+      }
+    ],
+    "answer": "提供的资料中没有说明“给 Agent 配置 tools”和“给单个 Task 配置 tools”在作用范围上的区别，因此无法仅依据这些来源回答该问题。",
+    "cited_numbers": [],
+    "citation_numbers_valid": false,
+    "usage": {
+      "prompt_tokens": 815,
+      "completion_tokens": 164,
+      "total_tokens": 979,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 127
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 815
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C09",
+    "variant": "baseline",
+    "expected_points": [
+      "默认 sequential"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/crews.mdx",
+        "lines": [
+          14,
+          44
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/crews.mdx",
+        "lines": [
+          251,
+          267
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/processes.mdx",
+        "lines": [
+          23,
+          48
+        ]
+      }
+    ],
+    "answer": "创建 Crew 时如果不指定 `process`，默认采用 **`sequential`（顺序执行）** 方式。[1]\n\n根据 Crew 属性表，`process` 是可选参数，用于指定 crew 遵循的流程（如 sequential、hierarchical），其默认值为 `sequential`。[1]",
+    "cited_numbers": [
+      1
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1922,
+      "completion_tokens": 100,
+      "total_tokens": 2022,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 35
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1922
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C09",
+    "variant": "parent",
+    "expected_points": [
+      "默认 sequential"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/crews.mdx",
+        "lines": [
+          14,
+          44
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/processes.mdx",
+        "lines": [
+          23,
+          48
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/crews.mdx",
+        "lines": [
+          251,
+          267
+        ]
+      }
+    ],
+    "answer": "创建 Crew 时不指定 `process`，默认采用 **顺序执行（`sequential`）** 方式。\n\n依据是 Crew 属性表中的说明：`process` 参数（可选）用于指定 crew 遵循的流程（如 sequential、hierarchical），**\"Default is `sequential`\"** [1]。\n\n作为对比，若使用分层流程（hierarchical），则必须额外提供 `manager_llm` 或 `manager_agent` [2]；而默认的顺序流程无需这项配置。",
+    "cited_numbers": [
+      1,
+      2
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1922,
+      "completion_tokens": 141,
+      "total_tokens": 2063,
+      "prompt_tokens_details": {
+        "cached_tokens": 1280
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 33
+      },
+      "prompt_cache_hit_tokens": 1280,
+      "prompt_cache_miss_tokens": 642
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C15",
+    "variant": "baseline",
+    "expected_points": [
+      "由 Flow 管理整体状态与步骤",
+      "在需要协作的步骤中调用 Crew"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          1040,
+          1049
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          111,
+          152
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/quickstart.mdx",
+        "lines": [
+          169,
+          197
+        ]
+      }
+    ],
+    "answer": "根据提供的文档，官方材料并没有给出一条单独的“在 Flow 的某一步接入多 Agent 协作”的规范条文，但可以从 Flow 与 Crew 的定位及官方示例中归纳出建议的组织方式：\n\n- **Flow 负责结构化编排，Crew 负责多 Agent 协作**：文档把 Flow 描述为“结构化、事件驱动的工作流，可精确控制执行”，把 Crew 描述为“协同工作的 AI 团队，用于解决复杂问题”。因此，多 Agent 协作应封装在 Crew 中，由 Flow 在相应步骤调用该 Crew。[2]\n- **在 Flow 中串联多个 Crew，前一个 Crew 的输出交给后一个 Crew**：官方推荐的 “Write a Book Flow” 示例正是这种模式——它“擅长把多个 Crew 串联起来，其中一个 Crew 的输出被另一个 Crew 使用”；具体是一个 Crew 生成全书大纲，另一个 Crew 根据大纲生成各章节，最终连接起来产出完整的书。文档称这种 Flow 适合“需要不同任务之间协调的复杂、多步骤流程”。[1]\n- **Flow 作为入口执行，并运行其中的 Crew**：Quickstart 说明 `crewai run` 执行项目中定义的 Flow 入口点（与 Crew 使用同一命令，项目类型为 `\"flow\"`），运行时会看到来自 Flow 和 Crew 的日志，并生成输出文件（如 `output/report.md`）。[3]\n\n因此，可以按“**Flow 做步骤编排，某一步调用一个 Crew 完成多 Agent 协作；若需要多阶段协作，则在 Flow 中串联多个 Crew 并传递输出**”的方式组织。需要注意：以上是基于示例和概念的归纳，提供的摘录中没有更具体的 API 级组织规范。",
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 990,
+      "completion_tokens": 720,
+      "total_tokens": 1710,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 350
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 990
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C15",
+    "variant": "parent",
+    "expected_points": [
+      "由 Flow 管理整体状态与步骤",
+      "在需要协作的步骤中调用 Crew"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          1040,
+          1049
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/quickstart.mdx",
+        "lines": [
+          169,
+          197
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          111,
+          152
+        ]
+      }
+    ],
+    "answer": "根据提供的文档摘录，官方给出的相关建议主要体现在 **用 Flow 负责编排、把多个 Crew 串联起来**：\n\n- 文档中的 “Write a Book Flow” 示例展示了“将多个 Crew 链接在一起”的模式：一个 Crew 的输出会被另一个 Crew 使用；具体来说，一个 Crew 负责生成整本书的大纲，另一个 Crew 根据大纲生成各章节，最终由 Flow 把这些环节连接起来，形成完整书稿。这种方式适合需要多个任务、多个团队协同的复杂多步骤流程。[1]\n- 另外，Quickstart 示例中也体现了 Flow 与 Crew 配合执行，并产生最终报告的场景，日志会同时来自 Flow 和 crew。[2]\n\n因此，就这些摘录而言，可以支持的结论是：**让 Flow 作为流程编排层，在需要多 Agent 协作的环节使用 Crew，并通过 Crew 之间的输入/输出衔接来完成多步骤协作**。[1][2]\n\n不过，这些摘录没有提供更具体的“在 Flow 的某一步调用 Crew”的代码模式或官方 API 建议；如果需要该层面的细节，现有资料不足以回答。",
+    "cited_numbers": [
+      1,
+      2
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 990,
+      "completion_tokens": 561,
+      "total_tokens": 1551,
+      "prompt_tokens_details": {
+        "cached_tokens": 256
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 324
+      },
+      "prompt_cache_hit_tokens": 256,
+      "prompt_cache_miss_tokens": 734
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C16",
+    "variant": "baseline",
+    "expected_points": [
+      "使用 crewai.tools 的 @tool 装饰器",
+      "清晰的描述帮助 Agent 判断工具用途"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/tools.mdx",
+        "lines": [
+          294,
+          304
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/agents.mdx",
+        "lines": [
+          137,
+          173
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/tools.mdx",
+        "lines": [
+          128,
+          133
+        ]
+      }
+    ],
+    "answer": "应该使用 `crewai.tools` 提供的 `tool` 装饰器，例如在普通 Python 函数上使用 `@tool(\"Name of my tool\")` [1]。\n\n函数文档字符串很重要，因为它需要清晰说明这个工具适用于什么；Agent 需要这些信息才能正确使用该工具 [1]。",
+    "cited_numbers": [
+      1
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 919,
+      "completion_tokens": 300,
+      "total_tokens": 1219,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 234
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 919
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C16",
+    "variant": "parent",
+    "expected_points": [
+      "使用 crewai.tools 的 @tool 装饰器",
+      "清晰的描述帮助 Agent 判断工具用途"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/tools.mdx",
+        "lines": [
+          294,
+          304
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/agents.mdx",
+        "lines": [
+          137,
+          173
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          936,
+          950
+        ]
+      }
+    ],
+    "answer": "使用 CrewAI 的 `@tool(\"工具名称\")` 装饰器即可把普通 Python 函数创建为自定义工具，例如从 `crewai.tools` 导入 `tool` 后，用 `@tool(\"Name of my tool\")` 装饰函数 [1]。\n\n函数的文档字符串很重要，因为它需要清楚说明这个工具适用于什么用途；CrewAI 的 agent 需要这些信息才能正确使用该工具 [1]。",
+    "cited_numbers": [
+      1
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 902,
+      "completion_tokens": 218,
+      "total_tokens": 1120,
+      "prompt_tokens_details": {
+        "cached_tokens": 512
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 124
+      },
+      "prompt_cache_hit_tokens": 512,
+      "prompt_cache_miss_tokens": 390
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "H01",
+    "variant": "baseline",
+    "expected_points": [
+      "Sequential Process 按任务列表预定顺序执行，并可用上一个任务输出作为后续上下文",
+      "Hierarchical Process 由 manager 规划、委派和检查，任务不预先分配给 Agent"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/processes.mdx",
+        "lines": [
+          55,
+          58
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          29,
+          45
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/processes.mdx",
+        "lines": [
+          23,
+          48
+        ]
+      }
+    ],
+    "answer": "| 对比项 | Sequential Process | Hierarchical Process |\n|---|---|---|\n| 任务执行顺序 | 按照任务定义时的顺序执行 [2]。 | 由 manager agent 监督任务执行，包括规划、委派和验证 [1]；但 excerpts 未明确说明其是否按固定顺序执行。 |\n| 任务分配方式 | excerpts 未明确说明 Sequential 的分配细节，只说明其按定义顺序执行 [2]。 | 任务不是预先分配的；manager 根据 agent 的能力来分配任务，并审查输出、评估任务是否完成 [1]。任务也会根据角色和专长分配给 agent [2]。 |\n| Manager 要求 | 无相关要求说明。 | 可指定自定义 manager agent，或自动创建 manager，并需要指定 `manager_llm`；也可提供 `manager_agent` [1][3]。 |\n\n简言之：Sequential 的关键是“按定义顺序执行”[2]；Hierarchical 的关键是“任务不预先分配，由 manager 根据能力/角色进行规划、委派、审查和验证”[1][2]。",
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 652,
+      "completion_tokens": 613,
+      "total_tokens": 1265,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 382
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 652
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "H01",
+    "variant": "parent",
+    "expected_points": [
+      "Sequential Process 按任务列表预定顺序执行，并可用上一个任务输出作为后续上下文",
+      "Hierarchical Process 由 manager 规划、委派和检查，任务不预先分配给 Agent"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/processes.mdx",
+        "lines": [
+          23,
+          48
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/processes.mdx",
+        "lines": [
+          55,
+          58
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/processes.mdx",
+        "lines": [
+          15,
+          19
+        ]
+      }
+    ],
+    "answer": "CrewAI 中两种 Process 的主要区别如下：\n\n- **执行顺序**\n  - **Sequential Process**：按顺序依次执行任务，确保任务有序推进并完成 [3]。\n  - **Hierarchical Process**：采用管理式层级结构，任务按照层级指挥链被委派和执行 [3]；管理者负责监督任务执行，包括规划、委派和验证 [2]。\n\n- **任务分配方式**\n  - **Sequential Process**：来源仅说明其按顺序执行任务，未进一步说明任务是否预先分配 [3]。\n  - **Hierarchical Process**：任务**不是预先分配**的，而是由 manager 根据各 agent 的能力进行分配，并审查输出、评估任务是否完成 [2]。该 manager 可以是自定义 manager agent，也可以是自动创建的，但需要指定 `manager_llm` [2]；创建 Crew 时需提供 `manager_llm` 或 `manager_agent` [1]。\n\n简言之：**Sequential 强调按任务顺序依次执行；Hierarchical 强调由 manager 在层级指挥链中动态分配、监督和验证任务** [2][3]。",
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 648,
+      "completion_tokens": 532,
+      "total_tokens": 1180,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 288
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 648
+    }
+  }
+]

@@ -1,0 +1,345 @@
+{
+  "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+  "method": "definition-child-to-original-parent",
+  "questions": 6,
+  "baseline_sections": 3,
+  "parent_sections": 3,
+  "details": [
+    {
+      "id": "H01",
+      "question": "CrewAI 的 Sequential Process 与 Hierarchical Process 在任务执行顺序和分配方式上有什么区别？",
+      "expected_points": [
+        "Sequential Process 按任务列表预定顺序执行，并可用上一个任务输出作为后续上下文",
+        "Hierarchical Process 由 manager 规划、委派和检查，任务不预先分配给 Agent"
+      ],
+      "baseline_ids": [
+        "47a63690adf52fdb7f79",
+        "13d5d599c0325a20116b",
+        "432e32acff6831b49ecf"
+      ],
+      "parent_ids": [
+        "432e32acff6831b49ecf",
+        "47a63690adf52fdb7f79",
+        "050f3b61023948af2f63"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          55,
+          58
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          29,
+          45
+        ],
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          23,
+          48
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          23,
+          48
+        ],
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          55,
+          58
+        ],
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          15,
+          19
+        ]
+      ],
+      "baseline_chars": 1728,
+      "parent_chars": 1803,
+      "baseline_sections": false,
+      "parent_sections": false
+    },
+    {
+      "id": "H02",
+      "question": "Task 的函数式 guardrail 与 LLM 式 guardrail 分别适合什么验证需求？",
+      "expected_points": [
+        "函数式 guardrail 使用 Python 函数进行可控、确定性的验证",
+        "LLM 式 guardrail 用自然语言描述规则，适合复杂或主观标准"
+      ],
+      "baseline_ids": [
+        "ee2b3a7054f45444bf27",
+        "f1ec1d897b5928134afa",
+        "3244541c5e23093000c7"
+      ],
+      "parent_ids": [
+        "ee2b3a7054f45444bf27",
+        "f1ec1d897b5928134afa",
+        "3244541c5e23093000c7"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          299,
+          310
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          447,
+          485
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          340,
+          374
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          299,
+          310
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          447,
+          485
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          340,
+          374
+        ]
+      ],
+      "baseline_chars": 3705,
+      "parent_chars": 3705,
+      "baseline_sections": false,
+      "parent_sections": false
+    },
+    {
+      "id": "H03",
+      "question": "Task 的 output_pydantic 与 output_json 对输出结构的要求有什么区别？",
+      "expected_points": [
+        "output_pydantic 要求输出符合并通过指定 Pydantic 模型验证",
+        "output_json 要求有效的 JSON 结构，便于解析和使用"
+      ],
+      "baseline_ids": [
+        "2b8ded64535faab990d1",
+        "1a1206713d36750a251b",
+        "68af1dd714f48e60a0ea"
+      ],
+      "parent_ids": [
+        "2b8ded64535faab990d1",
+        "1a1206713d36750a251b",
+        "68af1dd714f48e60a0ea"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          61,
+          64
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          164,
+          171
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          735,
+          738
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          61,
+          64
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          164,
+          171
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          735,
+          738
+        ]
+      ],
+      "baseline_chars": 1730,
+      "parent_chars": 1730,
+      "baseline_sections": false,
+      "parent_sections": false
+    },
+    {
+      "id": "H04",
+      "question": "Crew 的 kickoff_for_each() 和 akickoff_for_each() 在同步与异步执行方式上有什么区别？",
+      "expected_points": [
+        "kickoff_for_each() 是同步方法，对输入集合逐项执行",
+        "akickoff_for_each() 是原生异步方法，对输入列表执行异步流程"
+      ],
+      "baseline_ids": [
+        "3cf214fdcbed66eceb9c",
+        "e0fb55ce037c9a2ba9d6",
+        "fb25c690f54b0f934156"
+      ],
+      "parent_ids": [
+        "3cf214fdcbed66eceb9c",
+        "e0fb55ce037c9a2ba9d6",
+        "fb25c690f54b0f934156"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          358,
+          367
+        ],
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          369,
+          408
+        ],
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          353,
+          357
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          358,
+          367
+        ],
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          369,
+          408
+        ],
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          353,
+          357
+        ]
+      ],
+      "baseline_chars": 2349,
+      "parent_chars": 2349,
+      "baseline_sections": true,
+      "parent_sections": true
+    },
+    {
+      "id": "H05",
+      "question": "直接调用 Flow API 的 kickoff() 与启用流式执行，在获取运行结果时有什么不同？",
+      "expected_points": [
+        "普通 Flow API 通过实例的 kickoff() 返回结果",
+        "流式执行逐块获取输出，并通过 streaming.result 取得最终结果"
+      ],
+      "baseline_ids": [
+        "5b03bd9779c20bbd0878",
+        "a742aa19583326de3bed",
+        "68bff7c4ef3ea346fde0"
+      ],
+      "parent_ids": [
+        "5b03bd9779c20bbd0878",
+        "a742aa19583326de3bed",
+        "68bff7c4ef3ea346fde0"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          1070,
+          1078
+        ],
+        [
+          "docs/v1.15.28/en/quickstart.mdx",
+          103,
+          168
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          1079,
+          1103
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          1070,
+          1078
+        ],
+        [
+          "docs/v1.15.28/en/quickstart.mdx",
+          103,
+          168
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          1079,
+          1103
+        ]
+      ],
+      "baseline_chars": 2494,
+      "parent_chars": 2494,
+      "baseline_sections": true,
+      "parent_sections": true
+    },
+    {
+      "id": "H06",
+      "question": "生成 Flow 可视化图时，调用 plot() 方法与使用命令行各适合什么情况？",
+      "expected_points": [
+        "直接操作 Flow 实例时可调用 plot() 方法生成 HTML 图",
+        "结构化 CrewAI 项目可使用 crewai flow plot 命令生成图"
+      ],
+      "baseline_ids": [
+        "8c4b165e66e17a6158ab",
+        "59206d7b37872f06fc50",
+        "0812c326516b2d21a9d7"
+      ],
+      "parent_ids": [
+        "8c4b165e66e17a6158ab",
+        "59206d7b37872f06fc50",
+        "0812c326516b2d21a9d7"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          1020,
+          1029
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          1009,
+          1019
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          1036,
+          1039
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          1020,
+          1029
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          1009,
+          1019
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          1036,
+          1039
+        ]
+      ],
+      "baseline_chars": 1292,
+      "parent_chars": 1292,
+      "baseline_sections": true,
+      "parent_sections": true
+    }
+  ]
+}

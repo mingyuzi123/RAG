@@ -1,0 +1,1376 @@
+[
+  {
+    "scenario": "pydantic",
+    "id": "P01",
+    "answerability": "answerable",
+    "expected_points": [
+      "没有默认值的字段是必填的",
+      "有默认值的字段不是必填的",
+      "示例中字符串 '123' 被转换为整数 123"
+    ],
+    "answer": "- **有默认值的字段**：实例化时如果未传入，会使用默认值，因此可省略（非必填）[1]。\n- **没有默认值的字段**：摘录没有逐字说明其必填规则；按默认值行为的直接含义，它没有可用的默认值，实例化时需要提供（否则无法得到该字段值）。这一点在给定摘录中并非显式原文。\n- 传入字符串 `'123'` 给 `int` 字段时，Pydantic 会把它**强制转换为整数 `123`**，而不是保留字符串[1]。\n- 补充：默认值本身默认**不会**被校验，除非设置 `validate_default=True`[3]。",
+    "context": [
+      {
+        "path": "docs/concepts/models.md",
+        "lines": [
+          105,
+          148
+        ]
+      },
+      {
+        "path": "docs/concepts/validators.md",
+        "lines": [
+          356,
+          388
+        ]
+      },
+      {
+        "path": "docs/concepts/fields.md",
+        "lines": [
+          193,
+          217
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1010,
+      "completion_tokens": 1270,
+      "total_tokens": 2280,
+      "prompt_tokens_details": {
+        "cached_tokens": 768
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1117
+      },
+      "prompt_cache_hit_tokens": 768,
+      "prompt_cache_miss_tokens": 242
+    }
+  },
+  {
+    "scenario": "pydantic",
+    "id": "P02",
+    "answerability": "answerable",
+    "expected_points": [
+      "model_validate 接收字典或模型实例等 Python 对象",
+      "model_validate_json 接收 JSON 字符串或 bytes"
+    ],
+    "answer": "- `model_validate()`：接收 **字典** 或 **模型实例** 作为输入；默认情况下模型实例被视为有效（可通过 `revalidate_instances` 配置调整），显式启用时也可以接收任意对象。[1]\n- `model_validate_json()`：接收 **JSON 字符串** 或 **`bytes` 对象** 作为输入并进行验证。[1]",
+    "context": [
+      {
+        "path": "docs/concepts/models.md",
+        "lines": [
+          381,
+          402
+        ]
+      },
+      {
+        "path": "docs/concepts/models.md",
+        "lines": [
+          154,
+          171
+        ]
+      },
+      {
+        "path": "docs/concepts/models.md",
+        "lines": [
+          403,
+          409
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1236,
+      "completion_tokens": 206,
+      "total_tokens": 1442,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 123
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1236
+    }
+  },
+  {
+    "scenario": "pydantic",
+    "id": "P03",
+    "answerability": "answerable",
+    "expected_points": [
+      "ignore 忽略额外字段",
+      "forbid 拒绝额外字段并报错",
+      "allow 保留额外字段"
+    ],
+    "answer": "在 Pydantic 模型中，未声明的额外字段由 `extra` 配置控制：\n\n- **`extra='ignore'`**：忽略额外数据，这是默认行为；例如 `Model(x=1, y='a')` 的 `model_dump()` 仍为 `{'x': 1}` [1]。\n- **`extra='forbid'`**：不允许提供额外数据；例如设置 `extra='forbid'` 时，传入 `y='a'` 会失败 [1]。\n- **`extra='allow'`**：允许额外数据，并将其存入 `__pydantic_extra__` 字典属性；例如 `model_dump()` 会得到 `{'x': 1, 'y': 'a'}`，且 `__pydantic_extra__ == {'y': 'a'}` [1]。`__pydantic_extra__` 也可以显式注解，以便对额外字段做验证 [1]。\n\n此外，验证方法（如 `model_validate()`）可传入可选的 `extra` 参数，覆盖该次验证调用中的模型 `extra` 配置 [1]。\n\n需要注意 `model_construct()` 的行为不同：`'allow'` 仍会存入 `__pydantic_extra__`，`'ignore'` 会忽略，而 `'forbid'` 在 `model_construct()` 中遇到额外数据**不会报错**，而是直接忽略 [2]。",
+    "context": [
+      {
+        "path": "docs/concepts/models.md",
+        "lines": [
+          236,
+          284
+        ]
+      },
+      {
+        "path": "docs/concepts/models.md",
+        "lines": [
+          485,
+          499
+        ]
+      },
+      {
+        "path": "docs/concepts/json_schema.md",
+        "lines": [
+          540,
+          578
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1367,
+      "completion_tokens": 691,
+      "total_tokens": 2058,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 374
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1367
+    }
+  },
+  {
+    "scenario": "pydantic",
+    "id": "P04",
+    "answerability": "answerable",
+    "expected_points": [
+      "默认不校验默认值",
+      "可使用 validate_default=True"
+    ],
+    "answer": "默认情况下，Pydantic **不会校验字段的默认值** [1]。如果要校验默认值，可以使用字段参数 `validate_default=True`，或者配置 `ConfigDict.validate_default` 来启用该行为 [1]。另外，默认值未被校验时，自定义校验器也不会对其生效 [2]。",
+    "context": [
+      {
+        "path": "docs/concepts/fields.md",
+        "lines": [
+          193,
+          217
+        ]
+      },
+      {
+        "path": "docs/concepts/validators.md",
+        "lines": [
+          356,
+          388
+        ]
+      },
+      {
+        "path": "docs/concepts/fields.md",
+        "lines": [
+          475,
+          502
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 798,
+      "completion_tokens": 171,
+      "total_tokens": 969,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 106
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 798
+    }
+  },
+  {
+    "scenario": "pydantic",
+    "id": "P05",
+    "answerability": "answerable",
+    "expected_points": [
+      "validation_alias 用于校验/输入阶段",
+      "serialization_alias 用于序列化/输出阶段"
+    ],
+    "answer": "`validation_alias` 作用于**验证（输入解析）阶段**：例如 `Field(validation_alias='username')` 允许用 `username` 创建模型，但序列化时仍使用字段名 `name`。[1]\n\n`serialization_alias` 作用于**序列化（输出）阶段**：例如 `Field(serialization_alias='username')` 验证时使用字段名 `name`，而 `model_dump(by_alias=True)` 输出时使用 `username`。[1]\n\n另外，若同时使用 `alias`，`validation_alias` 在验证时优先于 `alias`，`serialization_alias` 在序列化时优先于 `alias`。[1]",
+    "context": [
+      {
+        "path": "docs/concepts/fields.md",
+        "lines": [
+          294,
+          342
+        ]
+      },
+      {
+        "path": "docs/concepts/fields.md",
+        "lines": [
+          402,
+          435
+        ]
+      },
+      {
+        "path": "docs/concepts/fields.md",
+        "lines": [
+          343,
+          401
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1320,
+      "completion_tokens": 304,
+      "total_tokens": 1624,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 149
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1320
+    }
+  },
+  {
+    "scenario": "pydantic",
+    "id": "P07",
+    "answerability": "answerable",
+    "expected_points": [
+      "model_dump 返回 Python 字典",
+      "model_dump_json 返回 JSON 字符串"
+    ],
+    "answer": "- **结果类型不同**：`model_dump()` 返回模型字段和值的 **字典**；`model_dump_json()` 返回基于 `model_dump()` 的 **JSON 字符串表示**。[2]\n- **用途不同**：如果你需要 Python 字典形式的结果，用 `model_dump()`；如果你需要 JSON 编码后的字符串，用 `model_dump_json()`。[2]\n- `model_dump_json()` 会尽量把 Python 值转换成合法 JSON 数据，例如把 `datetime` 转成字符串、把元组转成数组；如果遇到无法序列化为 JSON 的类型，会抛出 `PydanticSerializationError`。[1]\n- 文档还提到 `model_dump_json()` 可配合 `by_alias=False` 等参数使用。[3]",
+    "context": [
+      {
+        "path": "docs/concepts/serialization.md",
+        "lines": [
+          97,
+          144
+        ]
+      },
+      {
+        "path": "docs/concepts/models.md",
+        "lines": [
+          154,
+          171
+        ]
+      },
+      {
+        "path": "docs/concepts/json_schema.md",
+        "lines": [
+          1367,
+          1379
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1345,
+      "completion_tokens": 579,
+      "total_tokens": 1924,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 406
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1345
+    }
+  },
+  {
+    "scenario": "pydantic",
+    "id": "P08",
+    "answerability": "answerable",
+    "expected_points": [
+      "使用 model_json_schema() 生成 JSON Schema",
+      "默认是 validation 模式"
+    ],
+    "answer": "Pydantic 通过 `BaseModel.model_json_schema()` 从模型生成 JSON Schema，返回一个可 JSON 化的字典 [3]。也可以通过 `TypeAdapter.json_schema()` 生成，并用 `mode` 参数指定生成模式 [1]。\n\n默认模式是 **validation**：`model_json_schema` 和 `TypeAdapter.json_schema` 的 `mode` 参数默认值为 `'validation'`，即生成与模型验证模式对应的 JSON Schema [1]。\n\n可选模式为 `'validation'` 和 `'serialization'`；传入 `mode='serialization'` 可生成序列化模式的 JSON Schema [1]。例如一个 `Decimal` 字段在 validation 模式下会生成 `anyOf`（number 或 string），而在 serialization 模式下只生成 string 类型 [1]。",
+    "context": [
+      {
+        "path": "docs/concepts/json_schema.md",
+        "lines": [
+          250,
+          311
+        ]
+      },
+      {
+        "path": "docs/concepts/json_schema.md",
+        "lines": [
+          1201,
+          1242
+        ]
+      },
+      {
+        "path": "docs/concepts/models.md",
+        "lines": [
+          154,
+          171
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1366,
+      "completion_tokens": 408,
+      "total_tokens": 1774,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 233
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1366
+    }
+  },
+  {
+    "scenario": "pydantic",
+    "id": "P09",
+    "answerability": "unanswerable",
+    "expected_points": [],
+    "answer": "根据提供的摘录，**没有指定官方生产环境日志要上传到哪个 S3 bucket**。摘录内容分别涉及泛型模型 [1]、JSON Schema 定制 [2]，以及模型验证失败时使用 `logging.error` 的示例 [3]；其中 [3] 只展示记录验证错误，未提及生产环境日志或 S3 bucket。由于只提供了部分摘录，无法据此对“五篇文档”整体作出确定结论；就现有来源而言，信息不足。",
+    "context": [
+      {
+        "path": "docs/concepts/models.md",
+        "lines": [
+          842,
+          923
+        ]
+      },
+      {
+        "path": "docs/concepts/json_schema.md",
+        "lines": [
+          805,
+          847
+        ]
+      },
+      {
+        "path": "docs/concepts/validators.md",
+        "lines": [
+          527,
+          553
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1172,
+      "completion_tokens": 517,
+      "total_tokens": 1689,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 411
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1172
+    }
+  },
+  {
+    "scenario": "pydantic",
+    "id": "P10",
+    "answerability": "unanswerable",
+    "expected_points": [],
+    "answer": "不能。仅凭这些 Pydantic 概念文档，无法确定 v2.13.2 发布当天的精确北京时间，甚至无法确定发布日期或时区信息。\n\n- [1] 只讨论 JSON 序列化与 `model_dump_json()`，没有版本发布时间信息。\n- [2] 只出现 “v2.13” 的功能版本标注，并未给出 v2.13.2 的发布日期或具体时刻。\n- [3] 只介绍 JSON Schema 生成，与发布日程无关。\n\n因此，这些来源不足以回答“v2.13.2 发布当天的精确北京时间”。",
+    "context": [
+      {
+        "path": "docs/concepts/serialization.md",
+        "lines": [
+          97,
+          144
+        ]
+      },
+      {
+        "path": "docs/concepts/models.md",
+        "lines": [
+          1603,
+          1644
+        ]
+      },
+      {
+        "path": "docs/concepts/json_schema.md",
+        "lines": [
+          1,
+          9
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1020,
+      "completion_tokens": 414,
+      "total_tokens": 1434,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 283
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1020
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C03",
+    "answerability": "answerable",
+    "expected_points": [
+      "allow_delegation 控制委派",
+      "默认值为 False"
+    ],
+    "answer": "不是，默认不允许委派。CrewAI Agent 的 `allow_delegation` 参数默认值为 `False`，即默认不把任务委派给其他 Agent [1][2]。\n\n控制该行为的参数是 `allow_delegation`（类型 `bool`），描述为“Allow the agent to delegate tasks to other agents”，默认 `False` [2]。在代码定义中同样标注 `allow_delegation=False,  # Default: False` [1]。使用 JSONC 配置时，也可以把 `allow_delegation` 放在顶层或 `settings` 下设置 [3]。",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/agents.mdx",
+        "lines": [
+          137,
+          173
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/agents.mdx",
+        "lines": [
+          51,
+          54
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/agents.mdx",
+        "lines": [
+          76,
+          124
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1323,
+      "completion_tokens": 184,
+      "total_tokens": 1507,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 54
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1323
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C05",
+    "answerability": "answerable",
+    "expected_points": [
+      "详细描述任务完成时应得到的结果"
+    ],
+    "answer": "`expected_output` 用于详细描述「任务完成时应该是什么样子」，也就是任务完成后预期产出的具体形态/结果 [1]。其类型为 `str` [1]。\n\n此外，它是每个任务必须包含的两个字段之一（与 `description` 并列），并且可以在其中使用 `{placeholder}` 占位符，由顶层 `inputs` 提供默认值 [2]。例如在示例中，第一个任务的 `expected_output` 是「关于 {topic} 的最相关信息列表」，第二个任务是「不带围栏代码块的、润色后的 Markdown 报告」[2]。",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          46,
+          53
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          79,
+          119
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          280,
+          298
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 872,
+      "completion_tokens": 191,
+      "total_tokens": 1063,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 66
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 872
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C06",
+    "answerability": "answerable",
+    "expected_points": [
+      "使用 Task 的 context 参数",
+      "把研究 Task 放进 context 列表"
+    ],
+    "answer": "在写报告的 Task 定义中，用 `context` 属性显式传入研究 Task：`context=[research_task]`。这样报告 Task 会等待 `research_task` 完成，并依赖其输出 [1]。\n\n```python\nreport_task = Task(\n    description=\"根据研究结果撰写报告\",\n    expected_output=\"完整报告\",\n    agent=report_analyst,\n    context=[research_task]  # 显式依赖研究 Task 的输出\n)\n```\n\n其中 `context=[research_task]` 表示该 Task 会等待 `research_task` 完成 [1]。",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          280,
+          298
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          126,
+          163
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          375,
+          390
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 723,
+      "completion_tokens": 310,
+      "total_tokens": 1033,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 186
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 723
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C07",
+    "answerability": "answerable",
+    "expected_points": [
+      "提供 manager_llm 或 manager_agent"
+    ],
+    "answer": "把 Crew 的 `process` 设为 `hierarchical` 后，需要配置管理者信息：**必须提供 `manager_llm` 或 `manager_agent` 之一**。\n\n- 创建 Crew 并指定 `process=Process.hierarchical` 时，需定义 `manager_llm`（如 `\"gpt-4o\"`）或传入自定义的 `manager_agent` [1]。\n- 层次化流程允许指定自定义管理者 agent，或由 CrewAI 自动创建；但需要指定管理者的语言模型（`manager_llm`）。该管理者负责规划、委派、审核输出和评估任务完成情况 [2]。\n- 在 JSONC 配置中同样如此：设置 `\"process\": \"hierarchical\"` 并提供 `manager_llm` 或 `manager_agent`；`manager_agent` 可以引用一个未列入顶层 `agents` 列表的 `agents/<name>.jsonc` 文件 [3]。\n\n简言之：二者选其一（`manager_llm` 或 `manager_agent`），同时确保 agents 和 tasks 已事先定义 [1]。",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/processes.mdx",
+        "lines": [
+          23,
+          48
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/processes.mdx",
+        "lines": [
+          55,
+          58
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/crews.mdx",
+        "lines": [
+          59,
+          109
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1034,
+      "completion_tokens": 297,
+      "total_tokens": 1331,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 47
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1034
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C08",
+    "answerability": "answerable",
+    "expected_points": [
+      "按 tasks 列表的预定义顺序执行",
+      "前一个任务的输出可作为后一个任务的上下文"
+    ],
+    "answer": "**执行顺序的确定方式**\n\n在顺序执行的 Process 中，Task 按照预定义的任务列表顺序依次执行，这种方式模拟动态团队的工作流，按部就班地推进。任务的输出会作为下一个任务的上下文：[1]\n\n在执行流程层面，Task 有两种执行方式，其中 **Sequential** 表示“任务按定义顺序执行”；该执行流程在创建 crew 时通过 `process` 参数指定：[2]\n\n```python\ncrew = Crew(\n    agents=[agent1, agent2],\n    tasks=[task1, task2],\n    process=Process.sequential\n)\n```\n\n**前一个 Task 的结果如何使用**\n\n前一个 task 的输出会作为后续 task 的上下文（context）：[1]\n\n此外，可以通过 `Task` 类中的 `context` 参数，自定义哪些输出应作为后续任务的上下文：[1]\n\n在 JSONC 配置中，`context` 是一个由前序任务名组成的列表。例如 `reporting_task` 通过 `\"context\": [\"research_task\"]` 引用研究任务的输出；并且**前向引用会被拒绝**，以保证顺序上下文明确：[3]",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/processes.mdx",
+        "lines": [
+          49,
+          54
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          29,
+          45
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          79,
+          119
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 802,
+      "completion_tokens": 382,
+      "total_tokens": 1184,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 145
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 802
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C10",
+    "answerability": "answerable",
+    "expected_points": [
+      "@start 标记 Flow 的入口",
+      "@listen 在监听的方法产出结果后触发"
+    ],
+    "answer": "区别中**能由来源明确支持**的是 `@listen()` 的触发时机：\n\n- `@listen()` 标注的方法会监听另一个任务的输出；当被指定的任务发出输出时，该方法执行，并且可以把被监听任务的输出作为参数接收 [2]。\n- 使用 `and_` 时，监听方法会在所有指定方法都发出输出后才触发 [1]；使用 `or_` 时，任意一个指定方法发出输出就会触发 [3]。\n\n关于 `@start()`，这些摘录只在示例中把它用于没有 `@listen` 依赖的起始方法，例如 `start_method` [1][3]，但**没有明确给出 `@start()` 触发时机的定义**。因此，仅凭提供的来源，无法完整、准确地说明 `@start()` 与 `@listen()` 在触发时机上的全部区别；可以确定的是，`@listen()` 由被监听任务的输出触发 [2]。",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          573,
+          613
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          110,
+          113
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          531,
+          572
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 852,
+      "completion_tokens": 789,
+      "total_tokens": 1641,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 588
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 852
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C11",
+    "answerability": "answerable",
+    "expected_points": [
+      "or_ 在任一指定方法产出结果时触发",
+      "and_ 在所有指定方法都产出结果后触发"
+    ],
+    "answer": "在 Flow 中，`or_` 与 `and_` 用于监听多个方法的输出，但触发条件不同：\n\n- `or_`：只要指定的任意一个方法产生输出，就会触发监听方法。例如示例中，`logger` 会被 `start_method` 或 `second_method` 中任意一个的输出触发，输出显示了两次 Logger 调用 [1]。\n- `and_`：只有当所有指定的方法都产生输出后，才会触发监听方法。例如示例中，`logger` 只有在 `start_method` 和 `second_method` 都输出后才会被触发一次 [2]。\n\n因此，主要区别是：`or_` 是“任一满足即可”，`and_` 是“全部满足才可” [1][2]。",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          531,
+          572
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          573,
+          613
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          100,
+          109
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 875,
+      "completion_tokens": 251,
+      "total_tokens": 1126,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 84
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 875
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C12",
+    "answerability": "answerable",
+    "expected_points": [
+      "使用 @router() 定义条件路由"
+    ],
+    "answer": "应使用 `@router()` 装饰器：它允许根据某个方法的输出定义条件路由逻辑，动态决定后续执行路径；路由方法返回不同标签，下游方法用 `@listen(\"success\")`、`@listen(\"failed\")` 等监听对应分支。[1]\n\n此外，可用 `Literal[...]` 标注路由返回类型，或在 `@router(..., emit=[\"success\", \"failed\"])` 中显式声明分支标签，以便绘图等工具识别路由分支。[2]",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          614,
+          674
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          675,
+          678
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/quickstart.mdx",
+        "lines": [
+          198,
+          209
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 990,
+      "completion_tokens": 238,
+      "total_tokens": 1228,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 132
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 990
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C13",
+    "answerability": "answerable",
+    "expected_points": [
+      "状态结构明确或复杂时适合结构化状态",
+      "结构化状态提供模式定义和类型检查",
+      "动态且简单的状态可用非结构化方式"
+    ],
+    "answer": "当 Flow 的工作流需要**定义明确且一致的状态结构**时，更适合使用结构化状态；当**类型安全与验证**对应用可靠性很重要时，也适合使用结构化状态；此外，如果你希望利用 IDE 的**自动补全和类型检查**来提升开发体验，结构化状态也更合适。[1]\n\n相比之下，非结构化状态更适合状态简单或高度动态、优先考虑灵活性、需要快速原型开发而不想定义 schema 的场景。[1]",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          393,
+          407
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          297,
+          341
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          500,
+          506
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 837,
+      "completion_tokens": 192,
+      "total_tokens": 1029,
+      "prompt_tokens_details": {
+        "cached_tokens": 640
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 94
+      },
+      "prompt_cache_hit_tokens": 640,
+      "prompt_cache_miss_tokens": 197
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C14",
+    "answerability": "answerable",
+    "expected_points": [
+      "类级别作用于整个 Flow",
+      "方法级别只作用于被装饰的方法"
+    ],
+    "answer": "**类级别与方法级别的 `@persist` 在持久化范围上的区别：**\n\n**类级别（放在类上）**：`@persist` 会自动持久化**所有** flow 方法的状态。示例中，`initialize_flow` 和 `next_step` 的状态都会被持久化，执行 `next_step` 时状态（包括 `self.state.id`）会被自动重新加载 [1]。\n\n**方法级别（放在方法上）**：只持久化**被装饰的那个方法**的状态，适合需要更细粒度控制的场景。示例中 `@persist` 只加在 `begin` 方法上，注释明确写着“Persists only this method's state” [2]。\n\n概括来说：类上装饰 = 全流程所有方法的状态持久化；方法上装饰 = 仅该方法的状态持久化，控制更细 [1][2]。\n\n另外补充一点关于恢复的机制：`@persist` 在 `kickoff` / `kickoff_async` 上支持两种 hydration 模式——传入 `inputs={\"id\": <uuid>}` 表示**恢复**（加载该 UUID 的最新快照并在同一 `flow_uuid` 下继续写入），传入 `restore_from_state_id=<uuid>` 表示**分叉**（从该快照 hydrate 新运行的状态并分配新的 `state.id`，原流程历史保持不变）[3]。不过这属于恢复/分叉行为，而非类级与方法级装饰的范围区别。",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          412,
+          431
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          432,
+          446
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          447,
+          482
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 986,
+      "completion_tokens": 351,
+      "total_tokens": 1337,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 36
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 986
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C17",
+    "answerability": "answerable",
+    "expected_points": [
+      "优先级为 tool、task、agent、crew",
+      "未设置时默认 warn"
+    ],
+    "answer": "根据来源 [1]，优先级遵循“越具体越优先”的规则：\n\n**tool → task → agent → crew → `warn`**\n\n也就是说，如果 tool、task、agent、crew 都设置了不同的 `tool_failure_policy`，**tool 级别的设置优先**；其次才是 task、agent、crew，最后在都未配置时回退到默认值 `warn`。来源同时说明，每一层的默认值都是 `None`，表示“从外层继承”，因此在任何地方都未配置时，实际生效的默认策略是 `warn` [1]。\n\n补充：`tool_failure_policy` 的取值含义为——`ignore` 不记录、不发出事件、不采取行动；`warn`（默认）记录失败并发出 `ToolFailureDetectedEvent` 后继续；`raise` 记录并发出事件后以 `ToolExecutionFailedError` 中止 [1]。",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/tools.mdx",
+        "lines": [
+          381,
+          422
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/agents.mdx",
+        "lines": [
+          76,
+          124
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          871,
+          877
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1209,
+      "completion_tokens": 241,
+      "total_tokens": 1450,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 43
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1209
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C18",
+    "answerability": "unanswerable",
+    "expected_points": [],
+    "answer": "提供的来源不足以回答这个问题：这些摘录没有提到 CrewAI 会把每次 Crew 运行日志默认上传到哪个 S3 bucket。\n\n摘录中只提到 `share_crew` 可将完整的 Crew 信息和执行共享给 CrewAI 团队，以及 `output_log_file` 可将日志保存到本地文件 [3]；部署部分也只涉及 AMP 部署和日志查看命令 [1]，均未说明默认 S3 bucket。",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/quickstart.mdx",
+        "lines": [
+          217,
+          260
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/agents.mdx",
+        "lines": [
+          76,
+          124
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/crews.mdx",
+        "lines": [
+          14,
+          44
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 2388,
+      "completion_tokens": 331,
+      "total_tokens": 2719,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 239
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 2388
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C19",
+    "answerability": "unanswerable",
+    "expected_points": [],
+    "answer": "提供的资料中没有包含 CrewAI v1.15.28 的正式发布日期信息。这些片段仅涉及 CrewAI 的简介、Agent 参数示例和入门链接 [1][2][3]，无法据此确定该版本的发布日期。",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          8,
+          18
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/agents.mdx",
+        "lines": [
+          137,
+          173
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          111,
+          152
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1154,
+      "completion_tokens": 69,
+      "total_tokens": 1223,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 19
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1154
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "H02",
+    "answerability": "answerable",
+    "expected_points": [
+      "函数式 guardrail 使用 Python 函数进行可控、确定性的验证",
+      "LLM 式 guardrail 用自然语言描述规则，适合复杂或主观标准"
+    ],
+    "answer": "- **函数式 guardrail**适合需要**自定义校验逻辑、完全可控且结果确定可靠**的验证需求；它用 Python 函数实现校验逻辑。[1] 因此更适合可精确程序化判断的条件，例如字数范围检查。[2]\n- **LLM 式 guardrail**适合**复杂或主观的验证需求**，例如语气、风格、质量评估，或用自然语言描述比代码更容易表达的校验标准；它通过字符串描述并借助 agent 的 LLM 来验证输出。[1][3] 使用时任务必须分配了 `agent`。[3]\n- 两者也可以混合使用：用函数式 guardrail 做精确检查，用 LLM 式 guardrail 做主观质量或风格判断，从而结合程序化验证的精确性和 LLM 评估的灵活性。[2]",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          299,
+          310
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          447,
+          485
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          340,
+          374
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1065,
+      "completion_tokens": 380,
+      "total_tokens": 1445,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 207
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1065
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "H03",
+    "answerability": "answerable",
+    "expected_points": [
+      "output_pydantic 要求输出符合并通过指定 Pydantic 模型验证",
+      "output_json 要求有效的 JSON 结构，便于解析和使用"
+    ],
+    "answer": "从给定摘录看，`output_pydantic` 与 `output_json` 都接收/要求一个 Pydantic 模型类型作为结构定义：两者的类型都是 `Optional[Type[BaseModel]]` [1]。\n\n区别主要体现在用途和输出形式：\n\n- `output_json` 被描述为“用于结构化 JSON 输出的 Pydantic 模型” [1]。示例中，`Blog` Pydantic 模型定义了 `title` 和 `content` 字段，用来指定 JSON 输出应遵循的结构，任务通过 `output_json` 表示期望符合该模型的 JSON 输出 [3]。配置后，`TaskOutput` 会包含 `json_dict` 输出 [2]。\n- `output_pydantic` 被描述为“用于任务输出的 Pydantic 模型” [1]。配置后，`TaskOutput` 会包含 `pydantic` 输出 [2]。\n\n因此，就“对输出结构的要求”而言，摘录能支持的说法是：二者都用 Pydantic 模型来约束/表达结构；`output_json` 侧重把结构化结果作为 JSON 字典输出，`output_pydantic` 侧重把任务结果作为 Pydantic 模型输出 [1][2][3]。摘录没有进一步说明二者在模型校验规则或结构限制上的其他差异。",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          61,
+          64
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          164,
+          171
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          735,
+          738
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 633,
+      "completion_tokens": 628,
+      "total_tokens": 1261,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 345
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 633
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "H04",
+    "answerability": "answerable",
+    "expected_points": [
+      "kickoff_for_each() 是同步方法，对输入集合逐项执行",
+      "akickoff_for_each() 是原生异步方法，对输入列表执行异步流程"
+    ],
+    "answer": "两者在同步与异步执行方式上的区别如下：\n\n- **`kickoff_for_each()`：同步、顺序执行。** 它属于同步方法，会针对传入集合中的每个输入逐项执行任务 [3]。示例中直接调用 `my_crew.kickoff_for_each(inputs=inputs_array)` 并获取结果，无需 `await` [2]。\n- **`akickoff_for_each()`：原生异步执行。** 它属于原生异步（Native async）方法，对列表中的每个输入进行原生异步执行 [1]。示例中使用 `await my_crew.akickoff_for_each(inputs=inputs_array)` 调用 [2]。\n\n此外，文档指出，对于高并发的工作负载，推荐使用 `akickoff()` 和 `akickoff_for_each()`，因为它们在任务执行、内存操作和知识检索方面都采用原生异步 [2]。",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/crews.mdx",
+        "lines": [
+          358,
+          367
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/crews.mdx",
+        "lines": [
+          369,
+          408
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/crews.mdx",
+        "lines": [
+          353,
+          357
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 857,
+      "completion_tokens": 341,
+      "total_tokens": 1198,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 149
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 857
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "H05",
+    "answerability": "answerable",
+    "expected_points": [
+      "普通 Flow API 通过实例的 kickoff() 返回结果",
+      "流式执行逐块获取输出，并通过 streaming.result 取得最终结果"
+    ],
+    "answer": "## 区别\n\n**直接调用 `kickoff()`（非流式）**\n\n创建 Flow 实例后调用 `kickoff()`，返回值就是最终的运行结果，可以直接赋给变量使用：\n\n```python\nflow = ExampleFlow()\nresult = flow.kickoff()\n```\n\n也就是说，`kickoff()` 同步执行完整个流程后才返回一个结果对象 [1]。\n\n**启用流式执行（`stream = True`）**\n\n在 Flow 类上设置 `stream = True` 后，`kickoff()` 的返回值不再是最终结果本身，而是一个**可迭代的流式输出对象**。你可以逐块（chunk）迭代获取生成过程中的输出，实时打印或处理：\n\n```python\nclass StreamingFlow(Flow):\n    stream = True  # Enable streaming\n    ...\n\nflow = StreamingFlow()\nstreaming = flow.kickoff()\nfor chunk in streaming:\n    print(chunk.content, end=\"\", flush=True)\n\n# Access final result\nresult = streaming.result\n```\n\n最终结果需要通过该流对象的 `streaming.result` 属性来获取 [3]。\n\n## 小结\n\n| 方面 | 直接 `kickoff()` | 流式执行（`stream = True`） |\n|---|---|---|\n| `kickoff()` 返回 | 最终运行结果 | 可迭代的流式对象 |\n| 获取结果方式 | 直接使用返回值 | 迭代 `chunk` 实时消费，最后通过 `.result` 取最终结果 |\n| 可见性 | 流程结束后一次性得到结果 | 执行过程中即可实时看到输出 |\n\n（注：示例 [2] 中只是演示了在 `kickoff()` 函数里调用 `LatestAiFlow().kickoff()`，未涉及流式与非流式返回值差异的说明。）",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          1070,
+          1078
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/quickstart.mdx",
+        "lines": [
+          103,
+          168
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          1079,
+          1103
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 876,
+      "completion_tokens": 474,
+      "total_tokens": 1350,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 105
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 876
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "H06",
+    "answerability": "answerable",
+    "expected_points": [
+      "直接操作 Flow 实例时可调用 plot() 方法生成 HTML 图",
+      "结构化 CrewAI 项目可使用 crewai flow plot 命令生成图"
+    ],
+    "answer": "- **调用 `plot()` 方法**：适合你直接操作一个 flow 实例时使用；它会生成包含交互式流程图的 HTML 文件，例如 `flow.plot(\"my_flow_plot\")` 会生成 `my_flow_plot.html` [2]。\n- **使用命令行**：适合在结构化的 CrewAI 项目中生成流程图，尤其适合较大的项目，因为你可能希望可视化整个 flow setup；运行 `crewai flow plot` 会在项目目录中生成 HTML 文件 [1]。\n\n两者都会生成可在浏览器中打开和查看的 HTML 流程图 [1][2]，用于以可视化方式呈现工作流，帮助开发和展示 [3]。",
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          1020,
+          1029
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          1009,
+          1019
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          1036,
+          1039
+        ]
+      }
+    ],
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 549,
+      "completion_tokens": 247,
+      "total_tokens": 796,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 106
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 549
+    }
+  }
+]
