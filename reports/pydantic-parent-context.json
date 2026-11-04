@@ -1,0 +1,900 @@
+{
+  "scenario": "pydantic",
+  "method": "definition-child-to-original-parent",
+  "source_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+  "baseline_report": "pydantic-hybrid-zh.json",
+  "child_report": "pydantic-definition-hybrid.json",
+  "parent_index": "indexes/pydantic-docs/bm25-40066f68673f.db",
+  "answerable_count": 8,
+  "section_context": {
+    "baseline": 7,
+    "parent": 7,
+    "equal_budget": 7
+  },
+  "details": [
+    {
+      "id": "P01",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "32747e5744bab8071dd4",
+        "aa4ff098bdc30f1be4f2",
+        "8cd2e0f6fc0e798b3c9c"
+      ],
+      "parent_ids": [
+        "32747e5744bab8071dd4",
+        "aa4ff098bdc30f1be4f2",
+        "8cd2e0f6fc0e798b3c9c"
+      ],
+      "equal_budget_ids": [
+        "32747e5744bab8071dd4",
+        "aa4ff098bdc30f1be4f2",
+        "8cd2e0f6fc0e798b3c9c"
+      ],
+      "baseline_lines": [
+        [
+          "docs/concepts/models.md",
+          105,
+          148
+        ],
+        [
+          "docs/concepts/validators.md",
+          356,
+          388
+        ],
+        [
+          "docs/concepts/fields.md",
+          193,
+          217
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/concepts/models.md",
+          105,
+          148
+        ],
+        [
+          "docs/concepts/validators.md",
+          356,
+          388
+        ],
+        [
+          "docs/concepts/fields.md",
+          193,
+          217
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/concepts/models.md",
+          105,
+          148
+        ],
+        [
+          "docs/concepts/validators.md",
+          356,
+          388
+        ],
+        [
+          "docs/concepts/fields.md",
+          193,
+          217
+        ]
+      ],
+      "baseline_chars": 3489,
+      "parent_chars": 3489,
+      "equal_budget_chars": 3489,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [
+          {
+            "point": "没有默认值的字段必填、有默认值的字段不必填",
+            "covered": false
+          },
+          {
+            "point": "字符串 '123' 转换成整数 123",
+            "covered": true
+          }
+        ],
+        "parent": [
+          {
+            "point": "没有默认值的字段必填、有默认值的字段不必填",
+            "covered": false
+          },
+          {
+            "point": "字符串 '123' 转换成整数 123",
+            "covered": true
+          }
+        ],
+        "equal_budget": [
+          {
+            "point": "没有默认值的字段必填、有默认值的字段不必填",
+            "covered": false
+          },
+          {
+            "point": "字符串 '123' 转换成整数 123",
+            "covered": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "P02",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "cd723ebf50eb23be8fe9",
+        "3dbf5e3c4de5c2cbffe4",
+        "ce5584510115d28fd071"
+      ],
+      "parent_ids": [
+        "cd723ebf50eb23be8fe9",
+        "3dbf5e3c4de5c2cbffe4",
+        "ce5584510115d28fd071"
+      ],
+      "equal_budget_ids": [
+        "cd723ebf50eb23be8fe9",
+        "3dbf5e3c4de5c2cbffe4",
+        "ce5584510115d28fd071"
+      ],
+      "baseline_lines": [
+        [
+          "docs/concepts/models.md",
+          381,
+          402
+        ],
+        [
+          "docs/concepts/models.md",
+          154,
+          171
+        ],
+        [
+          "docs/concepts/models.md",
+          403,
+          409
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/concepts/models.md",
+          381,
+          402
+        ],
+        [
+          "docs/concepts/models.md",
+          154,
+          171
+        ],
+        [
+          "docs/concepts/models.md",
+          403,
+          409
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/concepts/models.md",
+          381,
+          402
+        ],
+        [
+          "docs/concepts/models.md",
+          154,
+          171
+        ],
+        [
+          "docs/concepts/models.md",
+          403,
+          409
+        ]
+      ],
+      "baseline_chars": 4366,
+      "parent_chars": 4366,
+      "equal_budget_chars": 4366,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "P03",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "ac0557be315d9ea74d1e",
+        "e3f7a2c884061343fe8c",
+        "d39495c4f112e4bdddf2"
+      ],
+      "parent_ids": [
+        "ac0557be315d9ea74d1e",
+        "e3f7a2c884061343fe8c",
+        "d39495c4f112e4bdddf2"
+      ],
+      "equal_budget_ids": [
+        "ac0557be315d9ea74d1e",
+        "e3f7a2c884061343fe8c",
+        "d39495c4f112e4bdddf2"
+      ],
+      "baseline_lines": [
+        [
+          "docs/concepts/models.md",
+          236,
+          284
+        ],
+        [
+          "docs/concepts/models.md",
+          485,
+          499
+        ],
+        [
+          "docs/concepts/json_schema.md",
+          540,
+          578
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/concepts/models.md",
+          236,
+          284
+        ],
+        [
+          "docs/concepts/models.md",
+          485,
+          499
+        ],
+        [
+          "docs/concepts/json_schema.md",
+          540,
+          578
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/concepts/models.md",
+          236,
+          284
+        ],
+        [
+          "docs/concepts/models.md",
+          485,
+          499
+        ],
+        [
+          "docs/concepts/json_schema.md",
+          540,
+          578
+        ]
+      ],
+      "baseline_chars": 4395,
+      "parent_chars": 4395,
+      "equal_budget_chars": 4395,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "P04",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "8cd2e0f6fc0e798b3c9c",
+        "aa4ff098bdc30f1be4f2",
+        "8ecd1aa2c96ce52d4df6"
+      ],
+      "parent_ids": [
+        "8cd2e0f6fc0e798b3c9c",
+        "aa4ff098bdc30f1be4f2",
+        "8ecd1aa2c96ce52d4df6"
+      ],
+      "equal_budget_ids": [
+        "8cd2e0f6fc0e798b3c9c",
+        "aa4ff098bdc30f1be4f2",
+        "8ecd1aa2c96ce52d4df6"
+      ],
+      "baseline_lines": [
+        [
+          "docs/concepts/fields.md",
+          193,
+          217
+        ],
+        [
+          "docs/concepts/validators.md",
+          356,
+          388
+        ],
+        [
+          "docs/concepts/fields.md",
+          475,
+          502
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/concepts/fields.md",
+          193,
+          217
+        ],
+        [
+          "docs/concepts/validators.md",
+          356,
+          388
+        ],
+        [
+          "docs/concepts/fields.md",
+          475,
+          502
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/concepts/fields.md",
+          193,
+          217
+        ],
+        [
+          "docs/concepts/validators.md",
+          356,
+          388
+        ],
+        [
+          "docs/concepts/fields.md",
+          475,
+          502
+        ]
+      ],
+      "baseline_chars": 2605,
+      "parent_chars": 2605,
+      "equal_budget_chars": 2605,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "P05",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "8462e3ae6b1c0f2137b8",
+        "c3e088451f25272c8f28",
+        "bf39f6ef344d31390820"
+      ],
+      "parent_ids": [
+        "8462e3ae6b1c0f2137b8",
+        "c3e088451f25272c8f28",
+        "bf39f6ef344d31390820"
+      ],
+      "equal_budget_ids": [
+        "8462e3ae6b1c0f2137b8",
+        "c3e088451f25272c8f28",
+        "bf39f6ef344d31390820"
+      ],
+      "baseline_lines": [
+        [
+          "docs/concepts/fields.md",
+          294,
+          342
+        ],
+        [
+          "docs/concepts/fields.md",
+          402,
+          435
+        ],
+        [
+          "docs/concepts/fields.md",
+          343,
+          401
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/concepts/fields.md",
+          294,
+          342
+        ],
+        [
+          "docs/concepts/fields.md",
+          402,
+          435
+        ],
+        [
+          "docs/concepts/fields.md",
+          343,
+          401
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/concepts/fields.md",
+          294,
+          342
+        ],
+        [
+          "docs/concepts/fields.md",
+          402,
+          435
+        ],
+        [
+          "docs/concepts/fields.md",
+          343,
+          401
+        ]
+      ],
+      "baseline_chars": 4303,
+      "parent_chars": 4303,
+      "equal_budget_chars": 4303,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "P06",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "eb456a4ba27c59bf2702",
+        "20d922feb80972260977",
+        "7ec2b13b4e8ec531abcf"
+      ],
+      "parent_ids": [
+        "75430b3a0c5c08bf74eb",
+        "eb456a4ba27c59bf2702",
+        "20d922feb80972260977"
+      ],
+      "equal_budget_ids": [
+        "75430b3a0c5c08bf74eb",
+        "eb456a4ba27c59bf2702",
+        "20d922feb80972260977"
+      ],
+      "baseline_lines": [
+        [
+          "docs/concepts/validators.md",
+          160,
+          203
+        ],
+        [
+          "docs/concepts/validators.md",
+          1,
+          28
+        ],
+        [
+          "docs/concepts/validators.md",
+          251,
+          312
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/concepts/validators.md",
+          29,
+          52
+        ],
+        [
+          "docs/concepts/validators.md",
+          160,
+          203
+        ],
+        [
+          "docs/concepts/validators.md",
+          1,
+          28
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/concepts/validators.md",
+          29,
+          52
+        ],
+        [
+          "docs/concepts/validators.md",
+          160,
+          203
+        ],
+        [
+          "docs/concepts/validators.md",
+          1,
+          28
+        ]
+      ],
+      "baseline_chars": 4333,
+      "parent_chars": 4008,
+      "equal_budget_chars": 4008,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [
+          {
+            "point": "after 在内部校验之后运行",
+            "covered": false
+          },
+          {
+            "point": "before 在内部解析和校验之前运行",
+            "covered": true
+          }
+        ],
+        "parent": [
+          {
+            "point": "after 在内部校验之后运行",
+            "covered": true
+          },
+          {
+            "point": "before 在内部解析和校验之前运行",
+            "covered": true
+          }
+        ],
+        "equal_budget": [
+          {
+            "point": "after 在内部校验之后运行",
+            "covered": true
+          },
+          {
+            "point": "before 在内部解析和校验之前运行",
+            "covered": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "P07",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "e2055c89d8a240fd4bf2",
+        "3dbf5e3c4de5c2cbffe4",
+        "45b364913cf3ee1e5a42"
+      ],
+      "parent_ids": [
+        "e2055c89d8a240fd4bf2",
+        "3dbf5e3c4de5c2cbffe4",
+        "45b364913cf3ee1e5a42"
+      ],
+      "equal_budget_ids": [
+        "e2055c89d8a240fd4bf2",
+        "3dbf5e3c4de5c2cbffe4",
+        "45b364913cf3ee1e5a42"
+      ],
+      "baseline_lines": [
+        [
+          "docs/concepts/serialization.md",
+          97,
+          144
+        ],
+        [
+          "docs/concepts/models.md",
+          154,
+          171
+        ],
+        [
+          "docs/concepts/json_schema.md",
+          1367,
+          1379
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/concepts/serialization.md",
+          97,
+          144
+        ],
+        [
+          "docs/concepts/models.md",
+          154,
+          171
+        ],
+        [
+          "docs/concepts/json_schema.md",
+          1367,
+          1379
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/concepts/serialization.md",
+          97,
+          144
+        ],
+        [
+          "docs/concepts/models.md",
+          154,
+          171
+        ],
+        [
+          "docs/concepts/json_schema.md",
+          1367,
+          1379
+        ]
+      ],
+      "baseline_chars": 4486,
+      "parent_chars": 4486,
+      "equal_budget_chars": 4486,
+      "sections": {
+        "baseline": false,
+        "parent": false,
+        "equal_budget": false
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "P08",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "0af9a91d7a53db5cf990",
+        "9939f6d2cd41b4b06500",
+        "3dbf5e3c4de5c2cbffe4"
+      ],
+      "parent_ids": [
+        "0af9a91d7a53db5cf990",
+        "9939f6d2cd41b4b06500",
+        "3dbf5e3c4de5c2cbffe4"
+      ],
+      "equal_budget_ids": [
+        "0af9a91d7a53db5cf990",
+        "9939f6d2cd41b4b06500",
+        "3dbf5e3c4de5c2cbffe4"
+      ],
+      "baseline_lines": [
+        [
+          "docs/concepts/json_schema.md",
+          250,
+          311
+        ],
+        [
+          "docs/concepts/json_schema.md",
+          1201,
+          1242
+        ],
+        [
+          "docs/concepts/models.md",
+          154,
+          171
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/concepts/json_schema.md",
+          250,
+          311
+        ],
+        [
+          "docs/concepts/json_schema.md",
+          1201,
+          1242
+        ],
+        [
+          "docs/concepts/models.md",
+          154,
+          171
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/concepts/json_schema.md",
+          250,
+          311
+        ],
+        [
+          "docs/concepts/json_schema.md",
+          1201,
+          1242
+        ],
+        [
+          "docs/concepts/models.md",
+          154,
+          171
+        ]
+      ],
+      "baseline_chars": 4533,
+      "parent_chars": 4533,
+      "equal_budget_chars": 4533,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "P09",
+      "answerability": "unanswerable",
+      "baseline_ids": [
+        "22375cae9ceb14cd8d91",
+        "33dfb2fa5d36f408c686",
+        "abd614fa36d84158e37c"
+      ],
+      "parent_ids": [
+        "22375cae9ceb14cd8d91",
+        "33dfb2fa5d36f408c686",
+        "abd614fa36d84158e37c"
+      ],
+      "equal_budget_ids": [
+        "22375cae9ceb14cd8d91",
+        "33dfb2fa5d36f408c686",
+        "abd614fa36d84158e37c"
+      ],
+      "baseline_lines": [
+        [
+          "docs/concepts/models.md",
+          842,
+          923
+        ],
+        [
+          "docs/concepts/json_schema.md",
+          805,
+          847
+        ],
+        [
+          "docs/concepts/validators.md",
+          527,
+          553
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/concepts/models.md",
+          842,
+          923
+        ],
+        [
+          "docs/concepts/json_schema.md",
+          805,
+          847
+        ],
+        [
+          "docs/concepts/validators.md",
+          527,
+          553
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/concepts/models.md",
+          842,
+          923
+        ],
+        [
+          "docs/concepts/json_schema.md",
+          805,
+          847
+        ],
+        [
+          "docs/concepts/validators.md",
+          527,
+          553
+        ]
+      ],
+      "baseline_chars": 3666,
+      "parent_chars": 3666,
+      "equal_budget_chars": 3666,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "P10",
+      "answerability": "unanswerable",
+      "baseline_ids": [
+        "e2055c89d8a240fd4bf2",
+        "6e16eb54d6a220c5e3cd",
+        "6c6790cc2606d388c1a0"
+      ],
+      "parent_ids": [
+        "e2055c89d8a240fd4bf2",
+        "6e16eb54d6a220c5e3cd",
+        "6c6790cc2606d388c1a0"
+      ],
+      "equal_budget_ids": [
+        "e2055c89d8a240fd4bf2",
+        "6e16eb54d6a220c5e3cd",
+        "6c6790cc2606d388c1a0"
+      ],
+      "baseline_lines": [
+        [
+          "docs/concepts/serialization.md",
+          97,
+          144
+        ],
+        [
+          "docs/concepts/models.md",
+          1603,
+          1644
+        ],
+        [
+          "docs/concepts/json_schema.md",
+          1,
+          9
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/concepts/serialization.md",
+          97,
+          144
+        ],
+        [
+          "docs/concepts/models.md",
+          1603,
+          1644
+        ],
+        [
+          "docs/concepts/json_schema.md",
+          1,
+          9
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/concepts/serialization.md",
+          97,
+          144
+        ],
+        [
+          "docs/concepts/models.md",
+          1603,
+          1644
+        ],
+        [
+          "docs/concepts/json_schema.md",
+          1,
+          9
+        ]
+      ],
+      "baseline_chars": 3017,
+      "parent_chars": 3017,
+      "equal_budget_chars": 3017,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    }
+  ]
+}

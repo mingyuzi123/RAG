@@ -1,0 +1,102 @@
+[
+  {
+    "scenario": "pydantic",
+    "id": "P06",
+    "expected_points": [
+      "before 在内部类型校验和解析之前运行",
+      "after 在内部类型校验和解析之后运行"
+    ],
+    "context": [
+      {
+        "path": "docs/concepts/validators.md",
+        "lines": [
+          29,
+          52
+        ]
+      },
+      {
+        "path": "docs/concepts/validators.md",
+        "lines": [
+          160,
+          203
+        ]
+      },
+      {
+        "path": "docs/concepts/validators.md",
+        "lines": [
+          1,
+          28
+        ]
+      }
+    ],
+    "answer": "- **before 模式**：在 Pydantic 内部解析和校验之前运行，例如在将 `str` 强制转换为 `int` 之前；其返回值随后会再根据类型注解进行校验。[2]\n- **after 模式**：在 Pydantic 内部校验完成之后运行。[1]",
+    "cited_numbers": [
+      1,
+      2
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1145,
+      "completion_tokens": 210,
+      "total_tokens": 1355,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 142
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1145
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C13",
+    "expected_points": [
+      "状态结构明确或复杂时适合结构化状态",
+      "结构化状态提供模式定义和类型检查",
+      "动态且简单的状态可用非结构化方式"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          393,
+          407
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          297,
+          341
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          500,
+          506
+        ]
+      }
+    ],
+    "answer": "根据提供的文档，当 Flow 的工作流满足以下情况时，更适合使用**结构化状态管理**（Structured State Management）：\n\n- **需要清晰、一致的状态结构**：即工作流要求状态具有定义良好且一致的结构 [1]。\n- **类型安全与验证很重要**：当应用的可靠性依赖于类型安全和数据验证时，应选择结构化状态 [1]。\n- **希望获得更好的开发体验**：例如利用 IDE 的自动补全和类型检查功能 [1]。\n\n相比之下，非结构化状态更适合状态简单或高度动态、优先考虑灵活性、以及需要快速原型开发而无需定义 schema 的场景 [1]。文档还指出，CrewAI Flows 同时提供这两种状态管理方式，以兼顾灵活性与健壮性 [1]。",
+    "cited_numbers": [
+      1
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 837,
+      "completion_tokens": 188,
+      "total_tokens": 1025,
+      "prompt_tokens_details": {
+        "cached_tokens": 640
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 27
+      },
+      "prompt_cache_hit_tokens": 640,
+      "prompt_cache_miss_tokens": 197
+    }
+  }
+]

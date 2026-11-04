@@ -1,0 +1,1593 @@
+{
+  "scenario": "crewai",
+  "method": "definition-child-to-original-parent",
+  "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+  "baseline_report": "crewai-table-v3-hybrid-zh.json",
+  "child_report": "crewai-definition-hybrid.json",
+  "parent_index": "indexes/crewai-docs/bm25-4a4a6438b43a.db",
+  "answerable_count": 17,
+  "section_context": {
+    "baseline": 12,
+    "parent": 12,
+    "equal_budget": 12
+  },
+  "details": [
+    {
+      "id": "C01",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "685748c9e1f3fcab71dc",
+        "a44a11419ee35cfe5868",
+        "11884fc0c47fbc78c8f8"
+      ],
+      "parent_ids": [
+        "11884fc0c47fbc78c8f8",
+        "685748c9e1f3fcab71dc",
+        "a44a11419ee35cfe5868"
+      ],
+      "equal_budget_ids": [
+        "11884fc0c47fbc78c8f8",
+        "685748c9e1f3fcab71dc",
+        "a44a11419ee35cfe5868"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          8,
+          21
+        ],
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          31,
+          45
+        ],
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          8,
+          18
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          8,
+          18
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          8,
+          21
+        ],
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          31,
+          45
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          8,
+          18
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          8,
+          21
+        ],
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          31,
+          45
+        ]
+      ],
+      "baseline_chars": 2477,
+      "parent_chars": 2477,
+      "equal_budget_chars": 2477,
+      "sections": {
+        "baseline": false,
+        "parent": false,
+        "equal_budget": false
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C02",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "6791d33eea8be346d9a9",
+        "3def47459400d281d224",
+        "eed82b3c50709989527b"
+      ],
+      "parent_ids": [
+        "eed82b3c50709989527b",
+        "6791d33eea8be346d9a9",
+        "3def47459400d281d224"
+      ],
+      "equal_budget_ids": [
+        "eed82b3c50709989527b",
+        "6791d33eea8be346d9a9",
+        "3def47459400d281d224"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          76,
+          124
+        ],
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          46,
+          60
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          39,
+          46
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          39,
+          46
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          76,
+          124
+        ],
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          46,
+          60
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          39,
+          46
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          76,
+          124
+        ],
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          46,
+          60
+        ]
+      ],
+      "baseline_chars": 2931,
+      "parent_chars": 2931,
+      "equal_budget_chars": 2931,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C03",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "52d3c366c4fcec8336be",
+        "9cbfdae7bdd50c769e82",
+        "6791d33eea8be346d9a9"
+      ],
+      "parent_ids": [
+        "52d3c366c4fcec8336be",
+        "9cbfdae7bdd50c769e82",
+        "6791d33eea8be346d9a9"
+      ],
+      "equal_budget_ids": [
+        "52d3c366c4fcec8336be",
+        "9cbfdae7bdd50c769e82",
+        "6791d33eea8be346d9a9"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          137,
+          173
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          51,
+          54
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          76,
+          124
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          137,
+          173
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          51,
+          54
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          76,
+          124
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          137,
+          173
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          51,
+          54
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          76,
+          124
+        ]
+      ],
+      "baseline_chars": 4155,
+      "parent_chars": 4155,
+      "equal_budget_chars": 4155,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C04",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "3abbb405bd3744682e26",
+        "29595bdaf271211594e0",
+        "a59f6b9dd1ef8a1d52d4"
+      ],
+      "parent_ids": [
+        "13d5d599c0325a20116b",
+        "3abbb405bd3744682e26",
+        "29595bdaf271211594e0"
+      ],
+      "equal_budget_ids": [
+        "13d5d599c0325a20116b",
+        "3abbb405bd3744682e26",
+        "29595bdaf271211594e0"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/quickstart.mdx",
+          210,
+          216
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tools.mdx",
+          338,
+          380
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          8,
+          28
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          29,
+          45
+        ],
+        [
+          "docs/v1.15.28/en/quickstart.mdx",
+          210,
+          216
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tools.mdx",
+          338,
+          380
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          29,
+          45
+        ],
+        [
+          "docs/v1.15.28/en/quickstart.mdx",
+          210,
+          216
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tools.mdx",
+          338,
+          380
+        ]
+      ],
+      "baseline_chars": 2970,
+      "parent_chars": 2395,
+      "equal_budget_chars": 2395,
+      "sections": {
+        "baseline": false,
+        "parent": false,
+        "equal_budget": false
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C05",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "1d90b1918acdb0600475",
+        "8d9e007d5678d80e57a7",
+        "e43b849cf87ac38f52f3"
+      ],
+      "parent_ids": [
+        "1d90b1918acdb0600475",
+        "8d9e007d5678d80e57a7",
+        "e43b849cf87ac38f52f3"
+      ],
+      "equal_budget_ids": [
+        "1d90b1918acdb0600475",
+        "8d9e007d5678d80e57a7",
+        "e43b849cf87ac38f52f3"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          46,
+          53
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          79,
+          119
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          280,
+          298
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          46,
+          53
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          79,
+          119
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          280,
+          298
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          46,
+          53
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          79,
+          119
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          280,
+          298
+        ]
+      ],
+      "baseline_chars": 2751,
+      "parent_chars": 2751,
+      "equal_budget_chars": 2751,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C06",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "e43b849cf87ac38f52f3",
+        "68fd92f3c0f21a0a603a",
+        "f7e4b142b101d0e384ab"
+      ],
+      "parent_ids": [
+        "e43b849cf87ac38f52f3",
+        "68fd92f3c0f21a0a603a",
+        "f7e4b142b101d0e384ab"
+      ],
+      "equal_budget_ids": [
+        "e43b849cf87ac38f52f3",
+        "68fd92f3c0f21a0a603a",
+        "f7e4b142b101d0e384ab"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          280,
+          298
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          126,
+          163
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          375,
+          390
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          280,
+          298
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          126,
+          163
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          375,
+          390
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          280,
+          298
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          126,
+          163
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          375,
+          390
+        ]
+      ],
+      "baseline_chars": 2201,
+      "parent_chars": 2201,
+      "equal_budget_chars": 2201,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C07",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "432e32acff6831b49ecf",
+        "47a63690adf52fdb7f79",
+        "9ade4f8b9af8341d05ab"
+      ],
+      "parent_ids": [
+        "432e32acff6831b49ecf",
+        "47a63690adf52fdb7f79",
+        "9ade4f8b9af8341d05ab"
+      ],
+      "equal_budget_ids": [
+        "432e32acff6831b49ecf",
+        "47a63690adf52fdb7f79",
+        "9ade4f8b9af8341d05ab"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          23,
+          48
+        ],
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          55,
+          58
+        ],
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          59,
+          109
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          23,
+          48
+        ],
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          55,
+          58
+        ],
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          59,
+          109
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          23,
+          48
+        ],
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          55,
+          58
+        ],
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          59,
+          109
+        ]
+      ],
+      "baseline_chars": 3050,
+      "parent_chars": 3050,
+      "equal_budget_chars": 3050,
+      "sections": {
+        "baseline": false,
+        "parent": false,
+        "equal_budget": false
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C08",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "7315be284d185529d6ca",
+        "13d5d599c0325a20116b",
+        "8d9e007d5678d80e57a7"
+      ],
+      "parent_ids": [
+        "7315be284d185529d6ca",
+        "13d5d599c0325a20116b",
+        "8d9e007d5678d80e57a7"
+      ],
+      "equal_budget_ids": [
+        "7315be284d185529d6ca",
+        "13d5d599c0325a20116b",
+        "8d9e007d5678d80e57a7"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          49,
+          54
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          29,
+          45
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          79,
+          119
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          49,
+          54
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          29,
+          45
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          79,
+          119
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          49,
+          54
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          29,
+          45
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          79,
+          119
+        ]
+      ],
+      "baseline_chars": 2446,
+      "parent_chars": 2446,
+      "equal_budget_chars": 2446,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C09",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "1b3d53966673ef901538",
+        "3d46b49cf32333675be2",
+        "432e32acff6831b49ecf"
+      ],
+      "parent_ids": [
+        "1b3d53966673ef901538",
+        "432e32acff6831b49ecf",
+        "3d46b49cf32333675be2"
+      ],
+      "equal_budget_ids": [
+        "1b3d53966673ef901538",
+        "432e32acff6831b49ecf",
+        "3d46b49cf32333675be2"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          14,
+          44
+        ],
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          251,
+          267
+        ],
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          23,
+          48
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          14,
+          44
+        ],
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          23,
+          48
+        ],
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          251,
+          267
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          14,
+          44
+        ],
+        [
+          "docs/v1.15.28/en/concepts/processes.mdx",
+          23,
+          48
+        ],
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          251,
+          267
+        ]
+      ],
+      "baseline_chars": 11182,
+      "parent_chars": 11182,
+      "equal_budget_chars": 11182,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C10",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "ad0b93ae299b14f00404",
+        "ebed510b76cf04016cae",
+        "2e4719341591b38cc175"
+      ],
+      "parent_ids": [
+        "ad0b93ae299b14f00404",
+        "ebed510b76cf04016cae",
+        "2e4719341591b38cc175"
+      ],
+      "equal_budget_ids": [
+        "ad0b93ae299b14f00404",
+        "ebed510b76cf04016cae",
+        "2e4719341591b38cc175"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          573,
+          613
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          110,
+          113
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          531,
+          572
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          573,
+          613
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          110,
+          113
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          531,
+          572
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          573,
+          613
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          110,
+          113
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          531,
+          572
+        ]
+      ],
+      "baseline_chars": 2564,
+      "parent_chars": 2564,
+      "equal_budget_chars": 2564,
+      "sections": {
+        "baseline": false,
+        "parent": false,
+        "equal_budget": false
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C11",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "2e4719341591b38cc175",
+        "ad0b93ae299b14f00404",
+        "ca1397466a3129eb91c5"
+      ],
+      "parent_ids": [
+        "2e4719341591b38cc175",
+        "ad0b93ae299b14f00404",
+        "ca1397466a3129eb91c5"
+      ],
+      "equal_budget_ids": [
+        "2e4719341591b38cc175",
+        "ad0b93ae299b14f00404",
+        "ca1397466a3129eb91c5"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          531,
+          572
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          573,
+          613
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          100,
+          109
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          531,
+          572
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          573,
+          613
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          100,
+          109
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          531,
+          572
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          573,
+          613
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          100,
+          109
+        ]
+      ],
+      "baseline_chars": 2641,
+      "parent_chars": 2641,
+      "equal_budget_chars": 2641,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C12",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "82a2a5748b1c9d4ca0f7",
+        "709e63ae2a161f3e13d7",
+        "eacd57268a69810ae36c"
+      ],
+      "parent_ids": [
+        "82a2a5748b1c9d4ca0f7",
+        "709e63ae2a161f3e13d7",
+        "eacd57268a69810ae36c"
+      ],
+      "equal_budget_ids": [
+        "82a2a5748b1c9d4ca0f7",
+        "709e63ae2a161f3e13d7",
+        "eacd57268a69810ae36c"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          614,
+          674
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          675,
+          678
+        ],
+        [
+          "docs/v1.15.28/en/quickstart.mdx",
+          198,
+          209
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          614,
+          674
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          675,
+          678
+        ],
+        [
+          "docs/v1.15.28/en/quickstart.mdx",
+          198,
+          209
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          614,
+          674
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          675,
+          678
+        ],
+        [
+          "docs/v1.15.28/en/quickstart.mdx",
+          198,
+          209
+        ]
+      ],
+      "baseline_chars": 3127,
+      "parent_chars": 3127,
+      "equal_budget_chars": 3127,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C13",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "76a506fa0bfffd2af9e4",
+        "c90be39df11adf51802b",
+        "c5045ca11917bd776847"
+      ],
+      "parent_ids": [
+        "76a506fa0bfffd2af9e4",
+        "c90be39df11adf51802b",
+        "c5045ca11917bd776847"
+      ],
+      "equal_budget_ids": [
+        "76a506fa0bfffd2af9e4",
+        "c90be39df11adf51802b",
+        "c5045ca11917bd776847"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          393,
+          407
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          297,
+          341
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          500,
+          506
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          393,
+          407
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          297,
+          341
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          500,
+          506
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          393,
+          407
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          297,
+          341
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          500,
+          506
+        ]
+      ],
+      "baseline_chars": 2908,
+      "parent_chars": 2908,
+      "equal_budget_chars": 2908,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C14",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "caad82e9e0735389a3ab",
+        "864bcde172547a90a54d",
+        "58a420ef931e9a345fab"
+      ],
+      "parent_ids": [
+        "caad82e9e0735389a3ab",
+        "864bcde172547a90a54d",
+        "58a420ef931e9a345fab"
+      ],
+      "equal_budget_ids": [
+        "caad82e9e0735389a3ab",
+        "864bcde172547a90a54d",
+        "58a420ef931e9a345fab"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          412,
+          431
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          432,
+          446
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          447,
+          482
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          412,
+          431
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          432,
+          446
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          447,
+          482
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          412,
+          431
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          432,
+          446
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          447,
+          482
+        ]
+      ],
+      "baseline_chars": 2847,
+      "parent_chars": 2847,
+      "equal_budget_chars": 2847,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C15",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "4093058178e5d6a67348",
+        "96bf9394c9020bf59df1",
+        "f74f48fd678a6766c366"
+      ],
+      "parent_ids": [
+        "4093058178e5d6a67348",
+        "f74f48fd678a6766c366",
+        "96bf9394c9020bf59df1"
+      ],
+      "equal_budget_ids": [
+        "4093058178e5d6a67348",
+        "f74f48fd678a6766c366",
+        "96bf9394c9020bf59df1"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          1040,
+          1049
+        ],
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          111,
+          152
+        ],
+        [
+          "docs/v1.15.28/en/quickstart.mdx",
+          169,
+          197
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          1040,
+          1049
+        ],
+        [
+          "docs/v1.15.28/en/quickstart.mdx",
+          169,
+          197
+        ],
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          111,
+          152
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          1040,
+          1049
+        ],
+        [
+          "docs/v1.15.28/en/quickstart.mdx",
+          169,
+          197
+        ],
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          111,
+          152
+        ]
+      ],
+      "baseline_chars": 3180,
+      "parent_chars": 3180,
+      "equal_budget_chars": 3180,
+      "sections": {
+        "baseline": false,
+        "parent": false,
+        "equal_budget": false
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C16",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "28ac83e5e2fe543c6b3f",
+        "52d3c366c4fcec8336be",
+        "744826816e5e0a3f1db8"
+      ],
+      "parent_ids": [
+        "28ac83e5e2fe543c6b3f",
+        "52d3c366c4fcec8336be",
+        "ae1bc68dbc19ffe31747"
+      ],
+      "equal_budget_ids": [
+        "28ac83e5e2fe543c6b3f",
+        "52d3c366c4fcec8336be",
+        "ae1bc68dbc19ffe31747"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tools.mdx",
+          294,
+          304
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          137,
+          173
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tools.mdx",
+          128,
+          133
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tools.mdx",
+          294,
+          304
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          137,
+          173
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          936,
+          950
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tools.mdx",
+          294,
+          304
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          137,
+          173
+        ],
+        [
+          "docs/v1.15.28/en/concepts/tasks.mdx",
+          936,
+          950
+        ]
+      ],
+      "baseline_chars": 2694,
+      "parent_chars": 2620,
+      "equal_budget_chars": 2620,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C17",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "0bcb7ae679f09e8509a5",
+        "6791d33eea8be346d9a9",
+        "2a63ee47d20ed57cca91"
+      ],
+      "parent_ids": [
+        "0bcb7ae679f09e8509a5",
+        "6791d33eea8be346d9a9",
+        "2a63ee47d20ed57cca91"
+      ],
+      "equal_budget_ids": [
+        "0bcb7ae679f09e8509a5",
+        "6791d33eea8be346d9a9",
+        "2a63ee47d20ed57cca91"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tools.mdx",
+          381,
+          422
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          76,
+          124
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          871,
+          877
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tools.mdx",
+          381,
+          422
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          76,
+          124
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          871,
+          877
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/concepts/tools.mdx",
+          381,
+          422
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          76,
+          124
+        ],
+        [
+          "docs/v1.15.28/en/concepts/flows.mdx",
+          871,
+          877
+        ]
+      ],
+      "baseline_chars": 3646,
+      "parent_chars": 3646,
+      "equal_budget_chars": 3646,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C18",
+      "answerability": "unanswerable",
+      "baseline_ids": [
+        "3059906a0a42c0e7fb95",
+        "6791d33eea8be346d9a9",
+        "1b3d53966673ef901538"
+      ],
+      "parent_ids": [
+        "3059906a0a42c0e7fb95",
+        "6791d33eea8be346d9a9",
+        "1b3d53966673ef901538"
+      ],
+      "equal_budget_ids": [
+        "3059906a0a42c0e7fb95",
+        "6791d33eea8be346d9a9",
+        "1b3d53966673ef901538"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/quickstart.mdx",
+          217,
+          260
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          76,
+          124
+        ],
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          14,
+          44
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/quickstart.mdx",
+          217,
+          260
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          76,
+          124
+        ],
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          14,
+          44
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/quickstart.mdx",
+          217,
+          260
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          76,
+          124
+        ],
+        [
+          "docs/v1.15.28/en/concepts/crews.mdx",
+          14,
+          44
+        ]
+      ],
+      "baseline_chars": 12909,
+      "parent_chars": 12909,
+      "equal_budget_chars": 12909,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    },
+    {
+      "id": "C19",
+      "answerability": "unanswerable",
+      "baseline_ids": [
+        "11884fc0c47fbc78c8f8",
+        "52d3c366c4fcec8336be",
+        "96bf9394c9020bf59df1"
+      ],
+      "parent_ids": [
+        "11884fc0c47fbc78c8f8",
+        "52d3c366c4fcec8336be",
+        "96bf9394c9020bf59df1"
+      ],
+      "equal_budget_ids": [
+        "11884fc0c47fbc78c8f8",
+        "52d3c366c4fcec8336be",
+        "96bf9394c9020bf59df1"
+      ],
+      "baseline_lines": [
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          8,
+          18
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          137,
+          173
+        ],
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          111,
+          152
+        ]
+      ],
+      "parent_lines": [
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          8,
+          18
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          137,
+          173
+        ],
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          111,
+          152
+        ]
+      ],
+      "equal_budget_lines": [
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          8,
+          18
+        ],
+        [
+          "docs/v1.15.28/en/concepts/agents.mdx",
+          137,
+          173
+        ],
+        [
+          "docs/v1.15.28/en/introduction.mdx",
+          111,
+          152
+        ]
+      ],
+      "baseline_chars": 3702,
+      "parent_chars": 3702,
+      "equal_budget_chars": 3702,
+      "sections": {
+        "baseline": true,
+        "parent": true,
+        "equal_budget": true
+      },
+      "spans": {
+        "baseline": [],
+        "parent": [],
+        "equal_budget": []
+      }
+    }
+  ]
+}
