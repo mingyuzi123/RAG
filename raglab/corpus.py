@@ -8,6 +8,7 @@ import re
 
 HEADING = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
 TABLE_SEPARATOR = re.compile(r"^:?-{3,}:?$")
+DEFINITION_ITEM = re.compile(r"^\s*[-*+]\s+\*{2,3}.{1,160}?:")
 
 
 @dataclass(frozen=True)
@@ -98,6 +99,7 @@ def chunk_mdx(
     commit: str,
     url_template: str,
     max_chars: int = 1800,
+    definition_items: bool = False,
 ) -> list[Chunk]:
     if max_chars < 200:
         raise ValueError("max_chars must be at least 200")
@@ -131,6 +133,12 @@ def chunk_mdx(
             )
 
         for block in _blocks(section):
+            if definition_items and DEFINITION_ITEM.match(block[0][1]):
+                flush()
+                pending = list(block)
+                flush()
+                pending = []
+                continue
             table_rows = _table_rows(block)
             if table_rows is not None:
                 # A table can be one huge Markdown block. Keep related rows together

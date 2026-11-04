@@ -48,6 +48,9 @@ class LocalDocumentTests(TestCase):
             index, count = build_index(root, first)
             self.assertTrue(index.is_file())
             self.assertEqual(count, 1)
+            experimental_index, experimental_count = build_index(root, first, definition_items=True)
+            self.assertNotEqual(index, experimental_index)
+            self.assertEqual(experimental_count, count)
             with self.assertRaisesRegex(ValueError, "同名文档"):
                 import_document(root, "guide.md", "# Guide\n\nNew fact.\n")
             second = import_document(root, "guide.md", "# Guide\n\nNew fact.\n", replace=True)
@@ -60,6 +63,23 @@ class LocalDocumentTests(TestCase):
 
 
 class CorpusTests(TestCase):
+    def test_definition_items_form_separate_traceable_chunks_in_experiment(self):
+        with TemporaryDirectory(dir=Path(__file__).resolve().parents[1]) as folder:
+            file = Path(folder) / "validators.md"
+            file.write_text("## Field validators\n\nIntro.\n\n"
+                            "* ***After* validators**: run after internal validation.\n\n"
+                            "```python\nprint('after')\n```\n\n"
+                            "* ***Before* validators**: run before internal validation.\n",
+                            encoding="utf-8")
+            args = (file, "validators.md", "commit", "https://example.test/{path}")
+            baseline = chunk_mdx(*args)
+            experimental = chunk_mdx(*args, definition_items=True)
+            self.assertEqual(len(baseline), 1)
+            self.assertTrue(any(chunk.start_line == 5 and chunk.end_line == 6 for chunk in experimental))
+            self.assertTrue(any(chunk.start_line == 11 and chunk.end_line == 11 for chunk in experimental))
+            self.assertTrue(all(chunk.source_url.endswith(f"#L{chunk.start_line}-L{chunk.end_line}")
+                                for chunk in experimental))
+
     def test_heading_inside_code_does_not_split_and_id_tracks_content(self):
         with TemporaryDirectory(dir=Path(__file__).resolve().parents[1]) as folder:
             file = Path(folder) / "sample.mdx"

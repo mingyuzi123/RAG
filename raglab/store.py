@@ -26,9 +26,10 @@ def load_manifest(path: Path) -> dict:
     return manifest
 
 
-def index_path(root: Path, manifest: dict, max_chars: int) -> Path:
+def index_path(root: Path, manifest: dict, max_chars: int, definition_items: bool = False) -> Path:
     settings = {"scenario": manifest["id"], "commit": manifest["upstream_commit"],
-                "files": manifest["files"], "max_chars": max_chars, "parser": PARSER_VERSION}
+                "files": manifest["files"], "max_chars": max_chars,
+                "parser": PARSER_VERSION if not definition_items else f"{PARSER_VERSION}-definition-items-v1"}
     digest = sha256(json.dumps(settings, sort_keys=True).encode()).hexdigest()[:12]
     return root / "indexes" / manifest["id"] / f"bm25-{digest}.db"
 
@@ -49,9 +50,10 @@ def _check_source(root: Path, manifest: dict) -> Path:
     return source_root
 
 
-def build_index(root: Path, manifest: dict, max_chars: int = 1800) -> tuple[Path, int]:
+def build_index(root: Path, manifest: dict, max_chars: int = 1800,
+                definition_items: bool = False) -> tuple[Path, int]:
     source_root = _check_source(root, manifest)
-    target = index_path(root, manifest, max_chars)
+    target = index_path(root, manifest, max_chars, definition_items)
     if target.exists():
         with closing(sqlite3.connect(target)) as db:
             count = db.execute("SELECT COUNT(*) FROM chunks").fetchone()[0]
@@ -64,7 +66,8 @@ def build_index(root: Path, manifest: dict, max_chars: int = 1800) -> tuple[Path
         if not source_file.is_relative_to(source_root) or not source_file.is_file():
             raise FileNotFoundError(f"invalid or missing source: {relative}")
         chunks.extend(chunk_mdx(source_file, relative, manifest["upstream_commit"],
-                                manifest["source_url_template"], max_chars))
+                                manifest["source_url_template"], max_chars,
+                                definition_items=definition_items))
 
     try:
         with closing(sqlite3.connect(temporary)) as db:
@@ -86,7 +89,7 @@ def build_index(root: Path, manifest: dict, max_chars: int = 1800) -> tuple[Path
             """)
             db.execute("INSERT INTO meta VALUES (?, ?)", ("scenario", manifest["id"]))
             db.execute("INSERT INTO meta VALUES (?, ?)", ("source_commit", manifest["upstream_commit"]))
-            db.execute("INSERT INTO meta VALUES (?, ?)", ("parser_version", PARSER_VERSION))
+            db.execute("INSERT INTO meta VALUES (?, ?)", ("parser_version", PARSER_VERSION if not definition_items else f"{PARSER_VERSION}-definition-items-v1"))
             db.execute("INSERT INTO meta VALUES (?, ?)", ("max_chars", str(max_chars)))
             for chunk in chunks:
                 db.execute("INSERT INTO chunks VALUES (?, ?, ?, ?, ?, ?, ?, ?)",

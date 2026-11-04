@@ -1,0 +1,1555 @@
+{
+  "bm25": {
+    "baseline_report": "pydantic-bm25.json",
+    "experiment_report": "pydantic-definition-bm25.json",
+    "baseline_section_top": 1.0,
+    "experiment_section_top": 1.0,
+    "baseline_section_context": 0.875,
+    "experiment_section_context": 0.875,
+    "changed_context": [
+      "P04",
+      "P06",
+      "P08"
+    ],
+    "details": {
+      "P01": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              105,
+              148
+            ],
+            [
+              "docs/concepts/models.md",
+              184,
+              235
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              44,
+              157
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": [
+            {
+              "point": "没有默认值的字段必填、有默认值的字段不必填",
+              "top10": false,
+              "context3": false
+            },
+            {
+              "point": "字符串 '123' 转换成整数 123",
+              "top10": true,
+              "context3": true
+            }
+          ]
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              105,
+              148
+            ],
+            [
+              "docs/concepts/models.md",
+              184,
+              235
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              44,
+              157
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": [
+            {
+              "point": "没有默认值的字段必填、有默认值的字段不必填",
+              "top10": false,
+              "context3": false
+            },
+            {
+              "point": "字符串 '123' 转换成整数 123",
+              "top10": true,
+              "context3": true
+            }
+          ]
+        }
+      },
+      "P02": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              381,
+              402
+            ],
+            [
+              "docs/concepts/models.md",
+              154,
+              171
+            ],
+            [
+              "docs/concepts/serialization.md",
+              1,
+              38
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              381,
+              402
+            ],
+            [
+              "docs/concepts/models.md",
+              154,
+              171
+            ],
+            [
+              "docs/concepts/serialization.md",
+              1,
+              38
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        }
+      },
+      "P03": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              236,
+              284
+            ],
+            [
+              "docs/concepts/models.md",
+              485,
+              499
+            ],
+            [
+              "docs/concepts/validators.md",
+              595,
+              604
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              236,
+              284
+            ],
+            [
+              "docs/concepts/models.md",
+              485,
+              499
+            ],
+            [
+              "docs/concepts/validators.md",
+              595,
+              604
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        }
+      },
+      "P04": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/fields.md",
+              193,
+              217
+            ],
+            [
+              "docs/concepts/validators.md",
+              356,
+              388
+            ],
+            [
+              "docs/concepts/fields.md",
+              218,
+              246
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/fields.md",
+              193,
+              217
+            ],
+            [
+              "docs/concepts/fields.md",
+              218,
+              246
+            ],
+            [
+              "docs/concepts/validators.md",
+              356,
+              388
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        }
+      },
+      "P05": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/fields.md",
+              294,
+              342
+            ],
+            [
+              "docs/concepts/fields.md",
+              247,
+              293
+            ],
+            [
+              "docs/concepts/fields.md",
+              402,
+              435
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/fields.md",
+              294,
+              342
+            ],
+            [
+              "docs/concepts/fields.md",
+              247,
+              293
+            ],
+            [
+              "docs/concepts/fields.md",
+              402,
+              435
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        }
+      },
+      "P06": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/validators.md",
+              722,
+              745
+            ],
+            [
+              "docs/concepts/validators.md",
+              160,
+              203
+            ],
+            [
+              "docs/concepts/validators.md",
+              1,
+              28
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": [
+            {
+              "point": "after 在内部校验之后运行",
+              "top10": true,
+              "context3": false
+            },
+            {
+              "point": "before 在内部解析和校验之前运行",
+              "top10": true,
+              "context3": true
+            }
+          ]
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/validators.md",
+              160,
+              166
+            ],
+            [
+              "docs/concepts/validators.md",
+              254,
+              257
+            ],
+            [
+              "docs/concepts/validators.md",
+              722,
+              745
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": [
+            {
+              "point": "after 在内部校验之后运行",
+              "top10": true,
+              "context3": false
+            },
+            {
+              "point": "before 在内部解析和校验之前运行",
+              "top10": true,
+              "context3": true
+            }
+          ]
+        }
+      },
+      "P07": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/models.md",
+              154,
+              171
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              1305,
+              1366
+            ]
+          ],
+          "section_top": true,
+          "section_context": false,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/models.md",
+              154,
+              171
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              1305,
+              1366
+            ]
+          ],
+          "section_top": true,
+          "section_context": false,
+          "spans": []
+        }
+      },
+      "P08": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/json_schema.md",
+              250,
+              311
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              1201,
+              1242
+            ],
+            [
+              "docs/concepts/models.md",
+              154,
+              171
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/json_schema.md",
+              250,
+              311
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              1201,
+              1242
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              507,
+              539
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        }
+      },
+      "P09": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              842,
+              923
+            ],
+            [
+              "docs/concepts/validators.md",
+              527,
+              553
+            ],
+            [
+              "docs/concepts/models.md",
+              500,
+              526
+            ]
+          ],
+          "section_top": null,
+          "section_context": null,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              842,
+              923
+            ],
+            [
+              "docs/concepts/validators.md",
+              527,
+              553
+            ],
+            [
+              "docs/concepts/models.md",
+              500,
+              526
+            ]
+          ],
+          "section_top": null,
+          "section_context": null,
+          "spans": []
+        }
+      },
+      "P10": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/fields.md",
+              189,
+              192
+            ],
+            [
+              "docs/concepts/serialization.md",
+              535,
+              563
+            ]
+          ],
+          "section_top": null,
+          "section_context": null,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/fields.md",
+              189,
+              192
+            ],
+            [
+              "docs/concepts/serialization.md",
+              535,
+              563
+            ]
+          ],
+          "section_top": null,
+          "section_context": null,
+          "spans": []
+        }
+      }
+    }
+  },
+  "vector": {
+    "baseline_report": "pydantic-vector-zh.json",
+    "experiment_report": "pydantic-definition-vector.json",
+    "baseline_section_top": 1.0,
+    "experiment_section_top": 1.0,
+    "baseline_section_context": 0.75,
+    "experiment_section_context": 0.75,
+    "changed_context": [
+      "P06"
+    ],
+    "details": {
+      "P01": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/fields.md",
+              402,
+              435
+            ],
+            [
+              "docs/concepts/fields.md",
+              193,
+              217
+            ],
+            [
+              "docs/concepts/validators.md",
+              356,
+              388
+            ]
+          ],
+          "section_top": true,
+          "section_context": false,
+          "spans": [
+            {
+              "point": "没有默认值的字段必填、有默认值的字段不必填",
+              "top10": false,
+              "context3": false
+            },
+            {
+              "point": "字符串 '123' 转换成整数 123",
+              "top10": true,
+              "context3": false
+            }
+          ]
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/fields.md",
+              402,
+              435
+            ],
+            [
+              "docs/concepts/fields.md",
+              193,
+              217
+            ],
+            [
+              "docs/concepts/validators.md",
+              356,
+              388
+            ]
+          ],
+          "section_top": true,
+          "section_context": false,
+          "spans": [
+            {
+              "point": "没有默认值的字段必填、有默认值的字段不必填",
+              "top10": false,
+              "context3": false
+            },
+            {
+              "point": "字符串 '123' 转换成整数 123",
+              "top10": true,
+              "context3": false
+            }
+          ]
+        }
+      },
+      "P02": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              381,
+              402
+            ],
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/models.md",
+              154,
+              171
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              381,
+              402
+            ],
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/models.md",
+              154,
+              171
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        }
+      },
+      "P03": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              236,
+              284
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              540,
+              578
+            ],
+            [
+              "docs/concepts/models.md",
+              485,
+              499
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              236,
+              284
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              540,
+              578
+            ],
+            [
+              "docs/concepts/models.md",
+              485,
+              499
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        }
+      },
+      "P04": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/fields.md",
+              193,
+              217
+            ],
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/validators.md",
+              1,
+              28
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/fields.md",
+              193,
+              217
+            ],
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/validators.md",
+              1,
+              28
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        }
+      },
+      "P05": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/fields.md",
+              402,
+              435
+            ],
+            [
+              "docs/concepts/fields.md",
+              343,
+              401
+            ],
+            [
+              "docs/concepts/fields.md",
+              294,
+              342
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/fields.md",
+              402,
+              435
+            ],
+            [
+              "docs/concepts/fields.md",
+              343,
+              401
+            ],
+            [
+              "docs/concepts/fields.md",
+              294,
+              342
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        }
+      },
+      "P06": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/validators.md",
+              160,
+              203
+            ],
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/validators.md",
+              251,
+              312
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": [
+            {
+              "point": "after 在内部校验之后运行",
+              "top10": false,
+              "context3": false
+            },
+            {
+              "point": "before 在内部解析和校验之前运行",
+              "top10": true,
+              "context3": true
+            }
+          ]
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/validators.md",
+              46,
+              48
+            ],
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/validators.md",
+              1,
+              28
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": [
+            {
+              "point": "after 在内部校验之后运行",
+              "top10": true,
+              "context3": true
+            },
+            {
+              "point": "before 在内部解析和校验之前运行",
+              "top10": true,
+              "context3": false
+            }
+          ]
+        }
+      },
+      "P07": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/models.md",
+              154,
+              171
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              1367,
+              1379
+            ]
+          ],
+          "section_top": true,
+          "section_context": false,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/models.md",
+              154,
+              171
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              1367,
+              1379
+            ]
+          ],
+          "section_top": true,
+          "section_context": false,
+          "spans": []
+        }
+      },
+      "P08": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/json_schema.md",
+              1201,
+              1242
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              250,
+              311
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              661,
+              731
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/json_schema.md",
+              1201,
+              1242
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              250,
+              311
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              661,
+              731
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        }
+      },
+      "P09": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/json_schema.md",
+              805,
+              847
+            ],
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/models.md",
+              1577,
+              1578
+            ]
+          ],
+          "section_top": null,
+          "section_context": null,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/json_schema.md",
+              805,
+              847
+            ],
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/models.md",
+              1577,
+              1578
+            ]
+          ],
+          "section_top": null,
+          "section_context": null,
+          "spans": []
+        }
+      },
+      "P10": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/serialization.md",
+              187,
+              217
+            ],
+            [
+              "docs/concepts/models.md",
+              1603,
+              1644
+            ]
+          ],
+          "section_top": null,
+          "section_context": null,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/serialization.md",
+              187,
+              217
+            ],
+            [
+              "docs/concepts/models.md",
+              1603,
+              1644
+            ]
+          ],
+          "section_top": null,
+          "section_context": null,
+          "spans": []
+        }
+      }
+    }
+  },
+  "hybrid": {
+    "baseline_report": "pydantic-hybrid-zh.json",
+    "experiment_report": "pydantic-definition-hybrid.json",
+    "baseline_section_top": 1.0,
+    "experiment_section_top": 1.0,
+    "baseline_section_context": 0.875,
+    "experiment_section_context": 0.875,
+    "changed_context": [
+      "P06"
+    ],
+    "details": {
+      "P01": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              105,
+              148
+            ],
+            [
+              "docs/concepts/validators.md",
+              356,
+              388
+            ],
+            [
+              "docs/concepts/fields.md",
+              193,
+              217
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": [
+            {
+              "point": "没有默认值的字段必填、有默认值的字段不必填",
+              "top10": false,
+              "context3": false
+            },
+            {
+              "point": "字符串 '123' 转换成整数 123",
+              "top10": true,
+              "context3": true
+            }
+          ]
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              105,
+              148
+            ],
+            [
+              "docs/concepts/validators.md",
+              356,
+              388
+            ],
+            [
+              "docs/concepts/fields.md",
+              193,
+              217
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": [
+            {
+              "point": "没有默认值的字段必填、有默认值的字段不必填",
+              "top10": false,
+              "context3": false
+            },
+            {
+              "point": "字符串 '123' 转换成整数 123",
+              "top10": true,
+              "context3": true
+            }
+          ]
+        }
+      },
+      "P02": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              381,
+              402
+            ],
+            [
+              "docs/concepts/models.md",
+              154,
+              171
+            ],
+            [
+              "docs/concepts/models.md",
+              403,
+              409
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              381,
+              402
+            ],
+            [
+              "docs/concepts/models.md",
+              154,
+              171
+            ],
+            [
+              "docs/concepts/models.md",
+              403,
+              409
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        }
+      },
+      "P03": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              236,
+              284
+            ],
+            [
+              "docs/concepts/models.md",
+              485,
+              499
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              540,
+              578
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              236,
+              284
+            ],
+            [
+              "docs/concepts/models.md",
+              485,
+              499
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              540,
+              578
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        }
+      },
+      "P04": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/fields.md",
+              193,
+              217
+            ],
+            [
+              "docs/concepts/validators.md",
+              356,
+              388
+            ],
+            [
+              "docs/concepts/fields.md",
+              475,
+              502
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/fields.md",
+              193,
+              217
+            ],
+            [
+              "docs/concepts/validators.md",
+              356,
+              388
+            ],
+            [
+              "docs/concepts/fields.md",
+              475,
+              502
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        }
+      },
+      "P05": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/fields.md",
+              294,
+              342
+            ],
+            [
+              "docs/concepts/fields.md",
+              402,
+              435
+            ],
+            [
+              "docs/concepts/fields.md",
+              343,
+              401
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/fields.md",
+              294,
+              342
+            ],
+            [
+              "docs/concepts/fields.md",
+              402,
+              435
+            ],
+            [
+              "docs/concepts/fields.md",
+              343,
+              401
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        }
+      },
+      "P06": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/validators.md",
+              160,
+              203
+            ],
+            [
+              "docs/concepts/validators.md",
+              1,
+              28
+            ],
+            [
+              "docs/concepts/validators.md",
+              251,
+              312
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": [
+            {
+              "point": "after 在内部校验之后运行",
+              "top10": false,
+              "context3": false
+            },
+            {
+              "point": "before 在内部解析和校验之前运行",
+              "top10": true,
+              "context3": true
+            }
+          ]
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/validators.md",
+              46,
+              48
+            ],
+            [
+              "docs/concepts/validators.md",
+              160,
+              166
+            ],
+            [
+              "docs/concepts/validators.md",
+              1,
+              28
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": [
+            {
+              "point": "after 在内部校验之后运行",
+              "top10": true,
+              "context3": true
+            },
+            {
+              "point": "before 在内部解析和校验之前运行",
+              "top10": true,
+              "context3": true
+            }
+          ]
+        }
+      },
+      "P07": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/models.md",
+              154,
+              171
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              1367,
+              1379
+            ]
+          ],
+          "section_top": true,
+          "section_context": false,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/models.md",
+              154,
+              171
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              1367,
+              1379
+            ]
+          ],
+          "section_top": true,
+          "section_context": false,
+          "spans": []
+        }
+      },
+      "P08": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/json_schema.md",
+              250,
+              311
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              1201,
+              1242
+            ],
+            [
+              "docs/concepts/models.md",
+              154,
+              171
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/json_schema.md",
+              250,
+              311
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              1201,
+              1242
+            ],
+            [
+              "docs/concepts/models.md",
+              154,
+              171
+            ]
+          ],
+          "section_top": true,
+          "section_context": true,
+          "spans": []
+        }
+      },
+      "P09": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              842,
+              923
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              805,
+              847
+            ],
+            [
+              "docs/concepts/validators.md",
+              527,
+              553
+            ]
+          ],
+          "section_top": null,
+          "section_context": null,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/models.md",
+              842,
+              923
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              805,
+              847
+            ],
+            [
+              "docs/concepts/validators.md",
+              527,
+              553
+            ]
+          ],
+          "section_top": null,
+          "section_context": null,
+          "spans": []
+        }
+      },
+      "P10": {
+        "baseline": {
+          "top_lines": [
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/models.md",
+              1603,
+              1644
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              1,
+              9
+            ]
+          ],
+          "section_top": null,
+          "section_context": null,
+          "spans": []
+        },
+        "experiment": {
+          "top_lines": [
+            [
+              "docs/concepts/serialization.md",
+              97,
+              144
+            ],
+            [
+              "docs/concepts/models.md",
+              1603,
+              1644
+            ],
+            [
+              "docs/concepts/json_schema.md",
+              1,
+              9
+            ]
+          ],
+          "section_top": null,
+          "section_context": null,
+          "spans": []
+        }
+      }
+    }
+  }
+}

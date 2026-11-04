@@ -1,0 +1,51 @@
+{
+  "question_id": "P06",
+  "source_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+  "index": "indexes/pydantic-docs/bm25-ebece0c906d5.db",
+  "parser_variant": "definition-items-v1",
+  "context": [
+    {
+      "id": "cd796e1c13d13f04a1c2",
+      "path": "docs/concepts/validators.md",
+      "lines": [
+        46,
+        48
+      ]
+    },
+    {
+      "id": "89d100d4f6bd09d9f08d",
+      "path": "docs/concepts/validators.md",
+      "lines": [
+        160,
+        166
+      ]
+    },
+    {
+      "id": "20d922feb80972260977",
+      "path": "docs/concepts/validators.md",
+      "lines": [
+        1,
+        28
+      ]
+    }
+  ],
+  "answer": "- **before 模式**：在 Pydantic 内部解析和校验**之前**运行，因此处理的是原始输入（例如 `str` 到 `int` 的强制转换尚未发生）[2]。\n- **after 模式**：在 Pydantic 内部校验**之后**运行，因此通常类型更安全、更容易实现[1]。\n\n简言之：**before 在内部类型解析/校验前，after 在内部校验后**。[1][2]",
+  "cited_numbers": [
+    1,
+    2
+  ],
+  "citation_numbers_valid": true,
+  "usage": {
+    "prompt_tokens": 586,
+    "completion_tokens": 251,
+    "total_tokens": 837,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 147
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 586
+  }
+}

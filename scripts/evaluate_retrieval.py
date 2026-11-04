@@ -21,10 +21,10 @@ def anchors_found(question: dict, candidates: list[dict]) -> list[bool]:
 
 
 def evaluate(strategy: str, top_k: int, context_k: int, query_language: str,
-             scenario: Path | None = None) -> dict:
+             scenario: Path | None = None, definition_items: bool = False) -> dict:
     manifest_path = scenario or ROOT / "scenarios" / "crewai" / "manifest.json"
     manifest = load_manifest(manifest_path)
-    db_path = index_path(ROOT, manifest, 1800)
+    db_path = index_path(ROOT, manifest, 1800, definition_items)
     if not db_path.exists():
         raise FileNotFoundError("Run python -m raglab index first")
     eval_dir = manifest_path.parent / "eval"
@@ -61,6 +61,8 @@ def evaluate(strategy: str, top_k: int, context_k: int, query_language: str,
     answerable = [item for item in details if item.get("answerability") != "unanswerable"]
     count = len(answerable)
     return {"scenario": manifest["id"], "source_commit": manifest["upstream_commit"],
+            "index": db_path.relative_to(ROOT).as_posix(),
+            "parser_variant": "definition-items-v1" if definition_items else "baseline",
             "strategy": strategy, "query_language": "English manual translation" if query_language == "en" else "Chinese original",
             "embedding_model": {"id": MODEL_ID, "revision": MODEL_REVISION,
                                 "protocol": VECTOR_VERSION} if strategy != "bm25" else None,
@@ -81,6 +83,7 @@ def main() -> None:
     cli.add_argument("--query-language", choices=("en", "zh"),
                      help="Defaults to en for BM25 and zh for vector")
     cli.add_argument("--scenario", type=Path, default=ROOT / "scenarios" / "crewai" / "manifest.json")
+    cli.add_argument("--definition-items", action="store_true", help="Use experimental definition-item index")
     cli.add_argument("--output", type=Path)
     args = cli.parse_args()
     if not 1 <= args.context_k <= args.top_k:
@@ -88,7 +91,8 @@ def main() -> None:
     language = args.query_language or ("en" if args.strategy == "bm25" else "zh")
     if args.strategy == "bm25" and language == "zh":
         cli.error("BM25 baseline requires the manually translated English queries")
-    report = evaluate(args.strategy, args.top_k, args.context_k, language, args.scenario)
+    report = evaluate(args.strategy, args.top_k, args.context_k, language, args.scenario,
+                      definition_items=args.definition_items)
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
