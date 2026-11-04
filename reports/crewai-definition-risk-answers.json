@@ -1,0 +1,208 @@
+[
+  {
+    "id": "C01",
+    "variant": "baseline",
+    "expected_points": [
+      "Flow 管理整体结构、状态和执行逻辑",
+      "Crew 在 Flow 的步骤中承担需要自主协作的复杂任务"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          8,
+          21
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          31,
+          45
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          8,
+          18
+        ]
+      }
+    ],
+    "context_chars": 2477,
+    "answer": "在 CrewAI 中，二者分工如下：\n\n**Flows：应用的主干与流程定义**\n\n- Flows 用来构建结构化、事件驱动的工作流，负责把多个任务连接起来、管理状态并控制执行流程 [1]。\n- 它相当于应用的“管理者”或“流程定义”，规定步骤、逻辑以及数据如何在系统中流转 [2]。\n- 具体能力包括：跨步骤和跨执行持久化数据的状态管理、基于事件或外部输入触发执行、以及条件逻辑、循环和分支等控制流 [1][2]。\n- 总体而言，Flows 是 AI 应用的骨干，为智能体提供在其内部工作的“脚手架” [3]。\n\n**Crews：流程中的工作单元**\n\n- Crews 是 Flow 内部的工作单元，是由自主智能体组成的团队，协作完成 Flow 委托给它们的特定任务 [3]。\n- Flows 可以方便地把多个 Crews 和任务串联起来，形成复杂的 AI 工作流 [1]。\n\n**构建需要稳定执行路径的应用时的组合方式**\n\n根据上述定位，应以 **Flow 作为稳定的流程骨架**：由 Flow 定义步骤、执行逻辑、状态传递和控制流（条件、循环、分支），从而明确并掌控执行路径 [2][3]；再把具体任务作为**工作单元委托给 Crews**，让智能体团队在 Flow 划定的范围内协作完成 [3]。换言之，Flow 负责“怎么走、按什么逻辑走、数据怎么流动”，Crews 负责“在指定环节完成具体任务”，并通过 Flow 将多个 Crews 与任务串联起来 [1][2][3]。",
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 768,
+      "completion_tokens": 620,
+      "total_tokens": 1388,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 273
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 768
+    }
+  },
+  {
+    "id": "C01",
+    "variant": "definition_items",
+    "expected_points": [
+      "Flow 管理整体结构、状态和执行逻辑",
+      "Crew 在 Flow 的步骤中承担需要自主协作的复杂任务"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          14,
+          16
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          8,
+          21
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          31,
+          45
+        ]
+      }
+    ],
+    "context_chars": 2042,
+    "answer": "在 CrewAI 中，两者职责不同：\n\n- **Flows 是应用的主干与“流程定义/管理者”**：负责定义步骤、逻辑和数据如何流动；提供状态管理、事件驱动执行，以及条件逻辑、循环和分支等控制流，从而组织并控制 AI 应用的执行路径 [2][3]。\n- **Crews 是 Flow 中的“工作单元”**：由自主智能体组成，协作完成 Flow 委派给它们的具体任务 [1]。\n\n构建需要**稳定执行路径**的应用时，可以把 **Flow 作为外层编排框架**：用它串联任务和多个 Crew，管理状态、控制执行，并通过事件、条件、循环和分支明确流程走向 [1][2][3]；再把 **Crews 嵌入 Flow 的相应步骤中**，作为被调用的任务执行单元，由 Flow 向其委派任务 [1]。这样，执行路径由 Flow 定义和控制，而具体任务由 Crews 协作完成。",
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 687,
+      "completion_tokens": 430,
+      "total_tokens": 1117,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 218
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 687
+    }
+  },
+  {
+    "id": "C13",
+    "variant": "baseline",
+    "expected_points": [
+      "状态结构明确或复杂时适合结构化状态",
+      "结构化状态提供模式定义和类型检查",
+      "动态且简单的状态可用非结构化方式"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          393,
+          407
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          297,
+          341
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          500,
+          506
+        ]
+      }
+    ],
+    "context_chars": 2908,
+    "answer": "更适合使用 Flow 的结构化状态管理的场景是：\n\n- 工作流需要**明确且一致的状态结构** [1]。\n- **类型安全和校验**对应用可靠性很重要 [1]。\n- 希望利用 IDE 的**自动补全和类型检查**来提升开发体验 [1]。\n\n相反，如果状态简单或高度动态、优先考虑灵活性，或需要快速原型且不想定义 schema，则更适合非结构化状态管理 [1]。",
+    "cited_numbers": [
+      1
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 837,
+      "completion_tokens": 379,
+      "total_tokens": 1216,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 284
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 837
+    }
+  },
+  {
+    "id": "C13",
+    "variant": "definition_items",
+    "expected_points": [
+      "状态结构明确或复杂时适合结构化状态",
+      "结构化状态提供模式定义和类型检查",
+      "动态且简单的状态可用非结构化方式"
+    ],
+    "context": [
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          401,
+          405
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          395,
+          396
+        ]
+      },
+      {
+        "path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          339,
+          341
+        ]
+      }
+    ],
+    "context_chars": 565,
+    "answer": "根据 [1]，在以下情况更适合使用 Flow 的结构化状态管理，而不是非结构化状态：\n\n- 工作流需要明确且一致的状态结构 [1]。\n- 类型安全和验证对应用的可靠性很重要 [1]。\n- 希望利用 IDE 的自动补全和类型检查等特性，提升开发体验 [1]。",
+    "cited_numbers": [
+      1
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 355,
+      "completion_tokens": 152,
+      "total_tokens": 507,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 81
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 355
+    }
+  }
+]
