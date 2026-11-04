@@ -1,0 +1,10 @@
+{
+  "P01": [
+    {"point": "没有默认值的字段必填、有默认值的字段不必填", "path": "docs/concepts/models.md", "start_line": 79, "end_line": 80},
+    {"point": "字符串 '123' 转换成整数 123", "path": "docs/concepts/models.md", "start_line": 105, "end_line": 108}
+  ],
+  "P06": [
+    {"point": "after 在内部校验之后运行", "path": "docs/concepts/validators.md", "start_line": 46, "end_line": 46},
+    {"point": "before 在内部解析和校验之前运行", "path": "docs/concepts/validators.md", "start_line": 160, "end_line": 160}
+  ]
+}

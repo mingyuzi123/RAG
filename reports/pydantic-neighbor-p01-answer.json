@@ -1,0 +1,40 @@
+{
+  "question_id": "P01",
+  "source_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+  "experiment_method": "same-section-neighbor-v1",
+  "context_ids": [
+    "32747e5744bab8071dd4",
+    "e3dce91bce8828846f27"
+  ],
+  "context_lines": [
+    [
+      "docs/concepts/models.md",
+      105,
+      148
+    ],
+    [
+      "docs/concepts/models.md",
+      53,
+      104
+    ]
+  ],
+  "answer": "在 Pydantic 的 `BaseModel` 中，没有默认值的字段是必填字段，有默认值的字段不是必填字段。例如 `id: int` 是必填的，而 `name: str = 'Jane Doe'` 因为有默认值，所以不是必填的。[2]\n\n如果把字符串 `'123'` 传给 `int` 字段，Pydantic 会把它强制转换成整数 `123`，最终字段值是 `123`，并且类型是 `int`。[1][2]",
+  "cited_numbers": [
+    1,
+    2
+  ],
+  "citation_numbers_valid": true,
+  "usage": {
+    "prompt_tokens": 1024,
+    "completion_tokens": 261,
+    "total_tokens": 1285,
+    "prompt_tokens_details": {
+      "cached_tokens": 384
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 147
+    },
+    "prompt_cache_hit_tokens": 384,
+    "prompt_cache_miss_tokens": 640
+  }
+}
