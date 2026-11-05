@@ -1,0 +1,1391 @@
+[
+  {
+    "id": "N01",
+    "policy": "top_k",
+    "question": "Pydantic 模型把不可哈希的可变对象用作字段默认值时，新建多个模型实例会共享同一个对象吗？",
+    "answerability": "answerable",
+    "expected_points": [
+      "不可哈希的默认值会在创建每个模型实例时被深拷贝",
+      "示例中的两个实例不会共享同一个列表或字典默认对象"
+    ],
+    "expected_evidence": [
+      {
+        "path": "docs/concepts/fields.md",
+        "heading": "Mutable default values"
+      }
+    ],
+    "context": [
+      {
+        "id": "15118035df9a5365d572",
+        "source_path": "docs/concepts/models.md",
+        "heading_path": [
+          "models",
+          "Model copy"
+        ],
+        "start_line": 664,
+        "end_line": 698,
+        "text": "## Model copy\n\n??? api \"API Documentation\"\n    [`pydantic.main.BaseModel.model_copy`][pydantic.main.BaseModel.model_copy]<br>\n\nThe [`model_copy()`][pydantic.BaseModel.model_copy] method allows models to be duplicated (with optional updates),\nwhich is particularly useful when working with frozen models.\n\n```python\nfrom pydantic import BaseModel\n\n\nclass BarModel(BaseModel):\n    whatever: int\n\n\nclass FooBarModel(BaseModel):\n    banana: float\n    foo: str\n    bar: BarModel\n\n\nm = FooBarModel(banana=3.14, foo='hello', bar={'whatever': 123})\n\nprint(m.model_copy(update={'banana': 0}))\n#> banana=0 foo='hello' bar=BarModel(whatever=123)\n\n# normal copy gives the same object reference for bar:\nprint(id(m.bar) == id(m.model_copy().bar))\n#> True\n# deep copy gives a new object reference for `bar`:\nprint(id(m.bar) == id(m.model_copy(deep=True).bar))\n#> False\n```",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "9939f6d2cd41b4b06500",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Customizing the JSON Schema Generation Process"
+        ],
+        "start_line": 1201,
+        "end_line": 1242,
+        "text": "```python\nfrom typing import Callable\n\nfrom pydantic_core import PydanticOmit, core_schema\n\nfrom pydantic import BaseModel\nfrom pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue\n\n\nclass MyGenerateJsonSchema(GenerateJsonSchema):\n    def handle_invalid_for_json_schema(\n        self, schema: core_schema.CoreSchema, error_info: str\n    ) -> JsonSchemaValue:\n        raise PydanticOmit\n\n\ndef example_callable():\n    return 1\n\n\nclass Example(BaseModel):\n    name: str = 'example'\n    function: Callable = example_callable\n\n\ninstance_example = Example()\n\nvalidation_schema = instance_example.model_json_schema(\n    schema_generator=MyGenerateJsonSchema, mode='validation'\n)\nprint(validation_schema)\n\"\"\"\n{\n    'properties': {\n        'name': {'default': 'example', 'title': 'Name', 'type': 'string'}\n    },\n    'title': 'Example',\n    'type': 'object',\n}\n\"\"\"\n```",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "58bfc66d61a115935069",
+        "source_path": "docs/concepts/fields.md",
+        "heading_path": [
+          "fields",
+          "Validate default values",
+          "Mutable default values"
+        ],
+        "start_line": 218,
+        "end_line": 246,
+        "text": "### Mutable default values\n\nA common source of bugs in Python is to use a mutable object as a default value for a function or method argument,\nas the same instance ends up being reused in each call.\n\nThe [`dataclasses`][dataclasses] module actually raises an error in this case, indicating that you should use\na [default factory](https://docs.python.org/3/library/dataclasses.html#default-factory-functions) instead.\n\nWhile the same thing can be done in Pydantic, it is not required. In the event that the default value is not hashable,\nPydantic will create a deep copy of the default value when creating each instance of the model:\n\n```python\nfrom pydantic import BaseModel\n\n\nclass Model(BaseModel):\n    item_counts: list[dict[str, int]] = [{}]\n\n\nm1 = Model()\nm1.item_counts[0]['a'] = 1\nprint(m1.item_counts)\n#> [{'a': 1}]\n\nm2 = Model()\nprint(m2.item_counts)\n#> [{}]\n```",
+        "origin": "baseline_top_k"
+      }
+    ],
+    "retrieval_ms": 31.53,
+    "answer": "不会共享。根据源文档：当字段默认值不可哈希时，Pydantic 会在创建每个模型实例时对该默认值进行深拷贝（deep copy），因此不同实例得到的是各自独立的对象 [3]。\n\n文档中的示例说明了这一点：字段 `item_counts: list[dict[str, int]] = [{}]` 在 `m1` 中修改为 `[{'a': 1}]` 之后，新建的 `m2.item_counts` 仍然是 `[{}]`，并未受到 `m1` 修改的影响 [3]。\n\n需要注意，这与 `model_copy()` 的浅拷贝行为不是同一件事：普通 `model_copy()` 只复制模型本身，嵌套对象仍共享同一引用（可通过 `id` 比较为 `True` 验证），只有 `model_copy(deep=True)` 才会得到新的对象引用 [1]。\n\n因此，对\"新建多个模型实例是否共享同一个可变默认对象\"这一问题，答案是**否**——Pydantic 会自动深拷贝不可哈希的默认值 [3]。",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 903,
+      "completion_tokens": 286,
+      "total_tokens": 1189,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 65
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 903
+    }
+  },
+  {
+    "id": "N01",
+    "policy": "targeted_window",
+    "question": "Pydantic 模型把不可哈希的可变对象用作字段默认值时，新建多个模型实例会共享同一个对象吗？",
+    "answerability": "answerable",
+    "expected_points": [
+      "不可哈希的默认值会在创建每个模型实例时被深拷贝",
+      "示例中的两个实例不会共享同一个列表或字典默认对象"
+    ],
+    "expected_evidence": [
+      {
+        "path": "docs/concepts/fields.md",
+        "heading": "Mutable default values"
+      }
+    ],
+    "context": [
+      {
+        "id": "15118035df9a5365d572",
+        "source_path": "docs/concepts/models.md",
+        "heading_path": [
+          "models",
+          "Model copy"
+        ],
+        "start_line": 664,
+        "end_line": 698,
+        "text": "## Model copy\n\n??? api \"API Documentation\"\n    [`pydantic.main.BaseModel.model_copy`][pydantic.main.BaseModel.model_copy]<br>\n\nThe [`model_copy()`][pydantic.BaseModel.model_copy] method allows models to be duplicated (with optional updates),\nwhich is particularly useful when working with frozen models.\n\n```python\nfrom pydantic import BaseModel\n\n\nclass BarModel(BaseModel):\n    whatever: int\n\n\nclass FooBarModel(BaseModel):\n    banana: float\n    foo: str\n    bar: BarModel\n\n\nm = FooBarModel(banana=3.14, foo='hello', bar={'whatever': 123})\n\nprint(m.model_copy(update={'banana': 0}))\n#> banana=0 foo='hello' bar=BarModel(whatever=123)\n\n# normal copy gives the same object reference for bar:\nprint(id(m.bar) == id(m.model_copy().bar))\n#> True\n# deep copy gives a new object reference for `bar`:\nprint(id(m.bar) == id(m.model_copy(deep=True).bar))\n#> False\n```",
+        "origin": "child_hit"
+      },
+      {
+        "id": "9939f6d2cd41b4b06500",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Customizing the JSON Schema Generation Process"
+        ],
+        "start_line": 1201,
+        "end_line": 1242,
+        "text": "```python\nfrom typing import Callable\n\nfrom pydantic_core import PydanticOmit, core_schema\n\nfrom pydantic import BaseModel\nfrom pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue\n\n\nclass MyGenerateJsonSchema(GenerateJsonSchema):\n    def handle_invalid_for_json_schema(\n        self, schema: core_schema.CoreSchema, error_info: str\n    ) -> JsonSchemaValue:\n        raise PydanticOmit\n\n\ndef example_callable():\n    return 1\n\n\nclass Example(BaseModel):\n    name: str = 'example'\n    function: Callable = example_callable\n\n\ninstance_example = Example()\n\nvalidation_schema = instance_example.model_json_schema(\n    schema_generator=MyGenerateJsonSchema, mode='validation'\n)\nprint(validation_schema)\n\"\"\"\n{\n    'properties': {\n        'name': {'default': 'example', 'title': 'Name', 'type': 'string'}\n    },\n    'title': 'Example',\n    'type': 'object',\n}\n\"\"\"\n```",
+        "origin": "child_hit"
+      },
+      {
+        "id": "58bfc66d61a115935069",
+        "source_path": "docs/concepts/fields.md",
+        "heading_path": [
+          "fields",
+          "Validate default values",
+          "Mutable default values"
+        ],
+        "start_line": 218,
+        "end_line": 246,
+        "text": "### Mutable default values\n\nA common source of bugs in Python is to use a mutable object as a default value for a function or method argument,\nas the same instance ends up being reused in each call.\n\nThe [`dataclasses`][dataclasses] module actually raises an error in this case, indicating that you should use\na [default factory](https://docs.python.org/3/library/dataclasses.html#default-factory-functions) instead.\n\nWhile the same thing can be done in Pydantic, it is not required. In the event that the default value is not hashable,\nPydantic will create a deep copy of the default value when creating each instance of the model:\n\n```python\nfrom pydantic import BaseModel\n\n\nclass Model(BaseModel):\n    item_counts: list[dict[str, int]] = [{}]\n\n\nm1 = Model()\nm1.item_counts[0]['a'] = 1\nprint(m1.item_counts)\n#> [{'a': 1}]\n\nm2 = Model()\nprint(m2.item_counts)\n#> [{}]\n```",
+        "origin": "child_hit"
+      }
+    ],
+    "retrieval_ms": 48.78,
+    "answer": "不会共享。根据 [3]，当字段默认值不可哈希时，Pydantic 会在创建每个模型实例时对默认值进行深拷贝。示例中 `item_counts: list[dict[str, int]] = [{}]`，修改 `m1.item_counts` 后，`m2.item_counts` 仍为 `[{}]`，说明不同实例没有共享同一个可变默认对象。[3]",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 903,
+      "completion_tokens": 243,
+      "total_tokens": 1146,
+      "prompt_tokens_details": {
+        "cached_tokens": 768
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 154
+      },
+      "prompt_cache_hit_tokens": 768,
+      "prompt_cache_miss_tokens": 135
+    }
+  },
+  {
+    "id": "N02",
+    "policy": "top_k",
+    "question": "字段设置 Field(strict=True) 与 Field(strict=False) 时，示例中的字符串 '42' 传给 int 字段为什么能被接受？",
+    "answerability": "answerable",
+    "expected_points": [
+      "strict=True 使该字段按严格模式校验",
+      "示例 age 设置 strict=False，宽松模式允许字符串 42 转成整数"
+    ],
+    "expected_evidence": [
+      {
+        "path": "docs/concepts/fields.md",
+        "heading": "Strict fields"
+      }
+    ],
+    "context": [
+      {
+        "id": "8ecd1aa2c96ce52d4df6",
+        "source_path": "docs/concepts/fields.md",
+        "heading_path": [
+          "fields",
+          "Strict fields"
+        ],
+        "start_line": 475,
+        "end_line": 502,
+        "text": "## Strict fields\n\nThe `strict` parameter of the [`Field()`][pydantic.Field] function specifies whether the field should be validated in\n[strict mode](./strict_mode.md).\n\n```python\nfrom pydantic import BaseModel, Field\n\n\nclass User(BaseModel):\n    name: str = Field(strict=True)\n    age: int = Field(strict=False)  # (1)!\n\n\nuser = User(name='John', age='42')  # (2)!\nprint(user)\n#> name='John' age=42\n```\n\n1. This is the default value.\n2. The `age` field is validated in lax mode. Therefore, it can be assigned a string.\n\nThe [standard library types](../api/standard_library_types.md) documentation describes the strict behavior for each type.\n\n<!-- old anchor added for backwards compatibility -->\n<!-- markdownlint-disable-next-line no-empty-links -->\n[](){#dataclass-constraints}",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "b13ffbc2ca514db5e4a8",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Customizing JSON Schema",
+          "Field-Level Customization"
+        ],
+        "start_line": 340,
+        "end_line": 405,
+        "text": "```python {output=\"json\"}\nimport json\nfrom typing import Annotated\n\nfrom pydantic import BaseModel, EmailStr, Field, SecretStr\n\n\nclass User(BaseModel):\n    age: int = Field(description='Age of the user')\n    email: Annotated[EmailStr, Field(examples=['marcelo@mail.com'])]  # (1)!\n    name: str = Field(title='Username')\n    password: SecretStr = Field(\n        json_schema_extra={\n            'title': 'Password',\n            'description': 'Password of the user',\n            'examples': ['123456'],\n        }\n    )\n\n\nprint(json.dumps(User.model_json_schema(), indent=2))\n\"\"\"\n{\n  \"properties\": {\n    \"age\": {\n      \"description\": \"Age of the user\",\n      \"title\": \"Age\",\n      \"type\": \"integer\"\n    },\n    \"email\": {\n      \"examples\": [\n        \"marcelo@mail.com\"\n      ],\n      \"format\": \"email\",\n      \"title\": \"Email\",\n      \"type\": \"string\"\n    },\n    \"name\": {\n      \"title\": \"Username\",\n      \"type\": \"string\"\n    },\n    \"password\": {\n      \"description\": \"Password of the user\",\n      \"examples\": [\n        \"123456\"\n      ],\n      \"format\": \"password\",\n      \"title\": \"Password\",\n      \"type\": \"string\",\n      \"writeOnly\": true\n    }\n  },\n  \"required\": [\n    \"age\",\n    \"email\",\n    \"name\",\n    \"password\"\n  ],\n  \"title\": \"User\",\n  \"type\": \"object\"\n}\n\"\"\"\n```\n\n1. The [annotated pattern](./fields.md#the-annotated-pattern) can also be used.",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "5d9ea4b736f2381a07db",
+        "source_path": "docs/concepts/fields.md",
+        "heading_path": [
+          "fields",
+          "Field constraints"
+        ],
+        "start_line": 436,
+        "end_line": 474,
+        "text": "## Field constraints\n\nThe [`Field()`][pydantic.Field] function can also be used to add constraints to specific types:\n\n```python\nfrom decimal import Decimal\n\nfrom pydantic import BaseModel, Field\n\n\nclass Model(BaseModel):\n    positive: int = Field(gt=0)\n    short_str: str = Field(max_length=3)\n    precise_decimal: Decimal = Field(max_digits=5, decimal_places=2)\n```\n\nThe available constraints for each type (and the way they affect the JSON Schema) are described\nin the [standard library types](../api/standard_library_types.md) documentation.\n\n!!! note\n    When adding constraints to a union type, if a member of the union is `None` or the [`MISSING` sentinel](./experimental.md#missing-sentinel),\n    the constraints will be automatically applied to the remaining type(s) of the union:\n\n    ```python\n    from typing import Annotated, Union\n\n    from pydantic import BaseModel, Field\n\n\n    class Model(BaseModel):\n        positive: Union[int, None] = Field(gt=0)\n        # Also works with the annotated pattern:\n        negative: Annotated[Union[int, None], Field(lt=0)]\n    ```\n\n<!-- old anchor added for backwards compatibility -->\n<!-- markdownlint-disable-next-line no-empty-links -->\n[](){#strict-mode}",
+        "origin": "baseline_top_k"
+      }
+    ],
+    "retrieval_ms": 20.79,
+    "answer": "在示例中，`'42'` 传给的是 `age: int = Field(strict=False)`，而 `strict=False` 是默认值，表示该字段使用宽松（lax）模式进行校验；因此在宽松模式下，字符串可以被赋给 `int` 字段，并最终得到 `age=42`。[1]\n\n示例里的 `strict=True` 用在 `name: str` 上，与 `'42'` 传给 `int` 字段无关。摘录只说明 `strict` 参数用于指定是否使用严格模式，并未给出 `int` 字段在 `Field(strict=True)` 下接受 `'42'` 的示例。[1]",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1086,
+      "completion_tokens": 655,
+      "total_tokens": 1741,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 508
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1086
+    }
+  },
+  {
+    "id": "N02",
+    "policy": "targeted_window",
+    "question": "字段设置 Field(strict=True) 与 Field(strict=False) 时，示例中的字符串 '42' 传给 int 字段为什么能被接受？",
+    "answerability": "answerable",
+    "expected_points": [
+      "strict=True 使该字段按严格模式校验",
+      "示例 age 设置 strict=False，宽松模式允许字符串 42 转成整数"
+    ],
+    "expected_evidence": [
+      {
+        "path": "docs/concepts/fields.md",
+        "heading": "Strict fields"
+      }
+    ],
+    "context": [
+      {
+        "id": "8ecd1aa2c96ce52d4df6",
+        "source_path": "docs/concepts/fields.md",
+        "heading_path": [
+          "fields",
+          "Strict fields"
+        ],
+        "start_line": 475,
+        "end_line": 502,
+        "text": "## Strict fields\n\nThe `strict` parameter of the [`Field()`][pydantic.Field] function specifies whether the field should be validated in\n[strict mode](./strict_mode.md).\n\n```python\nfrom pydantic import BaseModel, Field\n\n\nclass User(BaseModel):\n    name: str = Field(strict=True)\n    age: int = Field(strict=False)  # (1)!\n\n\nuser = User(name='John', age='42')  # (2)!\nprint(user)\n#> name='John' age=42\n```\n\n1. This is the default value.\n2. The `age` field is validated in lax mode. Therefore, it can be assigned a string.\n\nThe [standard library types](../api/standard_library_types.md) documentation describes the strict behavior for each type.\n\n<!-- old anchor added for backwards compatibility -->\n<!-- markdownlint-disable-next-line no-empty-links -->\n[](){#dataclass-constraints}",
+        "origin": "child_hit"
+      },
+      {
+        "id": "b13ffbc2ca514db5e4a8",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Customizing JSON Schema",
+          "Field-Level Customization"
+        ],
+        "start_line": 340,
+        "end_line": 405,
+        "text": "```python {output=\"json\"}\nimport json\nfrom typing import Annotated\n\nfrom pydantic import BaseModel, EmailStr, Field, SecretStr\n\n\nclass User(BaseModel):\n    age: int = Field(description='Age of the user')\n    email: Annotated[EmailStr, Field(examples=['marcelo@mail.com'])]  # (1)!\n    name: str = Field(title='Username')\n    password: SecretStr = Field(\n        json_schema_extra={\n            'title': 'Password',\n            'description': 'Password of the user',\n            'examples': ['123456'],\n        }\n    )\n\n\nprint(json.dumps(User.model_json_schema(), indent=2))\n\"\"\"\n{\n  \"properties\": {\n    \"age\": {\n      \"description\": \"Age of the user\",\n      \"title\": \"Age\",\n      \"type\": \"integer\"\n    },\n    \"email\": {\n      \"examples\": [\n        \"marcelo@mail.com\"\n      ],\n      \"format\": \"email\",\n      \"title\": \"Email\",\n      \"type\": \"string\"\n    },\n    \"name\": {\n      \"title\": \"Username\",\n      \"type\": \"string\"\n    },\n    \"password\": {\n      \"description\": \"Password of the user\",\n      \"examples\": [\n        \"123456\"\n      ],\n      \"format\": \"password\",\n      \"title\": \"Password\",\n      \"type\": \"string\",\n      \"writeOnly\": true\n    }\n  },\n  \"required\": [\n    \"age\",\n    \"email\",\n    \"name\",\n    \"password\"\n  ],\n  \"title\": \"User\",\n  \"type\": \"object\"\n}\n\"\"\"\n```\n\n1. The [annotated pattern](./fields.md#the-annotated-pattern) can also be used.",
+        "origin": "child_hit"
+      },
+      {
+        "id": "5d9ea4b736f2381a07db",
+        "source_path": "docs/concepts/fields.md",
+        "heading_path": [
+          "fields",
+          "Field constraints"
+        ],
+        "start_line": 436,
+        "end_line": 474,
+        "text": "## Field constraints\n\nThe [`Field()`][pydantic.Field] function can also be used to add constraints to specific types:\n\n```python\nfrom decimal import Decimal\n\nfrom pydantic import BaseModel, Field\n\n\nclass Model(BaseModel):\n    positive: int = Field(gt=0)\n    short_str: str = Field(max_length=3)\n    precise_decimal: Decimal = Field(max_digits=5, decimal_places=2)\n```\n\nThe available constraints for each type (and the way they affect the JSON Schema) are described\nin the [standard library types](../api/standard_library_types.md) documentation.\n\n!!! note\n    When adding constraints to a union type, if a member of the union is `None` or the [`MISSING` sentinel](./experimental.md#missing-sentinel),\n    the constraints will be automatically applied to the remaining type(s) of the union:\n\n    ```python\n    from typing import Annotated, Union\n\n    from pydantic import BaseModel, Field\n\n\n    class Model(BaseModel):\n        positive: Union[int, None] = Field(gt=0)\n        # Also works with the annotated pattern:\n        negative: Annotated[Union[int, None], Field(lt=0)]\n    ```\n\n<!-- old anchor added for backwards compatibility -->\n<!-- markdownlint-disable-next-line no-empty-links -->\n[](){#strict-mode}",
+        "origin": "child_hit"
+      }
+    ],
+    "retrieval_ms": 49.6,
+    "answer": "示例中字符串 `'42'` 传给的是 `age: int = Field(strict=False)` 这个字段，而不是 `strict=True` 的字段。`strict=False` 表示该字段使用 lax（宽松）模式进行校验，因此可以把字符串赋给 `int` 字段，并在示例中转换为 `age=42`。[1]\n\n补充说明：源码注释也指出 `strict=False` 是该参数的默认值，并且 `age` 字段在 lax 模式下校验，所以允许传入字符串。[1]",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1086,
+      "completion_tokens": 506,
+      "total_tokens": 1592,
+      "prompt_tokens_details": {
+        "cached_tokens": 896
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 395
+      },
+      "prompt_cache_hit_tokens": 896,
+      "prompt_cache_miss_tokens": 190
+    }
+  },
+  {
+    "id": "N03",
+    "policy": "top_k",
+    "question": "Pydantic 的 Field(frozen=True) 限制什么操作？文档示例重新赋值会发生什么？",
+    "answerability": "answerable",
+    "expected_points": [
+      "frozen=True 防止模型创建后给该字段重新赋值",
+      "示例中重新给 name 赋值会抛出 ValidationError"
+    ],
+    "expected_evidence": [
+      {
+        "path": "docs/concepts/fields.md",
+        "heading": "Immutability"
+      }
+    ],
+    "context": [
+      {
+        "id": "4536b211c277dc63249b",
+        "source_path": "docs/concepts/fields.md",
+        "heading_path": [
+          "fields",
+          "Immutability"
+        ],
+        "start_line": 631,
+        "end_line": 665,
+        "text": "## Immutability\n\nThe parameter `frozen` is used to emulate the frozen dataclass behaviour. It is used to prevent the field from being\nassigned a new value after the model is created (immutability).\n\nSee the [frozen dataclass documentation] for more details.\n\n```python\nfrom pydantic import BaseModel, Field, ValidationError\n\n\nclass User(BaseModel):\n    name: str = Field(frozen=True)\n    age: int\n\n\nuser = User(name='John', age=42)\n\ntry:\n    user.name = 'Jane'  # (1)!\nexcept ValidationError as e:\n    print(e)\n    \"\"\"\n    1 validation error for User\n    name\n      Field is frozen [type=frozen_field, input_value='Jane', input_type=str]\n    \"\"\"\n```\n\n1. Since `name` field is frozen, the assignment is not allowed.\n\n<!-- old anchor added for backwards compatibility -->\n<!-- markdownlint-disable-next-line no-empty-links -->\n[](){#exclude}",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "ad91e9ba54ccd5314e45",
+        "source_path": "docs/concepts/fields.md",
+        "heading_path": [
+          "fields"
+        ],
+        "start_line": 1,
+        "end_line": 30,
+        "text": "??? api \"API Documentation\"\n    [`pydantic.fields.Field`][pydantic.fields.Field]<br>\n\nIn this section, we will go through the available mechanisms to customize Pydantic model fields:\n[default values](#default-values), [JSON Schema metadata](#customizing-json-schema),\n[constraints](#field-constraints), etc.\n\nTo do so, the [`Field()`][pydantic.fields.Field] function is used a lot, and behaves the same way as\nthe standard library [`field()`][dataclasses.field] function for dataclasses – by assigning to the\nannotated attribute:\n\n```python\nfrom pydantic import BaseModel, Field\n\n\nclass Model(BaseModel):\n    name: str = Field(frozen=True)\n```\n\n!!! note\n    Even though `name` is assigned a value, it is still required and has no default value. If you want\n    to emphasize on the fact that a value must be provided, you can use the [ellipsis][Ellipsis]:\n\n    ```python {lint=\"skip\" test=\"skip\"}\n    class Model(BaseModel):\n        name: str = Field(..., frozen=True)\n    ```\n\n    However, its usage is discouraged as it doesn't play well with static type checkers.",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "8ecd1aa2c96ce52d4df6",
+        "source_path": "docs/concepts/fields.md",
+        "heading_path": [
+          "fields",
+          "Strict fields"
+        ],
+        "start_line": 475,
+        "end_line": 502,
+        "text": "## Strict fields\n\nThe `strict` parameter of the [`Field()`][pydantic.Field] function specifies whether the field should be validated in\n[strict mode](./strict_mode.md).\n\n```python\nfrom pydantic import BaseModel, Field\n\n\nclass User(BaseModel):\n    name: str = Field(strict=True)\n    age: int = Field(strict=False)  # (1)!\n\n\nuser = User(name='John', age='42')  # (2)!\nprint(user)\n#> name='John' age=42\n```\n\n1. This is the default value.\n2. The `age` field is validated in lax mode. Therefore, it can be assigned a string.\n\nThe [standard library types](../api/standard_library_types.md) documentation describes the strict behavior for each type.\n\n<!-- old anchor added for backwards compatibility -->\n<!-- markdownlint-disable-next-line no-empty-links -->\n[](){#dataclass-constraints}",
+        "origin": "baseline_top_k"
+      }
+    ],
+    "retrieval_ms": 17.81,
+    "answer": "`Field(frozen=True)` 用于模拟 frozen dataclass 的行为，限制的是：**模型创建之后，不能再给该字段赋新值（不可变）**。因此在示例中先创建 `User(name='John', age=42)` 是允许的，但之后执行 `user.name = 'Jane'` 会被禁止 [1]。\n\n文档示例中重新赋值会抛出 `ValidationError`，错误信息为：`Field is frozen [type=frozen_field, input_value='Jane', input_type=str]`，即该字段被冻结、赋值不被允许 [1]。",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 874,
+      "completion_tokens": 492,
+      "total_tokens": 1366,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 368
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 874
+    }
+  },
+  {
+    "id": "N03",
+    "policy": "targeted_window",
+    "question": "Pydantic 的 Field(frozen=True) 限制什么操作？文档示例重新赋值会发生什么？",
+    "answerability": "answerable",
+    "expected_points": [
+      "frozen=True 防止模型创建后给该字段重新赋值",
+      "示例中重新给 name 赋值会抛出 ValidationError"
+    ],
+    "expected_evidence": [
+      {
+        "path": "docs/concepts/fields.md",
+        "heading": "Immutability"
+      }
+    ],
+    "context": [
+      {
+        "id": "4536b211c277dc63249b",
+        "source_path": "docs/concepts/fields.md",
+        "heading_path": [
+          "fields",
+          "Immutability"
+        ],
+        "start_line": 631,
+        "end_line": 665,
+        "text": "## Immutability\n\nThe parameter `frozen` is used to emulate the frozen dataclass behaviour. It is used to prevent the field from being\nassigned a new value after the model is created (immutability).\n\nSee the [frozen dataclass documentation] for more details.\n\n```python\nfrom pydantic import BaseModel, Field, ValidationError\n\n\nclass User(BaseModel):\n    name: str = Field(frozen=True)\n    age: int\n\n\nuser = User(name='John', age=42)\n\ntry:\n    user.name = 'Jane'  # (1)!\nexcept ValidationError as e:\n    print(e)\n    \"\"\"\n    1 validation error for User\n    name\n      Field is frozen [type=frozen_field, input_value='Jane', input_type=str]\n    \"\"\"\n```\n\n1. Since `name` field is frozen, the assignment is not allowed.\n\n<!-- old anchor added for backwards compatibility -->\n<!-- markdownlint-disable-next-line no-empty-links -->\n[](){#exclude}",
+        "origin": "child_hit"
+      },
+      {
+        "id": "ad91e9ba54ccd5314e45",
+        "source_path": "docs/concepts/fields.md",
+        "heading_path": [
+          "fields"
+        ],
+        "start_line": 1,
+        "end_line": 30,
+        "text": "??? api \"API Documentation\"\n    [`pydantic.fields.Field`][pydantic.fields.Field]<br>\n\nIn this section, we will go through the available mechanisms to customize Pydantic model fields:\n[default values](#default-values), [JSON Schema metadata](#customizing-json-schema),\n[constraints](#field-constraints), etc.\n\nTo do so, the [`Field()`][pydantic.fields.Field] function is used a lot, and behaves the same way as\nthe standard library [`field()`][dataclasses.field] function for dataclasses – by assigning to the\nannotated attribute:\n\n```python\nfrom pydantic import BaseModel, Field\n\n\nclass Model(BaseModel):\n    name: str = Field(frozen=True)\n```\n\n!!! note\n    Even though `name` is assigned a value, it is still required and has no default value. If you want\n    to emphasize on the fact that a value must be provided, you can use the [ellipsis][Ellipsis]:\n\n    ```python {lint=\"skip\" test=\"skip\"}\n    class Model(BaseModel):\n        name: str = Field(..., frozen=True)\n    ```\n\n    However, its usage is discouraged as it doesn't play well with static type checkers.",
+        "origin": "child_hit"
+      },
+      {
+        "id": "8ecd1aa2c96ce52d4df6",
+        "source_path": "docs/concepts/fields.md",
+        "heading_path": [
+          "fields",
+          "Strict fields"
+        ],
+        "start_line": 475,
+        "end_line": 502,
+        "text": "## Strict fields\n\nThe `strict` parameter of the [`Field()`][pydantic.Field] function specifies whether the field should be validated in\n[strict mode](./strict_mode.md).\n\n```python\nfrom pydantic import BaseModel, Field\n\n\nclass User(BaseModel):\n    name: str = Field(strict=True)\n    age: int = Field(strict=False)  # (1)!\n\n\nuser = User(name='John', age='42')  # (2)!\nprint(user)\n#> name='John' age=42\n```\n\n1. This is the default value.\n2. The `age` field is validated in lax mode. Therefore, it can be assigned a string.\n\nThe [standard library types](../api/standard_library_types.md) documentation describes the strict behavior for each type.\n\n<!-- old anchor added for backwards compatibility -->\n<!-- markdownlint-disable-next-line no-empty-links -->\n[](){#dataclass-constraints}",
+        "origin": "child_hit"
+      }
+    ],
+    "retrieval_ms": 39.04,
+    "answer": "`Field(frozen=True)` 用于模拟 frozen dataclass 的行为，限制的是：**模型创建后不能再给该字段赋新值**，即实现字段不可变性 [1]。\n\n文档示例中，`User(name='John', age=42)` 创建后执行：\n\n```python\nuser.name = 'Jane'\n```\n\n这次重新赋值**不被允许**，会抛出 `ValidationError`，错误信息包含：\n\n```text\nname\n  Field is frozen [type=frozen_field, input_value='Jane', input_type=str]\n```\n\n也就是说，示例中的重新赋值会触发校验错误，而不是成功修改字段值 [1]。",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 874,
+      "completion_tokens": 398,
+      "total_tokens": 1272,
+      "prompt_tokens_details": {
+        "cached_tokens": 640
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 265
+      },
+      "prompt_cache_hit_tokens": 640,
+      "prompt_cache_miss_tokens": 234
+    }
+  },
+  {
+    "id": "N04",
+    "policy": "top_k",
+    "question": "在 Annotated 模式下，before、wrap 和 after 校验器的执行顺序分别是什么？",
+    "answerability": "answerable",
+    "expected_points": [
+      "before 和 wrap 校验器从右到左执行",
+      "after 校验器从左到右执行"
+    ],
+    "expected_evidence": [
+      {
+        "path": "docs/concepts/validators.md",
+        "heading": "Ordering of validators"
+      }
+    ],
+    "context": [
+      {
+        "id": "20d922feb80972260977",
+        "source_path": "docs/concepts/validators.md",
+        "heading_path": [
+          "validators"
+        ],
+        "start_line": 1,
+        "end_line": 28,
+        "text": "In addition to Pydantic's [built-in validation capabilities](./fields.md#field-constraints),\nyou can leverage custom validators at the field and model levels to enforce more complex constraints\nand ensure the integrity of your data.\n\n!!! tip\n    Want to quickly jump to the relevant validator section?\n\n    <div class=\"grid cards\" markdown>\n\n    *   Field validators\n\n        ---\n\n        * [field *after* validators](#field-after-validator)\n        * [field *before* validators](#field-before-validator)\n        * [field *plain* validators](#field-plain-validator)\n        * [field *wrap* validators](#field-wrap-validator)\n\n    *   Model validators\n\n        ---\n\n        * [model *before* validators](#model-before-validator)\n        * [model *after* validators](#model-after-validator)\n        * [model *wrap* validators](#model-wrap-validator)\n\n    </div>",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "d376d7155ce51034d2f1",
+        "source_path": "docs/concepts/validators.md",
+        "heading_path": [
+          "validators",
+          "Field validators"
+        ],
+        "start_line": 313,
+        "end_line": 355,
+        "text": "* ***Wrap* validators**: are the most flexible of all. You can run code before or after Pydantic and other validators\n  process the input, or you can terminate validation immediately, either by returning the value early or by raising an\n  error.\n  {#field-wrap-validator}\n\n    Such validators must be defined with a **mandatory** extra *handler* parameter: a callable taking the value to be validated\n    as an argument. Internally, this handler will delegate validation of the value to Pydantic. You are free to wrap the call\n    to the handler in a [`try..except`][handling exceptions] block, or not call it at all.\n\n    [handling exceptions]: https://docs.python.org/3/tutorial/errors.html#handling-exceptions\n\n    === \"Annotated pattern\"\n\n        ```python {lint=\"skip\"}\n        from typing import Any\n\n        from typing import Annotated\n\n        from pydantic import BaseModel, Field, ValidationError, ValidatorFunctionWrapHandler, WrapValidator\n\n\n        def truncate(value: Any, handler: ValidatorFunctionWrapHandler) -> str:\n            try:\n                return handler(value)\n            except ValidationError as err:\n                if err.errors()[0]['type'] == 'string_too_long':\n                    return handler(value[:5])\n                else:\n                    raise\n\n\n        class Model(BaseModel):\n            my_string: Annotated[str, Field(max_length=5), WrapValidator(truncate)]\n\n\n        print(Model(my_string='abcde'))\n        #> my_string='abcde'\n        print(Model(my_string='abcdef'))\n        #> my_string='abcde'\n        ```\n\n    === \"Decorator\"",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "2e6a30fe30aa3053aa4f",
+        "source_path": "docs/concepts/validators.md",
+        "heading_path": [
+          "validators",
+          "Ordering of validators"
+        ],
+        "start_line": 722,
+        "end_line": 745,
+        "text": "## Ordering of validators\n\nWhen using the [annotated pattern](#using-the-annotated-pattern), the order in which validators are applied\nis defined as follows: [*before*](#field-before-validator) and [*wrap*](#field-wrap-validator) validators\nare run from right to left, and [*after*](#field-after-validator) validators are then run from left to right:\n\n```python {lint=\"skip\" test=\"skip\"}\nfrom pydantic import AfterValidator, BaseModel, BeforeValidator, WrapValidator\n\n\nclass Model(BaseModel):\n    name: Annotated[\n        str,\n        AfterValidator(runs_3rd),\n        AfterValidator(runs_4th),\n        BeforeValidator(runs_2nd),\n        WrapValidator(runs_1st),\n    ]\n```\n\nInternally, validators defined using [the decorator](#using-the-decorator-pattern) are converted to their annotated\nform counterpart and added last after the existing metadata for the field. This means that the same ordering\nlogic applies.",
+        "origin": "baseline_top_k"
+      }
+    ],
+    "retrieval_ms": 16.35,
+    "answer": "在 **Annotated 模式**下，校验器的执行顺序是：\n\n- **before 和 wrap 校验器**：从**右向左**执行；\n- **after 校验器**：随后从**左向右**执行。\n\n例如源码中的顺序 `AfterValidator(runs_3rd), AfterValidator(runs_4th), BeforeValidator(runs_2nd), WrapValidator(runs_1st)` 会按 `runs_1st → runs_2nd → runs_3rd → runs_4th` 执行 [3]。\n\n因此可概括为：**wrap/before 先按从右到左运行，after 再按从左到右运行** [3]。",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 998,
+      "completion_tokens": 272,
+      "total_tokens": 1270,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 124
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 998
+    }
+  },
+  {
+    "id": "N04",
+    "policy": "targeted_window",
+    "question": "在 Annotated 模式下，before、wrap 和 after 校验器的执行顺序分别是什么？",
+    "answerability": "answerable",
+    "expected_points": [
+      "before 和 wrap 校验器从右到左执行",
+      "after 校验器从左到右执行"
+    ],
+    "expected_evidence": [
+      {
+        "path": "docs/concepts/validators.md",
+        "heading": "Ordering of validators"
+      }
+    ],
+    "context": [
+      {
+        "id": "20d922feb80972260977",
+        "source_path": "docs/concepts/validators.md",
+        "heading_path": [
+          "validators"
+        ],
+        "start_line": 1,
+        "end_line": 28,
+        "text": "In addition to Pydantic's [built-in validation capabilities](./fields.md#field-constraints),\nyou can leverage custom validators at the field and model levels to enforce more complex constraints\nand ensure the integrity of your data.\n\n!!! tip\n    Want to quickly jump to the relevant validator section?\n\n    <div class=\"grid cards\" markdown>\n\n    *   Field validators\n\n        ---\n\n        * [field *after* validators](#field-after-validator)\n        * [field *before* validators](#field-before-validator)\n        * [field *plain* validators](#field-plain-validator)\n        * [field *wrap* validators](#field-wrap-validator)\n\n    *   Model validators\n\n        ---\n\n        * [model *before* validators](#model-before-validator)\n        * [model *after* validators](#model-after-validator)\n        * [model *wrap* validators](#model-wrap-validator)\n\n    </div>",
+        "origin": "child_hit"
+      },
+      {
+        "id": "2e6a30fe30aa3053aa4f",
+        "source_path": "docs/concepts/validators.md",
+        "heading_path": [
+          "validators",
+          "Ordering of validators"
+        ],
+        "start_line": 722,
+        "end_line": 745,
+        "text": "## Ordering of validators\n\nWhen using the [annotated pattern](#using-the-annotated-pattern), the order in which validators are applied\nis defined as follows: [*before*](#field-before-validator) and [*wrap*](#field-wrap-validator) validators\nare run from right to left, and [*after*](#field-after-validator) validators are then run from left to right:\n\n```python {lint=\"skip\" test=\"skip\"}\nfrom pydantic import AfterValidator, BaseModel, BeforeValidator, WrapValidator\n\n\nclass Model(BaseModel):\n    name: Annotated[\n        str,\n        AfterValidator(runs_3rd),\n        AfterValidator(runs_4th),\n        BeforeValidator(runs_2nd),\n        WrapValidator(runs_1st),\n    ]\n```\n\nInternally, validators defined using [the decorator](#using-the-decorator-pattern) are converted to their annotated\nform counterpart and added last after the existing metadata for the field. This means that the same ordering\nlogic applies.",
+        "origin": "child_hit"
+      },
+      {
+        "id": "042d01b92cff5b7fe888",
+        "source_path": "docs/concepts/serialization.md",
+        "heading_path": [
+          "serialization",
+          "Serializers",
+          "Field serializers"
+        ],
+        "start_line": 307,
+        "end_line": 310,
+        "text": "* ***Wrap* serializers**: give more flexibility to customize the serialization behavior. You can run code before or after\n  the Pydantic serialization logic.\n  {#field-wrap-serializer}",
+        "origin": "child_hit"
+      }
+    ],
+    "retrieval_ms": 36.9,
+    "answer": "在 Annotated 模式下，校验器执行顺序是：**before 与 wrap 校验器从右向左执行，随后 after 校验器从左向右执行** [2]。\n\n也就是说：\n1. **wrap / before**：按 Annotated 元数据中从右到左的顺序执行；\n2. **after**：在前两者之后，按从左到右的顺序执行 [2]。\n\n示例中顺序为 `WrapValidator(runs_1st)` → `BeforeValidator(runs_2nd)` → `AfterValidator(runs_3rd)` → `AfterValidator(runs_4th)` [2]。另外，用装饰器定义的校验器会转换为对应的 Annotated 形式并添加在已有字段元数据之后，因此也适用同样的排序逻辑 [2]。",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 685,
+      "completion_tokens": 398,
+      "total_tokens": 1083,
+      "prompt_tokens_details": {
+        "cached_tokens": 128
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 235
+      },
+      "prompt_cache_hit_tokens": 128,
+      "prompt_cache_miss_tokens": 557
+    }
+  },
+  {
+    "id": "N05",
+    "policy": "top_k",
+    "question": "模型字段引用了定义时尚不存在的类时，文档用什么方法重建模型 schema？何时调用？",
+    "answerability": "answerable",
+    "expected_points": [
+      "使用 model_rebuild() 重建模型 schema",
+      "在被引用的类定义完成之后调用"
+    ],
+    "expected_evidence": [
+      {
+        "path": "docs/concepts/models.md",
+        "heading": "Rebuilding model schema"
+      }
+    ],
+    "context": [
+      {
+        "id": "ac1844713891a3379275",
+        "source_path": "docs/concepts/models.md",
+        "heading_path": [
+          "models",
+          "Rebuilding model schema"
+        ],
+        "start_line": 327,
+        "end_line": 376,
+        "text": "## Rebuilding model schema\n\nWhen you define a model class in your code, Pydantic will analyze the body of the class to collect a variety of information\nrequired to perform validation and serialization, gathered in a core schema. Notably, the model's type annotations are evaluated to\nunderstand the valid types for each field (more information can be found in the [Architecture](../internals/architecture.md) documentation).\nHowever, it might be the case that annotations refer to symbols not defined when the model class is being created.\nTo circumvent this issue, the [`model_rebuild()`][pydantic.main.BaseModel.model_rebuild] method can be used:\n\n```python\nfrom pydantic import BaseModel, PydanticUserError\n\n\nclass Foo(BaseModel):\n    x: 'Bar'  # (1)!\n\n\ntry:\n    Foo.model_json_schema()\nexcept PydanticUserError as e:\n    print(e)\n    \"\"\"\n    `Foo` is not fully defined; you should define `Bar`, then call `Foo.model_rebuild()`.\n\n    For further information visit https://errors.pydantic.dev/2/u/class-not-fully-defined\n    \"\"\"\n\n\nclass Bar(BaseModel):\n    pass\n\n\nFoo.model_rebuild()\nprint(Foo.model_json_schema())\n\"\"\"\n{\n    '$defs': {'Bar': {'properties': {}, 'title': 'Bar', 'type': 'object'}},\n    'properties': {'x': {'$ref': '#/$defs/Bar'}},\n    'required': ['x'],\n    'title': 'Foo',\n    'type': 'object',\n}\n\"\"\"\n```\n\n1. `Bar` is not yet defined when the `Foo` class is being created. For this reason,\n    a [forward annotation](forward_annotations.md) is being used.\n\nPydantic tries to determine when this is necessary automatically and error if it wasn't done, but you may want to\ncall [`model_rebuild()`][pydantic.main.BaseModel.model_rebuild] proactively when dealing with recursive models or generics.",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "bf7808dfb1ea8b6c9b9a",
+        "source_path": "docs/concepts/models.md",
+        "heading_path": [
+          "models",
+          "Rebuilding model schema"
+        ],
+        "start_line": 377,
+        "end_line": 380,
+        "text": "In V2, [`model_rebuild()`][pydantic.main.BaseModel.model_rebuild] replaced `update_forward_refs()` from V1. There are some slight differences with the new behavior.\nThe biggest change is that when calling [`model_rebuild()`][pydantic.main.BaseModel.model_rebuild] on the outermost model, it builds a core schema used for validation of the\nwhole model (nested models and all), so all types at all levels need to be ready before [`model_rebuild()`][pydantic.main.BaseModel.model_rebuild] is called.",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "b8c9ad3b63e2c58714ab",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Customizing JSON Schema",
+          "Implementing `__get_pydantic_core_schema__` <a name=\"implementing_get_pydantic_core_schema\"></a>"
+        ],
+        "start_line": 646,
+        "end_line": 660,
+        "text": "### Implementing `__get_pydantic_core_schema__` <a name=\"implementing_get_pydantic_core_schema\"></a>\n\nCustom types (used as `field_name: TheType` or `field_name: Annotated[TheType, ...]`) as well as `Annotated` metadata\n(used as `field_name: Annotated[int, SomeMetadata]`)\ncan modify or override the generated schema by implementing `__get_pydantic_core_schema__`.\nThis method receives two positional arguments:\n\n1. The type annotation that corresponds to this type (so in the case of `TheType[T][int]` it would be `TheType[int]`).\n2. A handler/callback to call the next implementer of `__get_pydantic_core_schema__`.\n\nThe handler system works just like [*wrap* field validators](validators.md#field-wrap-validator).\nIn this case the input is the type and the output is a `core_schema`.\n\nHere is an example of a custom type that *overrides* the generated `core_schema`:",
+        "origin": "baseline_top_k"
+      }
+    ],
+    "retrieval_ms": 18.52,
+    "answer": "文档使用 `model_rebuild()` 方法重建模型 schema。示例中字段 `x: 'Bar'` 引用了尚未定义的 `Bar`，在定义 `Bar` 后调用 `Foo.model_rebuild()` [1]。\n\n调用时机方面，文档说明 Pydantic 会尝试自动判断何时需要重建，并在未重建时抛出错误；但在处理**递归模型或泛型**时，可以主动调用 `model_rebuild()` [1]。另外，在最外层模型上调用 `model_rebuild()` 会构建用于验证整个模型（包括嵌套模型）的 core schema，因此调用前所有层级的相关类型都必须已就绪 [2]。",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1021,
+      "completion_tokens": 276,
+      "total_tokens": 1297,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 137
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1021
+    }
+  },
+  {
+    "id": "N05",
+    "policy": "targeted_window",
+    "question": "模型字段引用了定义时尚不存在的类时，文档用什么方法重建模型 schema？何时调用？",
+    "answerability": "answerable",
+    "expected_points": [
+      "使用 model_rebuild() 重建模型 schema",
+      "在被引用的类定义完成之后调用"
+    ],
+    "expected_evidence": [
+      {
+        "path": "docs/concepts/models.md",
+        "heading": "Rebuilding model schema"
+      }
+    ],
+    "context": [
+      {
+        "id": "ac1844713891a3379275",
+        "source_path": "docs/concepts/models.md",
+        "heading_path": [
+          "models",
+          "Rebuilding model schema"
+        ],
+        "start_line": 327,
+        "end_line": 376,
+        "text": "## Rebuilding model schema\n\nWhen you define a model class in your code, Pydantic will analyze the body of the class to collect a variety of information\nrequired to perform validation and serialization, gathered in a core schema. Notably, the model's type annotations are evaluated to\nunderstand the valid types for each field (more information can be found in the [Architecture](../internals/architecture.md) documentation).\nHowever, it might be the case that annotations refer to symbols not defined when the model class is being created.\nTo circumvent this issue, the [`model_rebuild()`][pydantic.main.BaseModel.model_rebuild] method can be used:\n\n```python\nfrom pydantic import BaseModel, PydanticUserError\n\n\nclass Foo(BaseModel):\n    x: 'Bar'  # (1)!\n\n\ntry:\n    Foo.model_json_schema()\nexcept PydanticUserError as e:\n    print(e)\n    \"\"\"\n    `Foo` is not fully defined; you should define `Bar`, then call `Foo.model_rebuild()`.\n\n    For further information visit https://errors.pydantic.dev/2/u/class-not-fully-defined\n    \"\"\"\n\n\nclass Bar(BaseModel):\n    pass\n\n\nFoo.model_rebuild()\nprint(Foo.model_json_schema())\n\"\"\"\n{\n    '$defs': {'Bar': {'properties': {}, 'title': 'Bar', 'type': 'object'}},\n    'properties': {'x': {'$ref': '#/$defs/Bar'}},\n    'required': ['x'],\n    'title': 'Foo',\n    'type': 'object',\n}\n\"\"\"\n```\n\n1. `Bar` is not yet defined when the `Foo` class is being created. For this reason,\n    a [forward annotation](forward_annotations.md) is being used.\n\nPydantic tries to determine when this is necessary automatically and error if it wasn't done, but you may want to\ncall [`model_rebuild()`][pydantic.main.BaseModel.model_rebuild] proactively when dealing with recursive models or generics.",
+        "origin": "child_hit"
+      },
+      {
+        "id": "bf7808dfb1ea8b6c9b9a",
+        "source_path": "docs/concepts/models.md",
+        "heading_path": [
+          "models",
+          "Rebuilding model schema"
+        ],
+        "start_line": 377,
+        "end_line": 380,
+        "text": "In V2, [`model_rebuild()`][pydantic.main.BaseModel.model_rebuild] replaced `update_forward_refs()` from V1. There are some slight differences with the new behavior.\nThe biggest change is that when calling [`model_rebuild()`][pydantic.main.BaseModel.model_rebuild] on the outermost model, it builds a core schema used for validation of the\nwhole model (nested models and all), so all types at all levels need to be ready before [`model_rebuild()`][pydantic.main.BaseModel.model_rebuild] is called.",
+        "origin": "child_hit"
+      },
+      {
+        "id": "b8c9ad3b63e2c58714ab",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Customizing JSON Schema",
+          "Implementing `__get_pydantic_core_schema__` <a name=\"implementing_get_pydantic_core_schema\"></a>"
+        ],
+        "start_line": 646,
+        "end_line": 660,
+        "text": "### Implementing `__get_pydantic_core_schema__` <a name=\"implementing_get_pydantic_core_schema\"></a>\n\nCustom types (used as `field_name: TheType` or `field_name: Annotated[TheType, ...]`) as well as `Annotated` metadata\n(used as `field_name: Annotated[int, SomeMetadata]`)\ncan modify or override the generated schema by implementing `__get_pydantic_core_schema__`.\nThis method receives two positional arguments:\n\n1. The type annotation that corresponds to this type (so in the case of `TheType[T][int]` it would be `TheType[int]`).\n2. A handler/callback to call the next implementer of `__get_pydantic_core_schema__`.\n\nThe handler system works just like [*wrap* field validators](validators.md#field-wrap-validator).\nIn this case the input is the type and the output is a `core_schema`.\n\nHere is an example of a custom type that *overrides* the generated `core_schema`:",
+        "origin": "child_hit"
+      }
+    ],
+    "retrieval_ms": 38.77,
+    "answer": "文档使用 `BaseModel.model_rebuild()` 方法重建模型的 core schema。当模型字段的注解引用了模型类创建时尚未定义的符号时，Pydantic 会尝试自动判断何时需要重建，如果没有重建则会报错（例如提示 `Foo` 未完全定义，应先定义 `Bar`，再调用 `Foo.model_rebuild()`）。此外，文档建议在处理**递归模型或泛型**时可以主动调用 `model_rebuild()` [1]。\n\n关于调用时机，还应注意：在 V2 中 `model_rebuild()` 取代了 V1 的 `update_forward_refs()`；而在最外层模型上调用 `model_rebuild()` 时，它会为整个模型（包括所有嵌套模型）构建用于验证的 core schema，因此**在调用之前，所有层级的所有类型都必须已经就绪** [2]。",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1021,
+      "completion_tokens": 289,
+      "total_tokens": 1310,
+      "prompt_tokens_details": {
+        "cached_tokens": 768
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 109
+      },
+      "prompt_cache_hit_tokens": 768,
+      "prompt_cache_miss_tokens": 253
+    }
+  },
+  {
+    "id": "N06",
+    "policy": "top_k",
+    "question": "SerializeAsAny[User] 与普通 User 类型字段序列化 UserLogin 实例时，password 字段分别会怎样？",
+    "answerability": "answerable",
+    "expected_points": [
+      "SerializeAsAny[User] 的 as_any 输出包含子类的 password",
+      "普通 User 类型的 as_user 输出不包含子类的 password"
+    ],
+    "expected_evidence": [
+      {
+        "path": "docs/concepts/serialization.md",
+        "heading": "SerializeAsAny annotation"
+      }
+    ],
+    "context": [
+      {
+        "id": "35e537bee06e9f596369",
+        "source_path": "docs/concepts/serialization.md",
+        "heading_path": [
+          "serialization",
+          "Serializing \"as Any\"",
+          "`SerializeAsAny` annotation"
+        ],
+        "start_line": 702,
+        "end_line": 740,
+        "text": "### `SerializeAsAny` annotation\n\nIf you want duck typing serialization behavior, this can be done using the\n[`SerializeAsAny`][pydantic.functional_serializers.SerializeAsAny] annotation\non a type:\n\n```python\nfrom pydantic import BaseModel, SerializeAsAny\n\n\nclass User(BaseModel):\n    name: str\n\n\nclass UserLogin(User):\n    password: str\n\n\nclass OuterModel(BaseModel):\n    as_any: SerializeAsAny[User]\n    as_user: User\n\n\nuser = UserLogin(name='pydantic', password='password')\n\nprint(OuterModel(as_any=user, as_user=user).model_dump())\n\"\"\"\n{\n    'as_any': {'name': 'pydantic', 'password': 'password'},\n    'as_user': {'name': 'pydantic'},\n}\n\"\"\"\n```\n\nWhen a type is annotated as `SerializeAsAny[<type>]`, the validation behavior will be the same as if it was\nannotated as `<type>`, and static type checkers will treat the annotation as if it was simply `<type>`.\nWhen serializing, the field will be serialized as though the type hint for the field was [`Any`][typing.Any],\nwhich is where the name comes from.",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "5f53665c27e450df4cbe",
+        "source_path": "docs/concepts/serialization.md",
+        "heading_path": [
+          "serialization",
+          "Serializing \"as Any\"",
+          "`serialize_as_any` runtime setting"
+        ],
+        "start_line": 741,
+        "end_line": 791,
+        "text": "### `serialize_as_any` runtime setting\n\nThe `serialize_as_any` runtime setting can be used to serialize model data with or without duck typed serialization behavior.\n`serialize_as_any` can be passed as a keyword argument to the various [serialization methods](#serializing-data) (such as\n[`model_dump()`][pydantic.BaseModel.model_dump] and [`model_dump_json()`][pydantic.BaseModel.model_dump_json] on Pydantic models).\n\n```python\nfrom pydantic import BaseModel\n\n\nclass User(BaseModel):\n    name: str\n\n\nclass UserLogin(User):\n    password: str\n\n\nclass OuterModel(BaseModel):\n    user1: User\n    user2: User\n\n\nuser = UserLogin(name='pydantic', password='password')\n\nouter_model = OuterModel(user1=user, user2=user)\nprint(outer_model.model_dump(serialize_as_any=True))  # (1)!\n\"\"\"\n{\n    'user1': {'name': 'pydantic', 'password': 'password'},\n    'user2': {'name': 'pydantic', 'password': 'password'},\n}\n\"\"\"\n\nprint(outer_model.model_dump(serialize_as_any=False))  # (2)!\n#> {'user1': {'name': 'pydantic'}, 'user2': {'name': 'pydantic'}}\n```\n\n1. With `serialize_as_any` set to `True`, the result matches that of V1.\n2. With `serialize_as_any` set to `False` (the V2 default), fields present on the subclass,\n   but not the base class, are not included in serialization.\n\nHowever, do note that the *serialize as any* behavior will apply to *all* values, not only the values where duck typing\nis relevant. You may want to prefer using the `SerializeAsAny` annotation when required instead.\n\n<!-- old anchor added for backwards compatibility -->\n<!-- markdownlint-disable-next-line no-empty-links -->\n[](){#advanced-include-and-exclude}\n<!-- markdownlint-disable-next-line no-empty-links -->\n[](){#model-and-field-level-include-and-exclude}",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "ba7ca27c33725fb5ba73",
+        "source_path": "docs/concepts/serialization.md",
+        "heading_path": [
+          "serialization",
+          "Serializing subclasses",
+          "Polymorphic serialization"
+        ],
+        "start_line": 638,
+        "end_line": 678,
+        "text": "The example below defines a type `User` and a subclass of it, `UserLogin`. A second pair of types, `PolymorphicUser`\nand `PolymorphicUserLogin` are defined as equivalents with `polymorphic_serialization` enabled.\n\nWe can then see the effect of serializing each of these types, and the interaction of this config with the runtime\n`polymorphic_serialization` setting:\n\n```python\nfrom pydantic import BaseModel\n\n\nclass User(BaseModel):\n    name: str\n\n\nclass UserLogin(User):\n    password: str\n\n\nclass OuterModel(BaseModel):\n    user: User\n\n\nouter_model = OuterModel(\n    user=UserLogin(name='pydantic', password='password'),\n)\n\n\nprint(outer_model.model_dump())  # (1)!\n#> {'user': {'name': 'pydantic'}}\nprint(outer_model.model_dump(polymorphic_serialization=True))  # (2)!\n#> {'user': {'name': 'pydantic', 'password': 'password'}}\n```\n\n1. With polymorphic serialization disabled, `user` serializes as the base type.\n2. With polymorphic serialization enabled, `user` serializes as the actual runtime subclass.\n\nAs seen in the example, by having polymorphic serialization enabled, the `User.model_dump()` method will by respect the value\nof the `UserLogin` subclass when it is provided instead of a `User` value, and serialize the full `UserLogin` type. This\nbehavior can be globally overridden with the `polymorphic_serialization` runtime setting; in this case setting it to `False`\ncauses the `UserLogin` value to serialize just as a `User` value, ignoring the subclass' `password` field.",
+        "origin": "baseline_top_k"
+      }
+    ],
+    "retrieval_ms": 17.85,
+    "answer": "- 对于 `SerializeAsAny[User]` 字段：序列化时会按 `Any` 进行鸭子类型序列化，因此 `UserLogin` 实例的 `password` 字段会包含在输出中，结果为 `{'name': 'pydantic', 'password': 'password'}`。[1]\n- 对于普通的 `User` 类型字段：会按声明的基类 `User` 序列化，因此 `UserLogin` 特有的 `password` 字段不会包含在输出中，结果为 `{'name': 'pydantic'}`。[1]",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1361,
+      "completion_tokens": 362,
+      "total_tokens": 1723,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 238
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1361
+    }
+  },
+  {
+    "id": "N06",
+    "policy": "targeted_window",
+    "question": "SerializeAsAny[User] 与普通 User 类型字段序列化 UserLogin 实例时，password 字段分别会怎样？",
+    "answerability": "answerable",
+    "expected_points": [
+      "SerializeAsAny[User] 的 as_any 输出包含子类的 password",
+      "普通 User 类型的 as_user 输出不包含子类的 password"
+    ],
+    "expected_evidence": [
+      {
+        "path": "docs/concepts/serialization.md",
+        "heading": "SerializeAsAny annotation"
+      }
+    ],
+    "context": [
+      {
+        "id": "35e537bee06e9f596369",
+        "source_path": "docs/concepts/serialization.md",
+        "heading_path": [
+          "serialization",
+          "Serializing \"as Any\"",
+          "`SerializeAsAny` annotation"
+        ],
+        "start_line": 702,
+        "end_line": 740,
+        "text": "### `SerializeAsAny` annotation\n\nIf you want duck typing serialization behavior, this can be done using the\n[`SerializeAsAny`][pydantic.functional_serializers.SerializeAsAny] annotation\non a type:\n\n```python\nfrom pydantic import BaseModel, SerializeAsAny\n\n\nclass User(BaseModel):\n    name: str\n\n\nclass UserLogin(User):\n    password: str\n\n\nclass OuterModel(BaseModel):\n    as_any: SerializeAsAny[User]\n    as_user: User\n\n\nuser = UserLogin(name='pydantic', password='password')\n\nprint(OuterModel(as_any=user, as_user=user).model_dump())\n\"\"\"\n{\n    'as_any': {'name': 'pydantic', 'password': 'password'},\n    'as_user': {'name': 'pydantic'},\n}\n\"\"\"\n```\n\nWhen a type is annotated as `SerializeAsAny[<type>]`, the validation behavior will be the same as if it was\nannotated as `<type>`, and static type checkers will treat the annotation as if it was simply `<type>`.\nWhen serializing, the field will be serialized as though the type hint for the field was [`Any`][typing.Any],\nwhich is where the name comes from.",
+        "origin": "child_hit"
+      },
+      {
+        "id": "5f53665c27e450df4cbe",
+        "source_path": "docs/concepts/serialization.md",
+        "heading_path": [
+          "serialization",
+          "Serializing \"as Any\"",
+          "`serialize_as_any` runtime setting"
+        ],
+        "start_line": 741,
+        "end_line": 791,
+        "text": "### `serialize_as_any` runtime setting\n\nThe `serialize_as_any` runtime setting can be used to serialize model data with or without duck typed serialization behavior.\n`serialize_as_any` can be passed as a keyword argument to the various [serialization methods](#serializing-data) (such as\n[`model_dump()`][pydantic.BaseModel.model_dump] and [`model_dump_json()`][pydantic.BaseModel.model_dump_json] on Pydantic models).\n\n```python\nfrom pydantic import BaseModel\n\n\nclass User(BaseModel):\n    name: str\n\n\nclass UserLogin(User):\n    password: str\n\n\nclass OuterModel(BaseModel):\n    user1: User\n    user2: User\n\n\nuser = UserLogin(name='pydantic', password='password')\n\nouter_model = OuterModel(user1=user, user2=user)\nprint(outer_model.model_dump(serialize_as_any=True))  # (1)!\n\"\"\"\n{\n    'user1': {'name': 'pydantic', 'password': 'password'},\n    'user2': {'name': 'pydantic', 'password': 'password'},\n}\n\"\"\"\n\nprint(outer_model.model_dump(serialize_as_any=False))  # (2)!\n#> {'user1': {'name': 'pydantic'}, 'user2': {'name': 'pydantic'}}\n```\n\n1. With `serialize_as_any` set to `True`, the result matches that of V1.\n2. With `serialize_as_any` set to `False` (the V2 default), fields present on the subclass,\n   but not the base class, are not included in serialization.\n\nHowever, do note that the *serialize as any* behavior will apply to *all* values, not only the values where duck typing\nis relevant. You may want to prefer using the `SerializeAsAny` annotation when required instead.\n\n<!-- old anchor added for backwards compatibility -->\n<!-- markdownlint-disable-next-line no-empty-links -->\n[](){#advanced-include-and-exclude}\n<!-- markdownlint-disable-next-line no-empty-links -->\n[](){#model-and-field-level-include-and-exclude}",
+        "origin": "child_hit"
+      },
+      {
+        "id": "ba7ca27c33725fb5ba73",
+        "source_path": "docs/concepts/serialization.md",
+        "heading_path": [
+          "serialization",
+          "Serializing subclasses",
+          "Polymorphic serialization"
+        ],
+        "start_line": 638,
+        "end_line": 678,
+        "text": "The example below defines a type `User` and a subclass of it, `UserLogin`. A second pair of types, `PolymorphicUser`\nand `PolymorphicUserLogin` are defined as equivalents with `polymorphic_serialization` enabled.\n\nWe can then see the effect of serializing each of these types, and the interaction of this config with the runtime\n`polymorphic_serialization` setting:\n\n```python\nfrom pydantic import BaseModel\n\n\nclass User(BaseModel):\n    name: str\n\n\nclass UserLogin(User):\n    password: str\n\n\nclass OuterModel(BaseModel):\n    user: User\n\n\nouter_model = OuterModel(\n    user=UserLogin(name='pydantic', password='password'),\n)\n\n\nprint(outer_model.model_dump())  # (1)!\n#> {'user': {'name': 'pydantic'}}\nprint(outer_model.model_dump(polymorphic_serialization=True))  # (2)!\n#> {'user': {'name': 'pydantic', 'password': 'password'}}\n```\n\n1. With polymorphic serialization disabled, `user` serializes as the base type.\n2. With polymorphic serialization enabled, `user` serializes as the actual runtime subclass.\n\nAs seen in the example, by having polymorphic serialization enabled, the `User.model_dump()` method will by respect the value\nof the `UserLogin` subclass when it is provided instead of a `User` value, and serialize the full `UserLogin` type. This\nbehavior can be globally overridden with the `polymorphic_serialization` runtime setting; in this case setting it to `False`\ncauses the `UserLogin` value to serialize just as a `User` value, ignoring the subclass' `password` field.",
+        "origin": "child_hit"
+      }
+    ],
+    "retrieval_ms": 40.59,
+    "answer": "- 字段类型为 `SerializeAsAny[User]` 时，序列化会按 `Any` 处理，采用鸭子类型行为；因此传入 `UserLogin` 实例时，`password` 字段会被包含在输出中，例如 `{'name': 'pydantic', 'password': 'password'}` [1]。\n- 字段类型为普通 `User` 时，会按 `User` 类型序列化；因此传入 `UserLogin` 实例时，`password` 字段不会包含在输出中，只会得到 `{'name': 'pydantic'}` [1]。",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1361,
+      "completion_tokens": 282,
+      "total_tokens": 1643,
+      "prompt_tokens_details": {
+        "cached_tokens": 1152
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 150
+      },
+      "prompt_cache_hit_tokens": 1152,
+      "prompt_cache_miss_tokens": 209
+    }
+  },
+  {
+    "id": "N07",
+    "policy": "top_k",
+    "question": "字段本身设置 Field(exclude=True) 后，调用 model_dump(include=...) 能重新把它包含进结果吗？文档说明哪一方优先？",
+    "answerability": "answerable",
+    "expected_points": [
+      "字段级排除优先于序列化时的 include 参数",
+      "因此 include 不能覆盖 Field(exclude=True) 的排除"
+    ],
+    "expected_evidence": [
+      {
+        "path": "docs/concepts/serialization.md",
+        "heading": "Field inclusion and exclusion"
+      }
+    ],
+    "context": [
+      {
+        "id": "2f7b641f3c1102bbd009",
+        "source_path": "docs/concepts/serialization.md",
+        "heading_path": [
+          "serialization",
+          "Field inclusion and exclusion",
+          "As parameters to the serialization methods",
+          "Excluding and including specific fields"
+        ],
+        "start_line": 824,
+        "end_line": 873,
+        "text": "#### Excluding and including specific fields\n\nConsider the following models:\n\n```python {group=\"simple-exclude-include\"}\nfrom pydantic import BaseModel, Field, SecretStr\n\n\nclass User(BaseModel):\n    id: int\n    username: str\n    password: SecretStr\n\n\nclass Transaction(BaseModel):\n    id: str\n    private_id: str = Field(exclude=True)\n    user: User\n    value: int\n\n\nt = Transaction(\n    id='1234567890',\n    private_id='123',\n    user=User(id=42, username='JohnDoe', password='hashedpassword'),\n    value=9876543210,\n)\n```\n\nThe `exclude` parameter can be used to specify which fields should be excluded (including the others), and vice-versa\nusing the `include` parameter.\n\n```python {group=\"simple-exclude-include\"}\n# using a set:\nprint(t.model_dump(exclude={'user', 'value'}))\n#> {'id': '1234567890'}\n\n# using a dictionary:\nprint(t.model_dump(exclude={'user': {'username', 'password'}, 'value': True}))\n#> {'id': '1234567890', 'user': {'id': 42}}\n\n# same configuration using `include`:\nprint(t.model_dump(include={'id': True, 'user': {'id'}}))\n#> {'id': '1234567890', 'user': {'id': 42}}\n```\n\nNote that using `False` to *include* a field in `exclude` (or to *exclude* a field in `include`) is not supported.\n\nIt is also possible to exclude or include specific items from sequence and dictionaries:",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "d27f6e5fab3a8d5eb747",
+        "source_path": "docs/concepts/fields.md",
+        "heading_path": [
+          "fields",
+          "Excluding fields"
+        ],
+        "start_line": 666,
+        "end_line": 694,
+        "text": "## Excluding fields\n\nThe `exclude` and `exclude_if` parameters can be used to control which fields should be excluded from the\nmodel when exporting the model.\n\nSee the following example:\n\n```python\nfrom pydantic import BaseModel, Field\n\n\nclass User(BaseModel):\n    name: str\n    age: int = Field(exclude=True)\n\n\nuser = User(name='John', age=42)\nprint(user.model_dump())  # (1)!\n#> {'name': 'John'}\n```\n\n1. The `age` field is not included in the [`model_dump()`][pydantic.BaseModel.model_dump] output, since it is excluded.\n\nSee the dedicated [serialization section](./serialization.md#field-inclusion-and-exclusion) for more details.\n\n/// version-added | v2.12\nThe `exclude_if` parameter.\n///",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "46617a4b548b152882bf",
+        "source_path": "docs/concepts/serialization.md",
+        "heading_path": [
+          "serialization",
+          "Field inclusion and exclusion",
+          "At the field level"
+        ],
+        "start_line": 799,
+        "end_line": 818,
+        "text": "### At the field level\n\nAt the field level, the `exclude` and `exclude_if` parameters can be used:\n\n```python\nfrom pydantic import BaseModel, Field\n\n\nclass Transaction(BaseModel):\n    id: int\n    private_id: int = Field(exclude=True)\n    value: int = Field(ge=0, exclude_if=lambda v: v == 0)\n\n\nprint(Transaction(id=1, private_id=2, value=0).model_dump())\n#> {'id': 1}\n```\n\nExclusion at the field level takes priority over the `include` serialization parameter described below.",
+        "origin": "baseline_top_k"
+      }
+    ],
+    "retrieval_ms": 18.67,
+    "answer": "不能。文档说明：字段级的排除优先于序列化方法中的 `include` 参数，因此 `Field(exclude=True)` 的字段不会被 `model_dump(include=...)` 重新包含进结果。[3]",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 914,
+      "completion_tokens": 211,
+      "total_tokens": 1125,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 162
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 914
+    }
+  },
+  {
+    "id": "N07",
+    "policy": "targeted_window",
+    "question": "字段本身设置 Field(exclude=True) 后，调用 model_dump(include=...) 能重新把它包含进结果吗？文档说明哪一方优先？",
+    "answerability": "answerable",
+    "expected_points": [
+      "字段级排除优先于序列化时的 include 参数",
+      "因此 include 不能覆盖 Field(exclude=True) 的排除"
+    ],
+    "expected_evidence": [
+      {
+        "path": "docs/concepts/serialization.md",
+        "heading": "Field inclusion and exclusion"
+      }
+    ],
+    "context": [
+      {
+        "id": "2f7b641f3c1102bbd009",
+        "source_path": "docs/concepts/serialization.md",
+        "heading_path": [
+          "serialization",
+          "Field inclusion and exclusion",
+          "As parameters to the serialization methods",
+          "Excluding and including specific fields"
+        ],
+        "start_line": 824,
+        "end_line": 873,
+        "text": "#### Excluding and including specific fields\n\nConsider the following models:\n\n```python {group=\"simple-exclude-include\"}\nfrom pydantic import BaseModel, Field, SecretStr\n\n\nclass User(BaseModel):\n    id: int\n    username: str\n    password: SecretStr\n\n\nclass Transaction(BaseModel):\n    id: str\n    private_id: str = Field(exclude=True)\n    user: User\n    value: int\n\n\nt = Transaction(\n    id='1234567890',\n    private_id='123',\n    user=User(id=42, username='JohnDoe', password='hashedpassword'),\n    value=9876543210,\n)\n```\n\nThe `exclude` parameter can be used to specify which fields should be excluded (including the others), and vice-versa\nusing the `include` parameter.\n\n```python {group=\"simple-exclude-include\"}\n# using a set:\nprint(t.model_dump(exclude={'user', 'value'}))\n#> {'id': '1234567890'}\n\n# using a dictionary:\nprint(t.model_dump(exclude={'user': {'username', 'password'}, 'value': True}))\n#> {'id': '1234567890', 'user': {'id': 42}}\n\n# same configuration using `include`:\nprint(t.model_dump(include={'id': True, 'user': {'id'}}))\n#> {'id': '1234567890', 'user': {'id': 42}}\n```\n\nNote that using `False` to *include* a field in `exclude` (or to *exclude* a field in `include`) is not supported.\n\nIt is also possible to exclude or include specific items from sequence and dictionaries:",
+        "origin": "child_hit"
+      },
+      {
+        "id": "d27f6e5fab3a8d5eb747",
+        "source_path": "docs/concepts/fields.md",
+        "heading_path": [
+          "fields",
+          "Excluding fields"
+        ],
+        "start_line": 666,
+        "end_line": 694,
+        "text": "## Excluding fields\n\nThe `exclude` and `exclude_if` parameters can be used to control which fields should be excluded from the\nmodel when exporting the model.\n\nSee the following example:\n\n```python\nfrom pydantic import BaseModel, Field\n\n\nclass User(BaseModel):\n    name: str\n    age: int = Field(exclude=True)\n\n\nuser = User(name='John', age=42)\nprint(user.model_dump())  # (1)!\n#> {'name': 'John'}\n```\n\n1. The `age` field is not included in the [`model_dump()`][pydantic.BaseModel.model_dump] output, since it is excluded.\n\nSee the dedicated [serialization section](./serialization.md#field-inclusion-and-exclusion) for more details.\n\n/// version-added | v2.12\nThe `exclude_if` parameter.\n///",
+        "origin": "child_hit"
+      },
+      {
+        "id": "46617a4b548b152882bf",
+        "source_path": "docs/concepts/serialization.md",
+        "heading_path": [
+          "serialization",
+          "Field inclusion and exclusion",
+          "At the field level"
+        ],
+        "start_line": 799,
+        "end_line": 818,
+        "text": "### At the field level\n\nAt the field level, the `exclude` and `exclude_if` parameters can be used:\n\n```python\nfrom pydantic import BaseModel, Field\n\n\nclass Transaction(BaseModel):\n    id: int\n    private_id: int = Field(exclude=True)\n    value: int = Field(ge=0, exclude_if=lambda v: v == 0)\n\n\nprint(Transaction(id=1, private_id=2, value=0).model_dump())\n#> {'id': 1}\n```\n\nExclusion at the field level takes priority over the `include` serialization parameter described below.",
+        "origin": "child_hit"
+      }
+    ],
+    "retrieval_ms": 41.27,
+    "answer": "不能。文档明确说明：**字段级别的排除（`Field(exclude=True)`）优先于序列化方法中的 `include` 参数**，因此 `model_dump(include=...)` 不能重新把该字段包含进结果。[3]\n\n另外，`Field(exclude=True)` 的字段在 `model_dump()` 输出中默认就不会包含。[2]",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 914,
+      "completion_tokens": 285,
+      "total_tokens": 1199,
+      "prompt_tokens_details": {
+        "cached_tokens": 768
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 205
+      },
+      "prompt_cache_hit_tokens": 768,
+      "prompt_cache_miss_tokens": 146
+    }
+  },
+  {
+    "id": "N08",
+    "policy": "top_k",
+    "question": "如果想一次生成包含多个 Pydantic 模型及其子模型的顶层 JSON Schema，文档使用哪个函数，子模型放在哪里？",
+    "answerability": "answerable",
+    "expected_points": [
+      "使用 models_json_schema() 生成顶层 schema",
+      "相关模型和子模型收在 $defs 中"
+    ],
+    "expected_evidence": [
+      {
+        "path": "docs/concepts/json_schema.md",
+        "heading": "Top-level schema generation"
+      }
+    ],
+    "context": [
+      {
+        "id": "9939f6d2cd41b4b06500",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Customizing the JSON Schema Generation Process"
+        ],
+        "start_line": 1201,
+        "end_line": 1242,
+        "text": "```python\nfrom typing import Callable\n\nfrom pydantic_core import PydanticOmit, core_schema\n\nfrom pydantic import BaseModel\nfrom pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue\n\n\nclass MyGenerateJsonSchema(GenerateJsonSchema):\n    def handle_invalid_for_json_schema(\n        self, schema: core_schema.CoreSchema, error_info: str\n    ) -> JsonSchemaValue:\n        raise PydanticOmit\n\n\ndef example_callable():\n    return 1\n\n\nclass Example(BaseModel):\n    name: str = 'example'\n    function: Callable = example_callable\n\n\ninstance_example = Example()\n\nvalidation_schema = instance_example.model_json_schema(\n    schema_generator=MyGenerateJsonSchema, mode='validation'\n)\nprint(validation_schema)\n\"\"\"\n{\n    'properties': {\n        'name': {'default': 'example', 'title': 'Name', 'type': 'string'}\n    },\n    'title': 'Example',\n    'type': 'object',\n}\n\"\"\"\n```",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "90db105b14af7fad4706",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Top-level schema generation"
+        ],
+        "start_line": 1083,
+        "end_line": 1155,
+        "text": "## Top-level schema generation\n\nYou can also generate a top-level JSON schema that only includes a list of models and related\nsub-models in its `$defs`:\n\n```python {output=\"json\"}\nimport json\n\nfrom pydantic import BaseModel\nfrom pydantic.json_schema import models_json_schema\n\n\nclass Foo(BaseModel):\n    a: str = None\n\n\nclass Model(BaseModel):\n    b: Foo\n\n\nclass Bar(BaseModel):\n    c: int\n\n\n_, top_level_schema = models_json_schema(\n    [(Model, 'validation'), (Bar, 'validation')], title='My Schema'\n)\nprint(json.dumps(top_level_schema, indent=2))\n\"\"\"\n{\n  \"$defs\": {\n    \"Bar\": {\n      \"properties\": {\n        \"c\": {\n          \"title\": \"C\",\n          \"type\": \"integer\"\n        }\n      },\n      \"required\": [\n        \"c\"\n      ],\n      \"title\": \"Bar\",\n      \"type\": \"object\"\n    },\n    \"Foo\": {\n      \"properties\": {\n        \"a\": {\n          \"default\": null,\n          \"title\": \"A\",\n          \"type\": \"string\"\n        }\n      },\n      \"title\": \"Foo\",\n      \"type\": \"object\"\n    },\n    \"Model\": {\n      \"properties\": {\n        \"b\": {\n          \"$ref\": \"#/$defs/Foo\"\n        }\n      },\n      \"required\": [\n        \"b\"\n      ],\n      \"title\": \"Model\",\n      \"type\": \"object\"\n    }\n  },\n  \"title\": \"My Schema\"\n}\n\"\"\"\n```",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "ab16bca04f8111943538",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Customizing JSON Schema"
+        ],
+        "start_line": 312,
+        "end_line": 324,
+        "text": "## Customizing JSON Schema\n\nThe generated JSON schema can be customized at both the [field level](#field-level-customization) and [model level](#model-level-customization).\n\nAt both the field and model levels, you can use the [`json_schema_extra` option](#using-json_schema_extra) to add extra information to the JSON schema.\n\nFor custom types, Pydantic offers other tools for customizing JSON schema generation:\n\n1. [`WithJsonSchema` annotation](#withjsonschema-annotation)\n2. [`SkipJsonSchema` annotation](#skipjsonschema-annotation)\n3. [Implementing `__get_pydantic_core_schema__`](#implementing_get_pydantic_core_schema)\n4. [Implementing `__get_pydantic_json_schema__`](#implementing_get_pydantic_json_schema)",
+        "origin": "baseline_top_k"
+      }
+    ],
+    "retrieval_ms": 38.67,
+    "answer": "使用 `pydantic.json_schema.models_json_schema` 函数可以一次生成包含多个模型及其相关子模型的顶层 JSON Schema；子模型会放在顶层 Schema 的 `$defs` 中。示例中调用为 `models_json_schema([(Model, 'validation'), (Bar, 'validation')], title='My Schema')`，输出包含 `$defs` 下的 `Bar`、`Foo`、`Model` 等定义。[2]",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 972,
+      "completion_tokens": 332,
+      "total_tokens": 1304,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 230
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 972
+    }
+  },
+  {
+    "id": "N08",
+    "policy": "targeted_window",
+    "question": "如果想一次生成包含多个 Pydantic 模型及其子模型的顶层 JSON Schema，文档使用哪个函数，子模型放在哪里？",
+    "answerability": "answerable",
+    "expected_points": [
+      "使用 models_json_schema() 生成顶层 schema",
+      "相关模型和子模型收在 $defs 中"
+    ],
+    "expected_evidence": [
+      {
+        "path": "docs/concepts/json_schema.md",
+        "heading": "Top-level schema generation"
+      }
+    ],
+    "context": [
+      {
+        "id": "9939f6d2cd41b4b06500",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Customizing the JSON Schema Generation Process"
+        ],
+        "start_line": 1201,
+        "end_line": 1242,
+        "text": "```python\nfrom typing import Callable\n\nfrom pydantic_core import PydanticOmit, core_schema\n\nfrom pydantic import BaseModel\nfrom pydantic.json_schema import GenerateJsonSchema, JsonSchemaValue\n\n\nclass MyGenerateJsonSchema(GenerateJsonSchema):\n    def handle_invalid_for_json_schema(\n        self, schema: core_schema.CoreSchema, error_info: str\n    ) -> JsonSchemaValue:\n        raise PydanticOmit\n\n\ndef example_callable():\n    return 1\n\n\nclass Example(BaseModel):\n    name: str = 'example'\n    function: Callable = example_callable\n\n\ninstance_example = Example()\n\nvalidation_schema = instance_example.model_json_schema(\n    schema_generator=MyGenerateJsonSchema, mode='validation'\n)\nprint(validation_schema)\n\"\"\"\n{\n    'properties': {\n        'name': {'default': 'example', 'title': 'Name', 'type': 'string'}\n    },\n    'title': 'Example',\n    'type': 'object',\n}\n\"\"\"\n```",
+        "origin": "child_hit"
+      },
+      {
+        "id": "90db105b14af7fad4706",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Top-level schema generation"
+        ],
+        "start_line": 1083,
+        "end_line": 1155,
+        "text": "## Top-level schema generation\n\nYou can also generate a top-level JSON schema that only includes a list of models and related\nsub-models in its `$defs`:\n\n```python {output=\"json\"}\nimport json\n\nfrom pydantic import BaseModel\nfrom pydantic.json_schema import models_json_schema\n\n\nclass Foo(BaseModel):\n    a: str = None\n\n\nclass Model(BaseModel):\n    b: Foo\n\n\nclass Bar(BaseModel):\n    c: int\n\n\n_, top_level_schema = models_json_schema(\n    [(Model, 'validation'), (Bar, 'validation')], title='My Schema'\n)\nprint(json.dumps(top_level_schema, indent=2))\n\"\"\"\n{\n  \"$defs\": {\n    \"Bar\": {\n      \"properties\": {\n        \"c\": {\n          \"title\": \"C\",\n          \"type\": \"integer\"\n        }\n      },\n      \"required\": [\n        \"c\"\n      ],\n      \"title\": \"Bar\",\n      \"type\": \"object\"\n    },\n    \"Foo\": {\n      \"properties\": {\n        \"a\": {\n          \"default\": null,\n          \"title\": \"A\",\n          \"type\": \"string\"\n        }\n      },\n      \"title\": \"Foo\",\n      \"type\": \"object\"\n    },\n    \"Model\": {\n      \"properties\": {\n        \"b\": {\n          \"$ref\": \"#/$defs/Foo\"\n        }\n      },\n      \"required\": [\n        \"b\"\n      ],\n      \"title\": \"Model\",\n      \"type\": \"object\"\n    }\n  },\n  \"title\": \"My Schema\"\n}\n\"\"\"\n```",
+        "origin": "child_hit"
+      },
+      {
+        "id": "ab16bca04f8111943538",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Customizing JSON Schema"
+        ],
+        "start_line": 312,
+        "end_line": 324,
+        "text": "## Customizing JSON Schema\n\nThe generated JSON schema can be customized at both the [field level](#field-level-customization) and [model level](#model-level-customization).\n\nAt both the field and model levels, you can use the [`json_schema_extra` option](#using-json_schema_extra) to add extra information to the JSON schema.\n\nFor custom types, Pydantic offers other tools for customizing JSON schema generation:\n\n1. [`WithJsonSchema` annotation](#withjsonschema-annotation)\n2. [`SkipJsonSchema` annotation](#skipjsonschema-annotation)\n3. [Implementing `__get_pydantic_core_schema__`](#implementing_get_pydantic_core_schema)\n4. [Implementing `__get_pydantic_json_schema__`](#implementing_get_pydantic_json_schema)",
+        "origin": "child_hit"
+      }
+    ],
+    "retrieval_ms": 39.0,
+    "answer": "使用 `models_json_schema(...)` 函数一次生成顶层 JSON Schema，例如传入 `[(Model, 'validation'), (Bar, 'validation')]`，并可通过 `title=` 设置标题。[2]\n\n子模型会放在生成的顶层 schema 的 `$defs` 中；示例输出里 `Foo`、`Model`、`Bar` 都位于 `$defs` 下。[2]",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 972,
+      "completion_tokens": 272,
+      "total_tokens": 1244,
+      "prompt_tokens_details": {
+        "cached_tokens": 768
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 182
+      },
+      "prompt_cache_hit_tokens": 768,
+      "prompt_cache_miss_tokens": 204
+    }
+  },
+  {
+    "id": "N09",
+    "policy": "top_k",
+    "question": "仅凭这五篇 Pydantic 概念文档，能确定 Pydantic 官方生产日志保留多少天吗？",
+    "answerability": "unanswerable",
+    "expected_points": [],
+    "expected_evidence": [],
+    "context": [
+      {
+        "id": "ac0557be315d9ea74d1e",
+        "source_path": "docs/concepts/models.md",
+        "heading_path": [
+          "models",
+          "Extra data"
+        ],
+        "start_line": 236,
+        "end_line": 284,
+        "text": "## Extra data\n\nBy default, Pydantic models **won't error when you provide extra data**, and these values will simply be ignored:\n\n```python\nfrom pydantic import BaseModel\n\n\nclass Model(BaseModel):\n    x: int\n\n\nm = Model(x=1, y='a')\nassert m.model_dump() == {'x': 1}\n```\n\nThe [`extra`][pydantic.ConfigDict.extra] configuration value can be used to control this behavior:\n\n```python\nfrom pydantic import BaseModel, ConfigDict\n\n\nclass Model(BaseModel):\n    x: int\n\n    model_config = ConfigDict(extra='allow')\n\n\nm = Model(x=1, y='a')  # (1)!\nassert m.model_dump() == {'x': 1, 'y': 'a'}\nassert m.__pydantic_extra__ == {'y': 'a'}\n```\n\n1. If [`extra`][pydantic.ConfigDict.extra] was set to `'forbid'`, this would fail.\n\nThe configuration can take three values:\n\n* `'ignore'`: Providing extra data is ignored (the default).\n* `'forbid'`: Providing extra data is not permitted.\n* `'allow'`: Providing extra data is allowed and stored in the `__pydantic_extra__` dictionary attribute.\n  The `__pydantic_extra__` can explicitly be annotated to provide validation for extra fields.\n\nThe validation methods (e.g. [`model_validate()`][pydantic.main.BaseModel.model_validate]) have an optional `extra` argument\nthat will override the `extra` configuration value of the model for that validation call.\n\nFor more details, refer to the [`extra`][pydantic.ConfigDict.extra] API documentation.\n\nPydantic dataclasses also support extra data (see the [dataclass configuration](./dataclasses.md#dataclass-config) section).",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "3dbf5e3c4de5c2cbffe4",
+        "source_path": "docs/concepts/models.md",
+        "heading_path": [
+          "models",
+          "Basic model usage",
+          "Model methods and properties"
+        ],
+        "start_line": 154,
+        "end_line": 171,
+        "text": "* [`model_validate()`][pydantic.main.BaseModel.model_validate]: Validates the given object against the Pydantic model. See [Validating data](#validating-data).\n* [`model_validate_json()`][pydantic.main.BaseModel.model_validate_json]: Validates the given JSON data against the Pydantic model. See\n    [Validating data](#validating-data).\n* [`model_construct()`][pydantic.main.BaseModel.model_construct]: Creates models without running validation. See\n    [Creating models without validation](#creating-models-without-validation).\n* [`model_dump()`][pydantic.main.BaseModel.model_dump]: Returns a dictionary of the model's fields and values. See\n    [Serialization](serialization.md#python-mode).\n* [`model_dump_json()`][pydantic.main.BaseModel.model_dump_json]: Returns a JSON string representation of [`model_dump()`][pydantic.main.BaseModel.model_dump]. See [Serialization](serialization.md#json-mode).\n* [`model_copy()`][pydantic.main.BaseModel.model_copy]: Returns a copy (by default, shallow copy) of the model. See\n    [Model copy](#model-copy).\n* [`model_json_schema()`][pydantic.main.BaseModel.model_json_schema]: Returns a jsonable dictionary representing the model's JSON Schema. See [JSON Schema](json_schema.md).\n* [`model_fields`][pydantic.main.BaseModel.model_fields]: A mapping between field names and their definitions ([`FieldInfo`][pydantic.fields.FieldInfo] instances).\n* [`model_computed_fields`][pydantic.main.BaseModel.model_computed_fields]: A mapping between computed field names and their definitions ([`ComputedFieldInfo`][pydantic.fields.ComputedFieldInfo] instances).\n* [`model_parametrized_name()`][pydantic.main.BaseModel.model_parametrized_name]: Computes the class name for parametrizations of generic classes.\n* [`model_post_init()`][pydantic.main.BaseModel.model_post_init]: Performs additional actions after the model is instantiated and all field validators are applied.\n* [`model_rebuild()`][pydantic.main.BaseModel.model_rebuild]: Rebuilds the model schema, which also supports building recursive generic models.\n    See [Rebuilding model schema](#rebuilding-model-schema).",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "b8c9ad3b63e2c58714ab",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Customizing JSON Schema",
+          "Implementing `__get_pydantic_core_schema__` <a name=\"implementing_get_pydantic_core_schema\"></a>"
+        ],
+        "start_line": 646,
+        "end_line": 660,
+        "text": "### Implementing `__get_pydantic_core_schema__` <a name=\"implementing_get_pydantic_core_schema\"></a>\n\nCustom types (used as `field_name: TheType` or `field_name: Annotated[TheType, ...]`) as well as `Annotated` metadata\n(used as `field_name: Annotated[int, SomeMetadata]`)\ncan modify or override the generated schema by implementing `__get_pydantic_core_schema__`.\nThis method receives two positional arguments:\n\n1. The type annotation that corresponds to this type (so in the case of `TheType[T][int]` it would be `TheType[int]`).\n2. A handler/callback to call the next implementer of `__get_pydantic_core_schema__`.\n\nThe handler system works just like [*wrap* field validators](validators.md#field-wrap-validator).\nIn this case the input is the type and the output is a `core_schema`.\n\nHere is an example of a custom type that *overrides* the generated `core_schema`:",
+        "origin": "baseline_top_k"
+      }
+    ],
+    "retrieval_ms": 16.89,
+    "answer": "不能确定，也无法据此给出具体天数。提供的摘录分别讨论模型的 extra 数据处理 [1]、模型方法与属性 [2]，以及自定义 JSON Schema 的 `__get_pydantic_core_schema__` [3]，没有任何关于 Pydantic 官方生产日志保留期限的信息。需要查阅专门的日志、隐私或服务条款文档才能回答。",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1384,
+      "completion_tokens": 418,
+      "total_tokens": 1802,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 343
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1384
+    }
+  },
+  {
+    "id": "N09",
+    "policy": "targeted_window",
+    "question": "仅凭这五篇 Pydantic 概念文档，能确定 Pydantic 官方生产日志保留多少天吗？",
+    "answerability": "unanswerable",
+    "expected_points": [],
+    "expected_evidence": [],
+    "context": [
+      {
+        "id": "ac0557be315d9ea74d1e",
+        "source_path": "docs/concepts/models.md",
+        "heading_path": [
+          "models",
+          "Extra data"
+        ],
+        "start_line": 236,
+        "end_line": 284,
+        "text": "## Extra data\n\nBy default, Pydantic models **won't error when you provide extra data**, and these values will simply be ignored:\n\n```python\nfrom pydantic import BaseModel\n\n\nclass Model(BaseModel):\n    x: int\n\n\nm = Model(x=1, y='a')\nassert m.model_dump() == {'x': 1}\n```\n\nThe [`extra`][pydantic.ConfigDict.extra] configuration value can be used to control this behavior:\n\n```python\nfrom pydantic import BaseModel, ConfigDict\n\n\nclass Model(BaseModel):\n    x: int\n\n    model_config = ConfigDict(extra='allow')\n\n\nm = Model(x=1, y='a')  # (1)!\nassert m.model_dump() == {'x': 1, 'y': 'a'}\nassert m.__pydantic_extra__ == {'y': 'a'}\n```\n\n1. If [`extra`][pydantic.ConfigDict.extra] was set to `'forbid'`, this would fail.\n\nThe configuration can take three values:\n\n* `'ignore'`: Providing extra data is ignored (the default).\n* `'forbid'`: Providing extra data is not permitted.\n* `'allow'`: Providing extra data is allowed and stored in the `__pydantic_extra__` dictionary attribute.\n  The `__pydantic_extra__` can explicitly be annotated to provide validation for extra fields.\n\nThe validation methods (e.g. [`model_validate()`][pydantic.main.BaseModel.model_validate]) have an optional `extra` argument\nthat will override the `extra` configuration value of the model for that validation call.\n\nFor more details, refer to the [`extra`][pydantic.ConfigDict.extra] API documentation.\n\nPydantic dataclasses also support extra data (see the [dataclass configuration](./dataclasses.md#dataclass-config) section).",
+        "origin": "child_hit"
+      },
+      {
+        "id": "3dbf5e3c4de5c2cbffe4",
+        "source_path": "docs/concepts/models.md",
+        "heading_path": [
+          "models",
+          "Basic model usage",
+          "Model methods and properties"
+        ],
+        "start_line": 154,
+        "end_line": 171,
+        "text": "* [`model_validate()`][pydantic.main.BaseModel.model_validate]: Validates the given object against the Pydantic model. See [Validating data](#validating-data).\n* [`model_validate_json()`][pydantic.main.BaseModel.model_validate_json]: Validates the given JSON data against the Pydantic model. See\n    [Validating data](#validating-data).\n* [`model_construct()`][pydantic.main.BaseModel.model_construct]: Creates models without running validation. See\n    [Creating models without validation](#creating-models-without-validation).\n* [`model_dump()`][pydantic.main.BaseModel.model_dump]: Returns a dictionary of the model's fields and values. See\n    [Serialization](serialization.md#python-mode).\n* [`model_dump_json()`][pydantic.main.BaseModel.model_dump_json]: Returns a JSON string representation of [`model_dump()`][pydantic.main.BaseModel.model_dump]. See [Serialization](serialization.md#json-mode).\n* [`model_copy()`][pydantic.main.BaseModel.model_copy]: Returns a copy (by default, shallow copy) of the model. See\n    [Model copy](#model-copy).\n* [`model_json_schema()`][pydantic.main.BaseModel.model_json_schema]: Returns a jsonable dictionary representing the model's JSON Schema. See [JSON Schema](json_schema.md).\n* [`model_fields`][pydantic.main.BaseModel.model_fields]: A mapping between field names and their definitions ([`FieldInfo`][pydantic.fields.FieldInfo] instances).\n* [`model_computed_fields`][pydantic.main.BaseModel.model_computed_fields]: A mapping between computed field names and their definitions ([`ComputedFieldInfo`][pydantic.fields.ComputedFieldInfo] instances).\n* [`model_parametrized_name()`][pydantic.main.BaseModel.model_parametrized_name]: Computes the class name for parametrizations of generic classes.\n* [`model_post_init()`][pydantic.main.BaseModel.model_post_init]: Performs additional actions after the model is instantiated and all field validators are applied.\n* [`model_rebuild()`][pydantic.main.BaseModel.model_rebuild]: Rebuilds the model schema, which also supports building recursive generic models.\n    See [Rebuilding model schema](#rebuilding-model-schema).",
+        "origin": "child_hit"
+      },
+      {
+        "id": "8cf6e9c69de4d1c8ef3e",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Customizing JSON Schema",
+          "Implementing `__get_pydantic_core_schema__` <a name=\"implementing_get_pydantic_core_schema\"></a>"
+        ],
+        "start_line": 732,
+        "end_line": 738,
+        "text": "Since Pydantic would not know how to generate a schema for `CompressedString`, if you call `handler(source)` in its\n`__get_pydantic_core_schema__` method you would get a `pydantic.errors.PydanticSchemaGenerationError` error.\nThis will be the case for most custom types, so you almost never want to call into `handler` for custom types.\n\nThe process for `Annotated` metadata is much the same except that you can generally call into `handler` to have\nPydantic handle generating the schema.",
+        "origin": "child_hit"
+      }
+    ],
+    "retrieval_ms": 38.63,
+    "answer": "不能确定。提供的片段仅涉及模型额外字段配置 [1]、模型方法与属性 [2] 以及 JSON Schema 自定义 [3]，没有包含 Pydantic 官方生产日志或日志保留期限的信息。因此，仅凭这些来源不足以回答“Pydantic 官方生产日志保留多少天”。",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1270,
+      "completion_tokens": 560,
+      "total_tokens": 1830,
+      "prompt_tokens_details": {
+        "cached_tokens": 896
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 495
+      },
+      "prompt_cache_hit_tokens": 896,
+      "prompt_cache_miss_tokens": 374
+    }
+  },
+  {
+    "id": "N10",
+    "policy": "top_k",
+    "question": "仅凭这五篇 Pydantic 概念文档，能确定 Pydantic 官方团队内部 code review 的批准人数吗？",
+    "answerability": "unanswerable",
+    "expected_points": [],
+    "expected_evidence": [],
+    "context": [
+      {
+        "id": "ac1844713891a3379275",
+        "source_path": "docs/concepts/models.md",
+        "heading_path": [
+          "models",
+          "Rebuilding model schema"
+        ],
+        "start_line": 327,
+        "end_line": 376,
+        "text": "## Rebuilding model schema\n\nWhen you define a model class in your code, Pydantic will analyze the body of the class to collect a variety of information\nrequired to perform validation and serialization, gathered in a core schema. Notably, the model's type annotations are evaluated to\nunderstand the valid types for each field (more information can be found in the [Architecture](../internals/architecture.md) documentation).\nHowever, it might be the case that annotations refer to symbols not defined when the model class is being created.\nTo circumvent this issue, the [`model_rebuild()`][pydantic.main.BaseModel.model_rebuild] method can be used:\n\n```python\nfrom pydantic import BaseModel, PydanticUserError\n\n\nclass Foo(BaseModel):\n    x: 'Bar'  # (1)!\n\n\ntry:\n    Foo.model_json_schema()\nexcept PydanticUserError as e:\n    print(e)\n    \"\"\"\n    `Foo` is not fully defined; you should define `Bar`, then call `Foo.model_rebuild()`.\n\n    For further information visit https://errors.pydantic.dev/2/u/class-not-fully-defined\n    \"\"\"\n\n\nclass Bar(BaseModel):\n    pass\n\n\nFoo.model_rebuild()\nprint(Foo.model_json_schema())\n\"\"\"\n{\n    '$defs': {'Bar': {'properties': {}, 'title': 'Bar', 'type': 'object'}},\n    'properties': {'x': {'$ref': '#/$defs/Bar'}},\n    'required': ['x'],\n    'title': 'Foo',\n    'type': 'object',\n}\n\"\"\"\n```\n\n1. `Bar` is not yet defined when the `Foo` class is being created. For this reason,\n    a [forward annotation](forward_annotations.md) is being used.\n\nPydantic tries to determine when this is necessary automatically and error if it wasn't done, but you may want to\ncall [`model_rebuild()`][pydantic.main.BaseModel.model_rebuild] proactively when dealing with recursive models or generics.",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "7ec2b13b4e8ec531abcf",
+        "source_path": "docs/concepts/validators.md",
+        "heading_path": [
+          "validators",
+          "Field validators"
+        ],
+        "start_line": 251,
+        "end_line": 312,
+        "text": "3. Pydantic still performs validation against the `int` type, no matter if our `ensure_list` validator\n           did operations on the original input type.\n\n* ***Plain* validators**: act similarly to *before* validators but they **terminate validation immediately** after returning,\n  so no further validators are called and Pydantic does not do any of its internal validation against the field type.\n  {#field-plain-validator}\n\n    === \"Annotated pattern\"\n\n        ```python\n        from typing import Annotated, Any\n\n        from pydantic import BaseModel, PlainValidator\n\n\n        def val_number(value: Any) -> Any:\n            if isinstance(value, int):\n                return value * 2\n            else:\n                return value\n\n\n        class Model(BaseModel):\n            number: Annotated[int, PlainValidator(val_number)]\n\n\n        print(Model(number=4))\n        #> number=8\n        print(Model(number='invalid'))  # (1)!\n        #> number='invalid'\n        ```\n\n        1. Although `'invalid'` shouldn't validate against the `int` type, Pydantic accepts the input.\n\n    === \"Decorator\"\n\n        ```python\n        from typing import Any\n\n        from pydantic import BaseModel, field_validator\n\n\n        class Model(BaseModel):\n            number: int\n\n            @field_validator('number', mode='plain')\n            @classmethod\n            def val_number(cls, value: Any) -> Any:\n                if isinstance(value, int):\n                    return value * 2\n                else:\n                    return value\n\n\n        print(Model(number=4))\n        #> number=8\n        print(Model(number='invalid'))  # (1)!\n        #> number='invalid'\n        ```\n\n        1. Although `'invalid'` shouldn't validate against the `int` type, Pydantic accepts the input.",
+        "origin": "baseline_top_k"
+      },
+      {
+        "id": "cd29ea83633590cea888",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Generating JSON Schema"
+        ],
+        "start_line": 44,
+        "end_line": 157,
+        "text": "```python {output=\"json\"}\nimport json\nfrom enum import Enum\nfrom typing import Annotated, Union\n\nfrom pydantic import BaseModel, Field\nfrom pydantic.config import ConfigDict\n\n\nclass FooBar(BaseModel):\n    count: int\n    size: Union[float, None] = None\n\n\nclass Gender(str, Enum):\n    male = 'male'\n    female = 'female'\n    other = 'other'\n    not_given = 'not_given'\n\n\nclass MainModel(BaseModel):\n    \"\"\"\n    This is the description of the main model\n    \"\"\"\n\n    model_config = ConfigDict(title='Main')\n\n    foo_bar: FooBar\n    gender: Annotated[Union[Gender, None], Field(alias='Gender')] = None\n    snap: int = Field(\n        default=42,\n        title='The Snap',\n        description='this is the value of snap',\n        gt=30,\n        lt=50,\n    )\n\n\nmain_model_schema = MainModel.model_json_schema()  # (1)!\nprint(json.dumps(main_model_schema, indent=2))  # (2)!\n\"\"\"\n{\n  \"$defs\": {\n    \"FooBar\": {\n      \"properties\": {\n        \"count\": {\n          \"title\": \"Count\",\n          \"type\": \"integer\"\n        },\n        \"size\": {\n          \"anyOf\": [\n            {\n              \"type\": \"number\"\n            },\n            {\n              \"type\": \"null\"\n            }\n          ],\n          \"default\": null,\n          \"title\": \"Size\"\n        }\n      },\n      \"required\": [\n        \"count\"\n      ],\n      \"title\": \"FooBar\",\n      \"type\": \"object\"\n    },\n    \"Gender\": {\n      \"enum\": [\n        \"male\",\n        \"female\",\n        \"other\",\n        \"not_given\"\n      ],\n      \"title\": \"Gender\",\n      \"type\": \"string\"\n    }\n  },\n  \"description\": \"This is the description of the main model\",\n  \"properties\": {\n    \"foo_bar\": {\n      \"$ref\": \"#/$defs/FooBar\"\n    },\n    \"Gender\": {\n      \"anyOf\": [\n        {\n          \"$ref\": \"#/$defs/Gender\"\n        },\n        {\n          \"type\": \"null\"\n        }\n      ],\n      \"default\": null\n    },\n    \"snap\": {\n      \"default\": 42,\n      \"description\": \"this is the value of snap\",\n      \"exclusiveMaximum\": 50,\n      \"exclusiveMinimum\": 30,\n      \"title\": \"The Snap\",\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": [\n    \"foo_bar\"\n  ],\n  \"title\": \"Main\",\n  \"type\": \"object\"\n}\n\"\"\"\n```",
+        "origin": "baseline_top_k"
+      }
+    ],
+    "retrieval_ms": 17.26,
+    "answer": "不能确定。提供的摘录分别讨论 `model_rebuild()` 重建模型 schema [1]、字段验证器行为 [2] 和生成 JSON Schema [3]，均未涉及 Pydantic 官方团队内部 code review 的流程、规则或批准人数。因此，仅凭这些概念文档无法回答该问题；需要涉及项目治理、贡献指南或 PR 审查规则的其他来源。",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1626,
+      "completion_tokens": 570,
+      "total_tokens": 2196,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 486
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1626
+    }
+  },
+  {
+    "id": "N10",
+    "policy": "targeted_window",
+    "question": "仅凭这五篇 Pydantic 概念文档，能确定 Pydantic 官方团队内部 code review 的批准人数吗？",
+    "answerability": "unanswerable",
+    "expected_points": [],
+    "expected_evidence": [],
+    "context": [
+      {
+        "id": "ac1844713891a3379275",
+        "source_path": "docs/concepts/models.md",
+        "heading_path": [
+          "models",
+          "Rebuilding model schema"
+        ],
+        "start_line": 327,
+        "end_line": 376,
+        "text": "## Rebuilding model schema\n\nWhen you define a model class in your code, Pydantic will analyze the body of the class to collect a variety of information\nrequired to perform validation and serialization, gathered in a core schema. Notably, the model's type annotations are evaluated to\nunderstand the valid types for each field (more information can be found in the [Architecture](../internals/architecture.md) documentation).\nHowever, it might be the case that annotations refer to symbols not defined when the model class is being created.\nTo circumvent this issue, the [`model_rebuild()`][pydantic.main.BaseModel.model_rebuild] method can be used:\n\n```python\nfrom pydantic import BaseModel, PydanticUserError\n\n\nclass Foo(BaseModel):\n    x: 'Bar'  # (1)!\n\n\ntry:\n    Foo.model_json_schema()\nexcept PydanticUserError as e:\n    print(e)\n    \"\"\"\n    `Foo` is not fully defined; you should define `Bar`, then call `Foo.model_rebuild()`.\n\n    For further information visit https://errors.pydantic.dev/2/u/class-not-fully-defined\n    \"\"\"\n\n\nclass Bar(BaseModel):\n    pass\n\n\nFoo.model_rebuild()\nprint(Foo.model_json_schema())\n\"\"\"\n{\n    '$defs': {'Bar': {'properties': {}, 'title': 'Bar', 'type': 'object'}},\n    'properties': {'x': {'$ref': '#/$defs/Bar'}},\n    'required': ['x'],\n    'title': 'Foo',\n    'type': 'object',\n}\n\"\"\"\n```\n\n1. `Bar` is not yet defined when the `Foo` class is being created. For this reason,\n    a [forward annotation](forward_annotations.md) is being used.\n\nPydantic tries to determine when this is necessary automatically and error if it wasn't done, but you may want to\ncall [`model_rebuild()`][pydantic.main.BaseModel.model_rebuild] proactively when dealing with recursive models or generics.",
+        "origin": "child_hit"
+      },
+      {
+        "id": "b8c9ad3b63e2c58714ab",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Customizing JSON Schema",
+          "Implementing `__get_pydantic_core_schema__` <a name=\"implementing_get_pydantic_core_schema\"></a>"
+        ],
+        "start_line": 646,
+        "end_line": 660,
+        "text": "### Implementing `__get_pydantic_core_schema__` <a name=\"implementing_get_pydantic_core_schema\"></a>\n\nCustom types (used as `field_name: TheType` or `field_name: Annotated[TheType, ...]`) as well as `Annotated` metadata\n(used as `field_name: Annotated[int, SomeMetadata]`)\ncan modify or override the generated schema by implementing `__get_pydantic_core_schema__`.\nThis method receives two positional arguments:\n\n1. The type annotation that corresponds to this type (so in the case of `TheType[T][int]` it would be `TheType[int]`).\n2. A handler/callback to call the next implementer of `__get_pydantic_core_schema__`.\n\nThe handler system works just like [*wrap* field validators](validators.md#field-wrap-validator).\nIn this case the input is the type and the output is a `core_schema`.\n\nHere is an example of a custom type that *overrides* the generated `core_schema`:",
+        "origin": "child_hit"
+      },
+      {
+        "id": "0af5754b483a0720cfd1",
+        "source_path": "docs/concepts/json_schema.md",
+        "heading_path": [
+          "json_schema",
+          "Customizing JSON Schema",
+          "Implementing `__get_pydantic_json_schema__` <a name=\"implementing_get_pydantic_json_schema\"></a>"
+        ],
+        "start_line": 905,
+        "end_line": 978,
+        "text": "```python {output=\"json\"}\nimport json\nfrom typing import Any\n\nfrom pydantic_core import core_schema as cs\n\nfrom pydantic import GetCoreSchemaHandler, GetJsonSchemaHandler, TypeAdapter\nfrom pydantic.json_schema import JsonSchemaValue\n\n\nclass Person:\n    name: str\n    age: int\n\n    def __init__(self, name: str, age: int):\n        self.name = name\n        self.age = age\n\n    @classmethod\n    def __get_pydantic_core_schema__(\n        cls, source_type: Any, handler: GetCoreSchemaHandler\n    ) -> cs.CoreSchema:\n        return cs.typed_dict_schema(\n            {\n                'name': cs.typed_dict_field(cs.str_schema()),\n                'age': cs.typed_dict_field(cs.int_schema()),\n            },\n        )\n\n    @classmethod\n    def __get_pydantic_json_schema__(\n        cls, core_schema: cs.CoreSchema, handler: GetJsonSchemaHandler\n    ) -> JsonSchemaValue:\n        json_schema = handler(core_schema)\n        json_schema = handler.resolve_ref_schema(json_schema)\n        json_schema['examples'] = [\n            {\n                'name': 'John Doe',\n                'age': 25,\n            }\n        ]\n        json_schema['title'] = 'Person'\n        return json_schema\n\n\nprint(json.dumps(TypeAdapter(Person).json_schema(), indent=2))\n\"\"\"\n{\n  \"examples\": [\n    {\n      \"age\": 25,\n      \"name\": \"John Doe\"\n    }\n  ],\n  \"properties\": {\n    \"name\": {\n      \"title\": \"Name\",\n      \"type\": \"string\"\n    },\n    \"age\": {\n      \"title\": \"Age\",\n      \"type\": \"integer\"\n    }\n  },\n  \"required\": [\n    \"name\",\n    \"age\"\n  ],\n  \"title\": \"Person\",\n  \"type\": \"object\"\n}\n\"\"\"\n```",
+        "origin": "child_hit"
+      }
+    ],
+    "retrieval_ms": 38.64,
+    "answer": "不能确定。提供的概念文档摘录只涉及模型重建 [1] 以及自定义 core/JSON schema 的实现 [2][3]，没有包含 Pydantic 官方团队内部 code review 流程、PR 审批规则或批准人数的信息。因此，仅凭这些来源无法确定官方团队内部 code review 的批准人数。",
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1366,
+      "completion_tokens": 431,
+      "total_tokens": 1797,
+      "prompt_tokens_details": {
+        "cached_tokens": 384
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 360
+      },
+      "prompt_cache_hit_tokens": 384,
+      "prompt_cache_miss_tokens": 982
+    }
+  }
+]
