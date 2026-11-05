@@ -11,7 +11,7 @@ from .decomposition import decompose_question
 from .evaluation_view import load_dashboard
 from .local_sources import SCENARIO_ID, ensure_local_scenario, import_document, local_manifest_path, local_source_file
 from .review import latest_reviews, save_review
-from .service import answer, compare, recent_traces, retrieve, status
+from .service import answer, compare, recent_traces, retrieve, retrieve_targeted_window, status
 from .store import build_index, index_path, load_manifest
 from .vector import build_vectors, load_model
 
@@ -203,6 +203,7 @@ def create_handler(root: Path, manifest_path: Path):
                 english_query = str(data.get("english_query", "")).strip() or None
                 top_k = int(data.get("top_k", 10))
                 strategy = str(data.get("strategy", "vector"))
+                context_policy = str(data.get("context_policy", "top_k"))
                 subqueries = data.get("subqueries")
                 if subqueries is not None and not isinstance(subqueries, list):
                     raise ValueError("subqueries must be a list")
@@ -210,14 +211,23 @@ def create_handler(root: Path, manifest_path: Path):
                     raise RuntimeError("Set DEEPSEEK_API_KEY before starting the web server")
                 model = self._model() if strategy in ("vector", "hybrid", "decomposed") or path == "/api/compare" else None
                 if path == "/api/search":
-                    result = {"strategy": strategy, "candidates": retrieve(
-                        db_path, question, strategy, english_query, top_k, model, subqueries)}
+                    if context_policy == "targeted_window":
+                        baseline, child, selected, window = retrieve_targeted_window(
+                            root, manifest, db_path, question, english_query or "", top_k,
+                            int(data.get("context_k", 3)), model)
+                        result = {"strategy": "targeted_window", "candidates": selected,
+                                  "baseline_candidates": baseline, "child_candidates": child,
+                                  "window": window}
+                    else:
+                        result = {"strategy": strategy, "candidates": retrieve(
+                            db_path, question, strategy, english_query, top_k, model, subqueries)}
                 elif path == "/api/compare":
                     result = {"strategies": compare(db_path, question, english_query or "", top_k, model)}
                 else:
                     context_k = int(data.get("context_k", 3))
                     trace = answer(root, manifest, db_path, question, strategy, english_query,
-                                   top_k, context_k, model, subqueries=subqueries)
+                                   top_k, context_k, model, subqueries=subqueries,
+                                   context_policy=context_policy)
                     result = {"trace": trace}
                 self._json(200, result)
             except (ValueError, FileNotFoundError, RuntimeError, json.JSONDecodeError) as exc:

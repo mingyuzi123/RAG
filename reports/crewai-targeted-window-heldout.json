@@ -1,0 +1,301 @@
+{
+  "scenario": "crewai",
+  "heldout": true,
+  "method": "conditional-merge-plus-targeted-preceding-window-v1",
+  "questions": 6,
+  "baseline_sections": 3,
+  "selected_sections": 4,
+  "neighbor_added": [
+    "H01"
+  ],
+  "details": [
+    {
+      "id": "H01",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "47a63690adf52fdb7f79",
+        "13d5d599c0325a20116b",
+        "432e32acff6831b49ecf"
+      ],
+      "selected": [
+        {
+          "id": "432e32acff6831b49ecf",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "lines": [
+            23,
+            48
+          ],
+          "reason": null
+        },
+        {
+          "id": "47a63690adf52fdb7f79",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "lines": [
+            55,
+            58
+          ],
+          "reason": null
+        },
+        {
+          "id": "7315be284d185529d6ca",
+          "kind": "neighbor_parent",
+          "source_path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "lines": [
+            49,
+            54
+          ],
+          "reason": "adjacent-sibling-heading-match:sequential"
+        }
+      ],
+      "added_neighbor": "7315be284d185529d6ca",
+      "baseline_chars": 1728,
+      "selected_chars": 1720,
+      "baseline_sections": false,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "H02",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "ee2b3a7054f45444bf27",
+        "f1ec1d897b5928134afa",
+        "3244541c5e23093000c7"
+      ],
+      "selected": [
+        {
+          "id": "ee2b3a7054f45444bf27",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "lines": [
+            299,
+            310
+          ],
+          "reason": null
+        },
+        {
+          "id": "f1ec1d897b5928134afa",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "lines": [
+            447,
+            485
+          ],
+          "reason": null
+        },
+        {
+          "id": "3244541c5e23093000c7",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "lines": [
+            340,
+            374
+          ],
+          "reason": null
+        }
+      ],
+      "added_neighbor": null,
+      "baseline_chars": 3705,
+      "selected_chars": 3705,
+      "baseline_sections": false,
+      "selected_sections": false,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "H03",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "2b8ded64535faab990d1",
+        "1a1206713d36750a251b",
+        "68af1dd714f48e60a0ea"
+      ],
+      "selected": [
+        {
+          "id": "2b8ded64535faab990d1",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "lines": [
+            61,
+            64
+          ],
+          "reason": null
+        },
+        {
+          "id": "1a1206713d36750a251b",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "lines": [
+            164,
+            171
+          ],
+          "reason": null
+        },
+        {
+          "id": "68af1dd714f48e60a0ea",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "lines": [
+            735,
+            738
+          ],
+          "reason": null
+        }
+      ],
+      "added_neighbor": null,
+      "baseline_chars": 1730,
+      "selected_chars": 1730,
+      "baseline_sections": false,
+      "selected_sections": false,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "H04",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "3cf214fdcbed66eceb9c",
+        "e0fb55ce037c9a2ba9d6",
+        "fb25c690f54b0f934156"
+      ],
+      "selected": [
+        {
+          "id": "3cf214fdcbed66eceb9c",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/crews.mdx",
+          "lines": [
+            358,
+            367
+          ],
+          "reason": null
+        },
+        {
+          "id": "e0fb55ce037c9a2ba9d6",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/crews.mdx",
+          "lines": [
+            369,
+            408
+          ],
+          "reason": null
+        },
+        {
+          "id": "fb25c690f54b0f934156",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/crews.mdx",
+          "lines": [
+            353,
+            357
+          ],
+          "reason": null
+        }
+      ],
+      "added_neighbor": null,
+      "baseline_chars": 2349,
+      "selected_chars": 2349,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "H05",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "5b03bd9779c20bbd0878",
+        "a742aa19583326de3bed",
+        "68bff7c4ef3ea346fde0"
+      ],
+      "selected": [
+        {
+          "id": "5b03bd9779c20bbd0878",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            1070,
+            1078
+          ],
+          "reason": null
+        },
+        {
+          "id": "a742aa19583326de3bed",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/quickstart.mdx",
+          "lines": [
+            103,
+            168
+          ],
+          "reason": null
+        },
+        {
+          "id": "68bff7c4ef3ea346fde0",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            1079,
+            1103
+          ],
+          "reason": null
+        }
+      ],
+      "added_neighbor": null,
+      "baseline_chars": 2494,
+      "selected_chars": 2494,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "H06",
+      "answerability": "answerable",
+      "baseline_ids": [
+        "8c4b165e66e17a6158ab",
+        "59206d7b37872f06fc50",
+        "0812c326516b2d21a9d7"
+      ],
+      "selected": [
+        {
+          "id": "8c4b165e66e17a6158ab",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            1020,
+            1029
+          ],
+          "reason": null
+        },
+        {
+          "id": "59206d7b37872f06fc50",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            1009,
+            1019
+          ],
+          "reason": null
+        },
+        {
+          "id": "0812c326516b2d21a9d7",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            1036,
+            1039
+          ],
+          "reason": null
+        }
+      ],
+      "added_neighbor": null,
+      "baseline_chars": 1292,
+      "selected_chars": 1292,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    }
+  ]
+}

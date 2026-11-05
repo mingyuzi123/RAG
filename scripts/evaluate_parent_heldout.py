@@ -38,6 +38,7 @@ def main() -> None:
         selected = mapped[:3]
         details.append({"id": question["id"], "question": question["question"],
             "expected_points": question["expected_points"], "baseline_ids": [row["id"] for row in baseline],
+            "child_ids": [hit["id"] for hit in child_hits],
             "parent_ids": [row["id"] for row in selected],
             "baseline_lines": [[row["source_path"], row["start_line"], row["end_line"]] for row in baseline],
             "parent_lines": [[row["source_path"], row["start_line"], row["end_line"]] for row in selected],

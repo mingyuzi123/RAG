@@ -1,0 +1,490 @@
+{
+  "scenario": "pydantic",
+  "heldout": false,
+  "method": "conditional-auto-merge-v1",
+  "rule": "merge if >=2 retrieved children and ratio > 0.5; otherwise child; baseline character budget",
+  "questions": 10,
+  "baseline_sections": 7,
+  "selected_sections": 7,
+  "changed": [
+    "P06"
+  ],
+  "details": [
+    {
+      "id": "P01",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "32747e5744bab8071dd4",
+          "kind": "child",
+          "source_path": "docs/concepts/models.md",
+          "lines": [
+            105,
+            148
+          ]
+        },
+        {
+          "id": "aa4ff098bdc30f1be4f2",
+          "kind": "child",
+          "source_path": "docs/concepts/validators.md",
+          "lines": [
+            356,
+            388
+          ]
+        },
+        {
+          "id": "8cd2e0f6fc0e798b3c9c",
+          "kind": "child",
+          "source_path": "docs/concepts/fields.md",
+          "lines": [
+            193,
+            217
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "32747e5744bab8071dd4",
+        "aa4ff098bdc30f1be4f2",
+        "8cd2e0f6fc0e798b3c9c"
+      ],
+      "selected_chars": 3489,
+      "baseline_chars": 3489,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [
+        {
+          "point": "没有默认值的字段必填、有默认值的字段不必填",
+          "covered": false
+        },
+        {
+          "point": "字符串 '123' 转换成整数 123",
+          "covered": true
+        }
+      ],
+      "selected_spans": [
+        {
+          "point": "没有默认值的字段必填、有默认值的字段不必填",
+          "covered": false
+        },
+        {
+          "point": "字符串 '123' 转换成整数 123",
+          "covered": true
+        }
+      ]
+    },
+    {
+      "id": "P02",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "cd723ebf50eb23be8fe9",
+          "kind": "child",
+          "source_path": "docs/concepts/models.md",
+          "lines": [
+            381,
+            402
+          ]
+        },
+        {
+          "id": "3dbf5e3c4de5c2cbffe4",
+          "kind": "child",
+          "source_path": "docs/concepts/models.md",
+          "lines": [
+            154,
+            171
+          ]
+        },
+        {
+          "id": "ce5584510115d28fd071",
+          "kind": "child",
+          "source_path": "docs/concepts/models.md",
+          "lines": [
+            403,
+            409
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "cd723ebf50eb23be8fe9",
+        "3dbf5e3c4de5c2cbffe4",
+        "ce5584510115d28fd071"
+      ],
+      "selected_chars": 4366,
+      "baseline_chars": 4366,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "P03",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "ac0557be315d9ea74d1e",
+          "kind": "child",
+          "source_path": "docs/concepts/models.md",
+          "lines": [
+            236,
+            284
+          ]
+        },
+        {
+          "id": "e3f7a2c884061343fe8c",
+          "kind": "child",
+          "source_path": "docs/concepts/models.md",
+          "lines": [
+            485,
+            499
+          ]
+        },
+        {
+          "id": "d39495c4f112e4bdddf2",
+          "kind": "child",
+          "source_path": "docs/concepts/json_schema.md",
+          "lines": [
+            540,
+            578
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "ac0557be315d9ea74d1e",
+        "e3f7a2c884061343fe8c",
+        "d39495c4f112e4bdddf2"
+      ],
+      "selected_chars": 4395,
+      "baseline_chars": 4395,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "P04",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "8cd2e0f6fc0e798b3c9c",
+          "kind": "child",
+          "source_path": "docs/concepts/fields.md",
+          "lines": [
+            193,
+            217
+          ]
+        },
+        {
+          "id": "aa4ff098bdc30f1be4f2",
+          "kind": "child",
+          "source_path": "docs/concepts/validators.md",
+          "lines": [
+            356,
+            388
+          ]
+        },
+        {
+          "id": "8ecd1aa2c96ce52d4df6",
+          "kind": "child",
+          "source_path": "docs/concepts/fields.md",
+          "lines": [
+            475,
+            502
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "8cd2e0f6fc0e798b3c9c",
+        "aa4ff098bdc30f1be4f2",
+        "8ecd1aa2c96ce52d4df6"
+      ],
+      "selected_chars": 2605,
+      "baseline_chars": 2605,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "P05",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "8462e3ae6b1c0f2137b8",
+          "kind": "child",
+          "source_path": "docs/concepts/fields.md",
+          "lines": [
+            294,
+            342
+          ]
+        },
+        {
+          "id": "c3e088451f25272c8f28",
+          "kind": "child",
+          "source_path": "docs/concepts/fields.md",
+          "lines": [
+            402,
+            435
+          ]
+        },
+        {
+          "id": "bf39f6ef344d31390820",
+          "kind": "child",
+          "source_path": "docs/concepts/fields.md",
+          "lines": [
+            343,
+            401
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "8462e3ae6b1c0f2137b8",
+        "c3e088451f25272c8f28",
+        "bf39f6ef344d31390820"
+      ],
+      "selected_chars": 4303,
+      "baseline_chars": 4303,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "P06",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "cd796e1c13d13f04a1c2",
+          "kind": "child",
+          "source_path": "docs/concepts/validators.md",
+          "lines": [
+            46,
+            48
+          ]
+        },
+        {
+          "id": "eb456a4ba27c59bf2702",
+          "kind": "parent",
+          "source_path": "docs/concepts/validators.md",
+          "lines": [
+            160,
+            203
+          ]
+        },
+        {
+          "id": "20d922feb80972260977",
+          "kind": "child",
+          "source_path": "docs/concepts/validators.md",
+          "lines": [
+            1,
+            28
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "eb456a4ba27c59bf2702",
+        "20d922feb80972260977",
+        "7ec2b13b4e8ec531abcf"
+      ],
+      "selected_chars": 2714,
+      "baseline_chars": 4333,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [
+        {
+          "point": "after 在内部校验之后运行",
+          "covered": false
+        },
+        {
+          "point": "before 在内部解析和校验之前运行",
+          "covered": true
+        }
+      ],
+      "selected_spans": [
+        {
+          "point": "after 在内部校验之后运行",
+          "covered": true
+        },
+        {
+          "point": "before 在内部解析和校验之前运行",
+          "covered": true
+        }
+      ]
+    },
+    {
+      "id": "P07",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "e2055c89d8a240fd4bf2",
+          "kind": "child",
+          "source_path": "docs/concepts/serialization.md",
+          "lines": [
+            97,
+            144
+          ]
+        },
+        {
+          "id": "3dbf5e3c4de5c2cbffe4",
+          "kind": "child",
+          "source_path": "docs/concepts/models.md",
+          "lines": [
+            154,
+            171
+          ]
+        },
+        {
+          "id": "45b364913cf3ee1e5a42",
+          "kind": "child",
+          "source_path": "docs/concepts/json_schema.md",
+          "lines": [
+            1367,
+            1379
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "e2055c89d8a240fd4bf2",
+        "3dbf5e3c4de5c2cbffe4",
+        "45b364913cf3ee1e5a42"
+      ],
+      "selected_chars": 4486,
+      "baseline_chars": 4486,
+      "baseline_sections": false,
+      "selected_sections": false,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "P08",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "0af9a91d7a53db5cf990",
+          "kind": "child",
+          "source_path": "docs/concepts/json_schema.md",
+          "lines": [
+            250,
+            311
+          ]
+        },
+        {
+          "id": "9939f6d2cd41b4b06500",
+          "kind": "child",
+          "source_path": "docs/concepts/json_schema.md",
+          "lines": [
+            1201,
+            1242
+          ]
+        },
+        {
+          "id": "3dbf5e3c4de5c2cbffe4",
+          "kind": "child",
+          "source_path": "docs/concepts/models.md",
+          "lines": [
+            154,
+            171
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "0af9a91d7a53db5cf990",
+        "9939f6d2cd41b4b06500",
+        "3dbf5e3c4de5c2cbffe4"
+      ],
+      "selected_chars": 4533,
+      "baseline_chars": 4533,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "P09",
+      "answerability": "unanswerable",
+      "selected": [
+        {
+          "id": "22375cae9ceb14cd8d91",
+          "kind": "child",
+          "source_path": "docs/concepts/models.md",
+          "lines": [
+            842,
+            923
+          ]
+        },
+        {
+          "id": "33dfb2fa5d36f408c686",
+          "kind": "child",
+          "source_path": "docs/concepts/json_schema.md",
+          "lines": [
+            805,
+            847
+          ]
+        },
+        {
+          "id": "abd614fa36d84158e37c",
+          "kind": "child",
+          "source_path": "docs/concepts/validators.md",
+          "lines": [
+            527,
+            553
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "22375cae9ceb14cd8d91",
+        "33dfb2fa5d36f408c686",
+        "abd614fa36d84158e37c"
+      ],
+      "selected_chars": 3666,
+      "baseline_chars": 3666,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "P10",
+      "answerability": "unanswerable",
+      "selected": [
+        {
+          "id": "e2055c89d8a240fd4bf2",
+          "kind": "child",
+          "source_path": "docs/concepts/serialization.md",
+          "lines": [
+            97,
+            144
+          ]
+        },
+        {
+          "id": "6e16eb54d6a220c5e3cd",
+          "kind": "child",
+          "source_path": "docs/concepts/models.md",
+          "lines": [
+            1603,
+            1644
+          ]
+        },
+        {
+          "id": "6c6790cc2606d388c1a0",
+          "kind": "child",
+          "source_path": "docs/concepts/json_schema.md",
+          "lines": [
+            1,
+            9
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "e2055c89d8a240fd4bf2",
+        "6e16eb54d6a220c5e3cd",
+        "6c6790cc2606d388c1a0"
+      ],
+      "selected_chars": 3017,
+      "baseline_chars": 3017,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    }
+  ]
+}

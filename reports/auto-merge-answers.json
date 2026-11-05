@@ -1,0 +1,518 @@
+[
+  {
+    "scenario": "pydantic",
+    "id": "P06",
+    "heldout": false,
+    "expected_points": [
+      "before 在内部类型校验和解析之前运行",
+      "after 在内部类型校验和解析之后运行"
+    ],
+    "context": [
+      {
+        "id": "cd796e1c13d13f04a1c2",
+        "kind": "child",
+        "source_path": "docs/concepts/validators.md",
+        "lines": [
+          46,
+          48
+        ]
+      },
+      {
+        "id": "eb456a4ba27c59bf2702",
+        "kind": "parent",
+        "source_path": "docs/concepts/validators.md",
+        "lines": [
+          160,
+          203
+        ]
+      },
+      {
+        "id": "20d922feb80972260977",
+        "kind": "child",
+        "source_path": "docs/concepts/validators.md",
+        "lines": [
+          1,
+          28
+        ]
+      }
+    ],
+    "answer": "- **before 模式**：在 Pydantic 内部解析和校验之前运行，例如在把 `str` 强制转换为 `int` 之前；它接收原始输入，返回的值随后再由 Pydantic 按类型注解校验 [2]。\n- **after 模式**：在 Pydantic 内部校验之后运行，因此通常类型更安全、更容易实现 [1]。",
+    "cited_numbers": [
+      1,
+      2
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 839,
+      "completion_tokens": 219,
+      "total_tokens": 1058,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 135
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 839
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C01",
+    "heldout": false,
+    "expected_points": [
+      "Flow 管理整体结构、状态和执行逻辑",
+      "Crew 在 Flow 的步骤中承担需要自主协作的复杂任务"
+    ],
+    "context": [
+      {
+        "id": "5c5acec2c296d883f65a",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          14,
+          16
+        ]
+      },
+      {
+        "id": "685748c9e1f3fcab71dc",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          8,
+          21
+        ]
+      },
+      {
+        "id": "a44a11419ee35cfe5868",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          31,
+          45
+        ]
+      }
+    ],
+    "answer": "在 CrewAI 中，**Flows 是应用的主干/流程定义**，负责创建结构化、事件驱动的工作流，管理状态、控制执行，并定义步骤、逻辑和数据如何流动；它还支持条件逻辑、循环和分支 [1][2][3]。可以把 Flow 理解为应用的“管理器”或“流程定义” [3]。\n\n**Crews 则是 Flow 中的工作单元**，是由自主智能体组成的团队，负责协作完成 Flow 委托给它们的特定任务 [1]。Flow 可以连接多个 Crews 和任务，从而构建复杂的多步骤流程 [2]。\n\n因此，构建需要**稳定执行路径**的应用时，应组合为：**用 Flow 作为骨架来定义和控制执行路径、状态与分支/循环，再在 Flow 的相应步骤中调用 Crews 完成具体任务**。也就是说，Flow 负责“怎么走、何时走、数据如何流转”，Crews 负责在其内部完成被委托的具体工作 [1][2][3]。",
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 687,
+      "completion_tokens": 432,
+      "total_tokens": 1119,
+      "prompt_tokens_details": {
+        "cached_tokens": 512
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 218
+      },
+      "prompt_cache_hit_tokens": 512,
+      "prompt_cache_miss_tokens": 175
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C02",
+    "heldout": false,
+    "expected_points": [
+      "role 定义职能和专长",
+      "goal 定义个体目标",
+      "backstory 提供背景与角色设定"
+    ],
+    "context": [
+      {
+        "id": "eed82b3c50709989527b",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/agents.mdx",
+        "lines": [
+          39,
+          46
+        ]
+      },
+      {
+        "id": "6791d33eea8be346d9a9",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/agents.mdx",
+        "lines": [
+          76,
+          124
+        ]
+      },
+      {
+        "id": "3def47459400d281d224",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          46,
+          60
+        ]
+      }
+    ],
+    "answer": "在 CrewAI 中定义 Agent 时：\n\n- **`role`（角色）**：定义该 Agent 在团队中的职能和专业领域，也就是它“负责什么、擅长什么”[1]。\n- **`goal`（目标）**：定义引导该 Agent 决策的个体目标，即它要努力达成什么[1]。\n- **`backstory`（背景故事）**：为 Agent 提供上下文和个性，从而丰富交互表现[1]。\n\n此外，这三项都是 `str` 类型；在 JSONC 配置中也可以在 `role`、`goal` 或 `backstory` 里使用 `{placeholder}` 占位符[1][2]。",
+    "cited_numbers": [
+      1,
+      2
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1012,
+      "completion_tokens": 280,
+      "total_tokens": 1292,
+      "prompt_tokens_details": {
+        "cached_tokens": 768
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 132
+      },
+      "prompt_cache_hit_tokens": 768,
+      "prompt_cache_miss_tokens": 244
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C04",
+    "heldout": false,
+    "expected_points": [
+      "Agent 的 tools 是该 Agent 可用的能力",
+      "Task 的 tools 限制或指定该任务可用的工具"
+    ],
+    "context": [
+      {
+        "id": "d7291acf858ad713b225",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          33,
+          35
+        ]
+      },
+      {
+        "id": "3abbb405bd3744682e26",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/quickstart.mdx",
+        "lines": [
+          210,
+          216
+        ]
+      },
+      {
+        "id": "29595bdaf271211594e0",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/tools.mdx",
+        "lines": [
+          338,
+          380
+        ]
+      }
+    ],
+    "answer": "提供的资料不足以回答这个问题。\n\n这些摘录只涉及任务执行顺序（顺序式/层级式）与 Agent 名称映射 [1][2]，以及工具失败如何通过 `ToolFailure` 上报 [3]；它们没有说明 tools 在 Agent 级别与单个 Task 级别各自的作用范围、覆盖关系或优先级。因此无法基于现有来源判断\"给 Agent 配置 tools\"与\"给单个 Task 配置 tools\"在范围上的区别。",
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 750,
+      "completion_tokens": 191,
+      "total_tokens": 941,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 94
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 750
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C09",
+    "heldout": false,
+    "expected_points": [
+      "默认 sequential"
+    ],
+    "context": [
+      {
+        "id": "1b3d53966673ef901538",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/crews.mdx",
+        "lines": [
+          14,
+          44
+        ]
+      },
+      {
+        "id": "432e32acff6831b49ecf",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/processes.mdx",
+        "lines": [
+          23,
+          48
+        ]
+      },
+      {
+        "id": "3d46b49cf32333675be2",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/crews.mdx",
+        "lines": [
+          251,
+          267
+        ]
+      }
+    ],
+    "answer": "创建 Crew 时不指定 `process`，默认采用 **sequential（顺序执行）** 方式。\n\n依据：Crew 属性表中，`process` 被标注为可选（optional），其描述为“The process flow (e.g., sequential, hierarchical) the crew follows. Default is `sequential`.”，即默认值为 `sequential` [1]。\n\n作为对比，如果改用 hierarchical 流程，则需要显式指定 `process=Process.hierarchical`，并且还必须提供 `manager_llm` 或 `manager_agent` [2]。",
+    "cited_numbers": [
+      1,
+      2
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1922,
+      "completion_tokens": 154,
+      "total_tokens": 2076,
+      "prompt_tokens_details": {
+        "cached_tokens": 1788
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 37
+      },
+      "prompt_cache_hit_tokens": 1788,
+      "prompt_cache_miss_tokens": 134
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C13",
+    "heldout": false,
+    "expected_points": [
+      "状态结构明确或复杂时适合结构化状态",
+      "结构化状态提供模式定义和类型检查",
+      "动态且简单的状态可用非结构化方式"
+    ],
+    "context": [
+      {
+        "id": "76a506fa0bfffd2af9e4",
+        "kind": "parent",
+        "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          393,
+          407
+        ]
+      },
+      {
+        "id": "c90be39df11adf51802b",
+        "kind": "parent",
+        "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          297,
+          341
+        ]
+      },
+      {
+        "id": "a85515dccc4569802575",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          502,
+          506
+        ]
+      }
+    ],
+    "answer": "以下情况更适合使用 Flow 的**结构化状态管理** [1]：\n\n- **工作流需要明确且一致的状态结构**：当状态字段应当固定、可预期时，结构化状态能保证结构统一 [1]。\n- **类型安全与校验很重要**：当你重视应用的可靠性，需要通过类型检查和验证来减少错误时，结构化状态更合适 [1]。\n- **希望获得更好的开发体验**：当你希望利用 IDE 的自动补全和类型检查功能时，结构化状态能提供这些支持 [1]。\n\n相反，如果状态简单或高度动态、更看重灵活性而非严格的状态定义，或者需要快速原型开发而不想承担定义 schema 的开销，则更适合使用非结构化状态管理 [1]。非结构化方式允许在运行时动态添加或修改 `self.state` 的属性，无需预定义约束，适合状态结构很少或变化较大的简单工作流 [2]。",
+    "cited_numbers": [
+      1,
+      2
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 833,
+      "completion_tokens": 225,
+      "total_tokens": 1058,
+      "prompt_tokens_details": {
+        "cached_tokens": 512
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 36
+      },
+      "prompt_cache_hit_tokens": 512,
+      "prompt_cache_miss_tokens": 321
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C15",
+    "heldout": false,
+    "expected_points": [
+      "由 Flow 管理整体状态与步骤",
+      "在需要协作的步骤中调用 Crew"
+    ],
+    "context": [
+      {
+        "id": "4093058178e5d6a67348",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          1040,
+          1049
+        ]
+      },
+      {
+        "id": "f74f48fd678a6766c366",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/quickstart.mdx",
+        "lines": [
+          169,
+          197
+        ]
+      },
+      {
+        "id": "96bf9394c9020bf59df1",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/introduction.mdx",
+        "lines": [
+          111,
+          152
+        ]
+      }
+    ],
+    "answer": "官方文档中的示例建议把 **Flow 作为流程编排层**，把 **Crew 作为承担多 Agent 协作的执行单元**：在 Flow 的相应步骤中调用 Crew，并在多个 Crew 之间传递输出。\n\n具体可参考 “Write a Book Flow” 示例：该 Flow 将多个 Crew 串联起来，**一个 Crew 的输出交给另一个 Crew 使用**——例如一个 Crew 负责生成全书大纲，另一个 Crew 根据大纲生成章节，最终连接起来产出完整的书。文档称这种 Flow 适合需要不同任务之间协调的复杂多步骤流程 [1]。同时，文档将 Flow 描述为具有精确执行控制的结构化、事件驱动工作流，将 Crew 描述为协作解决复杂问题的 AI 团队 [3]。\n\n因此，按这些摘录，推荐的组织方式是：\n\n- **Flow 负责步骤、分支/控制和 Crew 之间的衔接** [1][3]；\n- **在某一步需要多 Agent 协作时，用 Crew 完成该步骤的多 Agent 工作** [3]；\n- **将前一个 Crew 的输出作为后一个 Crew 的输入，串联多个 Crew 完成复杂流程** [1]。\n\n摘录没有给出具体的代码级组织方式或更多实现细节。",
+    "cited_numbers": [
+      1,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 990,
+      "completion_tokens": 569,
+      "total_tokens": 1559,
+      "prompt_tokens_details": {
+        "cached_tokens": 768
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 309
+      },
+      "prompt_cache_hit_tokens": 768,
+      "prompt_cache_miss_tokens": 222
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C16",
+    "heldout": false,
+    "expected_points": [
+      "使用 crewai.tools 的 @tool 装饰器",
+      "清晰的描述帮助 Agent 判断工具用途"
+    ],
+    "context": [
+      {
+        "id": "28ac83e5e2fe543c6b3f",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/tools.mdx",
+        "lines": [
+          294,
+          304
+        ]
+      },
+      {
+        "id": "52d3c366c4fcec8336be",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/agents.mdx",
+        "lines": [
+          137,
+          173
+        ]
+      },
+      {
+        "id": "ae1bc68dbc19ffe31747",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+        "lines": [
+          936,
+          950
+        ]
+      }
+    ],
+    "answer": "应使用 `@tool(\"Name of my tool\")` 装饰器，并从 `crewai.tools` 导入 `tool` [1]。函数文档字符串很重要，因为 Agent 需要依靠它来理解工具的用途；文档字符串应清晰说明该工具适用于什么场景 [1]。",
+    "cited_numbers": [
+      1
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 902,
+      "completion_tokens": 189,
+      "total_tokens": 1091,
+      "prompt_tokens_details": {
+        "cached_tokens": 768
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 128
+      },
+      "prompt_cache_hit_tokens": 768,
+      "prompt_cache_miss_tokens": 134
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "H01",
+    "heldout": true,
+    "expected_points": [
+      "Sequential Process 按任务列表预定顺序执行，并可用上一个任务输出作为后续上下文",
+      "Hierarchical Process 由 manager 规划、委派和检查，任务不预先分配给 Agent"
+    ],
+    "context": [
+      {
+        "id": "432e32acff6831b49ecf",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/processes.mdx",
+        "lines": [
+          23,
+          48
+        ]
+      },
+      {
+        "id": "47a63690adf52fdb7f79",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/processes.mdx",
+        "lines": [
+          55,
+          58
+        ]
+      },
+      {
+        "id": "bc958ddf4b217437b980",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/crews.mdx",
+        "lines": [
+          336,
+          338
+        ]
+      }
+    ],
+    "answer": "CrewAI 中两种流程的核心区别如下：\n\n- **Sequential Process（顺序流程）**：任务按先后顺序逐个执行，形成线性的工作流 [3]。\n- **Hierarchical Process（层级流程）**：由管理者代理协调团队，负责任务规划、委派和验证；任务不是预先分配给代理，而是由管理者根据代理能力进行分配，并审查输出、评估任务是否完成后再继续 [2][3]。此外，层级流程必须指定 `manager_llm` 或 `manager_agent` [1][3]。\n\n简言之：**Sequential 是任务按顺序依次执行；Hierarchical 是由管理者动态分配任务、监督执行并验证结果后再推进** [2][3]。",
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 629,
+      "completion_tokens": 291,
+      "total_tokens": 920,
+      "prompt_tokens_details": {
+        "cached_tokens": 384
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 136
+      },
+      "prompt_cache_hit_tokens": 384,
+      "prompt_cache_miss_tokens": 245
+    }
+  }
+]

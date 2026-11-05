@@ -52,9 +52,12 @@ function input() {
   if (!Number.isInteger(top_k) || top_k < 1 || top_k > 30) throw new Error('候选 Top K 需要在 1 到 30 之间。');
   if (!Number.isInteger(context_k) || context_k < 1 || context_k > top_k) throw new Error('上下文 K 需要在 1 到候选 Top K 之间。');
   const strategy = $('#strategy').value;
+  const context_policy = $('#context-policy').value;
   const subqueries = strategy === 'decomposed' ? $('#subqueries').value.split(/\r?\n/).map(line => line.trim()).filter(Boolean) : [];
   if (strategy === 'decomposed' && (subqueries.length < 2 || subqueries.length > 4)) throw new Error('多查询覆盖需要填写 2–4 行子问题。');
-  return { question, english_query: $('#english-query').value.trim(), strategy, subqueries, top_k, context_k };
+  const english_query = $('#english-query').value.trim();
+  if (context_policy === 'targeted_window' && (strategy !== 'hybrid' || !english_query)) throw new Error('目标邻块规则当前需要混合 RRF 策略和英文关键词查询。');
+  return { question, english_query, strategy, context_policy, subqueries, top_k, context_k };
 }
 
 function isGold(item) {
@@ -77,6 +80,7 @@ function candidateCard(item, contextK) {
     const ranks = Object.entries(item.subquery_ranks).map(([name, rank]) => `${name.replace('query_', '子问题')} #${rank}`).join(' · ');
     top.append(el('span', 'chip muted', ranks));
   }
+  if (item.context_origin) top.append(el('span', 'chip muted', item.context_origin));
   const link = el('a', '', item.heading_path.join(' › '));
   link.href = item.source_url;
   link.target = '_blank';
@@ -88,7 +92,7 @@ function candidateCard(item, contextK) {
 }
 
 function renderColumn(method, candidates, contextK) {
-  const labels = { bm25: 'BM25 · 词语匹配', vector: 'E5 · 语义向量', hybrid: 'RRF · 排名融合', decomposed: '多查询 · 覆盖排序' };
+  const labels = { bm25: 'BM25 · 词语匹配', vector: 'E5 · 语义向量', hybrid: 'RRF · 排名融合', decomposed: '多查询 · 覆盖排序', targeted_window: '条件合并 · 目标邻块' };
   const column = el('div', 'result-col');
   column.dataset.method = method;
   const head = el('div', 'result-col-head');
@@ -227,7 +231,7 @@ async function ask() {
     setBusy(true, '正在检索证据并请求 DeepSeek，可能需要几十秒…');
     const data = await api('/api/ask', payload);
     const trace = data.trace;
-    renderResults({ [trace.strategy]: trace.candidates }, payload.context_k);
+    renderResults({ [trace.context_policy === 'targeted_window' ? 'targeted_window' : trace.strategy]: trace.context_policy === 'targeted_window' ? trace.selected_chunks : trace.candidates }, payload.context_k);
     const output = $('#answer-output');
     output.replaceChildren();
     output.append(el('div', 'answer-box', trace.result.answer));

@@ -1,0 +1,234 @@
+[
+  {
+    "scenario": "pydantic",
+    "id": "P01",
+    "heldout": false,
+    "expected_points": [
+      "没有默认值的字段是必填的",
+      "有默认值的字段不是必填的",
+      "示例中字符串 '123' 被转换为整数 123"
+    ],
+    "context": [
+      {
+        "id": "32747e5744bab8071dd4",
+        "kind": "child",
+        "source_path": "docs/concepts/models.md",
+        "lines": [
+          105,
+          148
+        ],
+        "reason": null
+      },
+      {
+        "id": "e3dce91bce8828846f27",
+        "kind": "neighbor_parent",
+        "source_path": "docs/concepts/models.md",
+        "lines": [
+          53,
+          104
+        ],
+        "reason": "same-heading-new-query-term:required"
+      }
+    ],
+    "answer": "在 Pydantic 的 `BaseModel` 中，**没有默认值的字段是必填的**；**有默认值的字段不是必填的**。例如示例里的 `id: int` 是必填，而 `name: str = 'Jane Doe'` 因为有默认值所以不必填 [2]。\n\n如果把字符串 `'123'` 传给 `int` 字段，Pydantic 会进行类型转换/强制转换，把它转成整数 `123`，并且结果类型是 `int` [1][2]。",
+    "cited_numbers": [
+      1,
+      2
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1024,
+      "completion_tokens": 238,
+      "total_tokens": 1262,
+      "prompt_tokens_details": {
+        "cached_tokens": 768
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 121
+      },
+      "prompt_cache_hit_tokens": 768,
+      "prompt_cache_miss_tokens": 256
+    }
+  },
+  {
+    "scenario": "pydantic",
+    "id": "P07",
+    "heldout": false,
+    "expected_points": [
+      "model_dump 返回 Python 字典",
+      "model_dump_json 返回 JSON 字符串"
+    ],
+    "context": [
+      {
+        "id": "e2055c89d8a240fd4bf2",
+        "kind": "child",
+        "source_path": "docs/concepts/serialization.md",
+        "lines": [
+          97,
+          144
+        ],
+        "reason": null
+      },
+      {
+        "id": "f43ab3ce4bd19965e697",
+        "kind": "neighbor_parent",
+        "source_path": "docs/concepts/serialization.md",
+        "lines": [
+          49,
+          96
+        ],
+        "reason": "adjacent-sibling-heading-match:python"
+      },
+      {
+        "id": "45b364913cf3ee1e5a42",
+        "kind": "child",
+        "source_path": "docs/concepts/json_schema.md",
+        "lines": [
+          1367,
+          1379
+        ],
+        "reason": null
+      }
+    ],
+    "answer": "- **`model_dump()`**：在 Python 模式下，会把 Pydantic 模型（以及 dataclass 等类似类型）递归转换为**字典**；根模型是例外，会直接 dump 根值。[2] 它适合在 Python 代码中继续处理数据。默认情况下可能保留非 JSON 类型，例如 `tuple`；如果需要 JSON 兼容的类型，可以设置 `mode='json'`，此时 `tuple` 会变成 `list`。[2]\n\n- **`model_dump_json()`**：返回 **JSON 编码后的字符串**，会尽量把 Python 值转换为合法的 JSON 数据。[1] 它适合直接生成 JSON 文本；除标准库 `json` 支持的类型外，还支持 `datetime`、`UUID`、`set` 等类型，无法序列化时会抛出 `PydanticSerializationError`。[1]\n\n简言之：**`model_dump()` 主要产出 Python 字典，`model_dump_json()` 产出 JSON 字符串**。[2][1]",
+    "cited_numbers": [
+      1,
+      2
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 1298,
+      "completion_tokens": 578,
+      "total_tokens": 1876,
+      "prompt_tokens_details": {
+        "cached_tokens": 384
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 354
+      },
+      "prompt_cache_hit_tokens": 384,
+      "prompt_cache_miss_tokens": 914
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "C10",
+    "heldout": false,
+    "expected_points": [
+      "@start 标记 Flow 的入口",
+      "@listen 在监听的方法产出结果后触发"
+    ],
+    "context": [
+      {
+        "id": "ad0b93ae299b14f00404",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          573,
+          613
+        ],
+        "reason": null
+      },
+      {
+        "id": "ebed510b76cf04016cae",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          110,
+          113
+        ],
+        "reason": null
+      },
+      {
+        "id": "ca1397466a3129eb91c5",
+        "kind": "neighbor_parent",
+        "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+        "lines": [
+          100,
+          109
+        ],
+        "reason": "adjacent-sibling-heading-match:start"
+      }
+    ],
+    "answer": "- **`@start()`**：用于标记 Flow 的入口点。它支持无条件启动、基于先前方法或 router label 进行门控，或用可调用条件控制触发；所有满足条件的 `@start()` 方法会在 Flow 开始或恢复时执行，通常可能并行执行 [3]。  \n- **`@listen()`**：用于监听另一个任务的输出。被 `@listen()` 装饰的方法会在指定任务**发出输出时**执行，并且可以接收被监听任务的输出作为参数 [2]。  \n\n简言之：`@start()` 更偏向定义 Flow 的启动入口及启动条件；`@listen()` 则是由被监听任务产生输出来触发的后续执行 [3][2]。",
+    "cited_numbers": [
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 682,
+      "completion_tokens": 691,
+      "total_tokens": 1373,
+      "prompt_tokens_details": {
+        "cached_tokens": 384
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 538
+      },
+      "prompt_cache_hit_tokens": 384,
+      "prompt_cache_miss_tokens": 298
+    }
+  },
+  {
+    "scenario": "crewai",
+    "id": "H01",
+    "heldout": true,
+    "expected_points": [
+      "Sequential Process 按任务列表预定顺序执行，并可用上一个任务输出作为后续上下文",
+      "Hierarchical Process 由 manager 规划、委派和检查，任务不预先分配给 Agent"
+    ],
+    "context": [
+      {
+        "id": "432e32acff6831b49ecf",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/processes.mdx",
+        "lines": [
+          23,
+          48
+        ],
+        "reason": null
+      },
+      {
+        "id": "47a63690adf52fdb7f79",
+        "kind": "child",
+        "source_path": "docs/v1.15.28/en/concepts/processes.mdx",
+        "lines": [
+          55,
+          58
+        ],
+        "reason": null
+      },
+      {
+        "id": "7315be284d185529d6ca",
+        "kind": "neighbor_parent",
+        "source_path": "docs/v1.15.28/en/concepts/processes.mdx",
+        "lines": [
+          49,
+          54
+        ],
+        "reason": "adjacent-sibling-heading-match:sequential"
+      }
+    ],
+    "answer": "CrewAI 中两种 Process 的核心区别如下：\n\n- **Sequential Process（顺序流程）**：任务严格按照任务列表中的预定义顺序执行，前一个任务的输出会作为下一个任务的上下文。[3]\n- **Hierarchical Process（层级流程）**：任务**不会预先分配给具体 Agent**；由 manager agent 负责任务规划、委派和验证，并根据各 Agent 的能力分配任务，同时审查输出并评估任务是否完成。[2] 使用层级流程时，需要在创建 Crew 时提供 `manager_llm` 或 `manager_agent`。[1]\n\n因此，**执行顺序**上：Sequential 是固定顺序推进；Hierarchical 由 manager 动态规划和分配。**任务分配**上：Sequential 按预定义任务列表执行；Hierarchical 不预分配，由 manager 根据能力委派并审核完成情况。[2][3]",
+    "cited_numbers": [
+      1,
+      2,
+      3
+    ],
+    "citation_numbers_valid": true,
+    "usage": {
+      "prompt_tokens": 628,
+      "completion_tokens": 322,
+      "total_tokens": 950,
+      "prompt_tokens_details": {
+        "cached_tokens": 384
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 131
+      },
+      "prompt_cache_hit_tokens": 384,
+      "prompt_cache_miss_tokens": 244
+    }
+  }
+]

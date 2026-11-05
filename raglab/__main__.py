@@ -30,6 +30,7 @@ def parser() -> ArgumentParser:
         sub.add_argument("--top-k", type=int, default=5)
         if name == "ask":
             sub.add_argument("--context-k", type=int, default=3)
+            sub.add_argument("--context-policy", choices=("top_k", "targeted_window"), default="top_k")
             sub.add_argument("--model", help="DeepSeek model ID (default: DEEPSEEK_MODEL or deepseek-flash)")
     return cli
 
@@ -67,7 +68,8 @@ def main() -> None:
     try:
         trace = answer(ROOT, manifest, db_path, args.question, args.strategy,
                        args.search_query, args.top_k, args.context_k, generation_model=args.model,
-                       subqueries=args.subquery)
+                       subqueries=args.subquery, context_policy=args.context_policy,
+                       max_chars=args.max_chars)
     except (ValueError, FileNotFoundError) as exc:
         raise SystemExit(str(exc)) from exc
     print(json.dumps({"request_id": trace["request_id"], **trace["result"]},

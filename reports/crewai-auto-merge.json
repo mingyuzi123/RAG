@@ -1,0 +1,856 @@
+{
+  "scenario": "crewai",
+  "heldout": false,
+  "method": "conditional-auto-merge-v1",
+  "rule": "merge if >=2 retrieved children and ratio > 0.5; otherwise child; baseline character budget",
+  "questions": 19,
+  "baseline_sections": 12,
+  "selected_sections": 12,
+  "changed": [
+    "C01",
+    "C02",
+    "C04",
+    "C09",
+    "C13",
+    "C15",
+    "C16"
+  ],
+  "details": [
+    {
+      "id": "C01",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "5c5acec2c296d883f65a",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/introduction.mdx",
+          "lines": [
+            14,
+            16
+          ]
+        },
+        {
+          "id": "685748c9e1f3fcab71dc",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            8,
+            21
+          ]
+        },
+        {
+          "id": "a44a11419ee35cfe5868",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/introduction.mdx",
+          "lines": [
+            31,
+            45
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "685748c9e1f3fcab71dc",
+        "a44a11419ee35cfe5868",
+        "11884fc0c47fbc78c8f8"
+      ],
+      "selected_chars": 2042,
+      "baseline_chars": 2477,
+      "baseline_sections": false,
+      "selected_sections": false,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C02",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "eed82b3c50709989527b",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "lines": [
+            39,
+            46
+          ]
+        },
+        {
+          "id": "6791d33eea8be346d9a9",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "lines": [
+            76,
+            124
+          ]
+        },
+        {
+          "id": "3def47459400d281d224",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/introduction.mdx",
+          "lines": [
+            46,
+            60
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "6791d33eea8be346d9a9",
+        "3def47459400d281d224",
+        "eed82b3c50709989527b"
+      ],
+      "selected_chars": 2931,
+      "baseline_chars": 2931,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C03",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "52d3c366c4fcec8336be",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "lines": [
+            137,
+            173
+          ]
+        },
+        {
+          "id": "9cbfdae7bdd50c769e82",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "lines": [
+            51,
+            54
+          ]
+        },
+        {
+          "id": "6791d33eea8be346d9a9",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "lines": [
+            76,
+            124
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "52d3c366c4fcec8336be",
+        "9cbfdae7bdd50c769e82",
+        "6791d33eea8be346d9a9"
+      ],
+      "selected_chars": 4155,
+      "baseline_chars": 4155,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C04",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "d7291acf858ad713b225",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "lines": [
+            33,
+            35
+          ]
+        },
+        {
+          "id": "3abbb405bd3744682e26",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/quickstart.mdx",
+          "lines": [
+            210,
+            216
+          ]
+        },
+        {
+          "id": "29595bdaf271211594e0",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tools.mdx",
+          "lines": [
+            338,
+            380
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "3abbb405bd3744682e26",
+        "29595bdaf271211594e0",
+        "a59f6b9dd1ef8a1d52d4"
+      ],
+      "selected_chars": 2131,
+      "baseline_chars": 2970,
+      "baseline_sections": false,
+      "selected_sections": false,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C05",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "1d90b1918acdb0600475",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "lines": [
+            46,
+            53
+          ]
+        },
+        {
+          "id": "8d9e007d5678d80e57a7",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "lines": [
+            79,
+            119
+          ]
+        },
+        {
+          "id": "e43b849cf87ac38f52f3",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "lines": [
+            280,
+            298
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "1d90b1918acdb0600475",
+        "8d9e007d5678d80e57a7",
+        "e43b849cf87ac38f52f3"
+      ],
+      "selected_chars": 2751,
+      "baseline_chars": 2751,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C06",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "e43b849cf87ac38f52f3",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "lines": [
+            280,
+            298
+          ]
+        },
+        {
+          "id": "68fd92f3c0f21a0a603a",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "lines": [
+            126,
+            163
+          ]
+        },
+        {
+          "id": "f7e4b142b101d0e384ab",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "lines": [
+            375,
+            390
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "e43b849cf87ac38f52f3",
+        "68fd92f3c0f21a0a603a",
+        "f7e4b142b101d0e384ab"
+      ],
+      "selected_chars": 2201,
+      "baseline_chars": 2201,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C07",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "432e32acff6831b49ecf",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "lines": [
+            23,
+            48
+          ]
+        },
+        {
+          "id": "47a63690adf52fdb7f79",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "lines": [
+            55,
+            58
+          ]
+        },
+        {
+          "id": "9ade4f8b9af8341d05ab",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/crews.mdx",
+          "lines": [
+            59,
+            109
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "432e32acff6831b49ecf",
+        "47a63690adf52fdb7f79",
+        "9ade4f8b9af8341d05ab"
+      ],
+      "selected_chars": 3050,
+      "baseline_chars": 3050,
+      "baseline_sections": false,
+      "selected_sections": false,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C08",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "7315be284d185529d6ca",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "lines": [
+            49,
+            54
+          ]
+        },
+        {
+          "id": "13d5d599c0325a20116b",
+          "kind": "parent",
+          "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "lines": [
+            29,
+            45
+          ]
+        },
+        {
+          "id": "8d9e007d5678d80e57a7",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "lines": [
+            79,
+            119
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "7315be284d185529d6ca",
+        "13d5d599c0325a20116b",
+        "8d9e007d5678d80e57a7"
+      ],
+      "selected_chars": 2446,
+      "baseline_chars": 2446,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C09",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "1b3d53966673ef901538",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/crews.mdx",
+          "lines": [
+            14,
+            44
+          ]
+        },
+        {
+          "id": "432e32acff6831b49ecf",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/processes.mdx",
+          "lines": [
+            23,
+            48
+          ]
+        },
+        {
+          "id": "3d46b49cf32333675be2",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/crews.mdx",
+          "lines": [
+            251,
+            267
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "1b3d53966673ef901538",
+        "3d46b49cf32333675be2",
+        "432e32acff6831b49ecf"
+      ],
+      "selected_chars": 11182,
+      "baseline_chars": 11182,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C10",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "ad0b93ae299b14f00404",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            573,
+            613
+          ]
+        },
+        {
+          "id": "ebed510b76cf04016cae",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            110,
+            113
+          ]
+        },
+        {
+          "id": "2e4719341591b38cc175",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            531,
+            572
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "ad0b93ae299b14f00404",
+        "ebed510b76cf04016cae",
+        "2e4719341591b38cc175"
+      ],
+      "selected_chars": 2564,
+      "baseline_chars": 2564,
+      "baseline_sections": false,
+      "selected_sections": false,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C11",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "2e4719341591b38cc175",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            531,
+            572
+          ]
+        },
+        {
+          "id": "ad0b93ae299b14f00404",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            573,
+            613
+          ]
+        },
+        {
+          "id": "ca1397466a3129eb91c5",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            100,
+            109
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "2e4719341591b38cc175",
+        "ad0b93ae299b14f00404",
+        "ca1397466a3129eb91c5"
+      ],
+      "selected_chars": 2641,
+      "baseline_chars": 2641,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C12",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "82a2a5748b1c9d4ca0f7",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            614,
+            674
+          ]
+        },
+        {
+          "id": "709e63ae2a161f3e13d7",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            675,
+            678
+          ]
+        },
+        {
+          "id": "eacd57268a69810ae36c",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/quickstart.mdx",
+          "lines": [
+            198,
+            209
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "82a2a5748b1c9d4ca0f7",
+        "709e63ae2a161f3e13d7",
+        "eacd57268a69810ae36c"
+      ],
+      "selected_chars": 3127,
+      "baseline_chars": 3127,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C13",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "76a506fa0bfffd2af9e4",
+          "kind": "parent",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            393,
+            407
+          ]
+        },
+        {
+          "id": "c90be39df11adf51802b",
+          "kind": "parent",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            297,
+            341
+          ]
+        },
+        {
+          "id": "a85515dccc4569802575",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            502,
+            506
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "76a506fa0bfffd2af9e4",
+        "c90be39df11adf51802b",
+        "c5045ca11917bd776847"
+      ],
+      "selected_chars": 2878,
+      "baseline_chars": 2908,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C14",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "caad82e9e0735389a3ab",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            412,
+            431
+          ]
+        },
+        {
+          "id": "864bcde172547a90a54d",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            432,
+            446
+          ]
+        },
+        {
+          "id": "58a420ef931e9a345fab",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            447,
+            482
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "caad82e9e0735389a3ab",
+        "864bcde172547a90a54d",
+        "58a420ef931e9a345fab"
+      ],
+      "selected_chars": 2847,
+      "baseline_chars": 2847,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C15",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "4093058178e5d6a67348",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            1040,
+            1049
+          ]
+        },
+        {
+          "id": "f74f48fd678a6766c366",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/quickstart.mdx",
+          "lines": [
+            169,
+            197
+          ]
+        },
+        {
+          "id": "96bf9394c9020bf59df1",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/introduction.mdx",
+          "lines": [
+            111,
+            152
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "4093058178e5d6a67348",
+        "96bf9394c9020bf59df1",
+        "f74f48fd678a6766c366"
+      ],
+      "selected_chars": 3180,
+      "baseline_chars": 3180,
+      "baseline_sections": false,
+      "selected_sections": false,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C16",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "28ac83e5e2fe543c6b3f",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tools.mdx",
+          "lines": [
+            294,
+            304
+          ]
+        },
+        {
+          "id": "52d3c366c4fcec8336be",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "lines": [
+            137,
+            173
+          ]
+        },
+        {
+          "id": "ae1bc68dbc19ffe31747",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tasks.mdx",
+          "lines": [
+            936,
+            950
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "28ac83e5e2fe543c6b3f",
+        "52d3c366c4fcec8336be",
+        "744826816e5e0a3f1db8"
+      ],
+      "selected_chars": 2620,
+      "baseline_chars": 2694,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C17",
+      "answerability": "answerable",
+      "selected": [
+        {
+          "id": "0bcb7ae679f09e8509a5",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/tools.mdx",
+          "lines": [
+            381,
+            422
+          ]
+        },
+        {
+          "id": "6791d33eea8be346d9a9",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "lines": [
+            76,
+            124
+          ]
+        },
+        {
+          "id": "2a63ee47d20ed57cca91",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/flows.mdx",
+          "lines": [
+            871,
+            877
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "0bcb7ae679f09e8509a5",
+        "6791d33eea8be346d9a9",
+        "2a63ee47d20ed57cca91"
+      ],
+      "selected_chars": 3646,
+      "baseline_chars": 3646,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C18",
+      "answerability": "unanswerable",
+      "selected": [
+        {
+          "id": "3059906a0a42c0e7fb95",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/quickstart.mdx",
+          "lines": [
+            217,
+            260
+          ]
+        },
+        {
+          "id": "6791d33eea8be346d9a9",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "lines": [
+            76,
+            124
+          ]
+        },
+        {
+          "id": "1b3d53966673ef901538",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/crews.mdx",
+          "lines": [
+            14,
+            44
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "3059906a0a42c0e7fb95",
+        "6791d33eea8be346d9a9",
+        "1b3d53966673ef901538"
+      ],
+      "selected_chars": 12909,
+      "baseline_chars": 12909,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    },
+    {
+      "id": "C19",
+      "answerability": "unanswerable",
+      "selected": [
+        {
+          "id": "11884fc0c47fbc78c8f8",
+          "kind": "parent",
+          "source_path": "docs/v1.15.28/en/introduction.mdx",
+          "lines": [
+            8,
+            18
+          ]
+        },
+        {
+          "id": "52d3c366c4fcec8336be",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/concepts/agents.mdx",
+          "lines": [
+            137,
+            173
+          ]
+        },
+        {
+          "id": "96bf9394c9020bf59df1",
+          "kind": "child",
+          "source_path": "docs/v1.15.28/en/introduction.mdx",
+          "lines": [
+            111,
+            152
+          ]
+        }
+      ],
+      "baseline_ids": [
+        "11884fc0c47fbc78c8f8",
+        "52d3c366c4fcec8336be",
+        "96bf9394c9020bf59df1"
+      ],
+      "selected_chars": 3702,
+      "baseline_chars": 3702,
+      "baseline_sections": true,
+      "selected_sections": true,
+      "baseline_spans": [],
+      "selected_spans": []
+    }
+  ]
+}

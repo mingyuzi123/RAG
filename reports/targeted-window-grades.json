@@ -1,0 +1,339 @@
+{
+  "method": "manual expected-point completeness on saved single-run answers",
+  "summary": {
+    "all": {
+      "baseline": 29,
+      "window": 33,
+      "total": 35
+    },
+    "answerable": {
+      "baseline": 25,
+      "window": 29,
+      "total": 31
+    },
+    "gained": [
+      "C10",
+      "H01",
+      "P01",
+      "P06"
+    ],
+    "lost": []
+  },
+  "reviews": [
+    {
+      "id": "C01",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "条件合并后答案要点完整",
+      "answer_source": "auto-merge-answers.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C02",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "条件合并后答案要点完整",
+      "answer_source": "auto-merge-answers.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C03",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C04",
+      "answerability": "answerable",
+      "baseline_complete": false,
+      "window_complete": false,
+      "reason": "仍未召回 Agent/Task tools 两侧的范围证据",
+      "answer_source": "auto-merge-answers.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C05",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C06",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C07",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C08",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C09",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "条件合并后答案要点完整",
+      "answer_source": "auto-merge-answers.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C10",
+      "answerability": "answerable",
+      "baseline_complete": false,
+      "window_complete": true,
+      "reason": "新增邻块补齐答案要点",
+      "answer_source": "targeted-window-answers.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C11",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C12",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C13",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "条件合并后答案要点完整",
+      "answer_source": "auto-merge-answers.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C14",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C15",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "条件合并后答案要点完整",
+      "answer_source": "auto-merge-answers.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C16",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "条件合并后答案要点完整",
+      "answer_source": "auto-merge-answers.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C17",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C18",
+      "answerability": "unanswerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "C19",
+      "answerability": "unanswerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H01",
+      "answerability": "answerable",
+      "baseline_complete": false,
+      "window_complete": true,
+      "reason": "新增邻块补齐答案要点",
+      "answer_source": "targeted-window-answers.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H02",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H03",
+      "answerability": "answerable",
+      "baseline_complete": false,
+      "window_complete": false,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H04",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H05",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "H06",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P01",
+      "answerability": "answerable",
+      "baseline_complete": false,
+      "window_complete": true,
+      "reason": "新增邻块补齐答案要点",
+      "answer_source": "targeted-window-answers.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P02",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P03",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P04",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P05",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P06",
+      "answerability": "answerable",
+      "baseline_complete": false,
+      "window_complete": true,
+      "reason": "条件合并后答案要点完整",
+      "answer_source": "auto-merge-answers.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P07",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "新增邻块后原要点仍完整",
+      "answer_source": "targeted-window-answers.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P08",
+      "answerability": "answerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P09",
+      "answerability": "unanswerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    },
+    {
+      "id": "P10",
+      "answerability": "unanswerable",
+      "baseline_complete": true,
+      "window_complete": true,
+      "reason": "上下文与基线完全相同，同一次回答计入两方案",
+      "answer_source": "parent-answer-unchanged.json",
+      "citation_numbers_valid": true
+    }
+  ]
+}
