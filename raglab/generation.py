@@ -13,7 +13,7 @@ DEEPSEEK_URL = "https://api.deepseek.com/chat/completions"
 def build_messages(question: str, evidence: list[dict]) -> list[dict[str, str]]:
     context = "\n\n".join(
         f"[{index}] {item['source_path']} | {' > '.join(item['heading_path'])} "
-        f"| lines {item['start_line']}-{item['end_line']}\n{item['text']}"
+        f"| {'page ' + str(item['page_number']) if item.get('page_number') else 'lines ' + str(item['start_line']) + '-' + str(item['end_line'])}\n{item['text']}"
         for index, item in enumerate(evidence, 1)
     )
     return [

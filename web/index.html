@@ -86,8 +86,8 @@
               <div class="source-manage"><h3>添加或替换资料</h3><p id="source-guide" class="source-guide"></p>
                 <button class="button secondary" id="open-local-btn" type="button">切换到我的本地文档</button>
                 <div id="import-panel" hidden>
-                  <label class="field-label" for="import-file">选择 Markdown / MDX 文件 <span>仅保存到本机，单篇不超过 1 MB</span></label>
-                  <input id="import-file" type="file" accept=".md,.mdx">
+                  <label class="field-label" for="import-file">选择 Markdown / MDX / PDF 文件 <span>仅保存到本机；文本 1 MB，PDF 8 MB</span></label>
+                  <input id="import-file" type="file" accept=".md,.mdx,.pdf,application/pdf">
                   <label class="replace-option"><input id="replace-file" type="checkbox"> 替换同名文档（旧版本仍保留在本机）</label>
                   <button class="button primary" id="import-btn" type="button">导入并重建索引</button>
                   <p id="import-message" class="form-message" role="status" aria-live="polite"></p>

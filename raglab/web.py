@@ -1,7 +1,7 @@
 """Local-only learning UI, backed by the same workflow as the CLI."""
 
 from argparse import ArgumentParser
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 import json
@@ -55,7 +55,8 @@ def scenario_context(root: Path, manifest_path: Path) -> dict:
     documents = [{"path": path, "name": manifest.get("display_names", {}).get(path, Path(path).name),
         "url": manifest["source_url_template"].format(
         commit=manifest["upstream_commit"], path=path),
-        "available": (source_root / path).is_file()} for path in manifest["files"]]
+        "available": (source_root / path).is_file(),
+        "sparse_pages": manifest.get("pdf_sparse_pages", {}).get(path, [])} for path in manifest["files"]]
     return {"manifest": manifest, "db_path": db_path, "ui": ui,
             "examples": examples, "documents": documents}
 
@@ -119,7 +120,8 @@ def create_handler(root: Path, manifest_path: Path):
                         raise ValueError("Source is not a local scenario")
                     relative = parse_qs(urlparse(self.path).query).get("path", [""])[0]
                     body = local_source_file(root, relative).read_bytes()
-                    self._headers(200, "text/plain; charset=utf-8", len(body))
+                    mime = "application/pdf" if relative.endswith(".pdf") else "text/plain; charset=utf-8"
+                    self._headers(200, mime, len(body))
                     self.wfile.write(body)
                 except (ValueError, FileNotFoundError) as exc:
                     self._json(404, {"error": str(exc)})
@@ -165,7 +167,7 @@ def create_handler(root: Path, manifest_path: Path):
                 context = self._context()
                 manifest, db_path, examples = (context[key] for key in ("manifest", "db_path", "examples"))
                 size = int(self.headers.get("Content-Length", "0"))
-                limit = 1400000 if path == "/api/import" else 32768
+                limit = 12_000_000 if path == "/api/import" else 32768
                 if not 0 < size <= limit:
                     raise ValueError("Request body exceeds allowed size")
                 data = json.loads(self.rfile.read(size))
@@ -175,7 +177,7 @@ def create_handler(root: Path, manifest_path: Path):
                     if manifest["id"] != SCENARIO_ID:
                         raise ValueError("请先切换到『我的本地文档』场景")
                     updated = import_document(root, data.get("filename"), data.get("content"),
-                                              data.get("replace") is True)
+                                              data.get("replace") is True, data.get("pdf_base64"))
                     contexts[SCENARIO_ID] = scenario_context(root, local_manifest_path(root))
                     new_db, chunk_count = build_index(root, updated)
                     vector_error = None
@@ -183,8 +185,11 @@ def create_handler(root: Path, manifest_path: Path):
                         build_vectors(new_db, self._model())
                     except (RuntimeError, OSError, ValueError) as exc:
                         vector_error = str(exc)
+                    active_path = next(path for path, name in updated["display_names"].items()
+                                       if name == data.get("filename"))
                     self._json(200, {"scenario_id": SCENARIO_ID, "chunks": chunk_count,
-                                     "status": status(root, updated), "vector_error": vector_error})
+                                     "status": status(root, updated), "vector_error": vector_error,
+                                     "sparse_pages": updated.get("pdf_sparse_pages", {}).get(active_path, [])})
                     return
                 if path == "/api/review":
                     review = save_review(root, manifest["id"], data.get("request_id"),
@@ -246,7 +251,7 @@ def main():
     args = cli.parse_args()
     if not 1024 <= args.port <= 65535:
         cli.error("port must be between 1024 and 65535")
-    server = HTTPServer(("127.0.0.1", args.port), create_handler(ROOT, args.scenario))
+    server = ThreadingHTTPServer(("127.0.0.1", args.port), create_handler(ROOT, args.scenario))
     print(f"RAG Lab local UI: http://127.0.0.1:{args.port}/", flush=True)
     try:
         server.serve_forever()

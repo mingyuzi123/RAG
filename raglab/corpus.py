@@ -21,6 +21,7 @@ class Chunk:
     end_line: int
     text: str
     source_url: str
+    page_number: int | None = None
 
 
 def _title_and_body(lines: list[str], fallback: str) -> tuple[str, list[tuple[int, str]]]:

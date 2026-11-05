@@ -86,6 +86,7 @@ def search_vectors(db_path: Path, question: str, limit: int = 5, model=None) -> 
          "heading_path": json.loads(rows[chunk_id]["heading_path"]),
          "start_line": rows[chunk_id]["start_line"], "end_line": rows[chunk_id]["end_line"],
          "source_url": rows[chunk_id]["source_url"], "text": rows[chunk_id]["text"],
+         "page_number": rows[chunk_id]["page_number"] if "page_number" in rows[chunk_id].keys() else None,
          "retrieval_ms": elapsed_ms}
         for rank, (chunk_id, score) in enumerate(ranked, 1)
     ]

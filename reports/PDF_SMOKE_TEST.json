@@ -1,0 +1,23 @@
+{
+  "imported_chunks": 2,
+  "sparse_pages": [],
+  "top_page": 2,
+  "source_content_type": "application/pdf",
+  "source_link": "/api/source?scenario=local-docs&path=docs/bd1eb23d245d0709c93a.pdf#page=2",
+  "answer": "每个任务最多重试 4 次。[1]",
+  "answer_source_page": 2,
+  "citation_numbers_valid": true,
+  "usage": {
+    "prompt_tokens": 178,
+    "completion_tokens": 51,
+    "total_tokens": 229,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 38
+    },
+    "prompt_cache_hit_tokens": 0,
+    "prompt_cache_miss_tokens": 178
+  }
+}

@@ -11,6 +11,7 @@ import subprocess
 import time
 
 from .corpus import Chunk, chunk_mdx
+from .pdf_source import chunk_pdf
 
 
 PARSER_VERSION = "mdx-heading-table-row-v3"
@@ -65,9 +66,14 @@ def build_index(root: Path, manifest: dict, max_chars: int = 1800,
         source_file = (source_root / relative).resolve()
         if not source_file.is_relative_to(source_root) or not source_file.is_file():
             raise FileNotFoundError(f"invalid or missing source: {relative}")
-        chunks.extend(chunk_mdx(source_file, relative, manifest["upstream_commit"],
-                                manifest["source_url_template"], max_chars,
-                                definition_items=definition_items))
+        if source_file.suffix.lower() == ".pdf":
+            chunks.extend(chunk_pdf(source_file, relative, manifest["upstream_commit"],
+                                    manifest["source_url_template"], max_chars,
+                                    manifest.get("display_names", {}).get(relative)))
+        else:
+            chunks.extend(chunk_mdx(source_file, relative, manifest["upstream_commit"],
+                                    manifest["source_url_template"], max_chars,
+                                    definition_items=definition_items))
 
     try:
         with closing(sqlite3.connect(temporary)) as db:
@@ -81,7 +87,8 @@ def build_index(root: Path, manifest: dict, max_chars: int = 1800,
                     start_line INTEGER NOT NULL,
                     end_line INTEGER NOT NULL,
                     text TEXT NOT NULL,
-                    source_url TEXT NOT NULL
+                    source_url TEXT NOT NULL,
+                    page_number INTEGER
                 );
                 CREATE VIRTUAL TABLE chunks_fts USING fts5(
                     chunk_id UNINDEXED, heading, body, tokenize='porter unicode61'
@@ -92,9 +99,10 @@ def build_index(root: Path, manifest: dict, max_chars: int = 1800,
             db.execute("INSERT INTO meta VALUES (?, ?)", ("parser_version", PARSER_VERSION if not definition_items else f"{PARSER_VERSION}-definition-items-v1"))
             db.execute("INSERT INTO meta VALUES (?, ?)", ("max_chars", str(max_chars)))
             for chunk in chunks:
-                db.execute("INSERT INTO chunks VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                db.execute("INSERT INTO chunks VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                            (chunk.id, chunk.source_path, chunk.title, json.dumps(chunk.heading_path),
-                            chunk.start_line, chunk.end_line, chunk.text, chunk.source_url))
+                            chunk.start_line, chunk.end_line, chunk.text, chunk.source_url,
+                            chunk.page_number))
                 db.execute("INSERT INTO chunks_fts VALUES (?, ?, ?)",
                            (chunk.id, " > ".join(chunk.heading_path), chunk.text))
             db.commit()
@@ -123,6 +131,8 @@ def search(db_path: Path, query: str, limit: int = 5) -> list[dict]:
         {"id": row["id"], "rank": rank, "score": round(-row["rank_score"], 6),
          "source_path": row["source_path"], "heading_path": json.loads(row["heading_path"]),
          "start_line": row["start_line"], "end_line": row["end_line"],
-         "source_url": row["source_url"], "text": row["text"], "retrieval_ms": elapsed_ms}
+         "source_url": row["source_url"], "text": row["text"],
+         "page_number": row["page_number"] if "page_number" in row.keys() else None,
+         "retrieval_ms": elapsed_ms}
         for rank, row in enumerate(rows, 1)
     ]

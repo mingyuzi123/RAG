@@ -1,0 +1,2 @@
+# Text-based PDF extraction and page-aware citations. OCR is a separate adapter.
+pypdf==6.21.4

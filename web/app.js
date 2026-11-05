@@ -44,6 +44,15 @@ async function api(path, body) {
   return data;
 }
 
+function fileBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result).split(',', 2)[1]);
+    reader.onerror = () => reject(new Error('无法读取 PDF 文件。'));
+    reader.readAsDataURL(file);
+  });
+}
+
 function input() {
   const question = $('#question').value.trim();
   if (!question) throw new Error('请先输入一个问题。');
@@ -63,6 +72,10 @@ function input() {
 function isGold(item) {
   return !!state.activeExample?.evidence?.some(anchor =>
     item.source_path === anchor.path && item.heading_path.includes(anchor.heading));
+}
+
+function sourceLocation(item) {
+  return item.page_number ? `第 ${item.page_number} 页` : `L${item.start_line}–${item.end_line}`;
 }
 
 function candidateCard(item, contextK) {
@@ -86,7 +99,7 @@ function candidateCard(item, contextK) {
   link.target = '_blank';
   link.rel = 'noopener noreferrer';
   const snippet = el('p', '', item.text.replace(/\s+/g, ' ').slice(0, 180) + (item.text.length > 180 ? '…' : ''));
-  const meta = el('div', 'candidate-meta', `${item.source_path.split('/').pop()} · L${item.start_line}–${item.end_line} · ${item.score}`);
+  const meta = el('div', 'candidate-meta', `${item.source_path.split('/').pop()} · ${sourceLocation(item)} · ${item.score}`);
   card.append(top, link, snippet, meta);
   return card;
 }
@@ -276,7 +289,7 @@ function reviewPanel(trace, example, previous) {
   const selected = new Set(trace.selected_chunk_ids);
   for (const item of trace.candidates.filter(candidate => selected.has(candidate.id))) {
     const detail = el('details', 'review-evidence');
-    detail.append(el('summary', '', `[${trace.result.sources.find(source => source.chunk_id === item.id)?.number ?? '?'}] ${item.heading_path.join(' › ')} · ${item.source_path} L${item.start_line}–${item.end_line}`),
+    detail.append(el('summary', '', `[${trace.result.sources.find(source => source.chunk_id === item.id)?.number ?? '?'}] ${item.heading_path.join(' › ')} · ${item.source_path} ${sourceLocation(item)}`),
                   el('pre', '', item.text));
     panel.append(detail);
   }
@@ -376,20 +389,24 @@ async function initialize() {
   $('#import-btn').addEventListener('click', async () => {
     const file = $('#import-file').files?.[0];
     const target = $('#import-message');
-    if (!file) { target.textContent = '请先选择 .md 或 .mdx 文件。'; return; }
-    if (!/\.mdx?$/i.test(file.name) || file.size > 1024 * 1024) {
-      target.textContent = '仅支持不超过 1 MB 的 .md 或 .mdx 文件。'; return;
+    if (!file) { target.textContent = '请先选择 .md、.mdx 或 .pdf 文件。'; return; }
+    const isPdf = /\.pdf$/i.test(file.name);
+    if ((!isPdf && !/\.mdx?$/i.test(file.name)) || file.size > (isPdf ? 8 : 1) * 1024 * 1024) {
+      target.textContent = '仅支持不超过 1 MB 的 Markdown/MDX，或不超过 8 MB 的文本型 PDF。'; return;
     }
     const button = $('#import-btn');
     button.disabled = true;
     target.textContent = '正在导入、切块并建立索引…';
     try {
       const result = await api('/api/import', {
-        filename: file.name, content: await file.text(), replace: $('#replace-file').checked
+        filename: file.name, content: isPdf ? null : await file.text(),
+        pdf_base64: isPdf ? await fileBase64(file) : null,
+        replace: $('#replace-file').checked
       });
+      const sparse = result.sparse_pages?.length ? `；第 ${result.sparse_pages.join('、')} 页文字不足，可能需要 OCR` : '';
       sessionStorage.setItem('raglab-import-result', result.vector_error
-        ? `已导入 ${file.name}，BM25 索引就绪；E5 建库失败：${result.vector_error}`
-        : `已导入 ${file.name}，共 ${result.chunks} 个知识块，BM25 与 E5 索引已更新。`);
+        ? `已导入 ${file.name}，BM25 索引就绪；E5 建库失败：${result.vector_error}${sparse}`
+        : `已导入 ${file.name}，共 ${result.chunks} 个知识块，BM25 与 E5 索引已更新${sparse}。`);
       window.location.hash = 'sources';
       window.location.reload();
     } catch (error) { target.textContent = `导入失败：${error.message}`; }
@@ -429,6 +446,7 @@ async function initialize() {
       row.append(label, el('small', '', document.path),
                  el('span', document.available ? 'source-ready' : 'source-missing',
                     document.available ? '本地资料已就绪' : '本地资料缺失'));
+      if (document.sparse_pages?.length) row.append(el('small', '', `第 ${document.sparse_pages.join('、')} 页文字不足，可能需要 OCR`));
       sourceList.append(row);
     }
     $('#source-count').textContent = `${config.documents.length} 篇 · ${config.status.source_commit.slice(0, 8)}`;
@@ -440,8 +458,8 @@ async function initialize() {
     $('#open-local-btn').hidden = local;
     $('#import-panel').hidden = !local;
     $('#source-guide').textContent = local
-      ? '选择本机 Markdown/MDX 文档导入。相同文件名可勾选替换；旧文件和旧索引版本仍保留，以便追溯历史回答。'
-      : '这套官方资料固定在一个 Git 提交上。请切换到“我的本地文档”导入自己的 Markdown/MDX，避免改动当前实验基线。';
+      ? '可导入 Markdown/MDX 或可复制文字的 PDF。PDF 引用会跳到原文件页码；扫描页会提示 OCR。相同文件名可勾选替换，旧版本保留在本机。'
+      : '这套官方资料固定在一个 Git 提交上。请切换到“我的本地文档”导入自己的资料，避免改动当前实验基线。';
     $('#scenario-name').textContent = config.ui.title;
     $('#scenario-icon').textContent = (config.ui.title || 'R').slice(0, 1).toUpperCase();
     $('#scenario-badge').textContent = config.ui.badge || config.ui.title;
