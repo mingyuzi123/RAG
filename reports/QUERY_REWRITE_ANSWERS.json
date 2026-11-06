@@ -1,0 +1,1370 @@
+[
+  {
+    "id": "C01",
+    "version": "v1",
+    "question": "在 CrewAI 中，Crews 和 Flows 分别负责什么？构建需要稳定执行路径的应用时怎样组合？",
+    "expected_points": [
+      "Flow 管理整体结构、状态和执行逻辑",
+      "Crew 在 Flow 的步骤中承担需要自主协作的复杂任务"
+    ],
+    "query": "CrewAI Crews vs Flows responsibilities combine stable execution path",
+    "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+    "request_id": "d6d18ad5-d503-4aa4-9230-cb020d39e7e5",
+    "answer": "## 各自的职责\n\n**Flows 负责编排和流程控制。** 文档把 Flows 定义为一种结构化、事件驱动的 AI 工作流框架，用于把多个任务和 Crews 连接协调起来，管理状态，并控制执行流程；它支持条件逻辑、循环和分支，也提供简化的工作流创建方式、状态共享和灵活的控制流 [1]。因此，Flows 直接负责“怎么按顺序、按条件执行”这一层。\n\n**Crews 负责具体的 agent 与 task 单元。** 在 Flows 的用法里，一个 crew 以目录形式定义，包含 `config/agents.yaml`（定义 agents）、`config/tasks.yaml`（定义 tasks）以及 crew 定义文件本身（包含 agents、tasks 和 crew）；它也可以采用 JSON-first 结构，由 `crew.jsonc` 和 `agents/*.jsonc` 组成 [2]。Crew 通过 `load_crew(...)` 加载，并调用 `crew.kickoff(inputs=...)` 执行 [2]。也就是说，Crew 是 Flow 步骤中被调用的执行单元。\n\n## 需要稳定执行路径时的组合方式\n\n把 **Flow 作为主干，Crew 作为步骤内的执行单元**：\n\n1. **用 Flow 定义执行骨架。** 通过 `Flow[State]` 与 `@start()` / `@listen(...)` 显式声明步骤及其先后关系，使执行路径由代码结构固定下来，而不是依赖自由发挥 [3]。示例中 `prepare_topic` 是起点，`run_research` 监听它，`summarize` 又监听 `run_research`，形成明确链条 [3]。\n\n2. **用 Flow 的 state 在步骤之间传递数据。** 示例用 Pydantic 模型 `ResearchFlowState` 保存 `topic` 和 `report`；前一步写入 `self.state.topic`，后一步读取它并把 crew 结果写回 `self.state.report` [3]。这保证每一步的输入输出都有明确来源。\n\n3. **在 Flow 的步骤里调用 Crew 的 kickoff。** 例如 `run_research` 步骤中执行 `kickoff_content_crew(inputs={\"topic\": self.state.topic})`，再把 `result.raw` 存入 state [3]；另一种方式是用 `load_crew(...)` 加载 crew 后 `crew.kickoff(inputs={**default_inputs, \"topic\": \"AI Agents\"})` [2]。Crew 被限制在某个确定的步骤内运行，整体路径仍由 Flow 控制。\n\n4. **需要条件、循环或分支时，放在 Flow 层实现**，因为 Flows 明确支持条件逻辑、循环和分支 [1]，而不要把这些控制逻辑散落到 crew 内部。\n\n简言之：**Crew 提供 agents/tasks 组成的可调用工作单元，Flow 提供结构化、事件驱动、带状态管理且可控的执行编排** [1][2][3]；稳定执行路径应由 Flow 的 `@start` / `@listen` 步骤与 state 来承载 [3]。",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 1149,
+      "completion_tokens": 996,
+      "total_tokens": 2145,
+      "prompt_tokens_details": {
+        "cached_tokens": 256
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 323
+      },
+      "prompt_cache_hit_tokens": 256,
+      "prompt_cache_miss_tokens": 893
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/flows.mdx#L8-L21",
+        "heading_path": [
+          "Flows",
+          "Overview"
+        ],
+        "chunk_id": "685748c9e1f3fcab71dc"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/flows.mdx#L880-L911",
+        "heading_path": [
+          "Flows",
+          "Adding Crews to Flows",
+          "Building Your Crews"
+        ],
+        "chunk_id": "9c65db83da0b4de02d17"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/quickstart.mdx#L103-L168",
+        "heading_path": [
+          "Quickstart",
+          "Build your first Flow"
+        ],
+        "chunk_id": "a742aa19583326de3bed"
+      }
+    ],
+    "generation_ms": 7804.28,
+    "audit": {
+      "point_verdicts": [
+        "supported",
+        "missing"
+      ],
+      "complete_and_supported": false,
+      "note": "Flow 编排及步骤调用有证据，但未完整说明 Crew 的自主协作职责；不能用项目文件结构替代该要点。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "C01",
+    "version": "v3",
+    "question": "在 CrewAI 中，Crews 和 Flows 分别负责什么？构建需要稳定执行路径的应用时怎样组合？",
+    "expected_points": [
+      "Flow 管理整体结构、状态和执行逻辑",
+      "Crew 在 Flow 的步骤中承担需要自主协作的复杂任务"
+    ],
+    "query": "CrewAI Crews vs Flows responsibilities combine stable execution path",
+    "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+    "request_id": "6776186c-d95d-4359-9556-6039e2c9ceb3",
+    "answer": "在 CrewAI 中，两者分工大致如下（注意：提供的片段对 Flows 的说明最直接，对 Crews 的定义只给出了项目结构层面的证据）：\n\n**Flows 负责流程编排**\n\nFlows 用来创建结构化、事件驱动的工作流，把多个任务和 Crews 连接起来，并管理状态、控制执行流程 [1]。具体能力包括：\n\n- 把多个 Crews 和任务串联成复杂工作流 [1]；\n- 在不同任务之间管理和共享状态 [1]；\n- 基于事件驱动模型，实现动态、响应式流程 [1]；\n- 支持条件逻辑、循环和分支 [1]。\n\n**Crews 负责具体的 agent/task 定义**\n\n在项目的 `crews` 目录下可以定义多个 crew，例如经典的嵌入式结构中，`config/agents.yaml` 定义 agents、`config/tasks.yaml` 定义 tasks，`poem_crew.py` 则包含包括 agents、tasks 和 crew 本身的定义 [2]。也可以使用 `crew.jsonc` + `agents/*.jsonc` 的 JSON-first 形式 [2]。\n\n**构建稳定执行路径时的组合方式**\n\n思路是：**用 Flow 作为外层骨架控制顺序和状态，把 Crew 作为其中某个步骤被调用**。\n\n1. 在 Flow 步骤中加载并启动 Crew。文档示例是从 Flow 的某个 step 里用 `load_crew(...)` 加载 `crew.jsonc`，然后 `crew.kickoff(inputs={...})` [2]。\n2. 用显式的 `@start` / `@listen` 链接步骤，并用类型化的 State 在步骤间传递数据。Quickstart 示例中，`ResearchFlowState` 保存 `topic` 和 `report`；`@start` 的 `prepare_topic` 设置 topic，`@listen(prepare_topic)` 的 `run_research` 用 `self.state.topic` 调用 `kickoff_content_crew`，把 `result.raw` 写回 `self.state.report`，随后 `@listen(run_research)` 的 `summarize` 继续执行 [3]。\n\n这样，稳定的执行路径由 Flow 的 `@start` → `@listen` 链条和 State 保证，而每个环节中需要多 agent 协作的工作交给 Crew 完成 [1][3]。如果流程需要条件分支或循环，Flow 也提供了相应控制流能力 [1]；不过片段没有进一步说明在“稳定路径”场景下应如何取舍这些控制结构。",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 1149,
+      "completion_tokens": 1018,
+      "total_tokens": 2167,
+      "prompt_tokens_details": {
+        "cached_tokens": 896
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 468
+      },
+      "prompt_cache_hit_tokens": 896,
+      "prompt_cache_miss_tokens": 253
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/flows.mdx#L8-L21",
+        "heading_path": [
+          "Flows",
+          "Overview"
+        ],
+        "chunk_id": "685748c9e1f3fcab71dc"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/flows.mdx#L880-L911",
+        "heading_path": [
+          "Flows",
+          "Adding Crews to Flows",
+          "Building Your Crews"
+        ],
+        "chunk_id": "9c65db83da0b4de02d17"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/quickstart.mdx#L103-L168",
+        "heading_path": [
+          "Quickstart",
+          "Build your first Flow"
+        ],
+        "chunk_id": "a742aa19583326de3bed"
+      }
+    ],
+    "generation_ms": 7269.22,
+    "audit": {
+      "point_verdicts": [
+        "supported",
+        "missing"
+      ],
+      "complete_and_supported": false,
+      "note": "Flow 编排及步骤调用有证据，但未完整说明 Crew 的自主协作职责；不能用项目文件结构替代该要点。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "C02",
+    "version": "v1",
+    "question": "定义一个 CrewAI Agent 时，role、goal、backstory 各起什么作用？",
+    "expected_points": [
+      "role 定义职能和专长",
+      "goal 定义个体目标",
+      "backstory 提供背景与角色设定"
+    ],
+    "query": "CrewAI Agent role goal backstory purpose function",
+    "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+    "request_id": "c7e4cd30-c598-4cf9-a451-45e468881d92",
+    "answer": "在 CrewAI 中定义 Agent 时：\n\n- **`role`**：定义该 Agent 在 crew 中的职能和专业领域，也就是它“负责什么、擅长什么” [1]。\n- **`goal`**：定义引导该 Agent 进行决策的个人目标，即它要达成什么结果 [1]。\n- **`backstory`**：为 Agent 提供背景和个性，从而丰富其交互表现 [1]。\n\n此外，`role`、`goal` 和 `backstory` 都是**必填参数**，并共同塑造 Agent 的行为 [3]。",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 914,
+      "completion_tokens": 254,
+      "total_tokens": 1168,
+      "prompt_tokens_details": {
+        "cached_tokens": 640
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 128
+      },
+      "prompt_cache_hit_tokens": 640,
+      "prompt_cache_miss_tokens": 274
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/agents.mdx#L39-L46",
+        "heading_path": [
+          "Agents",
+          "Agent Attributes"
+        ],
+        "chunk_id": "eed82b3c50709989527b"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/agents.mdx#L76-L124",
+        "heading_path": [
+          "Agents",
+          "Creating Agents",
+          "JSONC Configuration (Recommended)"
+        ],
+        "chunk_id": "6791d33eea8be346d9a9"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/agents.mdx#L275-L279",
+        "heading_path": [
+          "Agents",
+          "Creating Agents",
+          "Parameter Details",
+          "Critical Parameters"
+        ],
+        "chunk_id": "60d51bfc92d58798f3b7"
+      }
+    ],
+    "generation_ms": 4120.91,
+    "audit": {
+      "point_verdicts": [
+        "supported",
+        "supported",
+        "supported"
+      ],
+      "complete_and_supported": true,
+      "note": "三属性定义均由 Agent Attributes 支持；附加配置说明也能在所引块核对。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "C02",
+    "version": "v3",
+    "question": "定义一个 CrewAI Agent 时，role、goal、backstory 各起什么作用？",
+    "expected_points": [
+      "role 定义职能和专长",
+      "goal 定义个体目标",
+      "backstory 提供背景与角色设定"
+    ],
+    "query": "CrewAI Agent role goal backstory purpose",
+    "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+    "request_id": "ca073afe-265c-480c-b9d1-c0d21f5e15a7",
+    "answer": "在定义 CrewAI Agent 时，这三个属性的作用如下：\n\n- **`role`（角色）**：定义该 agent 在 crew（团队）中的职能与专业领域（function and expertise）[1]。例如示例中的 `\"{topic} Senior Data Researcher\"` 就是在表明该 agent 的定位[3]。\n- **`goal`（目标）**：描述引导 agent 决策的个体目标（individual objective），即它要努力达成的方向[1]。示例中对应 `\"Uncover cutting-edge developments in {topic}\"`[3]。\n- **`backstory`（背景故事）**：为 agent 提供上下文与个性（context and personality），从而丰富其交互表现[1]。示例中对应一段说明它如何查找并清晰呈现信息的描述[3]。\n\n此外，这三个参数都是**必填项**，共同塑造 agent 的行为[2]。它们还支持 `{placeholder}` 占位符，可在 `crew.jsonc` 的 `inputs` 中提供默认值，缺失时 `crewai run` 会提示输入[3]。",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 914,
+      "completion_tokens": 255,
+      "total_tokens": 1169,
+      "prompt_tokens_details": {
+        "cached_tokens": 128
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 24
+      },
+      "prompt_cache_hit_tokens": 128,
+      "prompt_cache_miss_tokens": 786
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/agents.mdx#L39-L46",
+        "heading_path": [
+          "Agents",
+          "Agent Attributes"
+        ],
+        "chunk_id": "eed82b3c50709989527b"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/agents.mdx#L275-L279",
+        "heading_path": [
+          "Agents",
+          "Creating Agents",
+          "Parameter Details",
+          "Critical Parameters"
+        ],
+        "chunk_id": "60d51bfc92d58798f3b7"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/agents.mdx#L76-L124",
+        "heading_path": [
+          "Agents",
+          "Creating Agents",
+          "JSONC Configuration (Recommended)"
+        ],
+        "chunk_id": "6791d33eea8be346d9a9"
+      }
+    ],
+    "generation_ms": 2601.5,
+    "audit": {
+      "point_verdicts": [
+        "supported",
+        "supported",
+        "supported"
+      ],
+      "complete_and_supported": true,
+      "note": "三属性定义均由 Agent Attributes 支持；附加配置说明也能在所引块核对。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "C03",
+    "version": "v1",
+    "question": "CrewAI Agent 默认允许把任务委派给其他 Agent 吗？由哪个参数控制？",
+    "expected_points": [
+      "allow_delegation 控制委派",
+      "默认值为 False"
+    ],
+    "query": "CrewAI Agent allow_delegation default true false delegate tasks to other agents parameter",
+    "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+    "request_id": "3d0baf59-8aeb-4994-ade1-90277ac9b726",
+    "answer": "默认**不允许**。CrewAI Agent 通过 `allow_delegation` 参数控制是否允许将任务委派给其他 Agent，其默认值为 `False`。[1][2]",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 1323,
+      "completion_tokens": 160,
+      "total_tokens": 1483,
+      "prompt_tokens_details": {
+        "cached_tokens": 1152
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 118
+      },
+      "prompt_cache_hit_tokens": 1152,
+      "prompt_cache_miss_tokens": 171
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/agents.mdx#L137-L173",
+        "heading_path": [
+          "Agents",
+          "Creating Agents",
+          "Direct Code Definition"
+        ],
+        "chunk_id": "52d3c366c4fcec8336be"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/agents.mdx#L51-L54",
+        "heading_path": [
+          "Agents",
+          "Agent Attributes"
+        ],
+        "chunk_id": "9cbfdae7bdd50c769e82"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/agents.mdx#L76-L124",
+        "heading_path": [
+          "Agents",
+          "Creating Agents",
+          "JSONC Configuration (Recommended)"
+        ],
+        "chunk_id": "6791d33eea8be346d9a9"
+      }
+    ],
+    "generation_ms": 2171.73,
+    "audit": {
+      "point_verdicts": [
+        "supported",
+        "supported"
+      ],
+      "complete_and_supported": true,
+      "note": "allow_delegation 默认 False 在代码注释和属性表中均有明确支持。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "C03",
+    "version": "v3",
+    "question": "CrewAI Agent 默认允许把任务委派给其他 Agent 吗？由哪个参数控制？",
+    "expected_points": [
+      "allow_delegation 控制委派",
+      "默认值为 False"
+    ],
+    "query": "CrewAI Agent allow_delegation default delegation",
+    "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+    "request_id": "dcde4f69-b23c-4e12-b511-380a52ec5620",
+    "answer": "默认**不允许**。CrewAI Agent 的 `allow_delegation` 参数默认值为 `False`，即默认不能把任务委派给其他 Agent；要允许委派需将该参数设为 `True`。[1][2]",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 1323,
+      "completion_tokens": 183,
+      "total_tokens": 1506,
+      "prompt_tokens_details": {
+        "cached_tokens": 1152
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 130
+      },
+      "prompt_cache_hit_tokens": 1152,
+      "prompt_cache_miss_tokens": 171
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/agents.mdx#L137-L173",
+        "heading_path": [
+          "Agents",
+          "Creating Agents",
+          "Direct Code Definition"
+        ],
+        "chunk_id": "52d3c366c4fcec8336be"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/agents.mdx#L51-L54",
+        "heading_path": [
+          "Agents",
+          "Agent Attributes"
+        ],
+        "chunk_id": "9cbfdae7bdd50c769e82"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/agents.mdx#L76-L124",
+        "heading_path": [
+          "Agents",
+          "Creating Agents",
+          "JSONC Configuration (Recommended)"
+        ],
+        "chunk_id": "6791d33eea8be346d9a9"
+      }
+    ],
+    "generation_ms": 2523.51,
+    "audit": {
+      "point_verdicts": [
+        "supported",
+        "supported"
+      ],
+      "complete_and_supported": true,
+      "note": "allow_delegation 默认 False 在代码注释和属性表中均有明确支持。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "C04",
+    "version": "v1",
+    "question": "给 Agent 配置 tools 与给单个 Task 配置 tools，有什么范围上的区别？",
+    "expected_points": [
+      "Agent 的 tools 是该 Agent 可用的能力",
+      "Task 的 tools 限制或指定该任务可用的工具"
+    ],
+    "query": "Agent tools vs Task tools scope difference",
+    "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+    "request_id": "f7cac3d7-a5c7-468e-a707-69506fada33e",
+    "answer": "根据提供的片段，只能确认两点：Agent 可以通过 `tools` 参数配置工具 [2]；Task 也可以集成 CrewAI Toolkit 和 LangChain Tools [1]。\n\n但这些片段没有说明 Agent 级 tools 与单个 Task 级 tools 在作用范围、继承或覆盖关系上的区别。因此，仅凭这些来源无法回答“范围上的区别”。",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 875,
+      "completion_tokens": 415,
+      "total_tokens": 1290,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 337
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 875
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/tasks.mdx#L748-L751",
+        "heading_path": [
+          "Tasks",
+          "Integrating Tools with Tasks"
+        ],
+        "chunk_id": "5bb15f14e843157115c0"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/agents.mdx#L326-L351",
+        "heading_path": [
+          "Agents",
+          "Agent Tools"
+        ],
+        "chunk_id": "921411e536d528786081"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/tools.mdx#L338-L380",
+        "heading_path": [
+          "Tools",
+          "Reporting Tool Failures"
+        ],
+        "chunk_id": "29595bdaf271211594e0"
+      }
+    ],
+    "generation_ms": 4061.2,
+    "audit": {
+      "point_verdicts": [
+        "partial",
+        "missing"
+      ],
+      "complete_and_supported": false,
+      "note": "两版均承认范围信息不足；拒答边界合理，但任务要求的两侧范围没有答全。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "C04",
+    "version": "v3",
+    "question": "给 Agent 配置 tools 与给单个 Task 配置 tools，有什么范围上的区别？",
+    "expected_points": [
+      "Agent 的 tools 是该 Agent 可用的能力",
+      "Task 的 tools 限制或指定该任务可用的工具"
+    ],
+    "query": "Agent tools configuration vs single Task tools configuration scope",
+    "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+    "request_id": "131a3cfc-a940-4a0b-aaa7-5b39c6789939",
+    "answer": "这些摘录只能确认：Agent 配置支持 `tools` 字段，[2] 而单个 Task 条目也支持 `tools` 字段。[3] 但摘录没有说明 Task 级 `tools` 是仅对该任务生效、覆盖 Agent 级工具，还是与 Agent 级工具合并；也没有说明 Agent 级 `tools` 是否默认作用于该 Agent 的所有任务。\n\n因此，**仅凭提供的来源，无法确定 Agent 配置 tools 与单个 Task 配置 tools 在范围上的具体区别**。摘录 [1] 中的“tool → task → agent → crew”优先级只针对 `tool_failure_policy`，不能直接用来推断 `tools` 的配置范围。[1]",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 1143,
+      "completion_tokens": 416,
+      "total_tokens": 1559,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 259
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1143
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/tools.mdx#L381-L422",
+        "heading_path": [
+          "Tools",
+          "Reporting Tool Failures",
+          "Choosing a Failure Policy"
+        ],
+        "chunk_id": "0bcb7ae679f09e8509a5"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/agents.mdx#L76-L124",
+        "heading_path": [
+          "Agents",
+          "Creating Agents",
+          "JSONC Configuration (Recommended)"
+        ],
+        "chunk_id": "6791d33eea8be346d9a9"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/tasks.mdx#L120-L121",
+        "heading_path": [
+          "Tasks",
+          "Creating Tasks",
+          "JSONC Configuration (Recommended)"
+        ],
+        "chunk_id": "f1dddb026a75aed5b3ad"
+      }
+    ],
+    "generation_ms": 4576.88,
+    "audit": {
+      "point_verdicts": [
+        "partial",
+        "missing"
+      ],
+      "complete_and_supported": false,
+      "note": "两版均承认范围信息不足；拒答边界合理，但任务要求的两侧范围没有答全。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "C14",
+    "version": "v1",
+    "question": "Flow 的 @persist 放在类上和放在方法上，持久化范围有什么区别？",
+    "expected_points": [
+      "类级别作用于整个 Flow",
+      "方法级别只作用于被装饰的方法"
+    ],
+    "query": "Flow @persist class vs method persistence scope difference",
+    "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+    "request_id": "6f48a910-d9b1-45f7-ba87-f39fa4e1fbe1",
+    "answer": "## 类级别（Class-Level）\n\n当 `@persist` 应用在**类上**时，它会自动持久化该类中**所有 flow 方法的状态**——无需在每个方法上单独添加装饰器。\n\n例如，在下面的示例中，`initialize_flow` 和 `next_step` 都自动享有状态持久化；在后续步骤中，`self.state.counter` 以及 `self.state.id` 会被自动重新加载 [1]：\n\n```python\n@persist  # 默认使用 SQLiteFlowPersistence\nclass MyFlow(Flow[MyState]):\n    @start()\n    def initialize_flow(self):\n        self.state.counter = 1\n        print(\"Initialized flow. State ID:\", self.state.id)\n\n    @listen(initialize_flow)\n    def next_step(self):\n        # 状态（含 self.state.id）自动重新加载\n        self.state.counter += 1\n```\n\n文档也确认 `@persist` 既可应用于类级别、也可应用于方法级别，从而让状态管理方式更灵活 [2]。\n\n## 方法级别（Method-Level）\n\n**提供的源材料不足以回答这一部分。** 摘录仅声明装饰器“可以应用于类级别或方法级别” [2]，但**没有**给出方法级 `@persist` 的示例，也没有说明在该级别下持久化范围如何划定（例如它是只覆盖被装饰的方法，还是只覆盖该方法的执行/状态写入）。\n\n如果要做完整的范围对比，需要查阅该方法级章节的文档。",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 937,
+      "completion_tokens": 430,
+      "total_tokens": 1367,
+      "prompt_tokens_details": {
+        "cached_tokens": 128
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 107
+      },
+      "prompt_cache_hit_tokens": 128,
+      "prompt_cache_miss_tokens": 809
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/flows.mdx#L412-L431",
+        "heading_path": [
+          "Flows",
+          "Flow Persistence",
+          "Class-Level Persistence"
+        ],
+        "chunk_id": "caad82e9e0735389a3ab"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/flows.mdx#L408-L411",
+        "heading_path": [
+          "Flows",
+          "Flow Persistence"
+        ],
+        "chunk_id": "04fed04c4a741c3a024d"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/flows.mdx#L447-L482",
+        "heading_path": [
+          "Flows",
+          "Flow Persistence",
+          "Forking Persisted State"
+        ],
+        "chunk_id": "58a420ef931e9a345fab"
+      }
+    ],
+    "generation_ms": 4720.8,
+    "audit": {
+      "point_verdicts": [
+        "supported",
+        "missing"
+      ],
+      "complete_and_supported": false,
+      "note": "v1 缺方法级范围并局部拒答；v3 引用 [1] 类级全部方法和 [2] 方法级特定方法，覆盖两点。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "C14",
+    "version": "v3",
+    "question": "Flow 的 @persist 放在类上和放在方法上，持久化范围有什么区别？",
+    "expected_points": [
+      "类级别作用于整个 Flow",
+      "方法级别只作用于被装饰的方法"
+    ],
+    "query": "Flow @persist class vs method persistence scope",
+    "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+    "request_id": "98f30578-338c-4d40-8e97-f45caf1e247e",
+    "answer": "在 Flow 中，`@persist` 放在类上和放在方法上，持久化范围的核心区别如下：\n\n**类级别（放在类上）**\n在类上应用 `@persist` 时，装饰器会自动持久化**所有** flow 方法的状态，而不只是某一个方法 [1]。例如：\n\n```python\n@persist  # 默认使用 SQLiteFlowPersistence\nclass MyFlow(Flow[MyState]):\n    @start()\n    def initialize_flow(self):\n        self.state.counter = 1\n        ...\n\n    @listen(initialize_flow)\n    def next_step(self):\n        # 状态（含 self.state.id）会被自动重新加载\n        self.state.counter += 1\n        ...\n```\n\n在这个示例中，`initialize_flow` 和 `next_step` 这两个方法的状态都会被自动持久化；后续方法执行时，state（包括 `self.state.id`）会被自动重新加载 [1]。\n\n**方法级别（放在方法上）**\n如果希望获得更细粒度的控制，可以把 `@persist` 只应用到特定方法上，此时**只持久化该方法的状态** [2]。例如：\n\n```python\nclass AnotherFlow(Flow[dict]):\n    @persist  # 仅持久化此方法的状态\n    @start()\n    def begin(self):\n        if \"runs\" not in self.state:\n            self.state[\"runs\"] = 0\n        self.state[\"runs\"] += 1\n        ...\n```\n\n**总结**：类级别 `@persist` 作用于该 Flow 的所有方法；方法级别 `@persist` 只作用于被装饰的那一个方法，因此适合需要精细控制持久化范围的场景 [1][2]。",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 986,
+      "completion_tokens": 404,
+      "total_tokens": 1390,
+      "prompt_tokens_details": {
+        "cached_tokens": 768
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 38
+      },
+      "prompt_cache_hit_tokens": 768,
+      "prompt_cache_miss_tokens": 218
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/flows.mdx#L412-L431",
+        "heading_path": [
+          "Flows",
+          "Flow Persistence",
+          "Class-Level Persistence"
+        ],
+        "chunk_id": "caad82e9e0735389a3ab"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/flows.mdx#L432-L446",
+        "heading_path": [
+          "Flows",
+          "Flow Persistence",
+          "Method-Level Persistence"
+        ],
+        "chunk_id": "864bcde172547a90a54d"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/crewAIInc/crewAI/blob/a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688/docs/v1.15.28/en/concepts/flows.mdx#L447-L482",
+        "heading_path": [
+          "Flows",
+          "Flow Persistence",
+          "Forking Persisted State"
+        ],
+        "chunk_id": "58a420ef931e9a345fab"
+      }
+    ],
+    "generation_ms": 4970.33,
+    "audit": {
+      "point_verdicts": [
+        "supported",
+        "supported"
+      ],
+      "complete_and_supported": true,
+      "note": "v1 缺方法级范围并局部拒答；v3 引用 [1] 类级全部方法和 [2] 方法级特定方法，覆盖两点。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "P01",
+    "version": "v1",
+    "question": "在 Pydantic 的 BaseModel 中，有默认值的字段和没有默认值的字段，哪个是必填？传入字符串 '123' 给 int 字段会怎样？",
+    "expected_points": [
+      "没有默认值的字段是必填的",
+      "有默认值的字段不是必填的",
+      "示例中字符串 '123' 被转换为整数 123"
+    ],
+    "query": "Pydantic BaseModel required field with default vs without default int field string '123' validation coercion",
+    "source_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+    "request_id": "fba0ad66-1d50-4491-8c18-1c26b4708fd2",
+    "answer": "有默认值的字段不是必填：未传入时会使用默认值 [1]。没有默认值的字段在示例中需要提供，例如 `User.id: int` 没有默认值，验证数据中提供了 `id` [3]；不过摘录未直接展示省略该字段时的报错。\n\n给 `int` 字段传入字符串 `'123'` 时，Pydantic 会按转换逻辑将其强制转换为整数 `123` [1]；示例中也显示 `'123'` 被转换为 `123` [3]。",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 1163,
+      "completion_tokens": 1607,
+      "total_tokens": 2770,
+      "prompt_tokens_details": {
+        "cached_tokens": 384
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1491
+      },
+      "prompt_cache_hit_tokens": 384,
+      "prompt_cache_miss_tokens": 779
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/models.md#L105-L148",
+        "heading_path": [
+          "models",
+          "Basic model usage"
+        ],
+        "chunk_id": "32747e5744bab8071dd4"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/fields.md#L193-L217",
+        "heading_path": [
+          "fields",
+          "Validate default values"
+        ],
+        "chunk_id": "8cd2e0f6fc0e798b3c9c"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/models.md#L410-L459",
+        "heading_path": [
+          "models",
+          "Validating data"
+        ],
+        "chunk_id": "9c68a049061ddff542ae"
+      }
+    ],
+    "generation_ms": 10628.8,
+    "audit": {
+      "point_verdicts": [
+        "unsupported",
+        "supported",
+        "supported"
+      ],
+      "complete_and_supported": false,
+      "note": "有默认值及字符串转整数有证据；没有默认值必填的结论未由所给块充分证明，示例提供了 id 不等于证明不能省略。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "P01",
+    "version": "v3",
+    "question": "在 Pydantic 的 BaseModel 中，有默认值的字段和没有默认值的字段，哪个是必填？传入字符串 '123' 给 int 字段会怎样？",
+    "expected_points": [
+      "没有默认值的字段是必填的",
+      "有默认值的字段不是必填的",
+      "示例中字符串 '123' 被转换为整数 123"
+    ],
+    "query": "Pydantic BaseModel field with default vs no default required int field string '123' validation",
+    "source_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+    "request_id": "bf18e442-044a-488e-8b38-8ae40a7a1cb7",
+    "answer": "有默认值的字段不是必填字段 [2]；相应地，没有默认值的字段需要提供值。\n\n把字符串 `'123'` 传给 `int` 字段时，Pydantic 会把它强制转换为整数 `123` [3]。",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 1215,
+      "completion_tokens": 436,
+      "total_tokens": 1651,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 382
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 1215
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/serialization.md#L187-L217",
+        "heading_path": [
+          "serialization",
+          "Pickling support"
+        ],
+        "chunk_id": "074afc7a75911045979f"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/fields.md#L130-L188",
+        "heading_path": [
+          "fields",
+          "Default values"
+        ],
+        "chunk_id": "ad2e5ccadbd27247aa60"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/models.md#L105-L148",
+        "heading_path": [
+          "models",
+          "Basic model usage"
+        ],
+        "chunk_id": "32747e5744bab8071dd4"
+      }
+    ],
+    "generation_ms": 4635.72,
+    "audit": {
+      "point_verdicts": [
+        "unsupported",
+        "supported",
+        "supported"
+      ],
+      "complete_and_supported": false,
+      "note": "有默认值及字符串转整数有证据；没有默认值必填的结论未由所给块充分证明，示例提供了 id 不等于证明不能省略。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "P02",
+    "version": "v1",
+    "question": "Pydantic 的 model_validate() 与 model_validate_json() 分别接收什么输入？",
+    "expected_points": [
+      "model_validate 接收字典或模型实例等 Python 对象",
+      "model_validate_json 接收 JSON 字符串或 bytes"
+    ],
+    "query": "Pydantic model_validate vs model_validate_json input types comparison",
+    "source_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+    "request_id": "bed0321c-aa3c-4869-9b7d-aa757076e9be",
+    "answer": "`model_validate()` 接收 Python 数据：通常是字典，也可以是模型实例（默认情况下实例被视为有效，受 `revalidate_instances` 设置影响）；如果显式启用，还可以接收任意对象 [1]。例如：\n\n```python\nUser.model_validate({'id': 123, 'name': 'James'})\n```\n\n`model_validate_json()` 接收 JSON 数据，具体是 JSON 字符串或 `bytes` 对象 [1]。例如：\n\n```python\nUser.model_validate_json('{\"id\": 123, \"name\": 123}')\n```\n\n简言之：`model_validate()` 处理 Python 对象/字典，`model_validate_json()` 处理 JSON 字符串或字节 [1][3]。",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 1459,
+      "completion_tokens": 320,
+      "total_tokens": 1779,
+      "prompt_tokens_details": {
+        "cached_tokens": 896
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 164
+      },
+      "prompt_cache_hit_tokens": 896,
+      "prompt_cache_miss_tokens": 563
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/models.md#L381-L402",
+        "heading_path": [
+          "models",
+          "Validating data"
+        ],
+        "chunk_id": "cd723ebf50eb23be8fe9"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/models.md#L154-L171",
+        "heading_path": [
+          "models",
+          "Basic model usage",
+          "Model methods and properties"
+        ],
+        "chunk_id": "3dbf5e3c4de5c2cbffe4"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/models.md#L410-L459",
+        "heading_path": [
+          "models",
+          "Validating data"
+        ],
+        "chunk_id": "9c68a049061ddff542ae"
+      }
+    ],
+    "generation_ms": 3317.62,
+    "audit": {
+      "point_verdicts": [
+        "supported",
+        "supported"
+      ],
+      "complete_and_supported": true,
+      "note": "输入类型在 Validating data 明确列出，回答与引用一致。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "P02",
+    "version": "v3",
+    "question": "Pydantic 的 model_validate() 与 model_validate_json() 分别接收什么输入？",
+    "expected_points": [
+      "model_validate 接收字典或模型实例等 Python 对象",
+      "model_validate_json 接收 JSON 字符串或 bytes"
+    ],
+    "query": "model_validate vs model_validate_json input types",
+    "source_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+    "request_id": "ca5474b1-4402-4589-99a8-872754951386",
+    "answer": "- `model_validate()`：接收 Python 数据，可以是**字典**或**模型实例**（默认假定实例已有效；如显式启用，也可接收任意对象）[1]。示例中传入了字典：`User.model_validate({'id': 123, 'name': 'James'})`[3]。\n- `model_validate_json()`：接收 **JSON 字符串或 `bytes` 对象**，并按 JSON 模式验证[1]。示例中传入了 JSON 字符串：`User.model_validate_json('{\"id\": 123, \"name\": 123}')`[3]。",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 1459,
+      "completion_tokens": 202,
+      "total_tokens": 1661,
+      "prompt_tokens_details": {
+        "cached_tokens": 1280
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 70
+      },
+      "prompt_cache_hit_tokens": 1280,
+      "prompt_cache_miss_tokens": 179
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/models.md#L381-L402",
+        "heading_path": [
+          "models",
+          "Validating data"
+        ],
+        "chunk_id": "cd723ebf50eb23be8fe9"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/models.md#L154-L171",
+        "heading_path": [
+          "models",
+          "Basic model usage",
+          "Model methods and properties"
+        ],
+        "chunk_id": "3dbf5e3c4de5c2cbffe4"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/models.md#L410-L459",
+        "heading_path": [
+          "models",
+          "Validating data"
+        ],
+        "chunk_id": "9c68a049061ddff542ae"
+      }
+    ],
+    "generation_ms": 2110.49,
+    "audit": {
+      "point_verdicts": [
+        "supported",
+        "supported"
+      ],
+      "complete_and_supported": true,
+      "note": "输入类型在 Validating data 明确列出，回答与引用一致。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "P04",
+    "version": "v1",
+    "question": "Pydantic 默认会校验字段的默认值吗？需要校验时如何设置？",
+    "expected_points": [
+      "默认不校验默认值",
+      "可使用 validate_default=True"
+    ],
+    "query": "Pydantic validate_default default value validation ModelConfig Field",
+    "source_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+    "request_id": "31c9a9ba-4b93-4efc-a891-3ac74124b9da",
+    "answer": "默认情况下，Pydantic **不会**校验字段的默认值[citation:1]。因此，默认值不会经过类型校验，自定义校验器也不会自动作用于默认值[citation:1][citation:2]。\n\n需要校验时，可以通过以下方式开启：\n\n1. 在字段上设置 `validate_default=True`：\n\n```python\nfrom pydantic import BaseModel, Field\n\nclass User(BaseModel):\n    age: int = Field(default=\"twelve\", validate_default=True)\n```\n\n上述默认值 `\"twelve\"` 会被校验，并触发 `ValidationError`[citation:1]。\n\n2. 也可以通过配置项 `validate_default` 全局开启[citation:1]。",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 1014,
+      "completion_tokens": 369,
+      "total_tokens": 1383,
+      "prompt_tokens_details": {
+        "cached_tokens": 384
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 225
+      },
+      "prompt_cache_hit_tokens": 384,
+      "prompt_cache_miss_tokens": 630
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/fields.md#L193-L217",
+        "heading_path": [
+          "fields",
+          "Validate default values"
+        ],
+        "chunk_id": "8cd2e0f6fc0e798b3c9c"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/validators.md#L356-L388",
+        "heading_path": [
+          "validators",
+          "Field validators"
+        ],
+        "chunk_id": "aa4ff098bdc30f1be4f2"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/fields.md#L130-L188",
+        "heading_path": [
+          "fields",
+          "Default values"
+        ],
+        "chunk_id": "ad2e5ccadbd27247aa60"
+      }
+    ],
+    "generation_ms": 3278.96,
+    "audit": {
+      "point_verdicts": [
+        "supported",
+        "supported"
+      ],
+      "complete_and_supported": true,
+      "note": "默认不校验及 validate_default 开启有直接证据。v1 使用 [citation:1] 格式，人工可映射，但现有编号解析器未识别；内容支持与格式分开计分。",
+      "citation_format_valid": false,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "P04",
+    "version": "v3",
+    "question": "Pydantic 默认会校验字段的默认值吗？需要校验时如何设置？",
+    "expected_points": [
+      "默认不校验默认值",
+      "可使用 validate_default=True"
+    ],
+    "query": "Pydantic validate_default field default value validation",
+    "source_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+    "request_id": "63d59331-40ed-46cb-860b-985b3300cbcc",
+    "answer": "默认不会。Pydantic 默认**不校验字段的默认值**，自定义校验器也不会作用于未校验的默认值 [1][2]。\n\n需要校验时，可以启用 `validate_default`：\n\n- 在字段上设置：`Field(default=..., validate_default=True)` [1]\n- 或在模型配置中设置 `validate_default`（`ConfigDict.validate_default`）[1]\n\n示例：\n\n```python\nfrom pydantic import BaseModel, Field, ValidationError\n\nclass User(BaseModel):\n    age: int = Field(default='twelve', validate_default=True)\n\ntry:\n    user = User()\nexcept ValidationError as e:\n    print(e)\n```\n\n这样默认值 `'twelve'` 会被校验并触发 `ValidationError` [1]。",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 1014,
+      "completion_tokens": 325,
+      "total_tokens": 1339,
+      "prompt_tokens_details": {
+        "cached_tokens": 768
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 163
+      },
+      "prompt_cache_hit_tokens": 768,
+      "prompt_cache_miss_tokens": 246
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/fields.md#L193-L217",
+        "heading_path": [
+          "fields",
+          "Validate default values"
+        ],
+        "chunk_id": "8cd2e0f6fc0e798b3c9c"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/validators.md#L356-L388",
+        "heading_path": [
+          "validators",
+          "Field validators"
+        ],
+        "chunk_id": "aa4ff098bdc30f1be4f2"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/fields.md#L130-L188",
+        "heading_path": [
+          "fields",
+          "Default values"
+        ],
+        "chunk_id": "ad2e5ccadbd27247aa60"
+      }
+    ],
+    "generation_ms": 3311.36,
+    "audit": {
+      "point_verdicts": [
+        "supported",
+        "supported"
+      ],
+      "complete_and_supported": true,
+      "note": "默认不校验及 validate_default 开启有直接证据。v1 使用 [citation:1] 格式，人工可映射，但现有编号解析器未识别；内容支持与格式分开计分。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "P05",
+    "version": "v1",
+    "question": "Pydantic 的 validation_alias 与 serialization_alias 分别作用于哪个阶段？",
+    "expected_points": [
+      "validation_alias 用于校验/输入阶段",
+      "serialization_alias 用于序列化/输出阶段"
+    ],
+    "query": "Pydantic validation_alias serialization_alias validation serialization stage",
+    "source_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+    "request_id": "c1a0d329-db26-4eaf-be4d-2dfd340098ac",
+    "answer": "- `validation_alias` 作用于**验证（输入解析）阶段**：例如 `Field(validation_alias='username')` 时，可以用 `User(username='johndoe')` 创建模型，字段名仍是 `name` [1]。  \n- `serialization_alias` 作用于**序列化（输出）阶段**：例如 `Field(serialization_alias='username')` 时，`model_dump(by_alias=True)` 会输出 `{'username': 'johndoe'}` [1]。  \n- 如果只定义其中一个别名，另一个阶段会使用字段名：只定义 `validation_alias` 时序列化用字段名；只定义 `serialization_alias` 时验证用字段名 [1]。  \n- 优先级方面，`validation_alias` 在验证时优先于 `alias`，`serialization_alias` 在序列化时优先于 `alias` [1]。",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 1320,
+      "completion_tokens": 458,
+      "total_tokens": 1778,
+      "prompt_tokens_details": {
+        "cached_tokens": 1152
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 253
+      },
+      "prompt_cache_hit_tokens": 1152,
+      "prompt_cache_miss_tokens": 168
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/fields.md#L294-L342",
+        "heading_path": [
+          "fields",
+          "Field aliases"
+        ],
+        "chunk_id": "8462e3ae6b1c0f2137b8"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/fields.md#L402-L435",
+        "heading_path": [
+          "fields",
+          "Field aliases"
+        ],
+        "chunk_id": "c3e088451f25272c8f28"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/fields.md#L343-L401",
+        "heading_path": [
+          "fields",
+          "Field aliases"
+        ],
+        "chunk_id": "bf39f6ef344d31390820"
+      }
+    ],
+    "generation_ms": 3677.9,
+    "audit": {
+      "point_verdicts": [
+        "supported",
+        "supported"
+      ],
+      "complete_and_supported": true,
+      "note": "两种别名的作用阶段及例子均由 Field aliases 支持。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "P05",
+    "version": "v3",
+    "question": "Pydantic 的 validation_alias 与 serialization_alias 分别作用于哪个阶段？",
+    "expected_points": [
+      "validation_alias 用于校验/输入阶段",
+      "serialization_alias 用于序列化/输出阶段"
+    ],
+    "query": "Pydantic validation_alias vs serialization_alias validation serialization stage",
+    "source_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+    "request_id": "1b6c801c-4e75-4281-a163-e6a53970eac8",
+    "answer": "在 Pydantic 中：\n\n- `validation_alias` 作用于**验证阶段**：输入数据使用别名来填充字段。例如 `Field(validation_alias='username')` 时，可以用 `User(username='johndoe')` 创建模型，但序列化时仍使用字段名 `name`，`model_dump(by_alias=True)` 输出 `{'name': 'johndoe'}`。[1]\n- `serialization_alias` 作用于**序列化阶段**：验证时使用字段名，序列化时使用别名。例如 `Field(serialization_alias='username')` 时，用 `User(name='johndoe')` 创建模型，`model_dump(by_alias=True)` 输出 `{'username': 'johndoe'}`。[1]\n\n另外，如果同时使用 `alias` 与这两个参数，`validation_alias` 在验证时优先于 `alias`，`serialization_alias` 在序列化时优先于 `alias`。[1]",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 1320,
+      "completion_tokens": 415,
+      "total_tokens": 1735,
+      "prompt_tokens_details": {
+        "cached_tokens": 1152
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 189
+      },
+      "prompt_cache_hit_tokens": 1152,
+      "prompt_cache_miss_tokens": 168
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/fields.md#L294-L342",
+        "heading_path": [
+          "fields",
+          "Field aliases"
+        ],
+        "chunk_id": "8462e3ae6b1c0f2137b8"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/fields.md#L402-L435",
+        "heading_path": [
+          "fields",
+          "Field aliases"
+        ],
+        "chunk_id": "c3e088451f25272c8f28"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/fields.md#L343-L401",
+        "heading_path": [
+          "fields",
+          "Field aliases"
+        ],
+        "chunk_id": "bf39f6ef344d31390820"
+      }
+    ],
+    "generation_ms": 3067.56,
+    "audit": {
+      "point_verdicts": [
+        "supported",
+        "supported"
+      ],
+      "complete_and_supported": true,
+      "note": "两种别名的作用阶段及例子均由 Field aliases 支持。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "P06",
+    "version": "v1",
+    "question": "Pydantic 字段校验器的 before 与 after 模式在类型解析的哪个阶段运行？",
+    "expected_points": [
+      "before 在内部类型校验和解析之前运行",
+      "after 在内部类型校验和解析之后运行"
+    ],
+    "query": "Pydantic field validator before after mode type parsing stage",
+    "source_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+    "request_id": "91e90fd8-56f9-4bd9-a561-0ba841f4cc53",
+    "answer": "根据提供的摘录：\n\n- **before 模式**：在 Pydantic 的内部解析与校验**之前**运行，例如在 `str` 到 `int` 的强制转换之前；它接收原始输入，其返回值随后再由 Pydantic 按类型注解进行校验。[1]\n- **after 模式**：摘录仅将其列为字段校验器的一种类型，[2] **没有说明**它在类型解析的哪个具体阶段运行。因此，仅凭这些来源无法确定 after 模式的运行阶段。",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 1200,
+      "completion_tokens": 593,
+      "total_tokens": 1793,
+      "prompt_tokens_details": {
+        "cached_tokens": 1024
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 481
+      },
+      "prompt_cache_hit_tokens": 1024,
+      "prompt_cache_miss_tokens": 176
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/validators.md#L160-L203",
+        "heading_path": [
+          "validators",
+          "Field validators"
+        ],
+        "chunk_id": "eb456a4ba27c59bf2702"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/validators.md#L1-L28",
+        "heading_path": [
+          "validators"
+        ],
+        "chunk_id": "20d922feb80972260977"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/validators.md#L251-L312",
+        "heading_path": [
+          "validators",
+          "Field validators"
+        ],
+        "chunk_id": "7ec2b13b4e8ec531abcf"
+      }
+    ],
+    "generation_ms": 5168.52,
+    "audit": {
+      "point_verdicts": [
+        "supported",
+        "missing"
+      ],
+      "complete_and_supported": false,
+      "note": "before 有定义，after 只有目录链接；两版均局部拒答，未答全。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  },
+  {
+    "id": "P06",
+    "version": "v3",
+    "question": "Pydantic 字段校验器的 before 与 after 模式在类型解析的哪个阶段运行？",
+    "expected_points": [
+      "before 在内部类型校验和解析之前运行",
+      "after 在内部类型校验和解析之后运行"
+    ],
+    "query": "Pydantic field_validator before vs after mode type parsing stage",
+    "source_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
+    "request_id": "8a961e83-a655-4d3a-ae6c-c1ad38beac8f",
+    "answer": "根据提供的摘录：**before 校验器在 Pydantic 内部解析和校验之前运行**，例如在将 `str` 强制转换为 `int` 之前；其返回值随后会按照字段类型注解由 Pydantic 校验 [1]。作为对比，plain 校验器在返回后会立即终止校验，Pydantic 不再对字段类型执行内部校验 [3]。\n\n关于 **after 模式**在类型解析的哪个阶段运行，提供的摘录只列出了 after 校验器的目录入口 [2]，没有说明其执行阶段，因此无法依据这些来源回答 after 模式的具体运行时机。",
+    "model": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 1200,
+      "completion_tokens": 448,
+      "total_tokens": 1648,
+      "prompt_tokens_details": {
+        "cached_tokens": 1024
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 317
+      },
+      "prompt_cache_hit_tokens": 1024,
+      "prompt_cache_miss_tokens": 176
+    },
+    "sources": [
+      {
+        "number": 1,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/validators.md#L160-L203",
+        "heading_path": [
+          "validators",
+          "Field validators"
+        ],
+        "chunk_id": "eb456a4ba27c59bf2702"
+      },
+      {
+        "number": 2,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/validators.md#L1-L28",
+        "heading_path": [
+          "validators"
+        ],
+        "chunk_id": "20d922feb80972260977"
+      },
+      {
+        "number": 3,
+        "url": "https://github.com/pydantic/pydantic/blob/ca3ddd1149bd3b14273922a29da174804496a055/docs/concepts/validators.md#L251-L312",
+        "heading_path": [
+          "validators",
+          "Field validators"
+        ],
+        "chunk_id": "7ec2b13b4e8ec531abcf"
+      }
+    ],
+    "generation_ms": 5478.12,
+    "audit": {
+      "point_verdicts": [
+        "supported",
+        "missing"
+      ],
+      "complete_and_supported": false,
+      "note": "before 有定义，after 只有目录链接；两版均局部拒答，未答全。",
+      "citation_format_valid": true,
+      "reviewer": "Codex assistant; single review against actual selected excerpts"
+    }
+  }
+]
