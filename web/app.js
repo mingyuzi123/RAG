@@ -456,7 +456,7 @@ async function initialize() {
     if (item) { $('#question').value = item.question; $('#english-query').value = item.english_query; $('#subqueries').value = (item.subqueries || []).join('\n'); }
   });
   $('#question').addEventListener('input', () => { if (state.queryRewrite) $('#english-query').value = ''; state.activeExample = null; state.queryRewrite = null; $('#sample-select').value = ''; });
-  $('#english-query').addEventListener('input', () => { state.activeExample = null; state.queryRewrite = null; $('#sample-select').value = ''; });
+  $('#english-query').addEventListener('input', () => { state.queryRewrite = null; });
   $('#subqueries').addEventListener('input', () => { state.activeExample = null; $('#sample-select').value = ''; });
   try {
     const config = await api('/api/config');
