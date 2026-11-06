@@ -13,4 +13,6 @@
 
 人工词为 **5/6** 题标注证据齐进前 3；自动词为 **4/6**。自动改写每题调用一次 DeepSeek，本次 6 题共消耗 1758 tokens。C14 显示“翻译正确”仍可能改变 BM25 和 RRF 排名，进而把第二处证据挤出上下文。C04 还需检查候选召回和标注是否遗漏替代证据，不能归咎于翻译一项。
 
+**C14 逐词排查：**自动词是 `Flow @persist class vs method persistence scope difference`。当前 FTS5 使用 `porter unicode61`，搜索把词用 `OR` 连接；概述块 `Flow Persistence` 的正文有 `different workflow executions`，`difference` 经词干处理后也可命中它。完整自动词使该概述块排 BM25 第 1，Class-Level 第 2、Method-Level 第 3。只删去末尾 `difference`、保持其他词不变时，Class-Level 回到第 1、Method-Level 回到第 2，概述块降到第 3。E5 始终使用原中文问题，排名不变。原完整自动词下，RRF 使 `Forking Persisted State` 的 BM25 第 4＋E5 第 2 略高于 Method-Level 的第 3＋第 3，于是后者降到融合第 4。这是当前语料和索引上的局部归因，不代表所有查询都应删掉 `difference`。
+
 这个指标只看标注章节，并未逐条审查生成答案；部分旧标注已知有替代证据遗漏。样本仅 6 题，且人工词来自已有题集，不能把 5/6 当真实用户基线，也不能据此断言自动查询的总体质量。下一轮应冻结更大且未参与改写提示词设计的题集，按事实、比较和无答案题分层，记录候选召回、前 K 覆盖、完整答案及引用支持、延迟和成本。当前自动改写只在页面英文词为空时启用，预置人工词和手动覆盖仍可做对照。
