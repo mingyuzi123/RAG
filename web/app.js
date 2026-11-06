@@ -88,8 +88,14 @@ async function prepareQuery(payload, force = false) {
   return payload;
 }
 
+function currentExample() {
+  const question = $('#question').value.trim();
+  if (state.activeExample?.question === question) return state.activeExample;
+  return state.examples.find(example => example.question === question) || null;
+}
+
 function isGold(item) {
-  return !!state.activeExample?.evidence?.some(anchor =>
+  return !!currentExample()?.evidence?.some(anchor =>
     item.source_path === anchor.path && item.heading_path.includes(anchor.heading));
 }
 
@@ -138,6 +144,7 @@ function renderColumn(method, candidates, contextK) {
 }
 
 function renderResults(groups, contextK) {
+  const example = currentExample();
   const keys = Object.keys(groups);
   const columns = $('#result-columns');
   columns.replaceChildren();
@@ -148,8 +155,8 @@ function renderResults(groups, contextK) {
   summary.replaceChildren();
   const seen = new Set(keys.flatMap(key => groups[key].map(item => item.id)));
   const goldContext = keys.map(key => `${key.toUpperCase()}：${groups[key].slice(0, contextK).filter(isGold).length} 个标注块进入前 ${contextK}`);
-  summary.append(el('span', 'empty-icon', '⌁'), el('p', '', state.activeExample?.evidence?.length ? goldContext.join(' · ') : `共查看 ${seen.size} 个不同知识块；浅紫色表示进入前 ${contextK} 上下文。`));
-  $('#result-note').textContent = state.activeExample?.id ? `${state.activeExample.id} · 点击标题可查看原文` : '点击标题可查看原文';
+  summary.append(el('span', 'empty-icon', '⌁'), el('p', '', example?.evidence?.length ? goldContext.join(' · ') : `共查看 ${seen.size} 个不同知识块；浅紫色表示进入前 ${contextK} 上下文。`));
+  $('#result-note').textContent = example?.id ? `${example.id} · 点击标题可查看原文` : '点击标题可查看原文';
 }
 
 function evaluationState(result) {
