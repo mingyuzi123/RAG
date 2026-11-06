@@ -6,11 +6,16 @@ import re
 from .generation import call_chat
 
 
-PROMPT_VERSION = "english-keywords-v1"
+PROMPT_VERSION = "english-keywords-v3"
 SYSTEM_PROMPT = (
     "Rewrite the user's question as one concise English keyword query for searching "
     "English technical documentation with BM25. Preserve exact API names, class names, "
     "parameters, and technical terms. Include both sides of a comparison. "
+    "Keep words that identify the documented entities and the specific attribute being asked about. "
+    "Drop generic question-framing words such as what, how, difference, and comparison "
+    "when they do not name a documented concept. For a comparison, retain both named "
+    "entities and their relationship; 'vs' may be useful when it connects two named concepts. "
+    "Do not replace a specific concept in the question with a vague synonym. "
     "Do not answer the question or invent terms, facts, or documentation content. "
     "Return only a JSON object with one key: query. The value must be a single "
     "English search string, not an explanation."

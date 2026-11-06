@@ -1,0 +1,26 @@
+[
+  {
+    "scenario": "crewai",
+    "id": "C01",
+    "v1_query": "CrewAI Crews vs Flows responsibilities combine stable execution path",
+    "v1_tokens": 240
+  },
+  {
+    "scenario": "crewai",
+    "id": "C03",
+    "v1_query": "CrewAI Agent allow_delegation default true false delegate tasks to other agents parameter",
+    "v1_tokens": 278
+  },
+  {
+    "scenario": "pydantic",
+    "id": "P02",
+    "v1_query": "Pydantic model_validate vs model_validate_json input types comparison",
+    "v1_tokens": 226
+  },
+  {
+    "scenario": "pydantic",
+    "id": "P05",
+    "v1_query": "Pydantic validation_alias serialization_alias validation serialization stage",
+    "v1_tokens": 267
+  }
+]

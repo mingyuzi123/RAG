@@ -1,0 +1,324 @@
+[
+  {
+    "id": "C01",
+    "scenario": "crewai",
+    "v1_query": "CrewAI Crews vs Flows responsibilities combine stable execution path",
+    "v2_query": "CrewAI Crews Flows responsibilities stable execution path composition",
+    "v2_tokens": 457,
+    "v1_bm25_ranks": [
+      1
+    ],
+    "v1_bm25_all_top3": true,
+    "v1_vector_ranks": [
+      null
+    ],
+    "v1_vector_all_top3": false,
+    "v1_hybrid_ranks": [
+      6
+    ],
+    "v1_hybrid_all_top3": false,
+    "v2_bm25_ranks": [
+      null
+    ],
+    "v2_bm25_all_top3": false,
+    "v2_vector_ranks": [
+      null
+    ],
+    "v2_vector_all_top3": false,
+    "v2_hybrid_ranks": [
+      null
+    ],
+    "v2_hybrid_all_top3": false
+  },
+  {
+    "id": "C02",
+    "scenario": "crewai",
+    "v1_query": "CrewAI Agent role goal backstory purpose function",
+    "v2_query": "CrewAI Agent role goal backstory purpose function",
+    "v2_tokens": 322,
+    "v1_bm25_ranks": [
+      1
+    ],
+    "v1_bm25_all_top3": true,
+    "v1_vector_ranks": [
+      2
+    ],
+    "v1_vector_all_top3": true,
+    "v1_hybrid_ranks": [
+      1
+    ],
+    "v1_hybrid_all_top3": true,
+    "v2_bm25_ranks": [
+      1
+    ],
+    "v2_bm25_all_top3": true,
+    "v2_vector_ranks": [
+      2
+    ],
+    "v2_vector_all_top3": true,
+    "v2_hybrid_ranks": [
+      1
+    ],
+    "v2_hybrid_all_top3": true
+  },
+  {
+    "id": "C03",
+    "scenario": "crewai",
+    "v1_query": "CrewAI Agent allow_delegation default true false delegate tasks to other agents parameter",
+    "v2_query": "CrewAI Agent default allow task delegation other agents parameter control",
+    "v2_tokens": 798,
+    "v1_bm25_ranks": [
+      1
+    ],
+    "v1_bm25_all_top3": true,
+    "v1_vector_ranks": [
+      7
+    ],
+    "v1_vector_all_top3": false,
+    "v1_hybrid_ranks": [
+      2
+    ],
+    "v1_hybrid_all_top3": true,
+    "v2_bm25_ranks": [
+      1
+    ],
+    "v2_bm25_all_top3": true,
+    "v2_vector_ranks": [
+      7
+    ],
+    "v2_vector_all_top3": false,
+    "v2_hybrid_ranks": [
+      2
+    ],
+    "v2_hybrid_all_top3": true
+  },
+  {
+    "id": "C04",
+    "scenario": "crewai",
+    "v1_query": "Agent tools vs Task tools scope difference",
+    "v2_query": "Agent Task tools configuration scope",
+    "v2_tokens": 363,
+    "v1_bm25_ranks": [
+      null,
+      null
+    ],
+    "v1_bm25_all_top3": false,
+    "v1_vector_ranks": [
+      null,
+      4
+    ],
+    "v1_vector_all_top3": false,
+    "v1_hybrid_ranks": [
+      null,
+      10
+    ],
+    "v1_hybrid_all_top3": false,
+    "v2_bm25_ranks": [
+      null,
+      null
+    ],
+    "v2_bm25_all_top3": false,
+    "v2_vector_ranks": [
+      null,
+      4
+    ],
+    "v2_vector_all_top3": false,
+    "v2_hybrid_ranks": [
+      null,
+      9
+    ],
+    "v2_hybrid_all_top3": false
+  },
+  {
+    "id": "C14",
+    "scenario": "crewai",
+    "v1_query": "Flow @persist class vs method persistence scope difference",
+    "v2_query": "Flow @persist class method persistence scope",
+    "v2_tokens": 460,
+    "v1_bm25_ranks": [
+      2,
+      3
+    ],
+    "v1_bm25_all_top3": true,
+    "v1_vector_ranks": [
+      1,
+      3
+    ],
+    "v1_vector_all_top3": true,
+    "v1_hybrid_ranks": [
+      1,
+      4
+    ],
+    "v1_hybrid_all_top3": false,
+    "v2_bm25_ranks": [
+      1,
+      2
+    ],
+    "v2_bm25_all_top3": true,
+    "v2_vector_ranks": [
+      1,
+      3
+    ],
+    "v2_vector_all_top3": true,
+    "v2_hybrid_ranks": [
+      1,
+      2
+    ],
+    "v2_hybrid_all_top3": true
+  },
+  {
+    "id": "P01",
+    "scenario": "pydantic",
+    "v1_query": "Pydantic BaseModel required field with default vs without default int field string '123' validation coercion",
+    "v2_query": "Pydantic BaseModel default value no default required field int string '123' coercion validation",
+    "v2_tokens": 470,
+    "v1_bm25_ranks": [
+      1
+    ],
+    "v1_bm25_all_top3": true,
+    "v1_vector_ranks": [
+      10
+    ],
+    "v1_vector_all_top3": false,
+    "v1_hybrid_ranks": [
+      1
+    ],
+    "v1_hybrid_all_top3": true,
+    "v2_bm25_ranks": [
+      1
+    ],
+    "v2_bm25_all_top3": true,
+    "v2_vector_ranks": [
+      10
+    ],
+    "v2_vector_all_top3": false,
+    "v2_hybrid_ranks": [
+      1
+    ],
+    "v2_hybrid_all_top3": true
+  },
+  {
+    "id": "P02",
+    "scenario": "pydantic",
+    "v1_query": "Pydantic model_validate vs model_validate_json input types comparison",
+    "v2_query": "Pydantic model_validate model_validate_json accepted input types",
+    "v2_tokens": 491,
+    "v1_bm25_ranks": [
+      1
+    ],
+    "v1_bm25_all_top3": true,
+    "v1_vector_ranks": [
+      1
+    ],
+    "v1_vector_all_top3": true,
+    "v1_hybrid_ranks": [
+      1
+    ],
+    "v1_hybrid_all_top3": true,
+    "v2_bm25_ranks": [
+      1
+    ],
+    "v2_bm25_all_top3": true,
+    "v2_vector_ranks": [
+      1
+    ],
+    "v2_vector_all_top3": true,
+    "v2_hybrid_ranks": [
+      1
+    ],
+    "v2_hybrid_all_top3": true
+  },
+  {
+    "id": "P04",
+    "scenario": "pydantic",
+    "v1_query": "Pydantic validate_default default value validation ModelConfig Field",
+    "v2_query": "Pydantic default value validation validate_default Field",
+    "v2_tokens": 365,
+    "v1_bm25_ranks": [
+      1
+    ],
+    "v1_bm25_all_top3": true,
+    "v1_vector_ranks": [
+      1
+    ],
+    "v1_vector_all_top3": true,
+    "v1_hybrid_ranks": [
+      1
+    ],
+    "v1_hybrid_all_top3": true,
+    "v2_bm25_ranks": [
+      1
+    ],
+    "v2_bm25_all_top3": true,
+    "v2_vector_ranks": [
+      1
+    ],
+    "v2_vector_all_top3": true,
+    "v2_hybrid_ranks": [
+      1
+    ],
+    "v2_hybrid_all_top3": true
+  },
+  {
+    "id": "P05",
+    "scenario": "pydantic",
+    "v1_query": "Pydantic validation_alias serialization_alias validation serialization stage",
+    "v2_query": "Pydantic validation_alias serialization_alias validation serialization phase",
+    "v2_tokens": 320,
+    "v1_bm25_ranks": [
+      1
+    ],
+    "v1_bm25_all_top3": true,
+    "v1_vector_ranks": [
+      1
+    ],
+    "v1_vector_all_top3": true,
+    "v1_hybrid_ranks": [
+      1
+    ],
+    "v1_hybrid_all_top3": true,
+    "v2_bm25_ranks": [
+      1
+    ],
+    "v2_bm25_all_top3": true,
+    "v2_vector_ranks": [
+      1
+    ],
+    "v2_vector_all_top3": true,
+    "v2_hybrid_ranks": [
+      1
+    ],
+    "v2_hybrid_all_top3": true
+  },
+  {
+    "id": "P06",
+    "scenario": "pydantic",
+    "v1_query": "Pydantic field validator before after mode type parsing stage",
+    "v2_query": "Pydantic field_validator before after mode type parsing stage",
+    "v2_tokens": 535,
+    "v1_bm25_ranks": [
+      1
+    ],
+    "v1_bm25_all_top3": true,
+    "v1_vector_ranks": [
+      1
+    ],
+    "v1_vector_all_top3": true,
+    "v1_hybrid_ranks": [
+      1
+    ],
+    "v1_hybrid_all_top3": true,
+    "v2_bm25_ranks": [
+      1
+    ],
+    "v2_bm25_all_top3": true,
+    "v2_vector_ranks": [
+      1
+    ],
+    "v2_vector_all_top3": true,
+    "v2_hybrid_ranks": [
+      1
+    ],
+    "v2_hybrid_all_top3": true
+  }
+]

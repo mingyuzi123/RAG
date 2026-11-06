@@ -155,6 +155,7 @@ class GenerationTests(TestCase):
         self.assertEqual(result["usage"]["total_tokens"], 34)
         payload = json.loads(mocked.call_args.args[0].data)
         self.assertIn("Agent 与 Task", payload["messages"][1]["content"])
+        self.assertIn("generic question-framing", payload["messages"][0]["content"])
         with patch("raglab.query_rewrite.call_chat", return_value=(
                 {"choices": [{"message": {"content": '{"query":"任务范围"}'}}]}, "test")):
             with self.assertRaisesRegex(ValueError, "English keyword"):
