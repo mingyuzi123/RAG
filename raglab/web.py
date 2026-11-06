@@ -11,6 +11,7 @@ from .decomposition import decompose_question
 from .evaluation_view import load_dashboard
 from .local_sources import SCENARIO_ID, ensure_local_scenario, import_document, local_manifest_path, local_source_file
 from .review import latest_reviews, save_review
+from .query_rewrite import rewrite_query
 from .service import answer, compare, recent_traces, retrieve, retrieve_targeted_window, status
 from .store import build_index, index_path, load_manifest
 from .vector import build_vectors, load_model
@@ -157,7 +158,7 @@ def create_handler(root: Path, manifest_path: Path):
                 self._json(403, {"error": "Local access only"})
                 return
             path = urlparse(self.path).path
-            if path not in ("/api/search", "/api/compare", "/api/ask", "/api/decompose", "/api/review", "/api/import"):
+            if path not in ("/api/search", "/api/compare", "/api/ask", "/api/decompose", "/api/rewrite", "/api/review", "/api/import"):
                 self._json(404, {"error": "Not found"})
                 return
             if not self.headers.get("Content-Type", "").startswith("application/json"):
@@ -205,7 +206,16 @@ def create_handler(root: Path, manifest_path: Path):
                         raise RuntimeError("Set DEEPSEEK_API_KEY before starting the web server")
                     self._json(200, decompose_question(question))
                     return
+                if path == "/api/rewrite":
+                    if not status(root, manifest)["deepseek_key_set"]:
+                        raise RuntimeError("Set DEEPSEEK_API_KEY before rewriting a query")
+                    self._json(200, rewrite_query(question))
+                    return
                 english_query = str(data.get("english_query", "")).strip() or None
+                query_metadata = data.get("query_metadata")
+                if query_metadata is not None and (not isinstance(query_metadata, dict)
+                        or query_metadata.get("source") not in ("auto", "manual")):
+                    raise ValueError("Invalid query metadata")
                 top_k = int(data.get("top_k", 10))
                 strategy = str(data.get("strategy", "vector"))
                 context_policy = str(data.get("context_policy", "top_k"))
@@ -222,17 +232,19 @@ def create_handler(root: Path, manifest_path: Path):
                             int(data.get("context_k", 3)), model)
                         result = {"strategy": "targeted_window", "candidates": selected,
                                   "baseline_candidates": baseline, "child_candidates": child,
-                                  "window": window}
+                                  "window": window, "query_metadata": query_metadata}
                     else:
                         result = {"strategy": strategy, "candidates": retrieve(
-                            db_path, question, strategy, english_query, top_k, model, subqueries)}
+                            db_path, question, strategy, english_query, top_k, model, subqueries),
+                            "query_metadata": query_metadata}
                 elif path == "/api/compare":
-                    result = {"strategies": compare(db_path, question, english_query or "", top_k, model)}
+                    result = {"strategies": compare(db_path, question, english_query or "", top_k, model),
+                              "query_metadata": query_metadata}
                 else:
                     context_k = int(data.get("context_k", 3))
                     trace = answer(root, manifest, db_path, question, strategy, english_query,
                                    top_k, context_k, model, subqueries=subqueries,
-                                   context_policy=context_policy)
+                                   context_policy=context_policy, query_metadata=query_metadata)
                     result = {"trace": trace}
                 self._json(200, result)
             except (ValueError, FileNotFoundError, RuntimeError, json.JSONDecodeError) as exc:

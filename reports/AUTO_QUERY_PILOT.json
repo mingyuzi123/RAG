@@ -1,0 +1,96 @@
+[
+  {
+    "id": "C02",
+    "scenario": "crewai",
+    "auto_query": "CrewAI Agent role goal backstory purpose function",
+    "manual_query": "What do role goal and backstory mean in an Agent?",
+    "tokens": 277,
+    "manual_ranks": [
+      3
+    ],
+    "manual_all_top3": true,
+    "auto_ranks": [
+      1
+    ],
+    "auto_all_top3": true
+  },
+  {
+    "id": "C04",
+    "scenario": "crewai",
+    "auto_query": "Agent tools vs Task tools scope difference",
+    "manual_query": "What is the scope difference between tools assigned to an Agent and tools assigned to a Task?",
+    "tokens": 261,
+    "manual_ranks": [
+      null,
+      10
+    ],
+    "manual_all_top3": false,
+    "auto_ranks": [
+      null,
+      10
+    ],
+    "auto_all_top3": false
+  },
+  {
+    "id": "C14",
+    "scenario": "crewai",
+    "auto_query": "Flow @persist class vs method persistence scope difference",
+    "manual_query": "What is the persistence scope of persist on a Flow class versus a method?",
+    "tokens": 298,
+    "manual_ranks": [
+      1,
+      2
+    ],
+    "manual_all_top3": true,
+    "auto_ranks": [
+      1,
+      4
+    ],
+    "auto_all_top3": false
+  },
+  {
+    "id": "P01",
+    "scenario": "pydantic",
+    "auto_query": "Pydantic BaseModel required field with default vs without default int field string '123' validation coercion",
+    "manual_query": "BaseModel required field default int string conversion",
+    "tokens": 323,
+    "manual_ranks": [
+      1
+    ],
+    "manual_all_top3": true,
+    "auto_ranks": [
+      1
+    ],
+    "auto_all_top3": true
+  },
+  {
+    "id": "P04",
+    "scenario": "pydantic",
+    "auto_query": "Pydantic validate_default default value validation ModelConfig Field",
+    "manual_query": "validate default values validate_default True",
+    "tokens": 257,
+    "manual_ranks": [
+      1
+    ],
+    "manual_all_top3": true,
+    "auto_ranks": [
+      1
+    ],
+    "auto_all_top3": true
+  },
+  {
+    "id": "P06",
+    "scenario": "pydantic",
+    "auto_query": "Pydantic field validator before after mode type parsing stage",
+    "manual_query": "field validators before after internal validation",
+    "tokens": 342,
+    "manual_ranks": [
+      1
+    ],
+    "manual_all_top3": true,
+    "auto_ranks": [
+      1
+    ],
+    "auto_all_top3": true
+  }
+]

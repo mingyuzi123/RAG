@@ -6,7 +6,7 @@
 
 ## 当前进度
 
-**四个阶段的基础版已搭好，接下来集中回顾学习。**骨架提供固定版本资料获取与切块、SQLite FTS5/BM25、跨语言 E5、RRF 混合检索、带出处 DeepSeek 问答、请求追踪、逐题检索评测和人工答案核验。CrewAI 与 Pydantic 两套官方技术文档通过独立场景包运行；页面显示各自题集、评测和请求记录。混合检索仍需手工提供英文关键词；自动拆题和多样性选块只保留为实验入口或离线对照。架构见 [DESIGN.md](DESIGN.md)，项目及学习状态见 [PROGRESS.md](PROGRESS.md)，验收见[第 3 阶段](docs/STAGE3_阶段验收与学习路线.md)和[第 4 阶段报告](reports/STAGE4_第二场景与答案质量.md)，之后按[回顾路线](docs/PROJECT_回顾路线.md)学习。
+**四个阶段的基础版已搭好，接下来集中回顾学习。**骨架提供固定版本资料获取与切块、SQLite FTS5/BM25、跨语言 E5、RRF 混合检索、带出处 DeepSeek 问答、请求追踪、逐题检索评测和人工答案核验。CrewAI 与 Pydantic 两套官方技术文档通过独立场景包运行；页面显示各自题集、评测和请求记录。页面英文检索词留空时可用 DeepSeek 自动生成并查看、修改；6 题初测中前 3 证据覆盖低于人工词，故仍需扩大验证。自动拆题和多样性选块只保留为实验入口或离线对照。架构见 [DESIGN.md](DESIGN.md)，项目及学习状态见 [PROGRESS.md](PROGRESS.md)，验收见[第 3 阶段](docs/STAGE3_阶段验收与学习路线.md)和[第 4 阶段报告](reports/STAGE4_第二场景与答案质量.md)，之后按[回顾路线](docs/PROJECT_回顾路线.md)学习。
 
 首个场景包使用固定版本的 CrewAI 官方技术文档，覆盖 Agents、Tasks、Tools、Crews 和 Flows。
 
@@ -69,7 +69,7 @@ python -m raglab search "层级流程需要什么管理者配置？" --strategy 
 python -m raglab search "层级流程需要什么管理者配置？" --strategy hybrid --search-query "hierarchical process manager configuration" --top-k 3
 ```
 
-[E5 模型卡](https://huggingface.co/intfloat/multilingual-e5-small)说明对问题加 `query:` 前缀、对文档加 `passage:` 前缀；本项目将向量归一化后按点积排序。混合检索对 BM25 与向量各取前 20，再用倒数排名融合（RRF）排序；其英文检索词目前由人填写，避免把查询翻译质量混进检索策略实验。
+[E5 模型卡](https://huggingface.co/intfloat/multilingual-e5-small)说明对问题加 `query:` 前缀、对文档加 `passage:` 前缀；本项目将向量归一化后按点积排序。混合检索对 BM25 与向量各取前 20，再用倒数排名融合（RRF）排序。固定历史评测继续使用人工英文词以保持可比性；页面的英文词留空时会调用 DeepSeek 生成可编辑查询，并在请求记录中保存来源、提示词版本和用量。该调用消耗 API 额度，断网时可手填英文词或只用 E5。6 题对照见[自动查询小样本报告](reports/AUTO_QUERY_PILOT.md)。
 
 ```powershell
 python scripts/evaluate_retrieval.py --strategy bm25 --output reports/crewai-bm25.json

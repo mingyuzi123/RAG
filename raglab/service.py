@@ -92,7 +92,8 @@ def answer(root: Path, manifest: dict, db_path: Path, question: str,
            top_k: int = 5, context_k: int = 3, model=None,
            generation_model: str | None = None,
            subqueries: list[str] | None = None,
-           context_policy: str = "top_k", max_chars: int = 1800) -> dict:
+           context_policy: str = "top_k", max_chars: int = 1800,
+           query_metadata: dict | None = None) -> dict:
     validate_request(question, strategy, english_query, top_k, context_k, subqueries)
     if context_policy not in CONTEXT_POLICIES:
         raise ValueError(f"Unknown context policy: {context_policy}")
@@ -124,6 +125,7 @@ def answer(root: Path, manifest: dict, db_path: Path, question: str,
         "index": str(db_path.relative_to(root)), "strategy": strategy,
         "context_policy": context_policy,
         "question": question, "search_query": question if strategy == "vector" else (english_query or question),
+        "query_metadata": query_metadata or {"source": "manual" if english_query else "original_question"},
         "subqueries": subqueries or [],
         "candidates": candidates, "child_candidates": child_candidates,
         "selected_chunks": selected, "window": window,

@@ -1,5 +1,5 @@
 const $ = (selector) => document.querySelector(selector);
-const state = { examples: [], activeExample: null, config: null, keyAvailable: false, evaluationLoaded: false };
+const state = { examples: [], activeExample: null, config: null, keyAvailable: false, evaluationLoaded: false, queryRewrite: null };
 
 function el(tag, className, content) {
   const node = document.createElement(tag);
@@ -17,6 +17,7 @@ function message(text, isError = false) {
 function setBusy(busy, label = '') {
   for (const id of ['compare-btn', 'search-btn']) $(`#${id}`).disabled = busy;
   $('#decompose-btn').disabled = busy || !state.keyAvailable;
+  $('#rewrite-btn').disabled = busy || !state.keyAvailable;
   $('#ask-btn').disabled = busy || !state.keyAvailable;
   if (busy) message(label || '正在检索，请稍候…');
 }
@@ -65,8 +66,26 @@ function input() {
   const subqueries = strategy === 'decomposed' ? $('#subqueries').value.split(/\r?\n/).map(line => line.trim()).filter(Boolean) : [];
   if (strategy === 'decomposed' && (subqueries.length < 2 || subqueries.length > 4)) throw new Error('多查询覆盖需要填写 2–4 行子问题。');
   const english_query = $('#english-query').value.trim();
-  if (context_policy === 'targeted_window' && (strategy !== 'hybrid' || !english_query)) throw new Error('目标邻块规则当前需要混合 RRF 策略和英文关键词查询。');
+  if (context_policy === 'targeted_window' && strategy !== 'hybrid') throw new Error('目标邻块规则当前需要混合 RRF 策略。');
   return { question, english_query, strategy, context_policy, subqueries, top_k, context_k };
+}
+
+async function prepareQuery(payload, force = false) {
+  if (force || (!payload.english_query && (payload.strategy === 'bm25' || payload.strategy === 'hybrid' || payload.context_policy === 'targeted_window'))) {
+    if (!state.keyAvailable) throw new Error('自动生成英文检索词需要 DeepSeek 密钥；也可自行填写英文词或选择 E5 向量。');
+    message('正在生成英文检索词，请检查它是否保留了关键技术名词…');
+    const result = await api('/api/rewrite', { question: payload.question });
+    $('#english-query').value = result.query;
+    state.queryRewrite = { question: payload.question, query: result.query, result };
+    payload.english_query = result.query;
+  }
+  payload.query_metadata = state.queryRewrite?.question === payload.question &&
+    state.queryRewrite.query === payload.english_query
+    ? { source: 'auto', model: state.queryRewrite.result.model,
+        prompt_version: state.queryRewrite.result.prompt_version,
+        usage: state.queryRewrite.result.usage }
+    : { source: payload.english_query ? 'manual' : 'original_question' };
+  return payload;
 }
 
 function isGold(item) {
@@ -202,12 +221,13 @@ async function loadEvaluations() {
 async function compare() {
   try {
     const payload = input();
-    if (!payload.english_query) throw new Error('对比 BM25 与 E5 时，请提供英文关键词查询。');
+    if (!payload.english_query) payload.strategy = 'hybrid';
     setBusy(true, '正在运行三路检索，首次使用 E5 可能需要加载模型…');
+    await prepareQuery(payload);
     const data = await api('/api/compare', payload);
     renderResults(data.strategies, payload.context_k);
     showTab('explore');
-    message('对比完成。绿色边框标出评测集的预期证据章节。');
+    message(`对比完成。英文查询来自${payload.query_metadata.source === 'auto' ? 'DeepSeek 自动生成' : '人工填写'}；绿色边框标出预期证据章节。`);
   } catch (error) { message(error.message, true); }
   finally { setBusy(false); }
 }
@@ -216,10 +236,11 @@ async function search() {
   try {
     const payload = input();
     setBusy(true, '正在检索，请稍候…');
+    await prepareQuery(payload);
     const data = await api('/api/search', payload);
     renderResults({ [data.strategy]: data.candidates }, payload.context_k);
     showTab('explore');
-    message('检索完成。查看排名、证据来源和进入上下文的块。');
+    message(`检索完成。${payload.query_metadata.source === 'auto' ? '本次英文查询由 DeepSeek 生成，可修改后重试。' : '查看排名、证据来源和进入上下文的块。'}`);
   } catch (error) { message(error.message, true); }
   finally { setBusy(false); }
 }
@@ -238,10 +259,23 @@ async function decompose() {
   finally { setBusy(false); }
 }
 
+async function rewrite() {
+  try {
+    const question = $('#question').value.trim();
+    if (!question) throw new Error('请先输入一个问题。');
+    const payload = { question, english_query: '', strategy: 'hybrid' };
+    setBusy(true, '正在生成英文检索词…');
+    await prepareQuery(payload, true);
+    message(`英文词已生成：${payload.english_query}。本次用量 ${payload.query_metadata.usage?.total_tokens ?? '未知'} tokens；请检查后再检索。`);
+  } catch (error) { message(error.message, true); }
+  finally { setBusy(false); }
+}
+
 async function ask() {
   try {
     const payload = input();
     setBusy(true, '正在检索证据并请求 DeepSeek，可能需要几十秒…');
+    await prepareQuery(payload);
     const data = await api('/api/ask', payload);
     const trace = data.trace;
     renderResults({ [trace.context_policy === 'targeted_window' ? 'targeted_window' : trace.strategy]: trace.context_policy === 'targeted_window' ? trace.selected_chunks : trace.candidates }, payload.context_k);
@@ -261,7 +295,7 @@ async function ask() {
     reviewButton.addEventListener('click', () => showTab('traces'));
     output.append(reviewButton);
     showTab('answer');
-    message('回答已保存到本地请求记录。引用编号有效不等于证据真正支持结论。');
+    message(`回答已保存；英文查询来源：${payload.query_metadata.source === 'auto' ? '自动生成' : payload.query_metadata.source === 'manual' ? '人工填写' : '中文原题'}。引用编号有效不等于证据真正支持结论。`);
   } catch (error) { message(error.message, true); }
   finally { setBusy(false); }
 }
@@ -375,6 +409,7 @@ async function initialize() {
   $('#compare-btn').addEventListener('click', compare);
   $('#search-btn').addEventListener('click', search);
   $('#decompose-btn').addEventListener('click', decompose);
+  $('#rewrite-btn').addEventListener('click', rewrite);
   $('#ask-btn').addEventListener('click', ask);
   $('#refresh-traces').addEventListener('click', loadTraces);
   $('#scenario-select').addEventListener('change', event => {
@@ -417,10 +452,11 @@ async function initialize() {
   $('#sample-select').addEventListener('change', event => {
     const item = state.examples.find(example => example.id === event.target.value);
     state.activeExample = item || null;
+    state.queryRewrite = null;
     if (item) { $('#question').value = item.question; $('#english-query').value = item.english_query; $('#subqueries').value = (item.subqueries || []).join('\n'); }
   });
-  $('#question').addEventListener('input', () => { state.activeExample = null; $('#sample-select').value = ''; });
-  $('#english-query').addEventListener('input', () => { state.activeExample = null; $('#sample-select').value = ''; });
+  $('#question').addEventListener('input', () => { if (state.queryRewrite) $('#english-query').value = ''; state.activeExample = null; state.queryRewrite = null; $('#sample-select').value = ''; });
+  $('#english-query').addEventListener('input', () => { state.activeExample = null; state.queryRewrite = null; $('#sample-select').value = ''; });
   $('#subqueries').addEventListener('input', () => { state.activeExample = null; $('#sample-select').value = ''; });
   try {
     const config = await api('/api/config');

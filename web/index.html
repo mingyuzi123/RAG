@@ -50,7 +50,8 @@
             <select id="sample-select"><option value="">自定义问题</option></select>
             <label for="question" class="field-label">中文问题</label>
             <textarea id="question" rows="3" placeholder="请输入文档相关问题"></textarea>
-            <div class="field-row"><div class="field-grow"><label for="english-query" class="field-label">英文关键词查询 <span>BM25 和融合需要</span></label><input id="english-query" type="text" placeholder="English keywords for BM25"></div></div>
+            <div class="field-row"><div class="field-grow"><label for="english-query" class="field-label">英文关键词查询 <span>留空时自动生成；可修改后对照</span></label><input id="english-query" type="text" placeholder="留空后运行检索，DeepSeek 将生成英文词"></div></div>
+            <button class="button secondary" id="rewrite-btn" type="button">先生成英文检索词（消耗 API 额度）</button>
             <div id="subquery-field" hidden><label for="subqueries" class="field-label">检索子问题 <span>每行一个，2–4 行；先找齐各方面证据</span></label><textarea id="subqueries" rows="2" placeholder="先分别询问需要比较的两个方面"></textarea><button class="button secondary" id="decompose-btn" type="button">DeepSeek 自动拆题（消耗 API 额度）</button></div>
             <div class="control-row"><label>候选 Top K <input id="top-k" type="number" min="1" max="30" value="10"></label><label>回答上下文 K <input id="context-k" type="number" min="1" max="10" value="3"></label><label>单路策略 <select id="strategy"><option value="vector">E5 向量</option><option value="bm25">BM25 关键词</option><option value="hybrid">混合 RRF</option><option value="decomposed">多查询覆盖</option></select></label><label>上下文规则 <select id="context-policy"><option value="top_k">直接取前 K 块</option><option value="targeted_window">条件合并＋目标邻块（实验）</option></select></label></div>
             <div class="action-row"><button class="button primary" id="compare-btn">对比三路检索 <span>↗</span></button><button class="button secondary" id="search-btn">运行单路检索</button></div>

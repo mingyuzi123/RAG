@@ -17,6 +17,7 @@ from raglab.hybrid import reciprocal_rank_fusion
 from raglab.local_sources import import_document, local_source_file
 from raglab.multiquery import interleave_results
 from raglab.review import latest_reviews, save_review, score_review
+from raglab.query_rewrite import rewrite_query
 from raglab.service import answer, validate_request
 from raglab.store import build_index
 from raglab.web import scenario_history
@@ -143,6 +144,22 @@ class GenerationTests(TestCase):
         payload = json.loads(mocked.call_args.args[0].data)
         self.assertEqual(payload["messages"][1]["content"], "Agent 和 Task 的 tools 有什么区别？")
 
+    def test_query_rewrite_is_inspectable_and_rejects_non_english_output(self):
+        response = io.BytesIO(json.dumps({"model": "deepseek-flash", "choices": [
+            {"message": {"content": '{"query":"Agent tools versus Task tools scope override"}'}}],
+            "usage": {"total_tokens": 34}}).encode())
+        with patch.dict(os.environ, {"DEEPSEEK_API_KEY": "test-only"}):
+            with patch("raglab.generation.urlopen", return_value=response) as mocked:
+                result = rewrite_query("Agent 与 Task 的 tools 范围有什么区别？")
+        self.assertIn("Task tools", result["query"])
+        self.assertEqual(result["usage"]["total_tokens"], 34)
+        payload = json.loads(mocked.call_args.args[0].data)
+        self.assertIn("Agent 与 Task", payload["messages"][1]["content"])
+        with patch("raglab.query_rewrite.call_chat", return_value=(
+                {"choices": [{"message": {"content": '{"query":"任务范围"}'}}]}, "test")):
+            with self.assertRaisesRegex(ValueError, "English keyword"):
+                rewrite_query("任务范围？")
+
 
 class HybridTests(TestCase):
     def test_duplicate_candidate_gets_two_rank_signals(self):
@@ -207,6 +224,7 @@ class WorkflowTests(TestCase):
             self.assertEqual([item["id"] for item in trace["candidates"]], ["first", "second"])
             self.assertEqual(trace["selected_chunk_ids"], ["first"])
             self.assertEqual(trace["result"]["sources"][0]["chunk_id"], "first")
+            self.assertEqual(trace["query_metadata"]["source"], "original_question")
             saved = json.loads((root / "logs" / "requests.jsonl").read_text(encoding="utf-8"))
             self.assertEqual(saved["request_id"], trace["request_id"])
 
