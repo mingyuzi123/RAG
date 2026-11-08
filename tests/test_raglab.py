@@ -3,7 +3,7 @@
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 import io
 import json
 import os
@@ -20,7 +20,7 @@ from raglab.review import latest_reviews, save_review, score_review
 from raglab.query_rewrite import rewrite_query
 from raglab.service import answer, validate_request
 from raglab.store import build_index
-from raglab.web import scenario_history
+from raglab.web import scenario_history, create_handler
 from scripts.run_with_deepseek import load_local_env, require_key
 from scripts.summarize_answer_audit import summarize
 
@@ -41,6 +41,28 @@ class LocalKeyTests(TestCase):
 
 
 class LocalDocumentTests(TestCase):
+    def test_vector_web_request_accepts_original_question_provenance(self):
+        with TemporaryDirectory(dir=Path(__file__).resolve().parents[1]) as folder:
+            root = Path(folder)
+            manifest_path = root / "manifest.json"
+            manifest_path.write_text(json.dumps({
+                "id": "test", "upstream_commit": "fixed", "local_checkout": "docs",
+                "files": [], "source_url_template": "https://example.test/{path}"}), encoding="utf-8")
+            handler = object.__new__(create_handler(root, manifest_path))
+            payload = json.dumps({"question": "每个子任务最多重试几次？", "strategy": "vector",
+                                  "query_metadata": {"source": "original_question"}}).encode()
+            handler.path = "/api/search"
+            handler.headers = {"Host": "localhost", "Content-Type": "application/json",
+                               "Content-Length": str(len(payload))}
+            handler.rfile = io.BytesIO(payload)
+            handler._json = Mock()
+            handler._model = Mock(return_value=None)
+            with patch("raglab.web.retrieve", return_value=[]) as retrieve:
+                handler.do_POST()
+            self.assertEqual(handler._json.call_args.args[0], 200)
+            self.assertEqual(retrieve.call_args.args[1], "每个子任务最多重试几次？")
+            self.assertEqual(handler._json.call_args.args[1]["query_metadata"]["source"], "original_question")
+
     def test_import_replaces_by_name_without_losing_old_version(self):
         with TemporaryDirectory(dir=Path(__file__).resolve().parents[1]) as folder:
             root = Path(folder)

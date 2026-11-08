@@ -85,6 +85,7 @@ async function prepareQuery(payload, force = false) {
         prompt_version: state.queryRewrite.result.prompt_version,
         usage: state.queryRewrite.result.usage }
     : { source: payload.english_query ? 'manual' : 'original_question' };
+  if (payload.strategy === 'vector') payload.query_metadata = { source: 'original_question' };
   return payload;
 }
 
@@ -228,7 +229,7 @@ async function loadEvaluations() {
 async function compare() {
   try {
     const payload = input();
-    if (!payload.english_query) payload.strategy = 'hybrid';
+    payload.strategy = 'hybrid';
     setBusy(true, '正在运行三路检索，首次使用 E5 可能需要加载模型…');
     await prepareQuery(payload);
     const data = await api('/api/compare', payload);

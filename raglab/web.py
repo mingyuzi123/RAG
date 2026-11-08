@@ -214,7 +214,7 @@ def create_handler(root: Path, manifest_path: Path):
                 english_query = str(data.get("english_query", "")).strip() or None
                 query_metadata = data.get("query_metadata")
                 if query_metadata is not None and (not isinstance(query_metadata, dict)
-                        or query_metadata.get("source") not in ("auto", "manual")):
+                        or query_metadata.get("source") not in ("auto", "manual", "original_question")):
                     raise ValueError("Invalid query metadata")
                 top_k = int(data.get("top_k", 10))
                 strategy = str(data.get("strategy", "vector"))
