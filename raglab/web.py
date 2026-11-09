@@ -12,6 +12,7 @@ from .evaluation_view import load_dashboard
 from .local_sources import SCENARIO_ID, ensure_local_scenario, import_document, local_manifest_path, local_source_file
 from .review import latest_reviews, save_review
 from .query_rewrite import rewrite_query
+from .runtime import resolve_keyword_query, resolve_runtime
 from .service import answer, compare, recent_traces, retrieve, retrieve_targeted_window, status
 from .store import build_index, index_path, load_manifest
 from .vector import build_vectors, load_model
@@ -58,7 +59,7 @@ def scenario_context(root: Path, manifest_path: Path) -> dict:
         commit=manifest["upstream_commit"], path=path),
         "available": (source_root / path).is_file(),
         "sparse_pages": manifest.get("pdf_sparse_pages", {}).get(path, [])} for path in manifest["files"]]
-    return {"manifest": manifest, "db_path": db_path, "ui": ui,
+    return {"manifest": manifest, "db_path": db_path, "ui": ui, "retrieval": resolve_runtime(manifest),
             "examples": examples, "documents": documents}
 
 
@@ -138,6 +139,7 @@ def create_handler(root: Path, manifest_path: Path):
                              for item in contexts.values()]
                 self._json(200, {"scenario_id": manifest["id"], "scenarios": scenarios,
                                  "documents": context["documents"], "ui": context["ui"],
+                                 "retrieval": context["retrieval"],
                                  "examples": context["examples"], "status": status(root, manifest)})
             elif path == "/api/traces":
                 try:
@@ -211,42 +213,48 @@ def create_handler(root: Path, manifest_path: Path):
                         raise RuntimeError("Set DEEPSEEK_API_KEY before rewriting a query")
                     self._json(200, rewrite_query(question))
                     return
-                english_query = str(data.get("english_query", "")).strip() or None
+                english_query = data.get("english_query")
+                if english_query is not None and not isinstance(english_query, str):
+                    raise ValueError("english_query must be a string")
                 query_metadata = data.get("query_metadata")
                 if query_metadata is not None and (not isinstance(query_metadata, dict)
                         or query_metadata.get("source") not in ("auto", "manual", "original_question")):
                     raise ValueError("Invalid query metadata")
-                top_k = int(data.get("top_k", 10))
-                strategy = str(data.get("strategy", "vector"))
-                context_policy = str(data.get("context_policy", "top_k"))
+                settings = resolve_runtime(
+                    manifest, strategy="hybrid" if path == "/api/compare" else data.get("strategy"),
+                    top_k=data.get("top_k"), context_k=data.get("context_k"),
+                    context_policy="top_k" if path == "/api/compare" else data.get("context_policy"),
+                    auto_rewrite=data.get("auto_rewrite"))
+                top_k, context_k = settings["top_k"], settings["context_k"]
+                strategy, context_policy = settings["strategy"], settings["context_policy"]
                 subqueries = data.get("subqueries")
                 if subqueries is not None and not isinstance(subqueries, list):
                     raise ValueError("subqueries must be a list")
                 if path == "/api/ask" and not status(root, manifest)["deepseek_key_set"]:
                     raise RuntimeError("Set DEEPSEEK_API_KEY before starting the web server")
+                english_query, query_metadata = resolve_keyword_query(question, settings, english_query, query_metadata)
                 model = self._model() if strategy in ("vector", "hybrid", "decomposed") or path == "/api/compare" else None
                 if path == "/api/search":
                     if context_policy == "targeted_window":
                         baseline, child, selected, window = retrieve_targeted_window(
                             root, manifest, db_path, question, english_query or "", top_k,
-                            int(data.get("context_k", 3)), model)
+                            context_k, model)
                         result = {"strategy": "targeted_window", "candidates": selected,
                                   "baseline_candidates": baseline, "child_candidates": child,
-                                  "window": window, "query_metadata": query_metadata}
+                                  "window": window}
                     else:
                         result = {"strategy": strategy, "candidates": retrieve(
-                            db_path, question, strategy, english_query, top_k, model, subqueries),
-                            "query_metadata": query_metadata}
+                            db_path, question, strategy, english_query, top_k, model, subqueries)}
+                    result["selected_chunk_ids"] = [item["id"] for item in result["candidates"][:context_k]]
                 elif path == "/api/compare":
-                    result = {"strategies": compare(db_path, question, english_query or "", top_k, model),
-                              "query_metadata": query_metadata}
+                    result = {"strategies": compare(db_path, question, english_query or "", top_k, model)}
                 else:
-                    context_k = int(data.get("context_k", 3))
                     trace = answer(root, manifest, db_path, question, strategy, english_query,
                                    top_k, context_k, model, subqueries=subqueries,
                                    context_policy=context_policy, query_metadata=query_metadata)
                     result = {"trace": trace}
-                self._json(200, result)
+                self._json(200, {**result, "english_query": english_query, "query_metadata": query_metadata,
+                                 "retrieval": settings})
             except (ValueError, FileNotFoundError, RuntimeError, json.JSONDecodeError) as exc:
                 self._json(400, {"error": str(exc)})
             except Exception:

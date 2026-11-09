@@ -2,6 +2,7 @@
   "id": "pydantic-docs",
   "name": "Pydantic 数据模型文档",
   "language": "en",
+  "retrieval": {"strategy": "vector", "top_k": 10, "context_k": 3, "context_policy": "top_k", "auto_rewrite": true},
   "upstream_repo": "https://github.com/pydantic/pydantic.git",
   "upstream_commit": "ca3ddd1149bd3b14273922a29da174804496a055",
   "docs_version": "v2.13.2",

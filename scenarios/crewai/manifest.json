@@ -2,6 +2,7 @@
   "id": "crewai-docs",
   "name": "CrewAI 技术文档",
   "language": "en",
+  "retrieval": {"strategy": "vector", "top_k": 10, "context_k": 3, "context_policy": "top_k", "auto_rewrite": true},
   "upstream_repo": "https://github.com/crewAIInc/crewAI.git",
   "upstream_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
   "docs_version": "v1.15.28",

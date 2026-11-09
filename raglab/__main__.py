@@ -1,10 +1,11 @@
 """Small CLI for building, inspecting and querying a scenario index."""
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser, BooleanOptionalAction
 from pathlib import Path
 import json
 
-from .service import answer, retrieve
+from .runtime import resolve_keyword_query, resolve_runtime
+from .service import CONTEXT_POLICIES, STRATEGIES, answer, retrieve, retrieve_targeted_window
 from .store import build_index, index_path, load_manifest
 from .vector import build_vectors
 
@@ -25,12 +26,14 @@ def parser() -> ArgumentParser:
         sub = commands.add_parser(name)
         sub.add_argument("question")
         sub.add_argument("--search-query", help="Explicit English query for the keyword baseline")
-        sub.add_argument("--strategy", choices=("bm25", "vector", "hybrid", "decomposed"), default="bm25")
+        sub.add_argument("--strategy", choices=STRATEGIES, help="Override the scenario's retrieval strategy")
         sub.add_argument("--subquery", action="append", help="Repeat 2-4 times for decomposed retrieval")
-        sub.add_argument("--top-k", type=int, default=5)
+        sub.add_argument("--top-k", type=int)
+        sub.add_argument("--context-k", type=int)
+        sub.add_argument("--context-policy", choices=CONTEXT_POLICIES)
+        sub.add_argument("--auto-rewrite", action=BooleanOptionalAction,
+                         help="Allow automatic English keyword rewriting (uses DeepSeek API)")
         if name == "ask":
-            sub.add_argument("--context-k", type=int, default=3)
-            sub.add_argument("--context-policy", choices=("top_k", "targeted_window"), default="top_k")
             sub.add_argument("--model", help="DeepSeek model ID (default: DEEPSEEK_MODEL or deepseek-flash)")
     return cli
 
@@ -53,27 +56,34 @@ def main() -> None:
         print(json.dumps({"index": str(path), "scenario": manifest["id"],
                           "chunks": count}, ensure_ascii=False, indent=2))
         return
-    if args.command == "search":
-        try:
-            candidates = retrieve(db_path, args.question, args.strategy, args.search_query,
-                                  args.top_k, subqueries=args.subquery)
-        except (ValueError, FileNotFoundError) as exc:
-            raise SystemExit(str(exc)) from exc
-        print(json.dumps({"query": args.question, "search_query": (args.search_query or args.question) if args.strategy != "vector" else args.question,
-                          "strategy": args.strategy,
-                          "candidates": [{**item, "text": item["text"][:350]} for item in candidates]},
-                         ensure_ascii=False, indent=2))
-        return
-
     try:
-        trace = answer(ROOT, manifest, db_path, args.question, args.strategy,
-                       args.search_query, args.top_k, args.context_k, generation_model=args.model,
-                       subqueries=args.subquery, context_policy=args.context_policy,
-                       max_chars=args.max_chars)
-    except (ValueError, FileNotFoundError) as exc:
+        settings = resolve_runtime(manifest, strategy=args.strategy, top_k=args.top_k,
+                                   context_k=args.context_k, context_policy=args.context_policy,
+                                   auto_rewrite=args.auto_rewrite)
+        strategy, policy = settings["strategy"], settings["context_policy"]
+        top_k, context_k = settings["top_k"], settings["context_k"]
+        english_query, metadata = resolve_keyword_query(args.question, settings, args.search_query)
+        if args.command == "search":
+            if policy == "targeted_window":
+                _, _, candidates, _ = retrieve_targeted_window(ROOT, manifest, db_path, args.question,
+                    english_query, top_k, context_k, max_chars=args.max_chars)
+            else:
+                candidates = retrieve(db_path, args.question, strategy, english_query,
+                                      top_k, subqueries=args.subquery)
+            result = {"query": args.question, "search_query": english_query or args.question,
+                      "strategy": strategy, "retrieval": settings, "query_metadata": metadata,
+                      "selected_chunk_ids": [item["id"] for item in candidates[:context_k]],
+                      "candidates": [{**item, "text": item["text"][:350]} for item in candidates]}
+        else:
+            trace = answer(ROOT, manifest, db_path, args.question, strategy, english_query,
+                           top_k, context_k, generation_model=args.model,
+                           subqueries=args.subquery, context_policy=policy,
+                           max_chars=args.max_chars, query_metadata=metadata)
+            result = {"request_id": trace["request_id"], "retrieval": settings,
+                      "query_metadata": metadata, **trace["result"]}
+    except (ValueError, FileNotFoundError, RuntimeError) as exc:
         raise SystemExit(str(exc)) from exc
-    print(json.dumps({"request_id": trace["request_id"], **trace["result"]},
-                     ensure_ascii=False, indent=2))
+    print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@
 
 ## 当前进度
 
-后续按[第 5 阶段工程化与学习路线](docs/STAGE5_工程化与学习路线.md)推进：统一场景运行配置及 Web/API/CLI 行为、完善独立运行与故障恢复、新题与真实 PDF 验收。自动英文查询和条件父块/邻块已接入，后者仍是可选策略。
+5A 已统一 Web、API 和 CLI 的场景默认值与参数校验。接下来完善独立运行与故障恢复，再做新题与真实 PDF 验收。[第 5 阶段工程化与学习路线](docs/STAGE5_工程化与学习路线.md)
 
 **最新组合检查：**固定同一批 10 题，v3 自动查询配合现有条件父块/邻块规则，完整且有证据支持的回答由 6/10 到 7/10，新增 P06；实际上下文只在 P06 变化，预算未增加。该组合继续作为可选实验，详见[完整回答组合报告](reports/QUERY_CONTEXT_COMBINED_AUDIT.md)。
 
@@ -33,14 +33,14 @@ python scripts/validate_crewai_eval.py
 
 ```powershell
 python -m raglab index
-python -m raglab search "hierarchical process manager agent" --top-k 3
+python -m raglab search "hierarchical process manager agent" --strategy bm25 --top-k 3
 ```
 
 索引存于 `indexes/`，按场景、文档提交、文件清单和切块参数区分版本；检索结果显示块 ID、标题路径、原文行号和出处。当前英文 FTS5 基线不能可靠处理中文问题，因此问答时明确提供英文检索词：
 
 ```powershell
 $env:DEEPSEEK_API_KEY = "在本机设置你的密钥"
-python -m raglab ask "CrewAI 层级流程需要什么配置？" --search-query "hierarchical process manager_llm manager_agent" --top-k 5 --context-k 3
+python -m raglab ask "CrewAI 层级流程需要什么配置？" --strategy bm25 --search-query "hierarchical process manager_llm manager_agent" --top-k 5 --context-k 3
 ```
 
 密钥只从环境变量读取。可选环境变量 `DEEPSEEK_MODEL` 默认是 `deepseek-flash`。每次问答的候选块、实际送入模型的块、回答、引用编号、耗时与 token 用量保存在被 Git 忽略的 `logs/requests.jsonl`。`citation_numbers_valid` 仅检查引用编号是否指向提供过的块，**不能证明回答真的得到证据支持**。

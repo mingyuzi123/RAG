@@ -18,6 +18,7 @@ from raglab.local_sources import import_document, local_source_file
 from raglab.multiquery import interleave_results
 from raglab.review import latest_reviews, save_review, score_review
 from raglab.query_rewrite import rewrite_query
+from raglab.runtime import resolve_keyword_query, resolve_runtime
 from raglab.service import answer, validate_request
 from raglab.store import build_index
 from raglab.web import scenario_history, create_handler
@@ -83,6 +84,29 @@ class LocalDocumentTests(TestCase):
             self.assertEqual(second["display_names"][second["files"][0]], "guide.md")
             with self.assertRaises(ValueError):
                 local_source_file(root, "../manifest.json")
+
+
+class RuntimeConfigTests(TestCase):
+    def test_scene_defaults_explicit_override_and_invalid_context(self):
+        manifest = {"language": "en", "retrieval": {"top_k": 8, "context_k": 4}}
+        self.assertEqual(resolve_runtime(manifest)["context_k"], 4)
+        self.assertEqual(resolve_runtime(manifest, top_k=2)["context_k"], 2)
+        with self.assertRaisesRegex(ValueError, "context_k"):
+            resolve_runtime(manifest, top_k=2, context_k=4)
+        with self.assertRaisesRegex(ValueError, "hybrid"):
+            resolve_runtime(manifest, context_policy="targeted_window")
+
+    def test_rewrite_only_when_keyword_route_needs_it(self):
+        with patch("raglab.runtime.rewrite_query", return_value={"query": "task retry"}) as rewrite:
+            english = resolve_runtime({"language": "en"}, strategy="hybrid")
+            mixed = resolve_runtime({"language": "mixed"}, strategy="hybrid")
+            self.assertEqual(resolve_keyword_query("任务重试", english, "retry policy")[0], "retry policy")
+            self.assertEqual(resolve_keyword_query("任务重试", resolve_runtime({"language": "en"}))[0], None)
+            with self.assertRaisesRegex(ValueError, "英文检索词"):
+                resolve_keyword_query("任务重试", mixed)
+            rewrite.assert_not_called()
+            self.assertEqual(resolve_keyword_query("任务重试", english), ("task retry", {"source": "auto"}))
+            rewrite.assert_called_once_with("任务重试")
 
 
 class CorpusTests(TestCase):
