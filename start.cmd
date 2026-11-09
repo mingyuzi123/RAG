@@ -14,7 +14,7 @@ if errorlevel 1 goto failed
 goto done
 
 :lab
-call start_lab.cmd "%~2"
+call start_lab.cmd --offline "%~2"
 goto return_result
 
 :lab_live

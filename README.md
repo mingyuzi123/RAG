@@ -13,10 +13,11 @@
 | `.\start.cmd` | 免费 PDF 演示，点击 L02 的「运行单路检索」 |
 | `.\start.cmd --live` | 同一份演示 PDF，启用本机 `.env` 的 DeepSeek |
 | `.\start.cmd --check` | 免费 HTTP 自检，结束后退出 |
-| `.\start_lab.cmd` | 完整实验室，使用已有场景与本地知识库，端口 8765 |
-| `.\start_lab.cmd --live` | 完整实验室，启用 DeepSeek |
+| `.\start_lab.cmd` | 完整实验室，自动使用环境变量或本机 `.env` 的密钥，未配置时进入免费检索，端口 8765 |
+| `.\start_lab.cmd --live` | 完整实验室，要求已配置 DeepSeek 密钥 |
+| `.\start_lab.cmd --offline` | 完整实验室，强制使用免费检索 |
 
-完整实验室可以直接双击 [start_lab.cmd](start_lab.cmd)。从全新仓库启动时，先按[上手指南](docs/从零上手并学会这个RAG项目.md)下载官方资料并建立索引。PDF 演示自带独立建库流程，首次需要联网。Linux 或 macOS 可用对应虚拟环境的 Python 执行下面相同的脚本。手动启动的 Windows 命令为
+完整实验室可以直接双击 [start_lab.cmd](start_lab.cmd)。终端会显示「DeepSeek 已启用」或「免费检索」。启动只读取本机配置，生成回答、自动改写等功能在使用时才调用 API。从全新仓库启动时，先按[上手指南](docs/从零上手并学会这个RAG项目.md)下载官方资料并建立索引。PDF 演示自带独立建库流程，首次需要联网。Linux 或 macOS 可用对应虚拟环境的 Python 执行下面相同的脚本。手动启动的 Windows 命令为
 
 ```powershell
 python -m venv .venv

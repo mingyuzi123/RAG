@@ -46,7 +46,7 @@ python -m venv .venv
 要打开免费的检索页面：
 
 ```powershell
-.\start_lab.cmd
+.\start_lab.cmd --offline
 ```
 
 浏览器访问 [本地实验室](http://127.0.0.1:8765/)，保持启动窗口打开。免费起步时选择「BM25」并填英文检索词。若需要 E5 和混合检索，再安装向量依赖并建索引：
@@ -56,7 +56,7 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m raglab vector-index
 ```
 
-首次 E5 建库会下载固定版本模型，耗时取决于网络和机器。若要进行真实 DeepSeek 回答，在本机 `.env` 填好 `DEEPSEEK_API_KEY`。没有该文件时，先复制 `.env.example`。在原窗口按 `Ctrl+C` 停止服务，再运行 `.\start_lab.cmd --live`。端口被占用时可运行 `.\start_lab.cmd --live 8769` 并打开打印的地址。免费模式也可直接指定端口，例如 `.\start_lab.cmd 8769`。`.env` 被 Git 忽略。
+首次 E5 建库会下载固定版本模型，耗时取决于网络和机器。若要进行真实 DeepSeek 回答，在本机 `.env` 填好 `DEEPSEEK_API_KEY`。没有该文件时，先复制 `.env.example`。在原窗口按 `Ctrl+C` 停止服务，再双击 [start_lab.cmd](../start_lab.cmd)。看到「DeepSeek 已启用」即可在页面生成回答。未配密钥时会进入免费检索；需要强制检查是否已配置密钥，可运行 `.\start_lab.cmd --live`。端口被占用时可运行 `.\start_lab.cmd 8769`，打开终端打印的地址。`.env` 被 Git 忽略。
 
 要回顾 Pydantic，先按 [README 的第二场景步骤](../README.md#第二场景pydantic-文档)建库，再从现有页面切换知识库。
 

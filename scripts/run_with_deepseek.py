@@ -30,9 +30,13 @@ def load_local_env(path: Path = ENV_FILE) -> None:
             os.environ[name] = value
 
 
-def require_key() -> None:
+def has_key() -> bool:
     key = os.environ.get("DEEPSEEK_API_KEY", "").strip()
-    if not key or key.upper().startswith(("PASTE_", "YOUR_")):
+    return bool(key) and not key.upper().startswith(("PASTE_", "YOUR_"))
+
+
+def require_key() -> None:
+    if not has_key():
         raise RuntimeError(f"请先在 {ENV_FILE} 的 DEEPSEEK_API_KEY= 后填写真实密钥。")
 
 
@@ -49,7 +53,10 @@ def check_api() -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="用本地 .env 调用 DeepSeek 或启动 RAG 页面")
-    parser.add_argument("--check", action="store_true", help="发起一次小额 API 调用，验证密钥")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--check", action="store_true", help="发起一次小额 API 调用，验证密钥")
+    mode.add_argument("--auto-key", action="store_true", help="有本机密钥时启用 DeepSeek，否则只开启检索")
+    mode.add_argument("--offline", action="store_true", help="只开启检索，不读取 DeepSeek 密钥")
     parser.add_argument("--port", type=int, default=8765, help="页面端口，默认 8765")
     parser.add_argument("--scenario", type=Path,
                         default=ROOT / "scenarios" / "crewai" / "manifest.json",
@@ -58,8 +65,12 @@ def main() -> int:
     if not 1024 <= args.port <= 65535:
         parser.error("端口必须在 1024 到 65535 之间")
     try:
-        load_local_env()
-        require_key()
+        if not args.offline and ENV_FILE.is_file():
+            load_local_env()
+        if args.offline or (args.auto_key and not has_key()):
+            os.environ.pop("DEEPSEEK_API_KEY", None)
+        else:
+            require_key()
         if args.check:
             check_api()
         else:
@@ -67,7 +78,8 @@ def main() -> int:
             if local_model_cache.is_dir() and not os.environ.get("HF_HOME"):
                 os.environ["HF_HOME"] = str(local_model_cache.parent)
                 os.environ.setdefault("HF_HUB_OFFLINE", "1")
-            print(f"启动页面：http://127.0.0.1:{args.port}/", flush=True)
+            label = "DeepSeek 已启用" if has_key() else "免费检索"
+            print(f"启动页面：http://127.0.0.1:{args.port}/ · {label}", flush=True)
             return subprocess.call([sys.executable, "-m", "raglab.web", "--port", str(args.port),
                                     "--scenario", str(args.scenario)],
                                    cwd=ROOT)

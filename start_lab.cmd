@@ -8,26 +8,23 @@ call scripts\prepare_windows.cmd
 if errorlevel 1 goto failed
 echo Open the URL printed below. Keep this window open while using RAG Lab.
 set "RAG_LAB_PORT=8765"
-if /i "%~1"=="--live" goto live
-if not "%~1"=="" set "RAG_LAB_PORT=%~1"
-set "DEEPSEEK_API_KEY="
-if exist ".venv\hf\hub\" if not defined HF_HOME (
-    set "HF_HOME=%CD%\.venv\hf"
-    if not defined HF_HUB_OFFLINE set "HF_HUB_OFFLINE=1"
+set "RAG_KEY_MODE=--auto-key"
+if /i "%~1"=="--live" (
+    set "RAG_KEY_MODE="
+    shift
+) else if /i "%~1"=="--offline" (
+    set "RAG_KEY_MODE=--offline"
+    shift
 )
-"%RAG_PYTHON%" -m raglab.web --port "%RAG_LAB_PORT%"
-if errorlevel 1 goto failed
-goto done
-
-:live
-if not "%~2"=="" set "RAG_LAB_PORT=%~2"
-"%RAG_PYTHON%" scripts\run_with_deepseek.py --port "%RAG_LAB_PORT%"
+if not "%~1"=="" set "RAG_LAB_PORT=%~1"
+"%RAG_PYTHON%" scripts\run_with_deepseek.py %RAG_KEY_MODE% --port "%RAG_LAB_PORT%"
 if errorlevel 1 goto failed
 goto done
 
 :help
-echo start_lab.cmd [port]          Full project without an API key ^(default port 8765^)
-echo start_lab.cmd --live [port]   Full project with DeepSeek from .env or the environment
+echo start_lab.cmd [port]             Use DeepSeek when configured ^(default port 8765^)
+echo start_lab.cmd --live [port]      Require a DeepSeek key from .env or the environment
+echo start_lab.cmd --offline [port]   Free retrieval without DeepSeek
 goto done
 
 :failed
