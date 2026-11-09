@@ -4,6 +4,20 @@
 
 **第一次来这里？**从 [《从零上手并学会这个 RAG 项目》](docs/从零上手并学会这个RAG项目.md)开始：先跑免费检索，再沿真实代码和页面学习每个环节，最后完成四个可核对的练习。
 
+## 快速演示
+
+在仓库根目录运行以下 PowerShell 命令。已有虚拟环境时可直接使用该环境。
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-pdf-layout.txt
+.\.venv\Scripts\python.exe scripts/run_demo.py
+```
+
+打开 [演示页面](http://127.0.0.1:8789/)，点击**运行单路检索**。展开第一条的**查看完整证据块**，再点页码链接，核对第 6 页同一行的 Rating 和 Priority。首次运行会下载并核对固定版本 PDF，随后使用本地 BM25。可用 `--pdf` 指定已有的原始文件。
+
+带引用回答、无答案题与失败追踪的演示步骤在[演示指南](docs/DEMO.md)。
+
 ## 当前进度
 
 PDF 读序和表格对照已完成。结构化抽取在另一份公开 PDF 上使可回答题从 0/6 提升到 3/6，提升集中在表格题。原布局抽取作为默认，表格模式按场景选择。[6B 逐题验收](reports/STAGE6B_PDF_LAYOUT.md)

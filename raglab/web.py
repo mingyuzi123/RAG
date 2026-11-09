@@ -63,7 +63,7 @@ def scenario_context(root: Path, manifest_path: Path) -> dict:
             "examples": examples, "documents": documents}
 
 
-def create_handler(root: Path, manifest_path: Path):
+def create_handler(root: Path, manifest_path: Path, *, assets_root: Path | None = None):
     paths = [manifest_path, *(root / "scenarios").glob("*/manifest.json"),
              ensure_local_scenario(root)]
     contexts = {}
@@ -71,6 +71,7 @@ def create_handler(root: Path, manifest_path: Path):
         context = scenario_context(root, path)
         contexts[context["manifest"]["id"]] = context
     default_id = load_manifest(manifest_path)["id"]
+    web_root = assets_root or root / "web"
     model_cache = {"model": None}
 
     class Handler(BaseHTTPRequestHandler):
@@ -113,7 +114,7 @@ def create_handler(root: Path, manifest_path: Path):
             path = urlparse(self.path).path
             if path in ASSETS:
                 name, mime = ASSETS[path]
-                body = (root / "web" / name).read_bytes()
+                body = (web_root / name).read_bytes()
                 self._headers(200, mime, len(body))
                 self.wfile.write(body)
             elif path == "/api/source":

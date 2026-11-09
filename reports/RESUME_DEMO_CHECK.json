@@ -1,0 +1,98 @@
+{
+  "date": "2026-11-09",
+  "environment": {
+    "os": "Windows",
+    "python": "3.13.9",
+    "new_venv": true,
+    "pip_cache_used": true,
+    "seconds_to_no_key_http_check": 17.3
+  },
+  "free": {
+    "first_evidence": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=6",
+    "keyword_ready": true,
+    "vector_ready": false,
+    "key_enabled": false,
+    "failure_request_id": "b5b9611f-3fba-40d8-9c48-7f3a43be7e17",
+    "failure_stage": "input"
+  },
+  "live": {
+    "first_evidence": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=6",
+    "keyword_ready": true,
+    "vector_ready": false,
+    "key_enabled": true,
+    "failure_request_id": "62568001-ed75-42d0-8af4-fb0c0989f140",
+    "failure_stage": "input",
+    "live_answers": {
+      "L02": {
+        "request_id": "96128035-f323-4703-a06a-1c37380fef42",
+        "answer": "PR.PS-01 示例行的当前 Rating 是 **3 out of 5**，目标 Priority 是 **High**。[1]",
+        "model": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 525,
+          "completion_tokens": 112,
+          "total_tokens": 637,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 81
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 525
+        },
+        "cited_numbers": [
+          1
+        ],
+        "citation_numbers_valid": true,
+        "sources": [
+          {
+            "number": 1,
+            "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=6",
+            "heading_path": [
+              "NIST.SP.1301.pdf",
+              "第 6 页"
+            ],
+            "chunk_id": "f4974b0d7c618eb6c2af"
+          }
+        ]
+      },
+      "L08": {
+        "request_id": "3908814f-78cc-4640-8834-a28b7a905772",
+        "answer": "提供的来源没有给出负责审批变更的指定人员的真实姓名。[1] 只说明“Designated parties review change requests... and approve or deny each”，即由指定方审查并批准或拒绝变更请求，但未列出具体姓名。",
+        "model": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 356,
+          "completion_tokens": 144,
+          "total_tokens": 500,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 93
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 356
+        },
+        "cited_numbers": [
+          1
+        ],
+        "citation_numbers_valid": true,
+        "sources": [
+          {
+            "number": 1,
+            "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=6",
+            "heading_path": [
+              "NIST.SP.1301.pdf",
+              "第 6 页"
+            ],
+            "chunk_id": "c050dd11992264af5720"
+          }
+        ]
+      }
+    }
+  },
+  "review": {
+    "L02": "评分为 3/5，优先级 High。核对实际第 6 页同一行，答案和引用均支持。",
+    "L08": "根据同页摘录说明姓名不足，没有编造姓名。"
+  }
+}

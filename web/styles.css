@@ -71,6 +71,9 @@ h1 span{color:var(--accent)}
 .query-panel #sample-select{height:40px}
 .query-panel #auto-rewrite{width:auto;height:auto;vertical-align:middle}
 .query-panel .auto-rewrite-option{margin-top:12px}
+.candidate-detail{margin-top:8px;font-size:12px}
+.candidate-detail summary{cursor:pointer}
+.candidate-detail pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:16rem;overflow:auto}
 #subquery-field .button{margin-top:10px}
 .field-row{display:flex}
 .field-grow{flex:1}

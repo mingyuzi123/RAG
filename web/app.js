@@ -15,7 +15,8 @@ function message(text, isError = false) {
 }
 
 function setBusy(busy, label = '') {
-  for (const id of ['compare-btn', 'search-btn']) $(`#${id}`).disabled = busy;
+  $('#search-btn').disabled = busy;
+  $('#compare-btn').disabled = busy || !state.config?.status.vector_ready;
   $('#decompose-btn').disabled = busy || !state.keyAvailable;
   $('#rewrite-btn').disabled = busy || !state.keyAvailable;
   $('#ask-btn').disabled = busy || !state.keyAvailable;
@@ -100,7 +101,7 @@ function candidateCard(item, contextK) {
   const top = el('div', 'candidate-top');
   top.append(el('span', 'rank', `#${String(item.rank).padStart(2, '0')}`));
   if (item.rank <= contextK) top.append(el('span', 'chip', '进入上下文'));
-  if (gold) top.append(el('span', 'chip gold', '标注证据'));
+  if (gold) top.append(el('span', 'chip gold', item.page_number ? '标注页' : '标注章节'));
   if (item.retriever_ranks) {
     const ranks = Object.entries(item.retriever_ranks).map(([name, rank]) => `${name} #${rank}`).join(' · ');
     top.append(el('span', 'chip muted', ranks));
@@ -117,6 +118,11 @@ function candidateCard(item, contextK) {
   const snippet = el('p', '', item.text.replace(/\s+/g, ' ').slice(0, 180) + (item.text.length > 180 ? '…' : ''));
   const meta = el('div', 'candidate-meta', `${item.source_path.split('/').pop()} · ${sourceLocation(item)} · ${item.score}`);
   card.append(top, link, snippet, meta);
+  if (item.text.length > 180) {
+    const detail = el('details', 'candidate-detail');
+    detail.append(el('summary', '', '查看完整证据块'), el('pre', '', item.text));
+    card.append(detail);
+  }
   return card;
 }
 
@@ -224,7 +230,7 @@ async function compare() {
     rememberQuery(payload.question, data.english_query, data.query_metadata);
     renderResults(data.strategies, payload.context_k);
     showTab('explore');
-    message(`对比完成。检索词来源：${querySource(data.query_metadata)}。绿色边框标出预期证据章节。`);
+    message(`对比完成。检索词来源：${querySource(data.query_metadata)}。绿色边框标出与标注位置匹配的块。`);
   } catch (error) { message(error.message, true); }
   finally { setBusy(false); }
 }
@@ -464,6 +470,8 @@ async function initialize() {
     state.config = config;
     state.keyAvailable = config.status.deepseek_key_set;
     state.examples = config.examples;
+    $('#compare-btn').disabled = !config.status.vector_ready;
+    $('#compare-btn').title = config.status.vector_ready ? '' : '三路对比需要 E5 向量索引';
     $('#strategy').value = config.retrieval.strategy;
     $('#strategy').dispatchEvent(new Event('change'));
     $('#top-k').value = config.retrieval.top_k;
