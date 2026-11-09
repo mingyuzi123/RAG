@@ -4,13 +4,14 @@ from io import BytesIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest import TestCase, skipUnless
+from unittest.mock import patch
 import base64
 import importlib.util
 
 from raglab.generation import build_messages
 from raglab.local_sources import import_document, local_source_file
 from raglab.pdf_source import chunk_pdf, extract_pages
-from raglab.store import build_index, search
+from raglab.store import build_index, index_path, search
 
 
 HAS_PYPDF = importlib.util.find_spec("pypdf") is not None
@@ -42,6 +43,25 @@ def sample_pdf(*pages: str) -> bytes:
 
 @skipUnless(HAS_PYPDF, "install requirements-pdf.txt")
 class PdfSourceTests(TestCase):
+    def test_pack_short_preserves_page_boundaries_and_index_version(self):
+        pages = ["TITLE\n\n" + "a" * 190, "SECOND\n\n" + "b" * 190]
+        with TemporaryDirectory(dir=Path(__file__).resolve().parents[1]) as folder:
+            root = Path(folder)
+            pdf = root / "example.pdf"
+            pdf.write_bytes(b"placeholder for mocked page extraction")
+            args = (pdf, "example.pdf", "rev", "http://localhost/{path}", 200)
+            with patch("raglab.pdf_source.extract_pages", return_value=(pages, [])):
+                baseline = chunk_pdf(*args)
+                packed = chunk_pdf(*args, mode="pack_short")
+            self.assertEqual(len(baseline), 4)
+            self.assertEqual([c.page_number for c in packed], [1, 2])
+            self.assertEqual(packed[0].text, "TITLE\n" + "a" * 190)
+            self.assertEqual(packed[1].source_url, "http://localhost/example.pdf#page=2")
+            self.assertTrue(all(len(c.text) <= 200 for c in packed))
+            manifest = {"id": "test", "upstream_commit": "rev", "files": ["example.pdf"]}
+            self.assertNotEqual(index_path(root, manifest, 200),
+                                index_path(root, {**manifest, "pdf_chunking": "pack_short"}, 200))
+
     def test_two_pages_keep_real_page_links_in_retrieval_and_prompt(self):
         pdf = sample_pdf("Apples are red and belong to the first page of this manual.",
                          "Bananas are yellow and belong to the second page of this manual.")

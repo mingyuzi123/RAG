@@ -11,7 +11,7 @@ import subprocess
 import time
 
 from .corpus import Chunk, chunk_mdx
-from .pdf_source import chunk_pdf
+from .pdf_source import PDF_CHUNKING_MODES, chunk_pdf
 
 
 PARSER_VERSION = "mdx-heading-table-row-v3"
@@ -31,6 +31,11 @@ def index_path(root: Path, manifest: dict, max_chars: int, definition_items: boo
     settings = {"scenario": manifest["id"], "commit": manifest["upstream_commit"],
                 "files": manifest["files"], "max_chars": max_chars,
                 "parser": PARSER_VERSION if not definition_items else f"{PARSER_VERSION}-definition-items-v1"}
+    pdf_mode = manifest.get("pdf_chunking", "paragraph")
+    if pdf_mode not in PDF_CHUNKING_MODES:
+        raise ValueError(f"Unknown PDF chunking mode: {pdf_mode}")
+    if pdf_mode == "pack_short" and any(Path(path).suffix.lower() == ".pdf" for path in manifest["files"]):
+        settings["pdf_chunking"] = "pack-short-v1"
     digest = sha256(json.dumps(settings, sort_keys=True).encode()).hexdigest()[:12]
     return root / "indexes" / manifest["id"] / f"bm25-{digest}.db"
 
@@ -69,7 +74,8 @@ def build_index(root: Path, manifest: dict, max_chars: int = 1800,
         if source_file.suffix.lower() == ".pdf":
             chunks.extend(chunk_pdf(source_file, relative, manifest["upstream_commit"],
                                     manifest["source_url_template"], max_chars,
-                                    manifest.get("display_names", {}).get(relative)))
+                                    manifest.get("display_names", {}).get(relative),
+                                    mode=manifest.get("pdf_chunking", "paragraph")))
         else:
             chunks.extend(chunk_mdx(source_file, relative, manifest["upstream_commit"],
                                     manifest["source_url_template"], max_chars,

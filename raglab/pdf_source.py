@@ -12,6 +12,8 @@ MAX_PAGES = 200
 MAX_PAGE_STREAM = 4 * 1024 * 1024
 MAX_EXTRACTED_CHARS = 2_000_000
 MIN_PAGE_CHARS = 20
+PDF_CHUNKING_MODES = ("paragraph", "pack_short")
+SHORT_BLOCK_CHARS = 80
 
 
 def extract_pages(content: bytes) -> tuple[list[str], list[int]]:
@@ -53,10 +55,13 @@ def extract_pages(content: bytes) -> tuple[list[str], list[int]]:
 
 
 def chunk_pdf(file: Path, source_path: str, commit: str, url_template: str,
-              max_chars: int = 1800, title: str | None = None) -> list[Chunk]:
+              max_chars: int = 1800, title: str | None = None,
+              mode: str = "paragraph") -> list[Chunk]:
     """Split within each page only, preserving PDF page links and stable IDs."""
     if max_chars < 200:
         raise ValueError("max_chars must be at least 200")
+    if mode not in PDF_CHUNKING_MODES:
+        raise ValueError(f"Unknown PDF chunking mode: {mode}")
     pages, _ = extract_pages(file.read_bytes())
     title = title or file.stem
     base_url = url_template.format(commit=commit, path=source_path)
@@ -84,7 +89,9 @@ def chunk_pdf(file: Path, source_path: str, commit: str, url_template: str,
             number = line_offset + local_line
             line = raw.strip()
             if not line:
-                if pending:
+                keep_short = (mode == "pack_short" and
+                              len(" ".join(" ".join(text for _, text in pending).split())) <= SHORT_BLOCK_CHARS)
+                if pending and not keep_short:
                     flush()
                     pending = []
                 continue

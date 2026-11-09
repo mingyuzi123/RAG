@@ -1,0 +1,394 @@
+{
+  "pdf_sha256": "1e77c1bd63d1e15c48c870b7c17b7c9a2edf6bd5103b0940e72828515c9f1881",
+  "evidence_spans": {
+    "N01": [
+      [
+        2,
+        54,
+        55
+      ]
+    ],
+    "N02": [
+      [
+        4,
+        103,
+        107
+      ]
+    ],
+    "N03": [
+      [
+        5,
+        129,
+        130
+      ]
+    ],
+    "N04": [
+      [
+        5,
+        146,
+        146
+      ],
+      [
+        8,
+        235,
+        236
+      ]
+    ],
+    "N05": [
+      [
+        7,
+        195,
+        199
+      ]
+    ],
+    "N06": [
+      [
+        9,
+        259,
+        261
+      ]
+    ]
+  },
+  "modes": {
+    "paragraph": {
+      "chunks": 48,
+      "index": "bm25-adfc652473e5.db",
+      "rows": [
+        {
+          "id": "N01",
+          "covered_top10": true,
+          "covered_top3": true,
+          "top3": [
+            {
+              "page": 2,
+              "start": 54,
+              "end": 60,
+              "visible_chars": 829
+            },
+            {
+              "page": 3,
+              "start": 88,
+              "end": 92,
+              "visible_chars": 357
+            },
+            {
+              "page": 9,
+              "start": 255,
+              "end": 255,
+              "visible_chars": 70
+            }
+          ],
+          "overlapping_ranks": [
+            1
+          ]
+        },
+        {
+          "id": "N02",
+          "covered_top10": false,
+          "covered_top3": false,
+          "top3": [
+            {
+              "page": 9,
+              "start": 255,
+              "end": 255,
+              "visible_chars": 70
+            },
+            {
+              "page": 2,
+              "start": 52,
+              "end": 52,
+              "visible_chars": 61
+            },
+            {
+              "page": 7,
+              "start": 201,
+              "end": 203,
+              "visible_chars": 216
+            }
+          ],
+          "overlapping_ranks": [
+            10
+          ]
+        },
+        {
+          "id": "N03",
+          "covered_top10": true,
+          "covered_top3": true,
+          "top3": [
+            {
+              "page": 5,
+              "start": 128,
+              "end": 139,
+              "visible_chars": 855
+            },
+            {
+              "page": 2,
+              "start": 52,
+              "end": 52,
+              "visible_chars": 61
+            },
+            {
+              "page": 1,
+              "start": 1,
+              "end": 2,
+              "visible_chars": 66
+            }
+          ],
+          "overlapping_ranks": [
+            1
+          ]
+        },
+        {
+          "id": "N04",
+          "covered_top10": false,
+          "covered_top3": false,
+          "top3": [
+            {
+              "page": 7,
+              "start": 201,
+              "end": 203,
+              "visible_chars": 216
+            },
+            {
+              "page": 8,
+              "start": 220,
+              "end": 220,
+              "visible_chars": 7
+            },
+            {
+              "page": 8,
+              "start": 222,
+              "end": 222,
+              "visible_chars": 121
+            }
+          ],
+          "overlapping_ranks": []
+        },
+        {
+          "id": "N05",
+          "covered_top10": false,
+          "covered_top3": false,
+          "top3": [
+            {
+              "page": 7,
+              "start": 201,
+              "end": 203,
+              "visible_chars": 216
+            },
+            {
+              "page": 3,
+              "start": 62,
+              "end": 62,
+              "visible_chars": 6
+            },
+            {
+              "page": 9,
+              "start": 252,
+              "end": 252,
+              "visible_chars": 33
+            }
+          ],
+          "overlapping_ranks": []
+        },
+        {
+          "id": "N06",
+          "covered_top10": true,
+          "covered_top3": true,
+          "top3": [
+            {
+              "page": 9,
+              "start": 252,
+              "end": 252,
+              "visible_chars": 33
+            },
+            {
+              "page": 9,
+              "start": 267,
+              "end": 267,
+              "visible_chars": 185
+            },
+            {
+              "page": 9,
+              "start": 257,
+              "end": 265,
+              "visible_chars": 1038
+            }
+          ],
+          "overlapping_ranks": [
+            3
+          ]
+        }
+      ]
+    },
+    "pack_short": {
+      "chunks": 38,
+      "index": "bm25-380dfe408c1a.db",
+      "rows": [
+        {
+          "id": "N01",
+          "covered_top10": true,
+          "covered_top3": false,
+          "top3": [
+            {
+              "page": 3,
+              "start": 88,
+              "end": 92,
+              "visible_chars": 357
+            },
+            {
+              "page": 9,
+              "start": 252,
+              "end": 255,
+              "visible_chars": 104
+            },
+            {
+              "page": 2,
+              "start": 34,
+              "end": 37,
+              "visible_chars": 84
+            }
+          ],
+          "overlapping_ranks": [
+            4
+          ]
+        },
+        {
+          "id": "N02",
+          "covered_top10": false,
+          "covered_top3": false,
+          "top3": [
+            {
+              "page": 9,
+              "start": 252,
+              "end": 255,
+              "visible_chars": 104
+            },
+            {
+              "page": 7,
+              "start": 201,
+              "end": 203,
+              "visible_chars": 216
+            },
+            {
+              "page": 2,
+              "start": 34,
+              "end": 37,
+              "visible_chars": 84
+            }
+          ],
+          "overlapping_ranks": [
+            6
+          ]
+        },
+        {
+          "id": "N03",
+          "covered_top10": true,
+          "covered_top3": true,
+          "top3": [
+            {
+              "page": 5,
+              "start": 128,
+              "end": 139,
+              "visible_chars": 855
+            },
+            {
+              "page": 2,
+              "start": 34,
+              "end": 37,
+              "visible_chars": 84
+            },
+            {
+              "page": 7,
+              "start": 201,
+              "end": 203,
+              "visible_chars": 216
+            }
+          ],
+          "overlapping_ranks": [
+            1
+          ]
+        },
+        {
+          "id": "N04",
+          "covered_top10": false,
+          "covered_top3": false,
+          "top3": [
+            {
+              "page": 7,
+              "start": 201,
+              "end": 203,
+              "visible_chars": 216
+            },
+            {
+              "page": 5,
+              "start": 152,
+              "end": 153,
+              "visible_chars": 223
+            },
+            {
+              "page": 6,
+              "start": 175,
+              "end": 178,
+              "visible_chars": 425
+            }
+          ],
+          "overlapping_ranks": []
+        },
+        {
+          "id": "N05",
+          "covered_top10": false,
+          "covered_top3": false,
+          "top3": [
+            {
+              "page": 7,
+              "start": 201,
+              "end": 203,
+              "visible_chars": 216
+            },
+            {
+              "page": 6,
+              "start": 180,
+              "end": 184,
+              "visible_chars": 286
+            },
+            {
+              "page": 9,
+              "start": 252,
+              "end": 255,
+              "visible_chars": 104
+            }
+          ],
+          "overlapping_ranks": []
+        },
+        {
+          "id": "N06",
+          "covered_top10": true,
+          "covered_top3": true,
+          "top3": [
+            {
+              "page": 9,
+              "start": 252,
+              "end": 255,
+              "visible_chars": 104
+            },
+            {
+              "page": 9,
+              "start": 267,
+              "end": 267,
+              "visible_chars": 185
+            },
+            {
+              "page": 9,
+              "start": 257,
+              "end": 265,
+              "visible_chars": 1038
+            }
+          ],
+          "overlapping_ranks": [
+            3
+          ]
+        }
+      ]
+    }
+  }
+}
