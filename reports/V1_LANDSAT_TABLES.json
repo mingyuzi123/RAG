@@ -1,0 +1,921 @@
+{
+  "source": "https://pubs.usgs.gov/fs/2019/3008/fs20193008.pdf",
+  "pdf_sha256": "d4ac4b2d7c2439ef2df79dcb03f01092d2b0bbd722f0e1c169ec8755b9e027d5",
+  "case_sha256": "7368d326f5c3858f7051a8da5b129ecd81a838252d5f8a71b2e0cfd9782c9d8e",
+  "settings": {
+    "strategy": "vector",
+    "top_k": 10,
+    "context_k": 3,
+    "context_policy": "top_k",
+    "auto_rewrite": false
+  },
+  "pdf_extraction": "ordered_tables",
+  "trace_log": "logs/stage5c-p7pe4mnl/logs/requests.jsonl",
+  "import": {
+    "scenario_id": "local-docs",
+    "chunks": 10,
+    "status": {
+      "scenario": "local-docs",
+      "source_commit": "db0e15e53323fd6621e33f6b9800c61ed8d7735967716d15078f55b50b0a2852",
+      "keyword_ready": true,
+      "vector_ready": true,
+      "deepseek_key_set": true
+    },
+    "vector_error": null,
+    "sparse_pages": []
+  },
+  "source_bytes_verified": true,
+  "rows": [
+    {
+      "id": "U01",
+      "request_id": "7c2b5b97-5ce6-4e56-ad58-76f71008bb6e",
+      "candidate_pages": [
+        2,
+        2,
+        2,
+        1,
+        2,
+        1,
+        2,
+        2,
+        2,
+        2
+      ],
+      "selected": [
+        {
+          "id": "fbaa754248702bb68442",
+          "page_number": 2,
+          "start_line": 201,
+          "end_line": 214,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        },
+        {
+          "id": "414575a2e85b8d11869b",
+          "page_number": 2,
+          "start_line": 254,
+          "end_line": 255,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        },
+        {
+          "id": "e07ffb88d3d14649b84f",
+          "page_number": 2,
+          "start_line": 130,
+          "end_line": 199,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        }
+      ],
+      "answer": "提供的来源不足，无法回答。这些摘录中没有包含 Landsat 9 简报 Quick Facts 里的轨道高度和倾角数据。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 941,
+        "completion_tokens": 174,
+        "total_tokens": 1115,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 144
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 941
+      },
+      "cited_numbers": [],
+      "citation_numbers_valid": false,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "fbaa754248702bb68442"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "414575a2e85b8d11869b"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "e07ffb88d3d14649b84f"
+        }
+      ],
+      "generation_ms": 2569.36,
+      "request_ms": 2605.42
+    },
+    {
+      "id": "U02",
+      "request_id": "a2afcdc3-6e75-4e83-9cf5-955943ac8e76",
+      "candidate_pages": [
+        2,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        1
+      ],
+      "selected": [
+        {
+          "id": "fbaa754248702bb68442",
+          "page_number": 2,
+          "start_line": 201,
+          "end_line": 214,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        },
+        {
+          "id": "38ab35e3f6fdd8fb75b0",
+          "page_number": 1,
+          "start_line": 54,
+          "end_line": 82,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=1"
+        },
+        {
+          "id": "6c9fb6b33d9c0b2d1f6a",
+          "page_number": 2,
+          "start_line": 84,
+          "end_line": 129,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        }
+      ],
+      "answer": "Landsat 9 的发射及在轨检查由 **NASA** 负责。[2]\n\n在 NASA 完成在轨检查后，**USGS** 负责地面系统、飞行运行、数据处理和数据产品分发。[2]",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 1332,
+        "completion_tokens": 173,
+        "total_tokens": 1505,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 123
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1332
+      },
+      "cited_numbers": [
+        2
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "fbaa754248702bb68442"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=1",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 1 页"
+          ],
+          "chunk_id": "38ab35e3f6fdd8fb75b0"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "6c9fb6b33d9c0b2d1f6a"
+        }
+      ],
+      "generation_ms": 2562.83,
+      "request_ms": 2594.88
+    },
+    {
+      "id": "U03",
+      "request_id": "bd9bfd59-0abc-4361-859a-c492da424508",
+      "candidate_pages": [
+        2,
+        1,
+        2,
+        2,
+        2,
+        1,
+        2,
+        2,
+        2,
+        2
+      ],
+      "selected": [
+        {
+          "id": "fbaa754248702bb68442",
+          "page_number": 2,
+          "start_line": 201,
+          "end_line": 214,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        },
+        {
+          "id": "38ab35e3f6fdd8fb75b0",
+          "page_number": 1,
+          "start_line": 54,
+          "end_line": 82,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=1"
+        },
+        {
+          "id": "6c9fb6b33d9c0b2d1f6a",
+          "page_number": 2,
+          "start_line": 84,
+          "end_line": 129,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        }
+      ],
+      "answer": "Landsat 9 的单星重访周期是 **16 天**；它与 Landsat 8 的时间错开 **8 天**，两星联合可实现每 **8 天**覆盖地球表面一次 [2]。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 1325,
+        "completion_tokens": 166,
+        "total_tokens": 1491,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 115
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1325
+      },
+      "cited_numbers": [
+        2
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "fbaa754248702bb68442"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=1",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 1 页"
+          ],
+          "chunk_id": "38ab35e3f6fdd8fb75b0"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "6c9fb6b33d9c0b2d1f6a"
+        }
+      ],
+      "generation_ms": 2862.97,
+      "request_ms": 2878.04
+    },
+    {
+      "id": "U04",
+      "request_id": "4b65808e-bb83-4522-8b56-a089f1287ce4",
+      "candidate_pages": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        1,
+        2,
+        2,
+        2,
+        1
+      ],
+      "selected": [
+        {
+          "id": "414575a2e85b8d11869b",
+          "page_number": 2,
+          "start_line": 254,
+          "end_line": 255,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        },
+        {
+          "id": "1495e1b4123c30555434",
+          "page_number": 2,
+          "start_line": 236,
+          "end_line": 253,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        },
+        {
+          "id": "0450b8c0f4ae5b023afd",
+          "page_number": 2,
+          "start_line": 216,
+          "end_line": 235,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        }
+      ],
+      "answer": "按表 1，Landsat 9 的 Band 8（Panchromatic，全色波段）波长范围为 **0.503–0.676 微米**，空间分辨率为 **15 米**。[2]",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 1484,
+        "completion_tokens": 172,
+        "total_tokens": 1656,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 121
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1484
+      },
+      "cited_numbers": [
+        2
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "414575a2e85b8d11869b"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "1495e1b4123c30555434"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "0450b8c0f4ae5b023afd"
+        }
+      ],
+      "generation_ms": 2039.21,
+      "request_ms": 2075.84
+    },
+    {
+      "id": "U05",
+      "request_id": "3dccb401-39af-426c-98d3-423b82562e1d",
+      "candidate_pages": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        1,
+        1
+      ],
+      "selected": [
+        {
+          "id": "414575a2e85b8d11869b",
+          "page_number": 2,
+          "start_line": 254,
+          "end_line": 255,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        },
+        {
+          "id": "1495e1b4123c30555434",
+          "page_number": 2,
+          "start_line": 236,
+          "end_line": 253,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        },
+        {
+          "id": "0450b8c0f4ae5b023afd",
+          "page_number": 2,
+          "start_line": 216,
+          "end_line": 235,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        }
+      ],
+      "answer": "表 1 中：\n\n- **Band 10（TIR 1）**：波长范围为 **10.60–11.19 μm**，表中分辨率栏为 **100ᵃ m** [2]。  \n- **Band 11（TIR 2）**：波长范围为 **11.50–12.51 μm**，表中分辨率栏为 **100ᵃ m** [1]。  \n\n因此，两个热红外波段在表中列出的分辨率均为 **100ᵃ m** [1][2]。但摘录未给出脚注 **a** 的说明，也未明确区分“采集分辨率”和“重采样分辨率”的分别数值；仅凭这些来源无法确认二者分别是多少。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 1492,
+        "completion_tokens": 886,
+        "total_tokens": 2378,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 732
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1492
+      },
+      "cited_numbers": [
+        1,
+        2
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "414575a2e85b8d11869b"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "1495e1b4123c30555434"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "0450b8c0f4ae5b023afd"
+        }
+      ],
+      "generation_ms": 7746.72,
+      "request_ms": 7764.56
+    },
+    {
+      "id": "U06",
+      "request_id": "362381f9-48e3-414f-884c-ebef0ab90a7b",
+      "candidate_pages": [
+        2,
+        1,
+        2,
+        2,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "selected": [
+        {
+          "id": "6c9fb6b33d9c0b2d1f6a",
+          "page_number": 2,
+          "start_line": 84,
+          "end_line": 129,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        },
+        {
+          "id": "38ab35e3f6fdd8fb75b0",
+          "page_number": 1,
+          "start_line": 54,
+          "end_line": 82,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=1"
+        },
+        {
+          "id": "0450b8c0f4ae5b023afd",
+          "page_number": 2,
+          "start_line": 216,
+          "end_line": 235,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        }
+      ],
+      "answer": "相较 Landsat 8，Landsat 9 的 OLI 量化精度从 **12 位提高到 14 位**。[1]",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 1754,
+        "completion_tokens": 120,
+        "total_tokens": 1874,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 87
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1754
+      },
+      "cited_numbers": [
+        1
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "6c9fb6b33d9c0b2d1f6a"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=1",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 1 页"
+          ],
+          "chunk_id": "38ab35e3f6fdd8fb75b0"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "0450b8c0f4ae5b023afd"
+        }
+      ],
+      "generation_ms": 2174.89,
+      "request_ms": 2190.79
+    },
+    {
+      "id": "U07",
+      "request_id": "b7710ee4-ff56-499a-b807-9de45aced4e5",
+      "candidate_pages": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        1,
+        1
+      ],
+      "selected": [
+        {
+          "id": "fbaa754248702bb68442",
+          "page_number": 2,
+          "start_line": 201,
+          "end_line": 214,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        },
+        {
+          "id": "0450b8c0f4ae5b023afd",
+          "page_number": 2,
+          "start_line": 216,
+          "end_line": 235,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        },
+        {
+          "id": "414575a2e85b8d11869b",
+          "page_number": 2,
+          "start_line": 254,
+          "end_line": 255,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        }
+      ],
+      "answer": "提供的来源不足以回答该问题。摘录中仅包含联系方式以及 OLI/TIRS 的波段、波长和分辨率信息 [2][3]，没有给出两台仪器的任务设计寿命，也没有给出航天器耗材年限。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 1048,
+        "completion_tokens": 405,
+        "total_tokens": 1453,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 356
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1048
+      },
+      "cited_numbers": [
+        2,
+        3
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "fbaa754248702bb68442"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "0450b8c0f4ae5b023afd"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "414575a2e85b8d11869b"
+        }
+      ],
+      "generation_ms": 4217.38,
+      "request_ms": 4232.38
+    },
+    {
+      "id": "U08",
+      "request_id": "a0e5aa68-70a7-46b8-8f1c-e1cfdb7e6741",
+      "candidate_pages": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        1,
+        2,
+        2,
+        1
+      ],
+      "selected": [
+        {
+          "id": "414575a2e85b8d11869b",
+          "page_number": 2,
+          "start_line": 254,
+          "end_line": 255,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        },
+        {
+          "id": "0450b8c0f4ae5b023afd",
+          "page_number": 2,
+          "start_line": 216,
+          "end_line": 235,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        },
+        {
+          "id": "e77cb9d899fd8f5e24a6",
+          "page_number": 2,
+          "start_line": 257,
+          "end_line": 260,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        }
+      ],
+      "answer": "提供的来源中没有图 1 的说明，也没有说明“自然色图”具体由哪三个波段合成，因此**无法仅凭这些摘录确定图 1 用了哪三个波段**。\n\n表 1 只给出了各波段的空间分辨率：Band 2—Blue 为 30 m，Band 3—Green 为 30 m，Band 4—Red 为 30 m [2]。如果图 1 的自然色图采用的是常见的红、绿、蓝三波段（即 Band 4、Band 3、Band 2），那么这三个波段的空间分辨率均为 **30 m** [2]；但摘录本身并未证明图 1 确实使用了这三个波段。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 980,
+        "completion_tokens": 614,
+        "total_tokens": 1594,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 464
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 980
+      },
+      "cited_numbers": [
+        2
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "414575a2e85b8d11869b"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "0450b8c0f4ae5b023afd"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "e77cb9d899fd8f5e24a6"
+        }
+      ],
+      "generation_ms": 5792.62,
+      "request_ms": 5830.96
+    },
+    {
+      "id": "U09",
+      "request_id": "10ed759d-b144-4e90-97c2-b81e8fbf9735",
+      "candidate_pages": [
+        2,
+        1,
+        2,
+        2,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "selected": [
+        {
+          "id": "fbaa754248702bb68442",
+          "page_number": 2,
+          "start_line": 201,
+          "end_line": 214,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        },
+        {
+          "id": "38ab35e3f6fdd8fb75b0",
+          "page_number": 1,
+          "start_line": 54,
+          "end_line": 82,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=1"
+        },
+        {
+          "id": "6c9fb6b33d9c0b2d1f6a",
+          "page_number": 2,
+          "start_line": 84,
+          "end_line": 129,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        }
+      ],
+      "answer": "不能确定。所给摘录只说明 USGS 负责 Landsat 9 的地面系统、飞行运营、数据处理和产品分发 [2]，以及 Landsat 9 数据产品可免费下载 [3]；其中没有给出地面系统每日运营费用的任何美元金额或可用于计算费用的数据。因此，仅据这份说明无法确定其一天的实际运营费用。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 1321,
+        "completion_tokens": 411,
+        "total_tokens": 1732,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 332
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1321
+      },
+      "cited_numbers": [
+        2,
+        3
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "fbaa754248702bb68442"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=1",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 1 页"
+          ],
+          "chunk_id": "38ab35e3f6fdd8fb75b0"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "6c9fb6b33d9c0b2d1f6a"
+        }
+      ],
+      "generation_ms": 4529.83,
+      "request_ms": 4547.63
+    },
+    {
+      "id": "U10",
+      "request_id": "5015bc04-bf21-4c6a-a516-332f35ff450b",
+      "candidate_pages": [
+        2,
+        1,
+        2,
+        2,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "selected": [
+        {
+          "id": "fbaa754248702bb68442",
+          "page_number": 2,
+          "start_line": 201,
+          "end_line": 214,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        },
+        {
+          "id": "38ab35e3f6fdd8fb75b0",
+          "page_number": 1,
+          "start_line": 54,
+          "end_line": 82,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=1"
+        },
+        {
+          "id": "6c9fb6b33d9c0b2d1f6a",
+          "page_number": 2,
+          "start_line": 84,
+          "end_line": 129,
+          "source_url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2"
+        }
+      ],
+      "answer": "在提供的摘录中，**没有给出 Landsat 9 正式关机的确定日期，也没有具体到哪一天**。摘录仅提到 OLI 和 TIRS 具有 **5 年任务设计寿命**，而航天器有 **10 年以上消耗品**[3]。因此，仅凭这些来源无法确定 Landsat 9 的正式关机日期。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 1318,
+        "completion_tokens": 312,
+        "total_tokens": 1630,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 232
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1318
+      },
+      "cited_numbers": [
+        3
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "fbaa754248702bb68442"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=1",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 1 页"
+          ],
+          "chunk_id": "38ab35e3f6fdd8fb75b0"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/f94a2d0dfc330b1e7e8a.pdf#page=2",
+          "heading_path": [
+            "fs20193008.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "6c9fb6b33d9c0b2d1f6a"
+        }
+      ],
+      "generation_ms": 3940.07,
+      "request_ms": 3968.69
+    }
+  ]
+}

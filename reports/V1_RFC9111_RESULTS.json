@@ -1,0 +1,929 @@
+{
+  "source": "https://www.rfc-editor.org/rfc/rfc9111.pdf",
+  "pdf_sha256": "2663227a94ec8a81892a02f5697fc15c578571cdee96407adb5c60a60236c76f",
+  "case_sha256": "d7f9d43dcbb7829729b3cd44b9329ab40515d0b445846bd235d3bc6425123a4f",
+  "settings": {
+    "strategy": "vector",
+    "top_k": 10,
+    "context_k": 3,
+    "context_policy": "top_k",
+    "auto_rewrite": false
+  },
+  "pdf_extraction": "layout",
+  "trace_log": "logs/stage5c-poi69rrn/logs/requests.jsonl",
+  "import": {
+    "scenario_id": "local-docs",
+    "chunks": 533,
+    "status": {
+      "scenario": "local-docs",
+      "source_commit": "c0ccec31b1fc3633dc907506c1fa3bdcb9af359a8cdb37df5a627ce595faa364",
+      "keyword_ready": true,
+      "vector_ready": true,
+      "deepseek_key_set": true
+    },
+    "vector_error": null,
+    "sparse_pages": []
+  },
+  "source_bytes_verified": true,
+  "rows": [
+    {
+      "id": "R01",
+      "request_id": "ae213ee8-8a79-4d12-8812-182ff5a2674f",
+      "candidate_pages": [
+        11,
+        5,
+        31,
+        3,
+        3,
+        32,
+        32,
+        33,
+        2,
+        31
+      ],
+      "selected": [
+        {
+          "id": "80066235961232584eec",
+          "page_number": 11,
+          "start_line": 614,
+          "end_line": 614,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=11"
+        },
+        {
+          "id": "23a230d6b039da089539",
+          "page_number": 5,
+          "start_line": 286,
+          "end_line": 286,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=5"
+        },
+        {
+          "id": "b08972396fbc65ed8b3f",
+          "page_number": 31,
+          "start_line": 1770,
+          "end_line": 1771,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=31"
+        }
+      ],
+      "answer": "按提供的来源：如果一个已存储响应的 `Vary` 头字段值包含 `\"*\"`，它**总是匹配失败** [1]。\n\n但“`Vary` 指定的某个请求头在两次请求中都缺失时是否能匹配”，这些来源没有提供足够依据，无法据此回答。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 394,
+        "completion_tokens": 243,
+        "total_tokens": 637,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 178
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 394
+      },
+      "cited_numbers": [
+        1
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=11",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 11 页"
+          ],
+          "chunk_id": "80066235961232584eec"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=5",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "23a230d6b039da089539"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=31",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 31 页"
+          ],
+          "chunk_id": "b08972396fbc65ed8b3f"
+        }
+      ],
+      "generation_ms": 3229.61,
+      "request_ms": 3267.98
+    },
+    {
+      "id": "R02",
+      "request_id": "1f1cf35c-8294-4bbc-bcd2-4149cb49d4f1",
+      "candidate_pages": [
+        25,
+        35,
+        7,
+        25,
+        2,
+        10,
+        27,
+        3,
+        13,
+        13
+      ],
+      "selected": [
+        {
+          "id": "b2289fa978fa9a3064bc",
+          "page_number": 25,
+          "start_line": 1414,
+          "end_line": 1419,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=25"
+        },
+        {
+          "id": "7a1eba62572adf2a65da",
+          "page_number": 35,
+          "start_line": 1968,
+          "end_line": 1970,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=35"
+        },
+        {
+          "id": "6af3497a5fcc529a22e5",
+          "page_number": 7,
+          "start_line": 377,
+          "end_line": 394,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=7"
+        }
+      ],
+      "answer": "仅凭提供的摘录，无法完整列出“三种”响应指令的名称。摘录能确认的是：\n\n- `s-maxage` 允许共享缓存复用针对含 `Authorization` 请求的缓存响应，但受最大年龄和再验证要求约束 [1]。\n- 对于带 `s-maxage` 的过期响应，共享缓存 **不得** 在源服务器成功验证之前复用它来满足另一个请求 [1]。\n- 共享缓存处理含 `Authorization` 的请求时，要求响应中存在显式允许共享缓存的响应指令；摘录提到了 `public`、`s-maxage` 等可作为可缓存条件，但没有给出完整的三种指令名单 [3]。\n\n因此，这些摘录不足以可靠回答“三种指令分别是什么”；只能确认 `s-maxage` 是其中之一及其过期复用限制。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 765,
+        "completion_tokens": 1899,
+        "total_tokens": 2664,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 1722
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 765
+      },
+      "cited_numbers": [
+        1,
+        3
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=25",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 25 页"
+          ],
+          "chunk_id": "b2289fa978fa9a3064bc"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=35",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 35 页"
+          ],
+          "chunk_id": "7a1eba62572adf2a65da"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=7",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 7 页"
+          ],
+          "chunk_id": "6af3497a5fcc529a22e5"
+        }
+      ],
+      "generation_ms": 14948.44,
+      "request_ms": 14977.53
+    },
+    {
+      "id": "R03",
+      "request_id": "88a07191-a14d-4dab-9401-8a2fc898d47e",
+      "candidate_pages": [
+        17,
+        10,
+        7,
+        17,
+        34,
+        19,
+        16,
+        9,
+        19,
+        9
+      ],
+      "selected": [
+        {
+          "id": "b8598d2ad879c710675a",
+          "page_number": 17,
+          "start_line": 968,
+          "end_line": 969,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=17"
+        },
+        {
+          "id": "d95b8e328108dde52638",
+          "page_number": 10,
+          "start_line": 545,
+          "end_line": 545,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=10"
+        },
+        {
+          "id": "4ac259c029d1efae6d79",
+          "page_number": 7,
+          "start_line": 375,
+          "end_line": 375,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=7"
+        }
+      ],
+      "answer": "提供的来源不足以回答该问题。[1] 只说明：缓存对条件请求响应的处理取决于其状态码，但未给出返回 304 或返回带内容的完整响应时各自应如何处理的规则。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 314,
+        "completion_tokens": 252,
+        "total_tokens": 566,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 206
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 314
+      },
+      "cited_numbers": [
+        1
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=17",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 17 页"
+          ],
+          "chunk_id": "b8598d2ad879c710675a"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=10",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 10 页"
+          ],
+          "chunk_id": "d95b8e328108dde52638"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=7",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 7 页"
+          ],
+          "chunk_id": "4ac259c029d1efae6d79"
+        }
+      ],
+      "generation_ms": 3611.41,
+      "request_ms": 3633.65
+    },
+    {
+      "id": "R04",
+      "request_id": "9822384c-06a1-4ae9-a070-eff74e243d8c",
+      "candidate_pages": [
+        25,
+        35,
+        33,
+        27,
+        34,
+        3,
+        33,
+        13,
+        34,
+        32
+      ],
+      "selected": [
+        {
+          "id": "f67a2e593b976bd15f10",
+          "page_number": 25,
+          "start_line": 1410,
+          "end_line": 1412,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=25"
+        },
+        {
+          "id": "7a1eba62572adf2a65da",
+          "page_number": 35,
+          "start_line": 1968,
+          "end_line": 1970,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=35"
+        },
+        {
+          "id": "1a5c065318ac372dfa30",
+          "page_number": 33,
+          "start_line": 1893,
+          "end_line": 1896,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=33"
+        }
+      ],
+      "answer": "在共享缓存计算新鲜期时，来源只明确说明：**`s-maxage` 指定的最大年龄会覆盖 `max-age` 或 `Expires` 头字段指定的最大年龄**，因此 `s-maxage` 优先于后两者 [1]。\n\n但所给来源**没有说明** `max-age` 与 `Expires` 之间的优先顺序，也**没有说明**仅使用 `Expires` 分支时新鲜期的具体计算方法。因此，这部分无法仅凭这些摘录回答。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 391,
+        "completion_tokens": 316,
+        "total_tokens": 707,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 205
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 391
+      },
+      "cited_numbers": [
+        1
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=25",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 25 页"
+          ],
+          "chunk_id": "f67a2e593b976bd15f10"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=35",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 35 页"
+          ],
+          "chunk_id": "7a1eba62572adf2a65da"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=33",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 33 页"
+          ],
+          "chunk_id": "1a5c065318ac372dfa30"
+        }
+      ],
+      "generation_ms": 3290.79,
+      "request_ms": 3317.43
+    },
+    {
+      "id": "R05",
+      "request_id": "050ac5ea-9d5d-47f7-8f28-88c7bd12f5f7",
+      "candidate_pages": [
+        15,
+        15,
+        15,
+        14,
+        15,
+        15,
+        19,
+        14,
+        12,
+        15
+      ],
+      "selected": [
+        {
+          "id": "1324ae692fc1b84186f0",
+          "page_number": 15,
+          "start_line": 833,
+          "end_line": 834,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=15"
+        },
+        {
+          "id": "6522bf85df3735d7bee6",
+          "page_number": 15,
+          "start_line": 817,
+          "end_line": 818,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=15"
+        },
+        {
+          "id": "39f08a7e317af7aa59f7",
+          "page_number": 15,
+          "start_line": 821,
+          "end_line": 823,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=15"
+        }
+      ],
+      "answer": "提供的摘录没有直接说明 **Age 响应头估计的是什么时间**，因此这部分无法仅凭这些来源回答。\n\n关于 `current_age` 的计算：应在 `corrected_initial_age` 上加上 **`resident_time`**，即 `now - response_time`，也就是从响应时间到当前的时间 [1]。另外，`corrected_age_value = age_value + response_delay`，且 `corrected_age_value` 可用作 `corrected_initial_age` [2][3]。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 344,
+        "completion_tokens": 523,
+        "total_tokens": 867,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 415
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 344
+      },
+      "cited_numbers": [
+        1,
+        2,
+        3
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=15",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 15 页"
+          ],
+          "chunk_id": "1324ae692fc1b84186f0"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=15",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 15 页"
+          ],
+          "chunk_id": "6522bf85df3735d7bee6"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=15",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 15 页"
+          ],
+          "chunk_id": "39f08a7e317af7aa59f7"
+        }
+      ],
+      "generation_ms": 5199.23,
+      "request_ms": 5237.35
+    },
+    {
+      "id": "R06",
+      "request_id": "889865b2-5bef-4615-a8a7-7d72b415a843",
+      "candidate_pages": [
+        7,
+        10,
+        22,
+        3,
+        11,
+        19,
+        34,
+        27,
+        3,
+        19
+      ],
+      "selected": [
+        {
+          "id": "4ac259c029d1efae6d79",
+          "page_number": 7,
+          "start_line": 375,
+          "end_line": 375,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=7"
+        },
+        {
+          "id": "d95b8e328108dde52638",
+          "page_number": 10,
+          "start_line": 545,
+          "end_line": 545,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=10"
+        },
+        {
+          "id": "a70b77a7c2dcdc5391a8",
+          "page_number": 22,
+          "start_line": 1248,
+          "end_line": 1251,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=22"
+        }
+      ],
+      "answer": "提供的摘录没有包含 `only-if-cached` 的内容，因此无法据此回答该指令下可返回的两类结果。\n\n关于 `must-revalidate`：不能忽略。根据 [3]，响应一旦过期，缓存 **MUST NOT** 在成功向源服务器验证之前复用它；因此断网无法完成验证时，不能返回陈旧响应。[3]",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 359,
+        "completion_tokens": 598,
+        "total_tokens": 957,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 520
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 359
+      },
+      "cited_numbers": [
+        3
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=7",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 7 页"
+          ],
+          "chunk_id": "4ac259c029d1efae6d79"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=10",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 10 页"
+          ],
+          "chunk_id": "d95b8e328108dde52638"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=22",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 22 页"
+          ],
+          "chunk_id": "a70b77a7c2dcdc5391a8"
+        }
+      ],
+      "generation_ms": 6248.09,
+      "request_ms": 6271.17
+    },
+    {
+      "id": "R07",
+      "request_id": "28026e8f-8ab3-4144-90c3-e7714eed6d40",
+      "candidate_pages": [
+        19,
+        32,
+        32,
+        14,
+        10,
+        19,
+        10,
+        10,
+        19,
+        19
+      ],
+      "selected": [
+        {
+          "id": "0e71a0292756215d7571",
+          "page_number": 19,
+          "start_line": 1059,
+          "end_line": 1060,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=19"
+        },
+        {
+          "id": "786dd3e2941cdd6536ff",
+          "page_number": 32,
+          "start_line": 1828,
+          "end_line": 1829,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=32"
+        },
+        {
+          "id": "e0224b25eb2b8ef0ad5d",
+          "page_number": 32,
+          "start_line": 1831,
+          "end_line": 1832,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=32"
+        }
+      ],
+      "answer": "是。缓存在收到对不安全请求方法的非错误状态码响应时，**必须**使目标 URI 失效 [1]。\n\n对于 `Location` 和 `Content-Location` 中的 URI，缓存失效**不再要求但仍允许** [2]；但当代源（origin）不同时，**禁止**使这些 URI 失效 [3]。因此，不能据此使不同源的 `Location` URI 失效。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 387,
+        "completion_tokens": 489,
+        "total_tokens": 876,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 399
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 387
+      },
+      "cited_numbers": [
+        1,
+        2,
+        3
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=19",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 19 页"
+          ],
+          "chunk_id": "0e71a0292756215d7571"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=32",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 32 页"
+          ],
+          "chunk_id": "786dd3e2941cdd6536ff"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=32",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 32 页"
+          ],
+          "chunk_id": "e0224b25eb2b8ef0ad5d"
+        }
+      ],
+      "generation_ms": 4282.97,
+      "request_ms": 4303.73
+    },
+    {
+      "id": "R08",
+      "request_id": "59d48211-02e7-47e6-b512-64d4f108e7c4",
+      "candidate_pages": [
+        3,
+        21,
+        23,
+        3,
+        34,
+        7,
+        27,
+        23,
+        17,
+        22
+      ],
+      "selected": [
+        {
+          "id": "88cdf532cef3a8850347",
+          "page_number": 3,
+          "start_line": 156,
+          "end_line": 156,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=3"
+        },
+        {
+          "id": "33dd46ba13bcdb5000e7",
+          "page_number": 21,
+          "start_line": 1196,
+          "end_line": 1198,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=21"
+        },
+        {
+          "id": "083bf8ac5a9f14a02d17",
+          "page_number": 23,
+          "start_line": 1284,
+          "end_line": 1285,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=23"
+        }
+      ],
+      "answer": "作为请求指令，`no-cache` 表示客户端倾向于：存储的响应若未在源服务器上成功验证，就不应被用来满足该请求[2]。\n\n至于作为“不带参数的响应指令”的 `no-cache`，其成功验证要求是什么，提供的摘录没有给出具体规定，无法据此回答。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 329,
+        "completion_tokens": 466,
+        "total_tokens": 795,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 396
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 329
+      },
+      "cited_numbers": [
+        2
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=3",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 3 页"
+          ],
+          "chunk_id": "88cdf532cef3a8850347"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=21",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 21 页"
+          ],
+          "chunk_id": "33dd46ba13bcdb5000e7"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=23",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 23 页"
+          ],
+          "chunk_id": "083bf8ac5a9f14a02d17"
+        }
+      ],
+      "generation_ms": 6056.61,
+      "request_ms": 6099.33
+    },
+    {
+      "id": "R09",
+      "request_id": "e49686ea-efe7-4485-8a04-7fdb8aa0f806",
+      "candidate_pages": [
+        3,
+        1,
+        3,
+        3,
+        3,
+        1,
+        20,
+        4,
+        11,
+        6
+      ],
+      "selected": [
+        {
+          "id": "88cdf532cef3a8850347",
+          "page_number": 3,
+          "start_line": 156,
+          "end_line": 156,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=3"
+        },
+        {
+          "id": "958d85c5c57f16fb9917",
+          "page_number": 1,
+          "start_line": 25,
+          "end_line": 25,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=1"
+        },
+        {
+          "id": "efd96c3446ae67080643",
+          "page_number": 3,
+          "start_line": 140,
+          "end_line": 140,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=3"
+        }
+      ],
+      "answer": "不能确定。所给片段仅显示 RFC 9111 的文档标识以及 `no-cache` 相关小节标题 [1][2][3]，没有包含 example.com 某台 CDN 缓存磁盘容量或 GiB 数值的信息。仅据这些来源无法得出该容量。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 294,
+        "completion_tokens": 468,
+        "total_tokens": 762,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 405
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 294
+      },
+      "cited_numbers": [
+        1,
+        2,
+        3
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=3",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 3 页"
+          ],
+          "chunk_id": "88cdf532cef3a8850347"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=1",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 1 页"
+          ],
+          "chunk_id": "958d85c5c57f16fb9917"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=3",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 3 页"
+          ],
+          "chunk_id": "efd96c3446ae67080643"
+        }
+      ],
+      "generation_ms": 5198.26,
+      "request_ms": 5232.92
+    },
+    {
+      "id": "R10",
+      "request_id": "96005361-de7a-4852-b230-bcf986f64921",
+      "candidate_pages": [
+        1,
+        3,
+        3,
+        11,
+        3,
+        6,
+        3,
+        9,
+        19,
+        2
+      ],
+      "selected": [
+        {
+          "id": "51774f82e520cad6b77e",
+          "page_number": 1,
+          "start_line": 11,
+          "end_line": 12,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=1"
+        },
+        {
+          "id": "1b05d2d984811b807151",
+          "page_number": 3,
+          "start_line": 146,
+          "end_line": 146,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=3"
+        },
+        {
+          "id": "efd96c3446ae67080643",
+          "page_number": 3,
+          "start_line": 140,
+          "end_line": 140,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=3"
+        }
+      ],
+      "answer": "提供的来源不足以回答该问题。摘录仅显示 RFC 9111 的标题“HTTP Caching”以及 `only-if-cached`、`no-cache` 等缓存指令章节 [1][2][3]，没有包含任何关于运营商缓存服务月费或美元定价的规定。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 287,
+        "completion_tokens": 428,
+        "total_tokens": 715,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 365
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 287
+      },
+      "cited_numbers": [
+        1,
+        2,
+        3
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=1",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 1 页"
+          ],
+          "chunk_id": "51774f82e520cad6b77e"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=3",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 3 页"
+          ],
+          "chunk_id": "1b05d2d984811b807151"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c0a1346e6d9d51ba2929.pdf#page=3",
+          "heading_path": [
+            "rfc9111.pdf",
+            "第 3 页"
+          ],
+          "chunk_id": "efd96c3446ae67080643"
+        }
+      ],
+      "generation_ms": 4771.99,
+      "request_ms": 4791.56
+    }
+  ]
+}

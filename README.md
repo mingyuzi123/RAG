@@ -20,6 +20,10 @@ python -m venv .venv
 
 ## 当前进度
 
+两份独立 PDF 已用 20 道运行前冻结的题验收。默认 E5 路径中，16 道可回答题有 5 道答全，4 道无答案题均拒答。Landsat 的结构化表格模式修复两题、退步两题，继续作为可选项。[逐题报告和复现命令](reports/V1_ACCEPTANCE.md)
+
+本地无密钥回归通过 31 项，覆盖 PDF 导入、检索、页码引用和失败请求追踪。GitHub Actions 工作流配置为在 Ubuntu 与 Windows 上执行同一套测试。[工作流](.github/workflows/regression.yml)
+
 PDF 读序和表格对照已完成。结构化抽取在另一份公开 PDF 上使可回答题从 0/6 提升到 3/6，提升集中在表格题。原布局抽取作为默认，表格模式按场景选择。[6B 逐题验收](reports/STAGE6B_PDF_LAYOUT.md)
 
 第 5 阶段已完成场景配置统一、干净环境运行、故障恢复和真实 PDF 验收。`python -m raglab doctor` 检查资料和索引状态，失败请求可按请求 ID 定位环节。真实 PDF 的可回答题 3/6 答全，无答案题 2/2 拒答。[复现、逐题结果与演示路线](reports/STAGE5_DELIVERY.md)
