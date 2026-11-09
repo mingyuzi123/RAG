@@ -1,0 +1,15 @@
+{
+  "source": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.1300.pdf",
+  "sha256": "1e77c1bd63d1e15c48c870b7c17b7c9a2edf6bd5103b0940e72828515c9f1881",
+  "settings": {"strategy": "vector", "top_k": 10, "context_k": 3, "context_policy": "top_k", "auto_rewrite": false},
+  "cases": [
+    {"id": "N01", "question": "CSF 2.0 将网络安全成果组织成哪六个职能？", "pages": [2], "points": ["Govern、Identify、Protect、Detect、Respond、Recover"]},
+    {"id": "N02", "question": "指南的 IT 资产清单示例中，除了资产名称和用途，还用哪些列记录负责人、敏感数据、MFA 和失去访问的风险？", "pages": [4], "points": ["资产管理员或所有者", "资产可访问的敏感数据", "访问资产是否要求 MFA", "失去访问对业务的风险"]},
+    {"id": "N03", "question": "按指南开启 MFA 时，应从哪类账户开始？", "pages": [5], "points": ["能访问最敏感信息的账户"]},
+    {"id": "N04", "question": "平时应怎样管理备份？发生事件后，在用备份恢复前还应检查什么？", "pages": [5, 8], "points": ["定期备份数据并测试备份", "恢复前检查备份数据和资产的完整性"]},
+    {"id": "N05", "question": "指南的事件响应计划示例中，负责制定和维护计划的人是谁？联系人清单需要记录哪些信息？", "pages": [7], "points": ["业务负责人或业务倡导者负责制定并维护计划", "联系人信息、职责、权限"]},
+    {"id": "N06", "question": "当前画像（Current Profile）和目标画像（Target Profile）分别描述什么？", "pages": [9], "points": ["当前正在达成或尝试达成的成果及达成程度", "已选择并排定优先级的目标成果"]},
+    {"id": "N07", "question": "仅依据这份指南，能确定 NIST 要求所有小企业每隔多少小时备份一次吗？", "pages": [], "points": []},
+    {"id": "N08", "question": "指南第 7 页联系人模板中，填写的州警察电话号码是什么？", "pages": [], "points": []}
+  ]
+}

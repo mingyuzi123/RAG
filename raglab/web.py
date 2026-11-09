@@ -13,7 +13,7 @@ from .local_sources import SCENARIO_ID, ensure_local_scenario, import_document, 
 from .review import latest_reviews, save_review
 from .query_rewrite import rewrite_query
 from .runtime import resolve_keyword_query, resolve_runtime
-from .service import answer, compare, recent_traces, retrieve, retrieve_targeted_window, status
+from .service import answer, compare, recent_traces, record_failure, retrieve, retrieve_targeted_window, status
 from .store import build_index, index_path, load_manifest
 from .vector import build_vectors, load_model
 
@@ -166,6 +166,7 @@ def create_handler(root: Path, manifest_path: Path):
             if not self.headers.get("Content-Type", "").startswith("application/json"):
                 self._json(415, {"error": "Expected application/json"})
                 return
+            manifest, question, strategy, stage = None, "", "unknown", "input"
             try:
                 context = self._context()
                 manifest, db_path, examples = (context[key] for key in ("manifest", "db_path", "examples"))
@@ -202,13 +203,19 @@ def create_handler(root: Path, manifest_path: Path):
                                          data.get("note", ""))
                     self._json(200, {"review": review})
                     return
-                question = str(data.get("question", "")).strip()
+                question = data.get("question", "")
+                if not isinstance(question, str) or not question.strip():
+                    question = ""
+                    raise ValueError("Question cannot be empty and must be a string")
+                question = question.strip()
                 if path == "/api/decompose":
+                    stage = "rewrite"
                     if not status(root, manifest)["deepseek_key_set"]:
                         raise RuntimeError("Set DEEPSEEK_API_KEY before starting the web server")
                     self._json(200, decompose_question(question))
                     return
                 if path == "/api/rewrite":
+                    stage = "rewrite"
                     if not status(root, manifest)["deepseek_key_set"]:
                         raise RuntimeError("Set DEEPSEEK_API_KEY before rewriting a query")
                     self._json(200, rewrite_query(question))
@@ -231,8 +238,11 @@ def create_handler(root: Path, manifest_path: Path):
                 if subqueries is not None and not isinstance(subqueries, list):
                     raise ValueError("subqueries must be a list")
                 if path == "/api/ask" and not status(root, manifest)["deepseek_key_set"]:
+                    stage = "generation"
                     raise RuntimeError("Set DEEPSEEK_API_KEY before starting the web server")
+                stage = "rewrite"
                 english_query, query_metadata = resolve_keyword_query(question, settings, english_query, query_metadata)
+                stage = "retrieval"
                 model = self._model() if strategy in ("vector", "hybrid", "decomposed") or path == "/api/compare" else None
                 if path == "/api/search":
                     if context_policy == "targeted_window":
@@ -256,10 +266,16 @@ def create_handler(root: Path, manifest_path: Path):
                 self._json(200, {**result, "english_query": english_query, "query_metadata": query_metadata,
                                  "retrieval": settings})
             except (ValueError, FileNotFoundError, RuntimeError, json.JSONDecodeError) as exc:
-                self._json(400, {"error": str(exc)})
-            except Exception:
+                result = {"error": str(exc)}
+                if manifest and path not in ("/api/import", "/api/review"):
+                    result["request_id"] = record_failure(root, manifest, stage, question, strategy, exc)
+                self._json(400, result)
+            except Exception as exc:
                 traceback.print_exc()
-                self._json(500, {"error": "Server error; see terminal for details"})
+                result = {"error": "Server error; see terminal for details"}
+                if manifest and path not in ("/api/import", "/api/review"):
+                    result["request_id"] = record_failure(root, manifest, stage, question, strategy, exc)
+                self._json(500, result)
 
     return Handler
 

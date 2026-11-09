@@ -1,0 +1,108 @@
+{
+  "clean_checkout": "logs/stage5-clean",
+  "doctor_before_build": {
+    "python": "3.13.9",
+    "fts5": true,
+    "source": {
+      "ready": true,
+      "missing": []
+    },
+    "pdf_dependency": true,
+    "vector_dependency": false,
+    "retrieval": {
+      "language": "en",
+      "strategy": "vector",
+      "top_k": 10,
+      "context_k": 3,
+      "context_policy": "top_k",
+      "auto_rewrite": true
+    },
+    "scenario": "crewai-docs",
+    "source_commit": "a8877f0cdfbca4fc4b95e3ce54aaa69aafca7688",
+    "keyword_ready": false,
+    "vector_ready": false,
+    "deepseek_key_set": false
+  },
+  "index_chunks": 267,
+  "keyword_index_after_build": true,
+  "recovered_candidates": [
+    "432e32acff6831b49ecf",
+    "050f3b61023948af2f63",
+    "47a63690adf52fdb7f79"
+  ],
+  "failures": [
+    {
+      "request_id": "1400e8c7-1b76-4750-a2be-e2cd138ab3ce",
+      "stage": "retrieval",
+      "error": "Index missing. First run: python -m raglab index"
+    },
+    {
+      "request_id": "406423dc-a502-4edd-bbad-b9063bbc6876",
+      "stage": "input",
+      "error": "context_k must be an integer between 1 and top_k"
+    },
+    {
+      "request_id": "25e2dcfb-9add-4533-924f-075f13f06333",
+      "stage": "rewrite",
+      "error": "请提供英文检索词、开启自动改写，或使用 E5 检索原问题。"
+    },
+    {
+      "request_id": "76482f96-4f36-4988-9aa7-1c1a9d0b12c1",
+      "stage": "generation",
+      "error": "Set DEEPSEEK_API_KEY before starting the web server"
+    }
+  ],
+  "import": {
+    "scenario_id": "local-docs",
+    "chunks": 1,
+    "status": {
+      "scenario": "local-docs",
+      "source_commit": "c672490d2ab9979249eb10d803d399523a0286380229bd3875b9f312be90318c",
+      "keyword_ready": true,
+      "vector_ready": false,
+      "deepseek_key_set": false
+    },
+    "vector_error": "Install optional vector dependencies: python -m pip install -r requirements-vector.txt",
+    "sparse_pages": []
+  },
+  "source_bytes_verified": true,
+  "answer_trace": {
+    "request_id": "451c0684-ee55-43cc-9df6-48875167fc53",
+    "source_commit": "c672490d2ab9979249eb10d803d399523a0286380229bd3875b9f312be90318c",
+    "selected_chunk_ids": [
+      "65c231d00cee833a15ab"
+    ],
+    "result": {
+      "answer": "交付验收任务最多允许重试 4 次。[1]",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 195,
+        "completion_tokens": 53,
+        "total_tokens": 248,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 38
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 195
+      },
+      "cited_numbers": [
+        1
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/3b6ed0b8f1962572bf39.md#L1-L3",
+          "heading_path": [
+            "3b6ed0b8f1962572bf39",
+            "Acceptance runbook"
+          ],
+          "chunk_id": "65c231d00cee833a15ab"
+        }
+      ]
+    }
+  }
+}

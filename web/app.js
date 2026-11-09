@@ -41,7 +41,7 @@ async function api(path, body) {
     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
   } : undefined);
   const data = await response.json();
-  if (!response.ok) throw new Error(data.error || `请求失败 (${response.status})`);
+  if (!response.ok) throw new Error(`${data.error || `请求失败 (${response.status})`}${data.request_id ? ` · 请求 ${data.request_id}` : ''}`);
   return data;
 }
 
@@ -388,7 +388,7 @@ async function loadTraces() {
       const card = el('article', 'trace-item');
       const head = el('div', 'trace-item-head');
       head.append(el('b', '', trace.strategy.toUpperCase()), el('span', '', new Date(trace.timestamp).toLocaleString('zh-CN')));
-      card.append(head, el('p', '', trace.question), el('small', '', `状态 ${trace.status || 'completed'} · 候选 ${trace.candidates.length} · 上下文 ${trace.selected_chunk_ids.length} · 引用编号 ${trace.result.citation_numbers_valid ? '有效' : '待检查'}`));
+      card.append(head, el('p', '', trace.question), el('small', '', `状态 ${trace.status || 'completed'}${trace.failure_stage ? ` · 失败环节 ${trace.failure_stage}` : ''} · 候选 ${trace.candidates.length} · 上下文 ${trace.selected_chunk_ids.length} · 引用编号 ${trace.result.citation_numbers_valid ? '有效' : '待检查'}`));
       const detail = el('details');
       detail.append(el('summary', '', '查看完整请求'), el('pre', '', JSON.stringify(trace, null, 2)));
       card.append(detail);
@@ -540,7 +540,8 @@ async function initialize() {
     const ready = config.status.keyword_ready && config.status.vector_ready;
     $('#status-dot').classList.toggle('ready', ready);
     $('#status-line').textContent = ready ? 'BM25 与 E5 索引已就绪'
-      : (local && !config.documents.length ? '尚未导入本地文档' : '索引未齐，请先运行建库命令');
+      : config.status.keyword_ready ? 'BM25 已就绪，可选建 E5 索引'
+      : (local && !config.documents.length ? '尚未导入本地文档' : '索引未就绪，请先运行建库命令');
     $('#key-hint').textContent = config.status.deepseek_key_set ? 'DeepSeek 密钥已从本地环境变量读取。' : '未检测到 DeepSeek 密钥；检索实验仍可使用。';
     $('#ask-btn').disabled = !state.keyAvailable;
     $('#decompose-btn').disabled = !state.keyAvailable;

@@ -133,13 +133,39 @@ def answer(root: Path, manifest: dict, db_path: Path, question: str,
         "result": result, "generation_ms": round((time.perf_counter() - started) * 1000, 2),
         "status": "failed" if failure else "completed",
     }
+    if failure:
+        trace["failure_stage"] = "generation"
+        failure.rag_request_id = trace["request_id"]
+    _append_trace(root, trace)
+    if failure:
+        raise failure
+    return trace
+
+
+def _append_trace(root: Path, trace: dict) -> None:
     path = root / "logs" / "requests.jsonl"
     path.parent.mkdir(exist_ok=True)
     with path.open("a", encoding="utf-8") as log:
         log.write(json.dumps(trace, ensure_ascii=False) + "\n")
-    if failure:
-        raise failure
-    return trace
+
+
+def record_failure(root: Path, manifest: dict, stage: str, question: str,
+                   strategy: str, error: Exception) -> str:
+    existing = getattr(error, "rag_request_id", None)
+    if existing:
+        return existing
+    request_id = str(uuid4())
+    detail = str(error) if isinstance(error, (ValueError, RuntimeError, FileNotFoundError)) else type(error).__name__
+    key = os.environ.get("DEEPSEEK_API_KEY")
+    if key:
+        detail = detail.replace(key, "[redacted]")
+    _append_trace(root, {"request_id": request_id, "timestamp": datetime.now(timezone.utc).isoformat(),
+                         "scenario": manifest["id"], "source_commit": manifest["upstream_commit"],
+                         "strategy": strategy, "question": question, "status": "failed",
+                         "failure_stage": stage, "candidates": [], "selected_chunks": [],
+                         "selected_chunk_ids": [], "result": {"answer": "", "sources": [],
+                         "citation_numbers_valid": False, "error": detail}})
+    return request_id
 
 
 def recent_traces(root: Path, limit: int = 20) -> list[dict]:
