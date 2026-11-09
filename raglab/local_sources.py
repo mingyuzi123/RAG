@@ -57,7 +57,10 @@ def import_document(root: Path, filename: str, content: str | None,
             raise ValueError("PDF 编码无效") from exc
         if len(raw) > MAX_PDF_BYTES:
             raise ValueError("单篇 PDF 不能超过 8 MB")
-        _, sparse_pages = extract_pages(raw)
+        existing = local_manifest_path(root)
+        settings = json.loads(existing.read_text(encoding="utf-8")) if existing.is_file() else {}
+        extraction = settings.get("pdf_extraction", "layout")
+        _, sparse_pages = extract_pages(raw, extraction)
     else:
         if not isinstance(content, str) or not content.strip():
             raise ValueError("文档内容不能为空")

@@ -1,0 +1,792 @@
+{
+  "source": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.1300.pdf",
+  "pdf_sha256": "1e77c1bd63d1e15c48c870b7c17b7c9a2edf6bd5103b0940e72828515c9f1881",
+  "case_sha256": "947b91d4d9b2fec4e551229ca3b2b181bebfde4244b8a4dd3d8b9a8fd7c174b1",
+  "settings": {
+    "strategy": "vector",
+    "top_k": 10,
+    "context_k": 3,
+    "context_policy": "top_k",
+    "auto_rewrite": false
+  },
+  "pdf_extraction": "ordered_tables",
+  "trace_log": "logs/stage5c-wz0skcf5/logs/requests.jsonl",
+  "import": {
+    "scenario_id": "local-docs",
+    "chunks": 19,
+    "status": {
+      "scenario": "local-docs",
+      "source_commit": "4dd25b6a6f9077ef83970f90480d0f36348f09c78830761909cd28eeef4486d9",
+      "keyword_ready": true,
+      "vector_ready": true,
+      "deepseek_key_set": true
+    },
+    "vector_error": null,
+    "sparse_pages": []
+  },
+  "source_bytes_verified": true,
+  "rows": [
+    {
+      "id": "N01",
+      "request_id": "72a8561c-1830-4702-a012-6f594f5616d4",
+      "candidate_pages": [
+        3,
+        1,
+        8,
+        5,
+        6,
+        4,
+        2,
+        7,
+        2,
+        4
+      ],
+      "selected": [
+        {
+          "id": "ce5f54bbdba605826697",
+          "page_number": 3,
+          "start_line": 89,
+          "end_line": 99,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=3"
+        },
+        {
+          "id": "c2a9c899cb1e2ef22b71",
+          "page_number": 1,
+          "start_line": 1,
+          "end_line": 10,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=1"
+        },
+        {
+          "id": "a211a6b009f22d53c15c",
+          "page_number": 8,
+          "start_line": 372,
+          "end_line": 382,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=8"
+        }
+      ],
+      "answer": "提供的来源没有列出 CSF 2.0 的六个职能，因此无法根据这些摘录回答该问题。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 521,
+        "completion_tokens": 208,
+        "total_tokens": 729,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 183
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 137
+      },
+      "cited_numbers": [],
+      "citation_numbers_valid": false,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=3",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 3 页"
+          ],
+          "chunk_id": "ce5f54bbdba605826697"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=1",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 1 页"
+          ],
+          "chunk_id": "c2a9c899cb1e2ef22b71"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=8",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 8 页"
+          ],
+          "chunk_id": "a211a6b009f22d53c15c"
+        }
+      ],
+      "generation_ms": 2757.8,
+      "request_ms": 2796.42,
+      "audit": {
+        "verdict": "miss",
+        "note": "六个职能列表未进入上下文。",
+        "cited_pages": []
+      }
+    },
+    {
+      "id": "N02",
+      "request_id": "36efaa19-e041-474f-aa19-fe6dfad7c8b3",
+      "candidate_pages": [
+        4,
+        5,
+        5,
+        4,
+        6,
+        1,
+        8,
+        3,
+        7,
+        2
+      ],
+      "selected": [
+        {
+          "id": "316975cff7a6cdf6f618",
+          "page_number": 4,
+          "start_line": 165,
+          "end_line": 165,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=4"
+        },
+        {
+          "id": "91d7f13baa30de6f3082",
+          "page_number": 5,
+          "start_line": 218,
+          "end_line": 232,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5"
+        },
+        {
+          "id": "6176b5959f77871c41a3",
+          "page_number": 5,
+          "start_line": 204,
+          "end_line": 216,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5"
+        }
+      ],
+      "answer": "指南的 IT 资产清单示例中，除资产名称（Software/hardware/system/service）和用途（Asset's official use）外，相关列包括：\n\n- 负责人：**Asset administrator or owner**\n- 敏感数据：**Identify sensitive data the asset has access to**\n- MFA：**Is multi-factor authentication required to access this asset?**\n- 失去访问的风险：**Risk to business if we lose access to this asset**\n\n这些列均来自该资产清单示例表 [1]。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 745,
+        "completion_tokens": 272,
+        "total_tokens": 1017,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 166
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 745
+      },
+      "cited_numbers": [
+        1
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=4",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 4 页"
+          ],
+          "chunk_id": "316975cff7a6cdf6f618"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "91d7f13baa30de6f3082"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "6176b5959f77871c41a3"
+        }
+      ],
+      "generation_ms": 3071.74,
+      "request_ms": 3096.43,
+      "audit": {
+        "verdict": "pass",
+        "note": "第 4 页 [1] 单块给出资产清单四个目标列。",
+        "cited_pages": [
+          4
+        ]
+      }
+    },
+    {
+      "id": "N03",
+      "request_id": "0a24cd19-f036-40ec-95ab-85a5e136674c",
+      "candidate_pages": [
+        5,
+        4,
+        5,
+        5,
+        1,
+        4,
+        2,
+        8,
+        7,
+        3
+      ],
+      "selected": [
+        {
+          "id": "91d7f13baa30de6f3082",
+          "page_number": 5,
+          "start_line": 218,
+          "end_line": 232,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5"
+        },
+        {
+          "id": "316975cff7a6cdf6f618",
+          "page_number": 4,
+          "start_line": 165,
+          "end_line": 165,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=4"
+        },
+        {
+          "id": "ee05e3a189f18dcfd939",
+          "page_number": 5,
+          "start_line": 167,
+          "end_line": 203,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5"
+        }
+      ],
+      "answer": "应从**能够访问最敏感信息的账户**开始开启 MFA。[3]",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 1014,
+        "completion_tokens": 107,
+        "total_tokens": 1121,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 90
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1014
+      },
+      "cited_numbers": [
+        3
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "91d7f13baa30de6f3082"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=4",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 4 页"
+          ],
+          "chunk_id": "316975cff7a6cdf6f618"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "ee05e3a189f18dcfd939"
+        }
+      ],
+      "generation_ms": 2061.62,
+      "request_ms": 2077.02,
+      "audit": {
+        "verdict": "pass",
+        "note": "所引同页正文支持全部要点。",
+        "cited_pages": [
+          5
+        ]
+      }
+    },
+    {
+      "id": "N04",
+      "request_id": "50d28079-e936-485a-8788-d48f86db3446",
+      "candidate_pages": [
+        8,
+        4,
+        6,
+        4,
+        5,
+        5,
+        6,
+        3,
+        7,
+        8
+      ],
+      "selected": [
+        {
+          "id": "a211a6b009f22d53c15c",
+          "page_number": 8,
+          "start_line": 372,
+          "end_line": 382,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=8"
+        },
+        {
+          "id": "316975cff7a6cdf6f618",
+          "page_number": 4,
+          "start_line": 165,
+          "end_line": 165,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=4"
+        },
+        {
+          "id": "90d1e10d7b45aae62d21",
+          "page_number": 6,
+          "start_line": 269,
+          "end_line": 275,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=6"
+        }
+      ],
+      "answer": "根据提供的来源，无法完整回答“平时应怎样管理备份”。来源仅将“Backup and Recover Resources”列为相关资源[1]，没有给出日常备份管理（如备份频率、隔离保存、保留策略、恢复演练等）的具体做法。\n\n发生事件后、在用备份恢复前，来源中可支持的检查点是：确认所采取的恢复步骤不会给业务引入新的漏洞[1]。此外，来源强调要监控日志和告警以发现潜在网络事件[3]，但未说明这属于恢复前对备份的检查。\n\n因此，除“确保恢复步骤不引入新漏洞”外，关于恢复前应检查备份完整性、可用性等具体要求，提供的来源不足。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 431,
+        "completion_tokens": 605,
+        "total_tokens": 1036,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 459
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 303
+      },
+      "cited_numbers": [
+        1,
+        3
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=8",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 8 页"
+          ],
+          "chunk_id": "a211a6b009f22d53c15c"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=4",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 4 页"
+          ],
+          "chunk_id": "316975cff7a6cdf6f618"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=6",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 6 页"
+          ],
+          "chunk_id": "90d1e10d7b45aae62d21"
+        }
+      ],
+      "generation_ms": 5513.26,
+      "request_ms": 5532.6,
+      "audit": {
+        "verdict": "miss",
+        "note": "回答引用了恢复步骤提示，未给出备份与完整性检查。",
+        "cited_pages": [
+          8,
+          6
+        ]
+      }
+    },
+    {
+      "id": "N05",
+      "request_id": "bd66ad61-7c7f-44d8-968f-5ee6b982ea00",
+      "candidate_pages": [
+        7,
+        6,
+        5,
+        8,
+        1,
+        4,
+        4,
+        5,
+        3,
+        2
+      ],
+      "selected": [
+        {
+          "id": "87b06c68332d4b539c9d",
+          "page_number": 7,
+          "start_line": 323,
+          "end_line": 330,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=7"
+        },
+        {
+          "id": "90d1e10d7b45aae62d21",
+          "page_number": 6,
+          "start_line": 269,
+          "end_line": 275,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=6"
+        },
+        {
+          "id": "6176b5959f77871c41a3",
+          "page_number": 5,
+          "start_line": 204,
+          "end_line": 216,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5"
+        }
+      ],
+      "answer": "提供的来源不足以回答这个问题。这些摘录没有包含“事件响应计划示例”中负责制定和维护计划的人是谁，也没有列出联系人清单需要记录哪些信息。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 498,
+        "completion_tokens": 317,
+        "total_tokens": 815,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 282
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 242
+      },
+      "cited_numbers": [],
+      "citation_numbers_valid": false,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=7",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 7 页"
+          ],
+          "chunk_id": "87b06c68332d4b539c9d"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=6",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 6 页"
+          ],
+          "chunk_id": "90d1e10d7b45aae62d21"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "6176b5959f77871c41a3"
+        }
+      ],
+      "generation_ms": 3512.18,
+      "request_ms": 3532.81,
+      "audit": {
+        "verdict": "miss",
+        "note": "第 7 页入选片段没有计划负责人和联系人字段。",
+        "cited_pages": []
+      }
+    },
+    {
+      "id": "N06",
+      "request_id": "392f52ba-104c-41ff-8ea2-8552eff91ff6",
+      "candidate_pages": [
+        9,
+        4,
+        5,
+        4,
+        5,
+        8,
+        3,
+        6,
+        7,
+        1
+      ],
+      "selected": [
+        {
+          "id": "af5b12425d70252dbf84",
+          "page_number": 9,
+          "start_line": 384,
+          "end_line": 399,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=9"
+        },
+        {
+          "id": "316975cff7a6cdf6f618",
+          "page_number": 4,
+          "start_line": 165,
+          "end_line": 165,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=4"
+        },
+        {
+          "id": "91d7f13baa30de6f3082",
+          "page_number": 5,
+          "start_line": 218,
+          "end_line": 232,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5"
+        }
+      ],
+      "answer": "根据 [1]，当前画像和目标画像都是组织画像（Organizational Profile）的组成部分，用于用 CSF Core 的网络安全成果来描述组织的网络安全态势：\n\n- **当前画像（Current Profile）**：说明组织当前正在实现（或试图实现）的期望成果，并描述每个成果实现的方式或程度 [1]。\n- **目标画像（Target Profile）**：说明组织为实现其网络安全风险管理目标而选定并排定优先级的成果 [1]。\n\n组织画像可以包含当前画像和目标画像中的一项或两项 [1]。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 953,
+        "completion_tokens": 232,
+        "total_tokens": 1185,
+        "prompt_tokens_details": {
+          "cached_tokens": 384
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 120
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 569
+      },
+      "cited_numbers": [
+        1
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=9",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 9 页"
+          ],
+          "chunk_id": "af5b12425d70252dbf84"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=4",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 4 页"
+          ],
+          "chunk_id": "316975cff7a6cdf6f618"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "91d7f13baa30de6f3082"
+        }
+      ],
+      "generation_ms": 3419.42,
+      "request_ms": 3450.51,
+      "audit": {
+        "verdict": "pass",
+        "note": "所引同页正文支持全部要点。",
+        "cited_pages": [
+          9
+        ]
+      }
+    },
+    {
+      "id": "N07",
+      "request_id": "276e9a59-1ec3-4de5-9c43-822bd222d012",
+      "candidate_pages": [
+        5,
+        4,
+        5,
+        1,
+        6,
+        8,
+        4,
+        3,
+        5,
+        7
+      ],
+      "selected": [
+        {
+          "id": "6176b5959f77871c41a3",
+          "page_number": 5,
+          "start_line": 204,
+          "end_line": 216,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5"
+        },
+        {
+          "id": "271524af92413a74db25",
+          "page_number": 4,
+          "start_line": 150,
+          "end_line": 163,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=4"
+        },
+        {
+          "id": "91d7f13baa30de6f3082",
+          "page_number": 5,
+          "start_line": 218,
+          "end_line": 232,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5"
+        }
+      ],
+      "answer": "不能。仅依据这些摘录，无法确定 NIST 是否要求所有小企业按某个小时数备份，也无法确定具体间隔。摘录涉及的是资产与风险问题[2]、访问权限/数据销毁/培训[1]，以及 MFA 账户清单[3]，没有给出备份频率或适用于所有小企业的统一小时数要求。因此，就所提供的来源而言，答案不足。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 813,
+        "completion_tokens": 546,
+        "total_tokens": 1359,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 462
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 557
+      },
+      "cited_numbers": [
+        1,
+        2,
+        3
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "6176b5959f77871c41a3"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=4",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 4 页"
+          ],
+          "chunk_id": "271524af92413a74db25"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "91d7f13baa30de6f3082"
+        }
+      ],
+      "generation_ms": 5331.9,
+      "request_ms": 5366.76,
+      "audit": {
+        "verdict": "refused",
+        "note": "未给出统一备份间隔。",
+        "cited_pages": [
+          5,
+          4,
+          5
+        ]
+      }
+    },
+    {
+      "id": "N08",
+      "request_id": "440ed6a2-b233-453b-9f1c-84695827ac51",
+      "candidate_pages": [
+        5,
+        4,
+        5,
+        1,
+        3,
+        7,
+        4,
+        6,
+        8,
+        2
+      ],
+      "selected": [
+        {
+          "id": "91d7f13baa30de6f3082",
+          "page_number": 5,
+          "start_line": 218,
+          "end_line": 232,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5"
+        },
+        {
+          "id": "316975cff7a6cdf6f618",
+          "page_number": 4,
+          "start_line": 165,
+          "end_line": 165,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=4"
+        },
+        {
+          "id": "6176b5959f77871c41a3",
+          "page_number": 5,
+          "start_line": 204,
+          "end_line": 216,
+          "source_url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5"
+        }
+      ],
+      "answer": "根据提供的摘录无法确定。摘录中没有指南第 7 页的联系人模板，也没有州警察电话号码相关信息。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 730,
+        "completion_tokens": 217,
+        "total_tokens": 947,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 190
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 730
+      },
+      "cited_numbers": [],
+      "citation_numbers_valid": false,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "91d7f13baa30de6f3082"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=4",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 4 页"
+          ],
+          "chunk_id": "316975cff7a6cdf6f618"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/c39df90d63087ec136ba.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1300.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "6176b5959f77871c41a3"
+        }
+      ],
+      "generation_ms": 3187.41,
+      "request_ms": 3203.88,
+      "audit": {
+        "verdict": "refused",
+        "note": "未编造号码。",
+        "cited_pages": []
+      }
+    }
+  ]
+}

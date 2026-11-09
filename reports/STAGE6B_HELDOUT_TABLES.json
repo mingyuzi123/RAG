@@ -1,0 +1,798 @@
+{
+  "source": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.1301.pdf",
+  "pdf_sha256": "baf10ffc7ed7792a54e724b983a858b6c194c2ebcd21843034bee78a858f46d8",
+  "case_sha256": "196b1b5d1442b65adaa608e88f4de63b0f2c595e1b7aad7c0e1c088f494b4d06",
+  "settings": {
+    "strategy": "vector",
+    "top_k": 10,
+    "context_k": 3,
+    "context_policy": "top_k",
+    "auto_rewrite": false
+  },
+  "pdf_extraction": "ordered_tables",
+  "trace_log": "logs/stage5c-yh3_n4y9/logs/requests.jsonl",
+  "import": {
+    "scenario_id": "local-docs",
+    "chunks": 20,
+    "status": {
+      "scenario": "local-docs",
+      "source_commit": "d8e0ebb43b0ae50f72578da3a04000376540ecf179c5069fa5887f5acb3c0c16",
+      "keyword_ready": true,
+      "vector_ready": true,
+      "deepseek_key_set": true
+    },
+    "vector_error": null,
+    "sparse_pages": []
+  },
+  "source_bytes_verified": true,
+  "rows": [
+    {
+      "id": "L01",
+      "request_id": "e574f593-7b9a-4871-a02b-a9a5a5d35fda",
+      "candidate_pages": [
+        2,
+        6,
+        5,
+        10,
+        5,
+        2,
+        5,
+        8,
+        6,
+        4
+      ],
+      "selected": [
+        {
+          "id": "c1f9f51f1db846e27eae",
+          "page_number": 2,
+          "start_line": 38,
+          "end_line": 38,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=2"
+        },
+        {
+          "id": "f4974b0d7c618eb6c2af",
+          "page_number": 6,
+          "start_line": 250,
+          "end_line": 256,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=6"
+        },
+        {
+          "id": "873f6e1f23b54c20b8f1",
+          "page_number": 5,
+          "start_line": 181,
+          "end_line": 183,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=5"
+        }
+      ],
+      "answer": "根据模板表格列 [2]，各画像包含的列是：\n\n- **Current Profile**：Practices、Status、Rating  \n- **Target Profile**：Priority、Goals  \n\n此外，表格还共同包含 **CSF Outcomes / Identifier** 和 **CSF Outcomes / Description** 两列 [2]。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 862,
+        "completion_tokens": 253,
+        "total_tokens": 1115,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 187
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 862
+      },
+      "cited_numbers": [
+        2
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=2",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "c1f9f51f1db846e27eae"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=6",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 6 页"
+          ],
+          "chunk_id": "f4974b0d7c618eb6c2af"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "873f6e1f23b54c20b8f1"
+        }
+      ],
+      "generation_ms": 2499.65,
+      "request_ms": 2530.51,
+      "audit": {
+        "verdict": "pass",
+        "note": "第 6 页 [2] 明确标注 Current 与 Target 的列组。",
+        "cited_pages": [
+          6
+        ]
+      }
+    },
+    {
+      "id": "L02",
+      "request_id": "43613a6d-6e55-4535-a5f7-e75b5ee59483",
+      "candidate_pages": [
+        5,
+        6,
+        10,
+        4,
+        2,
+        5,
+        5,
+        1,
+        5,
+        6
+      ],
+      "selected": [
+        {
+          "id": "873f6e1f23b54c20b8f1",
+          "page_number": 5,
+          "start_line": 181,
+          "end_line": 183,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=5"
+        },
+        {
+          "id": "f4974b0d7c618eb6c2af",
+          "page_number": 6,
+          "start_line": 250,
+          "end_line": 256,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=6"
+        },
+        {
+          "id": "00cdb99b735bf06448e8",
+          "page_number": 10,
+          "start_line": 442,
+          "end_line": 448,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=10"
+        }
+      ],
+      "answer": "PR.PS-01 示例行的当前 Rating 是 **3 out of 5**，目标 Priority 是 **High**。[2]",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 910,
+        "completion_tokens": 98,
+        "total_tokens": 1008,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 67
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 910
+      },
+      "cited_numbers": [
+        2
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "873f6e1f23b54c20b8f1"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=6",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 6 页"
+          ],
+          "chunk_id": "f4974b0d7c618eb6c2af"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=10",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 10 页"
+          ],
+          "chunk_id": "00cdb99b735bf06448e8"
+        }
+      ],
+      "generation_ms": 1601.04,
+      "request_ms": 1622.56,
+      "audit": {
+        "verdict": "pass",
+        "note": "第 6 页 [2] 的同一标识符行给出 Rating 和 Priority。",
+        "cited_pages": [
+          6
+        ]
+      }
+    },
+    {
+      "id": "L03",
+      "request_id": "184838cf-c43c-4ace-87fa-00e406a0f14d",
+      "candidate_pages": [
+        6,
+        2,
+        1,
+        5,
+        10,
+        8,
+        6,
+        6,
+        6,
+        9
+      ],
+      "selected": [
+        {
+          "id": "f4974b0d7c618eb6c2af",
+          "page_number": 6,
+          "start_line": 250,
+          "end_line": 256,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=6"
+        },
+        {
+          "id": "c1f9f51f1db846e27eae",
+          "page_number": 2,
+          "start_line": 38,
+          "end_line": 38,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=2"
+        },
+        {
+          "id": "600ad3a0cfb1943b90a0",
+          "page_number": 1,
+          "start_line": 1,
+          "end_line": 11,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=1"
+        }
+      ],
+      "answer": "PR.PS-01 示例行显示：当前配置管理政策版本为 **1.4**，最近更新日期为 **10/14/22**。[1]",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 710,
+        "completion_tokens": 136,
+        "total_tokens": 846,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 99
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 710
+      },
+      "cited_numbers": [
+        1
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=6",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 6 页"
+          ],
+          "chunk_id": "f4974b0d7c618eb6c2af"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=2",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "c1f9f51f1db846e27eae"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=1",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 1 页"
+          ],
+          "chunk_id": "600ad3a0cfb1943b90a0"
+        }
+      ],
+      "generation_ms": 1856.92,
+      "request_ms": 1873.1,
+      "audit": {
+        "verdict": "pass",
+        "note": "第 6 页 [1] 的 Practices 单元格给出版本和日期。",
+        "cited_pages": [
+          6
+        ]
+      }
+    },
+    {
+      "id": "L04",
+      "request_id": "80ebda66-2c96-4843-ac85-b03af156b3bc",
+      "candidate_pages": [
+        2,
+        10,
+        5,
+        1,
+        8,
+        6,
+        5,
+        4,
+        6,
+        6
+      ],
+      "selected": [
+        {
+          "id": "c1f9f51f1db846e27eae",
+          "page_number": 2,
+          "start_line": 38,
+          "end_line": 38,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=2"
+        },
+        {
+          "id": "00cdb99b735bf06448e8",
+          "page_number": 10,
+          "start_line": 442,
+          "end_line": 448,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=10"
+        },
+        {
+          "id": "9eab8bb6e7cf9edd9c80",
+          "page_number": 5,
+          "start_line": 172,
+          "end_line": 174,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=5"
+        }
+      ],
+      "answer": "提供的来源不足以回答该问题。摘录 [1] 仅包含“Create and Use Organizational Profiles”这一标题，未说明组织能否创建多个不同范围的组织画像，也未列出范围不覆盖整个组织时可纳入的对象；[2] 和 [3] 仅为参考信息，未涉及该问题。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 332,
+        "completion_tokens": 336,
+        "total_tokens": 668,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 270
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 332
+      },
+      "cited_numbers": [
+        1,
+        2,
+        3
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=2",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "c1f9f51f1db846e27eae"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=10",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 10 页"
+          ],
+          "chunk_id": "00cdb99b735bf06448e8"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "9eab8bb6e7cf9edd9c80"
+        }
+      ],
+      "generation_ms": 3806.93,
+      "request_ms": 3849.32,
+      "audit": {
+        "verdict": "miss",
+        "note": "缺第 3 页范围正文。",
+        "cited_pages": [
+          2,
+          10,
+          5
+        ]
+      }
+    },
+    {
+      "id": "L05",
+      "request_id": "9e2d9edc-7d61-4d40-83c9-d7bc1c47cf4a",
+      "candidate_pages": [
+        10,
+        2,
+        5,
+        1,
+        8,
+        6,
+        8,
+        5,
+        4,
+        6
+      ],
+      "selected": [
+        {
+          "id": "00cdb99b735bf06448e8",
+          "page_number": 10,
+          "start_line": 442,
+          "end_line": 448,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=10"
+        },
+        {
+          "id": "c1f9f51f1db846e27eae",
+          "page_number": 2,
+          "start_line": 38,
+          "end_line": 38,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=2"
+        },
+        {
+          "id": "9eab8bb6e7cf9edd9c80",
+          "page_number": 5,
+          "start_line": 172,
+          "end_line": 174,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=5"
+        }
+      ],
+      "answer": "提供的来源不足以回答该问题：这些摘录只把 SP 800-53 列为参考信息 [1]，并提到创建和使用组织画像 [2] 及参考信息 [3]，但没有说明从目标画像的相关子类别映射到 SP 800-53 控制时应使用什么工具。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 327,
+        "completion_tokens": 260,
+        "total_tokens": 587,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 197
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 327
+      },
+      "cited_numbers": [
+        1,
+        2,
+        3
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=10",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 10 页"
+          ],
+          "chunk_id": "00cdb99b735bf06448e8"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=2",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "c1f9f51f1db846e27eae"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "9eab8bb6e7cf9edd9c80"
+        }
+      ],
+      "generation_ms": 3102.17,
+      "request_ms": 3120.69,
+      "audit": {
+        "verdict": "miss",
+        "note": "缺第 8 页参考工具正文。",
+        "cited_pages": [
+          10,
+          2,
+          5
+        ]
+      }
+    },
+    {
+      "id": "L06",
+      "request_id": "d59a71b5-3637-417d-b37a-6eff2ffffb66",
+      "candidate_pages": [
+        2,
+        5,
+        8,
+        10,
+        1,
+        6,
+        4,
+        9,
+        5,
+        6
+      ],
+      "selected": [
+        {
+          "id": "c1f9f51f1db846e27eae",
+          "page_number": 2,
+          "start_line": 38,
+          "end_line": 38,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=2"
+        },
+        {
+          "id": "9eab8bb6e7cf9edd9c80",
+          "page_number": 5,
+          "start_line": 172,
+          "end_line": 174,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=5"
+        },
+        {
+          "id": "457ce20c13e99d8dff8a",
+          "page_number": 8,
+          "start_line": 354,
+          "end_line": 358,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=8"
+        }
+      ],
+      "answer": "提供的来源不足以回答该问题：这些摘录没有提到实施行动计划后用于监控控制及相关风险的两种指标，也没有说明风险超出容忍度时需要更新哪些内容。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 319,
+        "completion_tokens": 360,
+        "total_tokens": 679,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 325
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 319
+      },
+      "cited_numbers": [],
+      "citation_numbers_valid": false,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=2",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "c1f9f51f1db846e27eae"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "9eab8bb6e7cf9edd9c80"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=8",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 8 页"
+          ],
+          "chunk_id": "457ce20c13e99d8dff8a"
+        }
+      ],
+      "generation_ms": 3557.91,
+      "request_ms": 3577.13,
+      "audit": {
+        "verdict": "miss",
+        "note": "缺第 9 页指标和更新范围正文。",
+        "cited_pages": []
+      }
+    },
+    {
+      "id": "L07",
+      "request_id": "e23a0486-757d-44b8-a41d-9da4048468f8",
+      "candidate_pages": [
+        6,
+        5,
+        2,
+        8,
+        6,
+        6,
+        1,
+        10,
+        6,
+        5
+      ],
+      "selected": [
+        {
+          "id": "f4974b0d7c618eb6c2af",
+          "page_number": 6,
+          "start_line": 250,
+          "end_line": 256,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=6"
+        },
+        {
+          "id": "9eab8bb6e7cf9edd9c80",
+          "page_number": 5,
+          "start_line": 172,
+          "end_line": 174,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=5"
+        },
+        {
+          "id": "c1f9f51f1db846e27eae",
+          "page_number": 2,
+          "start_line": 38,
+          "end_line": 38,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=2"
+        }
+      ],
+      "answer": "不能。依据提供的摘录，只能看到某个具体“Current Profile”中 PR.PS-01 的当前评级为 **3/5**，并描述了该组织的配置管理实践和状态[1]。这并不表示指南规定所有机构的 PR.PS-01 都必须评为 3/5；摘录中没有这样的普遍强制要求。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 630,
+        "completion_tokens": 345,
+        "total_tokens": 975,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 272
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 630
+      },
+      "cited_numbers": [
+        1
+      ],
+      "citation_numbers_valid": true,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=6",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 6 页"
+          ],
+          "chunk_id": "f4974b0d7c618eb6c2af"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "9eab8bb6e7cf9edd9c80"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=2",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "c1f9f51f1db846e27eae"
+        }
+      ],
+      "generation_ms": 4322.75,
+      "request_ms": 4341.55,
+      "audit": {
+        "verdict": "refused",
+        "note": "拒绝把示例评级当作所有机构的要求。",
+        "cited_pages": [
+          6
+        ]
+      }
+    },
+    {
+      "id": "L08",
+      "request_id": "8d120ea9-4bd9-44b0-9b9a-4a42b06f2e27",
+      "candidate_pages": [
+        2,
+        1,
+        5,
+        6,
+        10,
+        8,
+        5,
+        6,
+        6,
+        6
+      ],
+      "selected": [
+        {
+          "id": "c1f9f51f1db846e27eae",
+          "page_number": 2,
+          "start_line": 38,
+          "end_line": 38,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=2"
+        },
+        {
+          "id": "600ad3a0cfb1943b90a0",
+          "page_number": 1,
+          "start_line": 1,
+          "end_line": 11,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=1"
+        },
+        {
+          "id": "9eab8bb6e7cf9edd9c80",
+          "page_number": 5,
+          "start_line": 172,
+          "end_line": 174,
+          "source_url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=5"
+        }
+      ],
+      "answer": "根据所提供的来源摘录，无法确定 PR.PS-01 示例行中负责审批变更的指定人员真实姓名；这些摘录未包含该示例行的具体内容。",
+      "model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 376,
+        "completion_tokens": 272,
+        "total_tokens": 648,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 234
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 376
+      },
+      "cited_numbers": [],
+      "citation_numbers_valid": false,
+      "sources": [
+        {
+          "number": 1,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=2",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 2 页"
+          ],
+          "chunk_id": "c1f9f51f1db846e27eae"
+        },
+        {
+          "number": 2,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=1",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 1 页"
+          ],
+          "chunk_id": "600ad3a0cfb1943b90a0"
+        },
+        {
+          "number": 3,
+          "url": "/api/source?scenario=local-docs&path=docs/01a7feeaba6ea142a875.pdf#page=5",
+          "heading_path": [
+            "NIST.SP.1301.pdf",
+            "第 5 页"
+          ],
+          "chunk_id": "9eab8bb6e7cf9edd9c80"
+        }
+      ],
+      "generation_ms": 3299.23,
+      "request_ms": 3332.78,
+      "audit": {
+        "verdict": "refused",
+        "note": "未编造人员姓名。",
+        "cited_pages": []
+      }
+    }
+  ]
+}

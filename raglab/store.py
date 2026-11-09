@@ -11,7 +11,7 @@ import subprocess
 import time
 
 from .corpus import Chunk, chunk_mdx
-from .pdf_source import PDF_CHUNKING_MODES, chunk_pdf
+from .pdf_source import PDF_CHUNKING_MODES, PDF_EXTRACTION_MODES, chunk_pdf
 
 
 PARSER_VERSION = "mdx-heading-table-row-v3"
@@ -34,8 +34,14 @@ def index_path(root: Path, manifest: dict, max_chars: int, definition_items: boo
     pdf_mode = manifest.get("pdf_chunking", "paragraph")
     if pdf_mode not in PDF_CHUNKING_MODES:
         raise ValueError(f"Unknown PDF chunking mode: {pdf_mode}")
-    if pdf_mode == "pack_short" and any(Path(path).suffix.lower() == ".pdf" for path in manifest["files"]):
-        settings["pdf_chunking"] = "pack-short-v1"
+    extraction = manifest.get("pdf_extraction", "layout")
+    if extraction not in PDF_EXTRACTION_MODES:
+        raise ValueError(f"Unknown PDF extraction mode: {extraction}")
+    if any(Path(path).suffix.lower() == ".pdf" for path in manifest["files"]):
+        if pdf_mode == "pack_short":
+            settings["pdf_chunking"] = "pack-short-v1"
+        if extraction != "layout":
+            settings["pdf_extraction"] = f"{extraction}-v1"
     digest = sha256(json.dumps(settings, sort_keys=True).encode()).hexdigest()[:12]
     return root / "indexes" / manifest["id"] / f"bm25-{digest}.db"
 
@@ -75,7 +81,8 @@ def build_index(root: Path, manifest: dict, max_chars: int = 1800,
             chunks.extend(chunk_pdf(source_file, relative, manifest["upstream_commit"],
                                     manifest["source_url_template"], max_chars,
                                     manifest.get("display_names", {}).get(relative),
-                                    mode=manifest.get("pdf_chunking", "paragraph")))
+                                    mode=manifest.get("pdf_chunking", "paragraph"),
+                                    extraction=manifest.get("pdf_extraction", "layout")))
         else:
             chunks.extend(chunk_mdx(source_file, relative, manifest["upstream_commit"],
                                     manifest["source_url_template"], max_chars,

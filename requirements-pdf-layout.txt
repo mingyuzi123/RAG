@@ -1,0 +1,2 @@
+-r requirements-pdf.txt
+pdfplumber==0.11.8

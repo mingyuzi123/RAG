@@ -3,6 +3,7 @@
 from io import BytesIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from types import SimpleNamespace
 from unittest import TestCase, skipUnless
 from unittest.mock import patch
 import base64
@@ -10,11 +11,24 @@ import importlib.util
 
 from raglab.generation import build_messages
 from raglab.local_sources import import_document, local_source_file
+from raglab.pdf_layout import table_text
 from raglab.pdf_source import chunk_pdf, extract_pages
 from raglab.store import build_index, index_path, search
 
 
 HAS_PYPDF = importlib.util.find_spec("pypdf") is not None
+
+
+class PdfTableTests(TestCase):
+    def test_merged_group_headers_and_empty_values_are_kept(self):
+        table = SimpleNamespace(
+            extract=lambda: [["Item", "Current", None], ["ID", "Rating", "Owner"], ["A", "3", ""]],
+            rows=[SimpleNamespace(cells=[(0, 0, 10, 10), (10, 0, 30, 10), None]),
+                  SimpleNamespace(cells=[(0, 10, 10, 20), (10, 10, 20, 20), (20, 10, 30, 20)])])
+        text = table_text(table)
+        self.assertIn("Current / Rating: 3", text)
+        self.assertIn("Current / Owner: [empty]", text)
+        self.assertIn("Item / ID: A", text)
 
 
 def sample_pdf(*pages: str) -> bytes:

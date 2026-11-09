@@ -13,11 +13,14 @@ MAX_PAGE_STREAM = 4 * 1024 * 1024
 MAX_EXTRACTED_CHARS = 2_000_000
 MIN_PAGE_CHARS = 20
 PDF_CHUNKING_MODES = ("paragraph", "pack_short")
+PDF_EXTRACTION_MODES = ("layout", "ordered", "ordered_tables")
 SHORT_BLOCK_CHARS = 80
 
 
-def extract_pages(content: bytes) -> tuple[list[str], list[int]]:
+def extract_pages(content: bytes, mode: str = "layout") -> tuple[list[str], list[int]]:
     """Return per-page text and sparse page numbers; never run OCR silently."""
+    if mode not in PDF_EXTRACTION_MODES:
+        raise ValueError(f"Unknown PDF extraction mode: {mode}")
     if not content.startswith(b"%PDF-"):
         raise ValueError("文件不是有效的 PDF")
     try:
@@ -37,7 +40,8 @@ def extract_pages(content: bytes) -> tuple[list[str], list[int]]:
             stream = page.get_contents()
             if stream is not None and len(stream.get_data()) > MAX_PAGE_STREAM:
                 raise ValueError("PDF 单页解压内容过大，暂不导入")
-            text = (page.extract_text(extraction_mode="layout") or "").replace("\r\n", "\n").replace("\r", "\n")
+            text = (page.extract_text(extraction_mode="layout" if mode == "layout" else "plain") or "")
+            text = text.replace("\r\n", "\n").replace("\r", "\n")
             text = "\n".join(line.rstrip() for line in text.splitlines()).strip()
             total += len(text)
             if total > MAX_EXTRACTED_CHARS:
@@ -51,18 +55,27 @@ def extract_pages(content: bytes) -> tuple[list[str], list[int]]:
               if len(re.sub(r"\s", "", text)) < MIN_PAGE_CHARS]
     if len(sparse) == len(pages):
         raise ValueError("PDF 未提取到足够文字；扫描件需要 OCR，不能作为空知识库导入")
+    if mode == "ordered_tables":
+        from .pdf_layout import extract_table_blocks
+
+        tables = extract_table_blocks(content)
+        if len(tables) != len(pages):
+            raise ValueError("表格解析页数与原始 PDF 不一致")
+        pages = ["\n\n".join([text, *blocks]) if blocks else text for text, blocks in zip(pages, tables)]
+        if sum(map(len, pages)) > MAX_EXTRACTED_CHARS:
+            raise ValueError("PDF 提取文本过大，暂不导入")
     return pages, sparse
 
 
 def chunk_pdf(file: Path, source_path: str, commit: str, url_template: str,
               max_chars: int = 1800, title: str | None = None,
-              mode: str = "paragraph") -> list[Chunk]:
+              mode: str = "paragraph", extraction: str = "layout") -> list[Chunk]:
     """Split within each page only, preserving PDF page links and stable IDs."""
     if max_chars < 200:
         raise ValueError("max_chars must be at least 200")
     if mode not in PDF_CHUNKING_MODES:
         raise ValueError(f"Unknown PDF chunking mode: {mode}")
-    pages, _ = extract_pages(file.read_bytes())
+    pages, _ = extract_pages(file.read_bytes(), extraction)
     title = title or file.stem
     base_url = url_template.format(commit=commit, path=source_path)
     chunks = []

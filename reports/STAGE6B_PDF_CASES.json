@@ -1,0 +1,15 @@
+{
+  "source": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.1301.pdf",
+  "sha256": "baf10ffc7ed7792a54e724b983a858b6c194c2ebcd21843034bee78a858f46d8",
+  "settings": {"strategy": "vector", "top_k": 10, "context_k": 3, "context_policy": "top_k", "auto_rewrite": false},
+  "cases": [
+    {"id": "L01", "question": "组织画像模板中，Current Profile 和 Target Profile 各有哪些列？", "pages": [5, 6], "points": ["Current Profile 是 Practices、Status、Rating", "Target Profile 是 Priority、Goals"]},
+    {"id": "L02", "question": "PR.PS-01 示例行的当前 Rating 和目标 Priority 分别是多少？", "pages": [6], "points": ["Rating 为 3/5", "Priority 为 High"]},
+    {"id": "L03", "question": "PR.PS-01 示例行的当前配置管理政策版本是什么，最近更新日期是什么？", "pages": [6], "points": ["版本 1.4", "原文日期 10/14/22"]},
+    {"id": "L04", "question": "一个组织可以创建多个不同范围的组织画像吗？范围不覆盖整个组织时，列举至少两类可纳入的对象。", "pages": [3], "points": ["可以创建多个不同范围的画像", "列举至少两类，如部门、数据资产、技术资产、产品服务、合作方供应商"]},
+    {"id": "L05", "question": "指南建议用什么工具从目标画像的相关子类别找到对应的 SP 800-53 控制？", "pages": [8], "points": ["NIST CSF 2.0 Reference Tool", "顺着目标画像相关子类别的引用找到相应控制"]},
+    {"id": "L06", "question": "实施行动计划后，可用哪两种指标监控控制及相关风险？风险超出容忍度时，哪些内容可能要更新？", "pages": [9], "points": ["KPI 和 KRI", "行动计划、组织画像和/或风险容忍度声明"]},
+    {"id": "L07", "question": "仅依据本指南，能确定所有机构的 PR.PS-01 当前配置管理都必须评为 3/5 吗？", "pages": [], "points": []},
+    {"id": "L08", "question": "PR.PS-01 示例行里，负责审批变更的指定人员的真实姓名是什么？", "pages": [], "points": []}
+  ]
+}
