@@ -11,7 +11,8 @@ import subprocess
 import time
 
 from .corpus import Chunk, chunk_mdx
-from .pdf_source import PDF_CHUNKING_MODES, PDF_EXTRACTION_MODES, chunk_pdf
+from .pdf_source import PDF_CHUNKING_MODES, PDF_EXTRACTION_MODES, PDF_SEMANTIC_VERSION, chunk_pdf
+from .vector import MODEL_ID, MODEL_REVISION
 
 
 PARSER_VERSION = "mdx-heading-table-row-v3"
@@ -40,6 +41,8 @@ def index_path(root: Path, manifest: dict, max_chars: int, definition_items: boo
     if any(Path(path).suffix.lower() == ".pdf" for path in manifest["files"]):
         if pdf_mode == "pack_short":
             settings["pdf_chunking"] = "pack-short-v1"
+        elif pdf_mode == "semantic":
+            settings["pdf_chunking"] = f"{PDF_SEMANTIC_VERSION}:{MODEL_ID}@{MODEL_REVISION}"
         if extraction != "layout":
             settings["pdf_extraction"] = f"{extraction}-v1"
     digest = sha256(json.dumps(settings, sort_keys=True).encode()).hexdigest()[:12]

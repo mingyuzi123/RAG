@@ -1,7 +1,9 @@
 """Extract text PDFs into page-bounded, source-traceable chunks."""
 
+from dataclasses import replace
 from hashlib import sha256
 from io import BytesIO
+from itertools import groupby
 from pathlib import Path
 import re
 
@@ -12,9 +14,40 @@ MAX_PAGES = 200
 MAX_PAGE_STREAM = 4 * 1024 * 1024
 MAX_EXTRACTED_CHARS = 2_000_000
 MIN_PAGE_CHARS = 20
-PDF_CHUNKING_MODES = ("paragraph", "pack_short")
+PDF_CHUNKING_MODES = ("paragraph", "pack_short", "semantic")
 PDF_EXTRACTION_MODES = ("layout", "ordered", "ordered_tables")
 SHORT_BLOCK_CHARS = 80
+PDF_SEMANTIC_VERSION = "semantic-v1"
+SEMANTIC_MIN_SIMILARITY = 0.82
+SECTION_START = re.compile(r"^(?:#{1,6}\s|\d+(?:\.\d+)*\.\s)")
+TABLE_MARKER = re.compile(r"\bTable\s+(?:\d+\s*[.:]|columns:|row\s+\d+\s*\()", re.I)
+
+
+def _semantic_page(chunks: list[Chunk], max_chars: int, model) -> list[Chunk]:
+    # Flattened table pages do not reliably separate table cells from prose.
+    if len(chunks) < 2 or any(TABLE_MARKER.search(chunk.text) for chunk in chunks):
+        return chunks
+    vectors = model.encode(["passage: " + chunk.text for chunk in chunks],
+                           batch_size=16, normalize_embeddings=True)
+    result = []
+    index = 0
+    while index < len(chunks) - 1:
+        left, right = chunks[index:index + 2]
+        length = len(left.text) + 2 + len(right.text)
+        is_margin = ((index == 0 and re.search(r" {12,}", left.text.splitlines()[0])) or
+                     (index + 1 == len(chunks) - 1 and re.search(r" {12,}", right.text.splitlines()[-1])))
+        if (length <= max_chars and not is_margin and not SECTION_START.match(right.text)
+                and float(vectors[index] @ vectors[index + 1]) >= SEMANTIC_MIN_SIMILARITY):
+            body = f"{left.text}\n\n{right.text}"
+            chunk_id = sha256(f"{PDF_SEMANTIC_VERSION}\n{left.id}\n{right.id}\n{body}".encode()).hexdigest()[:20]
+            result.append(replace(left, id=chunk_id, end_line=right.end_line, text=body))
+            index += 2
+        else:
+            result.append(left)
+            index += 1
+    if index < len(chunks):
+        result.append(chunks[index])
+    return result
 
 
 def extract_pages(content: bytes, mode: str = "layout") -> tuple[list[str], list[int]]:
@@ -118,4 +151,10 @@ def chunk_pdf(file: Path, source_path: str, commit: str, url_template: str,
                 pending.append((number, piece))
         flush()
         line_offset += len(lines) + 1
+    if mode == "semantic" and chunks:
+        from .vector import load_model
+
+        model = load_model()
+        return [chunk for _, page in groupby(chunks, key=lambda item: item.page_number)
+                for chunk in _semantic_page(list(page), max_chars, model)]
     return chunks

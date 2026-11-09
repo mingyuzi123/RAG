@@ -5,7 +5,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from types import SimpleNamespace
 from unittest import TestCase, skipUnless
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 import base64
 import importlib.util
 
@@ -57,6 +57,34 @@ def sample_pdf(*pages: str) -> bytes:
 
 @skipUnless(HAS_PYPDF, "install requirements-pdf.txt")
 class PdfSourceTests(TestCase):
+    def test_semantic_merging_respects_sections_tables_pages_and_size(self):
+        pages = [
+            "A cache rule.\n\nIt has an exception.\n\n4.2. A different section\n\n" + "x" * 190,
+            "A separate page.\n\nTable 1. Band widths",
+            "A low similarity paragraph.\n\nAnother topic.",
+        ]
+        vector = MagicMock()
+        vector.__matmul__.side_effect = [0.95, 0.3]
+        model = MagicMock()
+        model.encode.side_effect = [[vector] * 4, [vector] * 2]
+        with TemporaryDirectory() as folder:
+            file = Path(folder) / "example.pdf"
+            file.write_bytes(b"placeholder for mocked page extraction")
+            args = (file, "example.pdf", "rev", "http://localhost/{path}", 200)
+            with patch("raglab.pdf_source.extract_pages", return_value=(pages, [])), \
+                 patch("raglab.vector.load_model", return_value=model):
+                baseline = chunk_pdf(*args)
+                chunks = chunk_pdf(*args, mode="semantic")
+        self.assertEqual(chunks[0].text, "A cache rule.\n\nIt has an exception.")
+        self.assertEqual(chunks[0].source_url, "http://localhost/example.pdf#page=1")
+        self.assertEqual(chunks[0].end_line, baseline[1].end_line)
+        self.assertNotEqual(chunks[0].id, baseline[0].id)
+        self.assertEqual(chunks[1:], baseline[2:])
+        self.assertEqual(model.encode.call_count, 2)
+        manifest = {"id": "test", "upstream_commit": "rev", "files": ["example.pdf"]}
+        self.assertNotEqual(index_path(Path("."), manifest, 200),
+                            index_path(Path("."), {**manifest, "pdf_chunking": "semantic"}, 200))
+
     def test_pack_short_preserves_page_boundaries_and_index_version(self):
         pages = ["TITLE\n\n" + "a" * 190, "SECOND\n\n" + "b" * 190]
         with TemporaryDirectory(dir=Path(__file__).resolve().parents[1]) as folder:

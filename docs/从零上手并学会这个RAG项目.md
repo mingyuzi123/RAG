@@ -29,7 +29,8 @@
 | DeepSeek 带出处回答、请求记录、人工答案评审 | 已实现；DeepSeek API 可选且会消耗额度 |
 | 条件父块合并＋目标邻块、多查询、自动拆题 | 可选实验；不能把个别题改善当成通用效果 |
 | 中文问题自动生成可编辑英文 BM25 查询 | 已接入 v3；10 题证据覆盖比 v1 多 1 题，尚待全新题验证 |
-| OCR、模型语义切分、Agent 编排 | 尚未完成 |
+| PDF 模型辅助语义切分 | 离线实验，默认仍按结构切分 |
+| OCR、Agent 编排 | 尚未完成 |
 
 以下命令在 Windows PowerShell 执行，使用 Git 和 Python 3.11 或更新版本。如果还没有仓库，先执行 `git clone https://github.com/mingyuzi123/RAG.git` 和 `cd RAG`；已有仓库则直接在仓库根目录继续。第一次只做**免费**的 CrewAI 关键词检索：
 
@@ -90,7 +91,7 @@ CrewAI/Pydantic 的 [`manifest.json`](../scenarios/crewai/manifest.json)固定�
 
 本地场景的导入与替换在 [`raglab/local_sources.py`](../raglab/local_sources.py)。同名资料必须明确勾选替换；旧文件和索引仍留在本机，新问答只使用当前 manifest 指向的版本。PDF 则由 [`raglab/pdf_source.py`](../raglab/pdf_source.py)按页提取、再按段落与长度切块。每个 PDF 块只属于一页，出处链接使用 `#page=N`；Markdown 仍引用行号。纯扫描件没有可提取文字时拒绝空导入，部分文字不足的页显示 OCR 提示。
 
-这一步还**没有模型辅助语义切分**。当前结构切分是可复核的基线：先保证“不丢内容、能回原文”，再用题集比较语义切分是否真的提升答案。页码正确也不等于双栏顺序、表格关系正确；真实 PDF 仍要人工抽查。[PDF 验收记录](PDF_接入边界与验收.md)写明已测和未测。
+默认使用结构切分。PDF 语义切分已有离线实验，用 E5 判断同页相邻块是否适合合并，保留原文和页码。R03 合并后排第 1，但新块放不进原上下文预算。复盘时分别看候选排名、上下文是否实际接收，以及生成是否得到证据支持。[语义切分实验](../reports/PDF_SEMANTIC_CHUNKING.md) · [PDF 验收记录](PDF_接入边界与验收.md)
 
 **延伸知识：**“内容哈希”可用于判断两段文字是否相同；“快照版本”用于说明某次回答依据的是哪一批资料。两者不是同一个概念。详见[替换实验](LOCAL_DOC_VERSION_EXPERIMENT.md)。
 
