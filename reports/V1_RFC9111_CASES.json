@@ -1,0 +1,17 @@
+{
+  "source": "https://www.rfc-editor.org/rfc/rfc9111.pdf",
+  "sha256": "2663227a94ec8a81892a02f5697fc15c578571cdee96407adb5c60a60236c76f",
+  "settings": {"strategy": "vector", "top_k": 10, "context_k": 3, "context_policy": "top_k", "auto_rewrite": false},
+  "cases": [
+    {"id":"R01","type":"text","question":"按 RFC 9111，Vary 指定的某个请求头在两次请求中都缺失，能匹配吗？Vary: * 又怎样？","pages":[11],"points":["指定头两次都缺失时可匹配","Vary: * 始终不能匹配"]},
+    {"id":"R02","type":"cross_page","question":"带 Authorization 的请求，其缓存响应允许共享缓存复用的三种响应指令是什么？其中 s-maxage 对过期复用有什么要求？","pages":[10,25],"points":["must-revalidate、public、s-maxage，且遵守指令条件","s-maxage 的过期响应须经源站成功验证后才可复用"]},
+    {"id":"R03","type":"text","question":"条件请求的验证返回 304 或返回带内容的完整响应时，缓存各自应怎样处理？","pages":[17],"points":["304 可更新并复用已存响应","完整响应说明原候选不适用，必须使用完整响应满足请求，可以按约束存储"]},
+    {"id":"R04","type":"text","question":"共享缓存计算新鲜期时，s-maxage、max-age、Expires 的优先顺序是什么？如果只走 Expires 分支，新鲜期怎么算？","pages":[13],"points":["s-maxage 优先于 max-age，之后才是 Expires","用 Expires 减 Date，无 Date 则用收到消息时刻"]},
+    {"id":"R05","type":"cross_page","question":"Age 响应头估计的是什么时间？计算 current_age 时，应在 corrected_initial_age 上加哪一段时间？","pages":[15,19],"points":["源站生成响应或成功验证后经过的时间","加驻留时间 resident_time=now-response_time"]},
+    {"id":"R06","type":"text","question":"缓存遵守 only-if-cached 时可以返回哪两类结果？断网时能否忽略 must-revalidate 而返回陈旧响应？","pages":[22],"points":["返回符合约束的已存响应或 504","不能忽略 must-revalidate；应给错误而不复用陈旧响应"]},
+    {"id":"R07","type":"text","question":"不安全方法收到非错误响应时，目标 URI 是否必须失效？能据此使不同源的 Location URI 失效吗？","pages":[19],"points":["目标 URI 必须失效","禁止据此使不同源 URI 失效"]},
+    {"id":"R08","type":"cross_page","question":"no-cache 作为请求指令与作为不带参数的响应指令，对成功验证的要求分别是什么？","pages":[21,23],"points":["请求指令表达不经源站成功验证则不愿使用已存响应的偏好","无参数的响应指令禁止不经转发及成功验证就复用"]},
+    {"id":"R09","type":"unanswerable","question":"仅据 RFC 9111，能确定 example.com 某台 CDN 缓存的磁盘容量是多少 GiB 吗？","pages":[],"points":[]},
+    {"id":"R10","type":"unanswerable","question":"RFC 9111 规定每个运营商的缓存服务月费必须是多少美元吗？","pages":[],"points":[]}
+  ]
+}

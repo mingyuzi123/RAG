@@ -1,0 +1,17 @@
+{
+  "source": "https://pubs.usgs.gov/fs/2019/3008/fs20193008.pdf",
+  "sha256": "d4ac4b2d7c2439ef2df79dcb03f01092d2b0bbd722f0e1c169ec8755b9e027d5",
+  "settings": {"strategy": "vector", "top_k": 10, "context_k": 3, "context_policy": "top_k", "auto_rewrite": false},
+  "cases": [
+    {"id":"U01","type":"text","question":"Landsat 9 简报 Quick Facts 里的轨道高度（公里）和倾角各是多少？","pages":[1],"points":["705 公里","98.2 度"]},
+    {"id":"U02","type":"text","question":"Landsat 9 发射及在轨检查由谁负责？在 NASA 完成在轨检查后，地面系统与数据分发由谁负责？","pages":[1],"points":["NASA 负责发射和在轨检查","USGS 负责地面系统与数据分发"]},
+    {"id":"U03","type":"text","question":"Landsat 9 单星重访周期是几天？它和 Landsat 8 的时间错开几天？","pages":[1],"points":["16 天","错开 8 天"]},
+    {"id":"U04","type":"table","question":"按表 1，Landsat 9 的 Band 8 波长范围和空间分辨率是多少？","pages":[2],"points":["0.503–0.676 微米","15 米"]},
+    {"id":"U05","type":"table","question":"表 1 的 Band 10 和 Band 11 各自波长范围是什么？热波段的采集和重采样分辨率分别是多少？","pages":[2],"points":["Band 10 为 10.60–11.19 微米","Band 11 为 11.50–12.51 微米","100 米采集，重采样到 30 米"]},
+    {"id":"U06","type":"text","question":"相较 Landsat 8，Landsat 9 的 OLI 量化精度从多少位提高到多少位？","pages":[2],"points":["12 位提高到 14 位"]},
+    {"id":"U07","type":"text","question":"两台仪器的任务设计寿命与航天器耗材年限分别是多少？","pages":[2],"points":["OLI 和 TIRS 设计寿命 5 年","航天器耗材 10 年以上"]},
+    {"id":"U08","type":"cross_page","question":"图 1 的孟加拉国海岸自然色图用了哪三个波段？据表 1，这三个波段各是什么空间分辨率？","pages":[1,2],"points":["波段 4、3、2","三者均为 30 米"]},
+    {"id":"U09","type":"unanswerable","question":"仅据这份说明，能确定 Landsat 9 地面系统一天的实际运营费用是多少美元吗？","pages":[],"points":[]},
+    {"id":"U10","type":"unanswerable","question":"这份说明是否给出了 Landsat 9 正式关机的确定日期？具体是哪一天？","pages":[],"points":[]}
+  ]
+}
