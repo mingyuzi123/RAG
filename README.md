@@ -6,7 +6,17 @@
 
 ## 快速演示
 
-在仓库根目录运行以下 PowerShell 命令。已有虚拟环境时可直接使用该环境。
+**Windows 直接双击根目录的 [start.cmd](start.cmd)**。需要 Python 3.11 或更新版本。脚本会复用或创建项目的 `.venv`，缺少 PDF 依赖时会安装。看到终端打印地址后打开 [演示页面](http://127.0.0.1:8789/)，保持窗口打开。结束时按 `Ctrl+C`，若 CMD 询问是否终止批处理，输入 `Y`。
+
+| 在 PowerShell 中运行 | 用途 |
+| --- | --- |
+| `.\start.cmd` | 免费 PDF 演示，点击 L02 的「运行单路检索」 |
+| `.\start.cmd --live` | 同一份演示 PDF，启用本机 `.env` 的 DeepSeek |
+| `.\start.cmd --check` | 免费 HTTP 自检，结束后退出 |
+| `.\start.cmd lab` | 完整实验室，使用已有场景与本地知识库，端口 8765 |
+| `.\start.cmd lab-live` | 完整实验室，启用 DeepSeek |
+
+完整实验室从全新仓库启动时，先按[上手指南](docs/从零上手并学会这个RAG项目.md)下载官方资料并建立索引。PDF 演示自带独立建库流程，首次需要联网。Linux 或 macOS 可用对应虚拟环境的 Python 执行下面相同的脚本。手动启动的 Windows 命令为
 
 ```powershell
 python -m venv .venv
@@ -18,11 +28,21 @@ python -m venv .venv
 
 带引用回答、无答案题与失败追踪的演示步骤在[演示指南](docs/DEMO.md)。
 
+## 项目目录
+
+| 要找的东西 | 位置 |
+| --- | --- |
+| 学习、面试、复盘 | [上手指南](docs/从零上手并学会这个RAG项目.md) · [面试问答](docs/RAG_面试问答.md) · [回顾路线](docs/PROJECT_回顾路线.md) |
+| 核心链路和页面 | `raglab/`、`web/`，[设计文档](DESIGN.md) |
+| 场景配置、示例和评测 | `scenarios/`、`examples/`、[实验报告](reports/README.md) |
+| 工具与自动回归 | `scripts/`、`tests/`、[GitHub Actions](.github/workflows/regression.yml) |
+| 本机资料、索引、缓存、请求记录和配置 | `data/`、`indexes/`、`.venv/`、`logs/`、`.env`，均由 Git 忽略 |
+
 ## 当前进度
 
 两份独立 PDF 已用 20 道运行前冻结的题验收。默认 E5 路径中，16 道可回答题有 5 道答全，4 道无答案题均拒答。Landsat 的结构化表格模式修复两题、退步两题，继续作为可选项。[逐题报告和复现命令](reports/V1_ACCEPTANCE.md)
 
-本地无密钥回归通过 31 项，覆盖 PDF 导入、检索、页码引用和失败请求追踪。GitHub Actions 工作流配置为在 Ubuntu 与 Windows 上执行同一套测试。[工作流](.github/workflows/regression.yml)
+本地无密钥回归通过 31 项，覆盖 PDF 导入、检索、页码引用和失败请求追踪。GitHub Actions 首次运行的 Ubuntu 和 Windows 任务均通过。[运行记录](https://github.com/mingyuzi123/RAG/actions/runs/42555279765)
 
 PDF 读序和表格对照已完成。结构化抽取在另一份公开 PDF 上使可回答题从 0/6 提升到 3/6，提升集中在表格题。原布局抽取作为默认，表格模式按场景选择。[6B 逐题验收](reports/STAGE6B_PDF_LAYOUT.md)
 
@@ -123,11 +143,11 @@ python scripts/evaluate_decomposed.py
 
 后续在运行前冻结的 10 道 Pydantic 新题上，两种策略均为 10/10，未出现增益或退步；这是原方案全对的天花板效应。逐题回答、成本和下一轮困难题设计见[新题复验](reports/FRESH_CONTEXT_V1.md)。
 
-本地场景现支持可复制文字的 PDF（单篇不超过 8 MB、200 页）。先安装 `.\.venv\Scripts\python.exe -m pip install -r requirements-pdf.txt`，再从页面“我的本地文档 → 添加或替换资料”上传；每块限制在单页内，检索结果与回答出处显示页码，点击后打开原 PDF 的对应页。整份 PDF 无可提取文字时拒绝导入并提示 OCR；个别文字不足的页会在资料管理中提示。当前按页、段落和长度切块，尚未使用模型做语义分割；已验证两份含表格的真实文本 PDF，扫描件仍需 OCR。实现边界与测试见[PDF 接入记录](docs/PDF_接入边界与验收.md)。
+本地场景现支持可复制文字的 PDF（单篇不超过 8 MB、200 页）。用 `.\start.cmd lab` 启动后，从页面“我的本地文档 → 添加或替换资料”上传。手动启动时可先用 `.\.venv\Scripts\python.exe -m pip install -r requirements-pdf.txt` 安装默认抽取依赖。每块限制在单页内，检索结果与回答出处的页码可跳转到原 PDF。整份 PDF 无可提取文字时拒绝导入并提示 OCR；个别文字不足的页会在资料管理中提示。目前按页、段落和长度切块，多份真实资料的表格、脚注和图注覆盖见[独立 PDF 验收](reports/V1_ACCEPTANCE.md)。扫描件仍需 OCR，详见[PDF 接入记录](docs/PDF_接入边界与验收.md)。
 
 ## 本地可视化界面
 
-完成关键词和向量建库后，启动本地页面：
+完成关键词建库后，用 `.\start.cmd lab` 启动完整实验室。要使用 E5 或 RRF，再补建向量索引。也可以手动启动
 
 ```powershell
 python -m raglab.web
@@ -148,10 +168,10 @@ python -m raglab.web
 .\.venv\Scripts\python.exe scripts/validate_scenario.py --scenario scenarios/pydantic/manifest.json
 .\.venv\Scripts\python.exe -m raglab --scenario scenarios/pydantic/manifest.json index
 .\.venv\Scripts\python.exe -m raglab --scenario scenarios/pydantic/manifest.json vector-index
-.\.venv\Scripts\python.exe scripts/run_with_deepseek.py --scenario scenarios/pydantic/manifest.json --port 8768
+.\start.cmd lab
 ```
 
-页面打开 `http://127.0.0.1:8768/`。如需重算三路检索报告，使用 `scripts/evaluate_retrieval.py --scenario scenarios/pydantic/manifest.json --strategy bm25|vector|hybrid`，BM25 用英文查询，向量与混合用中文原题。固定题集的检索结果、10 次真实回答的人工核验和局限见[第 4 阶段报告](reports/STAGE4_第二场景与答案质量.md)。已复核一个关键反例：CrewAI C07 的前 3 块实际上有正确答案 `manager_llm` 或 `manager_agent`，旧章节标注没有收录这些替代证据；页面现显示标注复核提示，历史实验分数保持不变。
+在 [本地实验室](http://127.0.0.1:8765/) 的「切换知识库」选择 Pydantic。如果实验室已经运行，直接在现有页面切换。要重算三路检索报告，使用 `scripts/evaluate_retrieval.py --scenario scenarios/pydantic/manifest.json --strategy bm25|vector|hybrid`，BM25 用英文查询，向量与混合用中文原题。固定题集的检索结果、10 次真实回答的人工核验和局限见[第 4 阶段报告](reports/STAGE4_第二场景与答案质量.md)。已复核一个关键反例：CrewAI C07 的前 3 块实际上有正确答案 `manager_llm` 或 `manager_agent`，旧章节标注没有收录这些替代证据；页面现显示标注复核提示，历史实验分数保持不变。
 
 ## 阶段交付
 

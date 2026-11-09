@@ -66,4 +66,4 @@ python -m pip install -r requirements-pdf.txt
 python -m unittest discover -s tests -v
 ```
 
-Windows / Python 3.13 的独立环境已通过全部 31 项。本地结果可直接复验，远程运行状态见 [GitHub Actions](https://github.com/mingyuzi123/RAG/actions/workflows/regression.yml)。
+Windows / Python 3.13 的独立环境已通过全部 31 项。GitHub Actions 首次运行的 Windows / Python 3.13 与 Ubuntu / Python 3.11 任务均通过。[远程验收记录](https://github.com/mingyuzi123/RAG/actions/runs/42555279765)

@@ -16,7 +16,7 @@
 
 ## 1. 这个项目是什么，怎样先跑起来
 
-第一次看项目可以先用快速演示核对一条真实 PDF 证据。选 L02 查看同一行的评分与优先级，再按指南复现 L08 拒答和输入失败。完整学习仍沿下文从 BM25 建库开始。[演示指南](DEMO.md)
+第一次运行，双击根目录的 [start.cmd](../start.cmd)，打开终端打印的地址。选 L02，点「运行单路检索」，展开首块，点第 6 页核对同一行的评分与优先级。想尝试真实问答时，再按指南切换到 `--live`，对照 L08 拒答和输入失败。下面继续从 CrewAI 的 BM25 建库开始。[演示指南](DEMO.md)
 
 它是一个**技术文档问答 RAG 骨架**：把资料、页面展示和评测题放在场景包中，核心解析、索引、检索、问答代码共用。目前有固定版本的 CrewAI、Pydantic 文档，以及可自行上传 Markdown/MDX/文本型 PDF 的本地场景。它是一条由程序固定编排的 RAG 问答流程，**还不是会自主决定工具调用的 Agent**。
 
@@ -24,7 +24,7 @@
 
 | 能力 | 当前状态 |
 | --- | --- |
-| Markdown/MDX、文本型 PDF 入库；PDF 页码引用 | 已实现，PDF 复杂版面待真实样本复核 |
+| Markdown/MDX、文本型 PDF 入库；PDF 页码引用 | 已用多份真实 PDF 验证，复杂版面仍可能丢失图注、表格或脚注证据 |
 | SQLite FTS5/BM25、E5 向量、RRF 混合检索 | 已实现；E5 需另装依赖和下载模型 |
 | DeepSeek 带出处回答、请求记录、人工答案评审 | 已实现；DeepSeek API 可选且会消耗额度 |
 | 条件父块合并＋目标邻块、多查询、自动拆题 | 可选实验；不能把个别题改善当成通用效果 |
@@ -46,17 +46,19 @@ python -m venv .venv
 要打开免费的检索页面：
 
 ```powershell
-.\.venv\Scripts\python.exe -m raglab.web --port 8768
+.\start.cmd lab
 ```
 
-浏览器访问 `http://127.0.0.1:8768/`。这个命令运行时保持 PowerShell 窗口打开。若需要 E5、混合检索和 PDF，再安装：
+浏览器访问 [本地实验室](http://127.0.0.1:8765/)，保持启动窗口打开。免费起步时选择「BM25」并填英文检索词。若需要 E5 和混合检索，再安装向量依赖并建索引：
 
 ```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements-vector.txt -r requirements-pdf.txt
+.\.venv\Scripts\python.exe -m pip install -r requirements-vector.txt
 .\.venv\Scripts\python.exe -m raglab vector-index
 ```
 
-首次 E5 建库会下载固定版本模型，耗时取决于网络和机器。若要进行真实 DeepSeek 回答，将 `.env.example` 复制为 `.env`，**只在本机**填写 `DEEPSEEK_API_KEY`，再用 `scripts/run_with_deepseek.py --port 8768` 启动页面；先结束已占用同一端口的服务。`.env` 被 Git 忽略，切勿把密钥贴进问题、文档或提交。
+首次 E5 建库会下载固定版本模型，耗时取决于网络和机器。若要进行真实 DeepSeek 回答，在本机 `.env` 填好 `DEEPSEEK_API_KEY`。没有该文件时，先复制 `.env.example`。在原窗口按 `Ctrl+C` 停止服务，再运行 `.\start.cmd lab-live`。端口被占用时可运行 `.\start.cmd lab-live 8769` 并打开打印的地址。`.env` 被 Git 忽略。
+
+要回顾 Pydantic，先按 [README 的第二场景步骤](../README.md#第二场景pydantic-文档)建库，再从现有页面切换知识库。
 
 **本章自检：**`search` 输出了什么？其中哪一项能让你回到原文，而不必相信模型的记忆？
 
@@ -194,7 +196,7 @@ CrewAI/Pydantic 的 [`manifest.json`](../scenarios/crewai/manifest.json)固定�
 当前最值得继续的方向，按故障选择，而不是同时堆框架：
 
 - **中文问题到英文 BM25 查询：**v3 已修复 C14 的已知排名问题，10 题覆盖由 v1 的 7/10 到 8/10，P01 仍有排名下降。下一步冻结全新题集，与旧规则、人工词和纯 E5 比较候选/上下文覆盖和真实答案，检验收益是否能推广。
-- **PDF 质量**。两份真实 PDF 已做读序和表格对照。复习 L02 的行列关系和 L04–L06 的正文缺口，再考虑扫描件与新布局。[6B 逐题验收](../reports/STAGE6B_PDF_LAYOUT.md)
+- **PDF 质量**。先复习 L02 的行列关系和 L04–L06 的正文缺口，再用独立题 U05 检查表格行与脚注怎样被选入上下文。[6B 逐题验收](../reports/STAGE6B_PDF_LAYOUT.md) · [独立 PDF 验收](../reports/V1_ACCEPTANCE.md)
 - **候选覆盖：**C04 这类分散证据问题可研究多查询、重排或证据覆盖选块；不要用邻块规则解决所有故障。
 - **Agent 接入：**未来可把 `retrieve`/`answer` 封装成 Agent 工具，并要求 Agent 记录何时检索、用了哪版索引、最终断言依据哪些块。**本仓库目前没有多 Agent 编排**，这是延伸项目，不是现成功能。
 
