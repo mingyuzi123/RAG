@@ -4,7 +4,7 @@
 
 ## 项目进度
 
-简历交付优先项 1 已验收。Windows 双击根目录 [start.cmd](start.cmd) 可启动隔离 PDF 演示，用无需 E5 和密钥的 BM25 路径查看第 6 页完整证据。用 `.\start.cmd lab` 可启动完整实验室。真实生成、拒答和输入失败追踪已验证。[演示指南](docs/DEMO.md)
+简历交付优先项 1 已验收。Windows 双击根目录 [start.cmd](start.cmd) 可启动隔离 PDF 演示，用无需 E5 和密钥的 BM25 路径查看第 6 页完整证据。完整实验室有独立的 [start_lab.cmd](start_lab.cmd)。真实生成、拒答和输入失败追踪已验证。[演示指南](docs/DEMO.md)
 
 优先项 2 已验收。RFC 9111 和 Landsat 9 共冻结 20 题，额外对 Landsat 跑了一轮表格模式。默认配置 5/16 答全、4/4 拒答。优先项 3 已验收，Windows 与 Ubuntu 的 GitHub Actions 均通过 31 项无密钥测试。学习回顾可用 R03 的上下文截断和 U05 的脚注缺失，练习逐条核对证据。CI 覆盖接口与证据链，真实模型的效果由冻结题单独验证。[逐题验收与 CI](reports/V1_ACCEPTANCE.md)
 

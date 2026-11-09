@@ -13,10 +13,10 @@
 | `.\start.cmd` | 免费 PDF 演示，点击 L02 的「运行单路检索」 |
 | `.\start.cmd --live` | 同一份演示 PDF，启用本机 `.env` 的 DeepSeek |
 | `.\start.cmd --check` | 免费 HTTP 自检，结束后退出 |
-| `.\start.cmd lab` | 完整实验室，使用已有场景与本地知识库，端口 8765 |
-| `.\start.cmd lab-live` | 完整实验室，启用 DeepSeek |
+| `.\start_lab.cmd` | 完整实验室，使用已有场景与本地知识库，端口 8765 |
+| `.\start_lab.cmd --live` | 完整实验室，启用 DeepSeek |
 
-完整实验室从全新仓库启动时，先按[上手指南](docs/从零上手并学会这个RAG项目.md)下载官方资料并建立索引。PDF 演示自带独立建库流程，首次需要联网。Linux 或 macOS 可用对应虚拟环境的 Python 执行下面相同的脚本。手动启动的 Windows 命令为
+完整实验室可以直接双击 [start_lab.cmd](start_lab.cmd)。从全新仓库启动时，先按[上手指南](docs/从零上手并学会这个RAG项目.md)下载官方资料并建立索引。PDF 演示自带独立建库流程，首次需要联网。Linux 或 macOS 可用对应虚拟环境的 Python 执行下面相同的脚本。手动启动的 Windows 命令为
 
 ```powershell
 python -m venv .venv
@@ -143,11 +143,11 @@ python scripts/evaluate_decomposed.py
 
 后续在运行前冻结的 10 道 Pydantic 新题上，两种策略均为 10/10，未出现增益或退步；这是原方案全对的天花板效应。逐题回答、成本和下一轮困难题设计见[新题复验](reports/FRESH_CONTEXT_V1.md)。
 
-本地场景现支持可复制文字的 PDF（单篇不超过 8 MB、200 页）。用 `.\start.cmd lab` 启动后，从页面“我的本地文档 → 添加或替换资料”上传。手动启动时可先用 `.\.venv\Scripts\python.exe -m pip install -r requirements-pdf.txt` 安装默认抽取依赖。每块限制在单页内，检索结果与回答出处的页码可跳转到原 PDF。整份 PDF 无可提取文字时拒绝导入并提示 OCR；个别文字不足的页会在资料管理中提示。目前按页、段落和长度切块，多份真实资料的表格、脚注和图注覆盖见[独立 PDF 验收](reports/V1_ACCEPTANCE.md)。扫描件仍需 OCR，详见[PDF 接入记录](docs/PDF_接入边界与验收.md)。
+本地场景现支持可复制文字的 PDF（单篇不超过 8 MB、200 页）。用 `.\start_lab.cmd` 启动后，从页面“我的本地文档 → 添加或替换资料”上传。手动启动时可先用 `.\.venv\Scripts\python.exe -m pip install -r requirements-pdf.txt` 安装默认抽取依赖。每块限制在单页内，检索结果与回答出处的页码可跳转到原 PDF。整份 PDF 无可提取文字时拒绝导入并提示 OCR；个别文字不足的页会在资料管理中提示。目前按页、段落和长度切块，多份真实资料的表格、脚注和图注覆盖见[独立 PDF 验收](reports/V1_ACCEPTANCE.md)。扫描件仍需 OCR，详见[PDF 接入记录](docs/PDF_接入边界与验收.md)。
 
 ## 本地可视化界面
 
-完成关键词建库后，用 `.\start.cmd lab` 启动完整实验室。要使用 E5 或 RRF，再补建向量索引。也可以手动启动
+完成关键词建库后，用 `.\start_lab.cmd` 启动完整实验室。要使用 E5 或 RRF，再补建向量索引。也可以手动启动
 
 ```powershell
 python -m raglab.web
@@ -168,7 +168,7 @@ python -m raglab.web
 .\.venv\Scripts\python.exe scripts/validate_scenario.py --scenario scenarios/pydantic/manifest.json
 .\.venv\Scripts\python.exe -m raglab --scenario scenarios/pydantic/manifest.json index
 .\.venv\Scripts\python.exe -m raglab --scenario scenarios/pydantic/manifest.json vector-index
-.\start.cmd lab
+.\start_lab.cmd
 ```
 
 在 [本地实验室](http://127.0.0.1:8765/) 的「切换知识库」选择 Pydantic。如果实验室已经运行，直接在现有页面切换。要重算三路检索报告，使用 `scripts/evaluate_retrieval.py --scenario scenarios/pydantic/manifest.json --strategy bm25|vector|hybrid`，BM25 用英文查询，向量与混合用中文原题。固定题集的检索结果、10 次真实回答的人工核验和局限见[第 4 阶段报告](reports/STAGE4_第二场景与答案质量.md)。已复核一个关键反例：CrewAI C07 的前 3 块实际上有正确答案 `manager_llm` 或 `manager_agent`，旧章节标注没有收录这些替代证据；页面现显示标注复核提示，历史实验分数保持不变。
